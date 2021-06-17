@@ -3,7 +3,7 @@
 <h1>Manage Rotations</h1>
 <br></br>
 
-<script>
+<%# <script>
   //Show/Hide "Import from CSV" div -->
   function toggleShow() {
     var x = document.getElementById("csvRotations");
@@ -31,14 +31,14 @@
 
   }
 
-</script>
+</script> %>
 
 <%= link_to 'Create New Rotation', new_rotation_path, class: "btn btn-primary", style: "width: 14rem; height: 2.5rem;"%>
 <br></br>
 
 
-<button class = "btn btn-primary", style = "width: 14rem; height: 2.5rem;", onclick = "toggleShow()", id = "btnShowCSVdiv">Import Rotations from CSV</button>
-<br></br>
+<%# <button class = "btn btn-primary", style = "width: 14rem; height: 2.5rem;", onclick = "toggleShow()", id = "btnShowCSVdiv">Import Rotations from CSV</button>
+<br></br> %>
 
 <div class="container-fluid", id = "csvRotations">
     <div class="d-flex justify-content-evenly">
