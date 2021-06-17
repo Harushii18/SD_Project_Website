@@ -1,31 +1,161 @@
-<p id="notice"><%= notice %></p>
+<div style="text-align:center">
+<br></br>
+<h1>Manage Rotations</h1>
+<br></br>
 
-<h1>Rotations</h1>
+<script>
+  //Show/Hide "Import from CSV" div -->
+  function toggleShow() {
+    var x = document.getElementById("csvRotations");
+    var btnShowDiv = document.getElementById("btnShowCSVdiv");
 
-<table>
+    if (x.style.display == "none") {
+      x.style.display = "block";
+      btnShowDiv.className = "btn btn-outline-primary";
+    } else {
+      x.style.display = "none";
+      btnShowDiv.className = "btn btn-primary";
+    }
+  }
+
+//Toggle Import Button
+  function toggleButton(){
+    var uploadBox = document.getElementById("uploadBox");
+    var x = document.getElementById("btnImport");
+    if(uploadBox.value == ""){
+      x.disabled = true;
+    }
+    else{
+      x.disabled = false;
+    }
+
+  }
+
+</script>
+
+<%= link_to 'Create New Rotation', new_rotation_path, class: "btn btn-primary", style: "width: 14rem; height: 2.5rem;"%>
+<br></br>
+
+
+<button class = "btn btn-primary", style = "width: 14rem; height: 2.5rem;", onclick = "toggleShow()", id = "btnShowCSVdiv">Import Rotations from CSV</button>
+<br></br>
+
+<div class="container-fluid", id = "csvRotations">
+    <div class="d-flex justify-content-evenly">
+
+      <!-- Initialy hide the import from CSV Card -->
+      <script type="text/javascript">
+        var x = document.getElementById("csvRotations");
+        if (x.style.display === "none") {
+
+        } else {
+          x.style.display = "none";
+        }
+      </script>
+
+
+      <div class = "form_card"> <!-- this is for adding from csv -->
+        <div class="card-heading"><strong><i>Upload the CSV File and Select Import</i></strong></div>
+        <div class="card-body"></div>
+        <%= form_tag import_users_path, multipart: true, onclick: "toggleButton()" do %>
+
+            <%= file_field_tag :file, id: "uploadBox"%>
+
+            <%= submit_tag "Import", class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;", id: "btnImport" %>
+
+            <!-- Initially disable the Import Button -->
+            <script>
+              var x = document.getElementById("btnImport");
+              x.disabled = true;
+            </script>
+
+        <% end %>
+      </div>
+        <!--<button type="button" class="btn btn-outline-secondary">Add From CSV</button>-->
+
+        <!-- <button type="button" class="btn btn-outline-secondary">Remove From CSV</button> -->
+
+      <!--  <form action="csvs/add_csv">
+          <label for="file">Choose CSV file to upload</label>
+          <input type="file" name="filename" value = "rotations.csv" accept=".csv">
+          <input type="submit">
+        </form>
+
+        <form method="get" action= "csvs/add_csv" class="button_to" data-remote="true" data-type="json">
+        <input value="add_csv" type="submit" />
+        <input name="authenticity_token" type="hidden" value="10f2163b45388899ad4d5ae948988266befcb6c3d1b2451cf657a0c293d605a6"/>
+        </form>
+
+        -->
+
+    </div>
+
+
+</div>
+<br>
+
+
+
+
+<table class="table table-hover">
+
+
+  <!----------------------------------------->
   <thead>
     <tr>
-      <th>Startdate</th>
-      <th>Enddate</th>
-      <th>Programme</th>
-      <th colspan="3"></th>
+        <th scope="col"><h6>Rotation ID</h6></th>
+          <th scope="col"><h6>Rotation Start Date</h6></th>
+          <th scope="col"><h6>Rotation End Date</h6></th>
+         <th  scope="col"></th>
     </tr>
   </thead>
 
+  <!---------------------------------------------------------------------------------------------->
+
+
+
   <tbody>
-    <% @rotations.each do |rotation| %>
-      <tr>
-        <td><%= rotation.startDate %></td>
-        <td><%= rotation.endDate %></td>
-        <td><%= rotation.programme_id %></td>
-        <td><%= link_to 'Show', rotation %></td>
-        <td><%= link_to 'Edit', edit_rotation_path(rotation) %></td>
-        <td><%= link_to 'Destroy', rotation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+        <% @rotations.each do |rotation| %>
+
+          <tr>
+          <td class="col-4"><%= rotation.id %></td>
+          <td class="col-4"><%= rotation.startDate %></td>
+          <td class="col-4"><%= rotation.endDate %></td>
+
+            <td class="col-1">
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+
+
+                <%= link_to 'Edit', edit_rotation_path(rotation), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                <%= link_to 'Delete', rotation, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
+
+
+
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+  <!---------------------------------------------------------------------------------------------->
+
+
+
+
+
+
+
 </table>
 
 <br>
 
-<%= link_to 'New Rotation', new_rotation_path %>
+
+
+
+<br>
+<br>
+</div>
+
+
+
+<br>

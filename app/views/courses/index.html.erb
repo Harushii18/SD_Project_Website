@@ -25,9 +25,9 @@
 
       <ul class="list-group list-group-flush">
         <% @course_specialties.each do |course_specialty| %>
-            <%if course.id == course_specialty.Course_id%>     <!-- if course is the course in this row-->
+            <%if course.id == course_specialty.course_id%>     <!-- if course is the course in this row-->
               <% @specialties.each do |specialty| %>
-                <%if specialty.id == course_specialty.Specialty_id%>
+                <%if specialty.id == course_specialty.specialty_id%>
                   <li class="list-group-item"><%= specialty.SpecialtyName %> <%= link_to 'Remove', course_specialty, method: :delete, data: { confirm: 'Are you sure?' } %></li>
                 <% end %>
               <% end %>
@@ -84,10 +84,10 @@
           </thead>
             <tbody>
               <% @course_specialties.each do |course_specialty| %>
-                <%if course.id == course_specialty.Course_id%>          if course is the course in this row--
+                <%if course.id == course_specialty.course_id%>          if course is the course in this row--
 
                   <% @specialties.each do |specialty| %>
-                      <%if specialty.id == course_specialty.Specialty_id%>
+                      <%if specialty.id == course_specialty.specialty_id%>
                         <tr>
                           <td><%= specialty.SpecialtyName %></td>
                           <td><%= link_to 'Show', course %></td>

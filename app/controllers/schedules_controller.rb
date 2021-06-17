@@ -48,7 +48,6 @@ class SchedulesController < ApplicationController
   # POST /schedules or /schedules.json
   def create
     @schedule = Schedule.new(schedule_params)
-
     respond_to do |format|
       if @schedule.save
         format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
@@ -84,9 +83,23 @@ class SchedulesController < ApplicationController
 
   def create_schedule
 
-    Schedule.create_with_form_data(params[:student_id], params[:rotation_id], params[:specialty_id], params[:hospital_id])
-    
+    if (params[:specialty_id]!='' && params[:hospital_id]!='')
+      if Schedule.exists?(student_id: params[:student_id], rotation_id: params[:rotation_id])
+        Schedule.update_with_form_data(params[:student_id], params[:rotation_id], params[:specialty_id], params[:hospital_id])
+      else
+        Schedule.create_with_form_data(params[:student_id], params[:rotation_id], params[:specialty_id], params[:hospital_id])
+      end
+    end
+
   end
+
+  def update_schedule
+    if (params[:specialty_id]!='' && params[:hospital_id]!='')
+    Schedule.update_with_form_data(params[:student_id], params[:rotation_id], params[:specialty_id], params[:hospital_id])
+    end
+  end
+
+  
 
 
   #def import # importing from csv file

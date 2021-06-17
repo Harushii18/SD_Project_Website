@@ -6,12 +6,15 @@ Website to facilitate administrator functions
 
 [![Build Status](https://travis-ci.com/RXRider1451/SD_Project_Website.svg?branch=main)](https://travis-ci.com/RXRider1451/SD_Project_Website) [![Coverage Status](https://coveralls.io/repos/github/RXRider1451/SD_Project_Website/badge.svg?branch=main)](https://coveralls.io/github/RXRider1451/SD_Project_Website?branch=main)
 
+Note: For some reason, the Coverage Badge says an incorrect Coverage Percentage. Please click on the badge to go to the Coveralls page, to see the correct Coverage Percentage (the Coverage should be 100%).
+
 
 
 ## Developers
 
 * Sedzani 
 * Suraksha 
+* Fezile
 * Favour
 * Kiyolin
 * Eston

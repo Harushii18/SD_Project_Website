@@ -24,18 +24,37 @@
 
 
 <form action="/schedules">
-<label> Select Programme Code </label>
-<select name="programme_id" id="programme_id" onchange="this.form.submit()">
+<label> <h5>Select Programme Code</h5> </label>
+<br>
+<select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
 <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
 </select>
 </form>
 
 
+<script>
+ function drop(x){
+  console.log(x);
+  var data = x.dataTransfer.getData("data");
+   alert(data);
+ }
+
+ function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev, specialty, duration) {
+
+  ev.dataTransfer.setData("data", specialty);
+}
 
 
+
+</script>
 
 
 <div class="m-4">
+
 
 <table class="table table-hover ">
 
@@ -43,11 +62,15 @@
   <!----------------------------------------->
   <thead>
         <tr>
-          <th scope="col">Student Number</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
+          <th scope="col"><h6>Student Number</h6></th>
+          <th scope="col"><h6>Student First Name</h6></th>
+          <th scope="col"><h6>Student Last Name</h6></th>
 
-          
+          <% for i in 1..@numRotations do %>
+            <%# @users[i].name %>
+            <th scope="col"><h6>Rotation <%= i %></h6></th>
+          <% end %>
+
 
          <th  scope="col">Rotations</th>
         </tr>
@@ -55,15 +78,92 @@
 
   <!---------------------------------------------------------------------------------------------->
 
+
+
   <tbody>
 
         <% @students.each do |student| %>
 
           <tr>
-          <td class="col-1"><%= student.user_id%></td>
-          <td class="col-3"><%= @users.find(student.user_id).user_FirstName %></td>
-          <td class="col-3"><%= @users.find(student.user_id).user_LastName %></td>
-         <td class="col-1">
+
+          <td class="col-1">
+
+          <div draggable="true" ondragstart="drag(event,'nursing',2)">
+            <%= student.studentNumber %>
+          </div>
+
+          </td>
+
+
+          <td class="col-2" ondrop="drop(event)" ondragover="allowDrop(event)" >
+
+            <%= @users.find(student.user_id).user_FirstName %>
+
+          </td>
+
+          <td class="col-2"><%= @users.find(student.user_id).user_LastName %></td>
+
+          <% @rotations.each do |rotation| %>
+          <td>
+
+          <%if Schedule.exists?(student_id: student.id, rotation_id: rotation.id)%>
+
+          <%# Find student's hospital and specialty for that schedule %>
+            <%@schedule=Schedule.find_by(student_id: student.id, rotation_id:rotation.id)%>
+            <%@specialty=@schedule.specialty_id%>
+            <%@hospital=@schedule.hospital_id%>
+            <%@specialtyName=Specialty.find(@specialty).SpecialtyName %>
+            <%@hospitalName=Hospital.find(@hospital).hospital_name %>
+
+            <hr>
+           <form action="/schedules/create_schedule" method="post">
+              <label> <h6>Specialty:</h6> </label>
+              <select name="specialty_id" id="specialty_id" class="btn btn-outline-dark dropdown-toggle" style = "width: 12rem; height: 2.5rem;">
+                <%= options = options_from_collection_for_select(Specialty.all, 'id', 'SpecialtyName',@specialty) %>
+              </select>
+            <hr>
+
+              <label> <h6>Hospital:</h6> </label>
+
+              <select name="hospital_id" id="hospital_id" class="btn btn-outline-dark dropdown-toggle" style = "width: 12rem; height: 2.5rem;">
+                <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name',@hospital) %>
+              </select>
+              <hr>
+
+              <input type="hidden" id="rotation_id" name="rotation_id" value= <%= rotation.id %>>
+              <input type="hidden" id="student_id" name="student_id" value= <%= student.id %>>
+
+              <input type="submit" value="Submit" class = "btn btn-outline-primary">
+            </form>
+
+          <%else%>
+          <hr>
+            <form action="/schedules/create_schedule" method="post">
+              <label> <h6>Specialty:</h6> </label>
+              <select name="specialty_id" id="specialty_id" class="btn btn-outline-dark dropdown-toggle" style = "width: 12rem; height: 2.5rem;">
+                <option value='' default selected hidden > </option>
+                <%= options = options_from_collection_for_select(Specialty.all, 'id', 'SpecialtyName') %>
+              </select>
+
+              <hr>
+              <label> <h6>Hospital:</h6> </label>
+              <select name="hospital_id" id="hospital_id" class="btn btn-outline-dark dropdown-toggle" style = "width: 12rem; height: 2.5rem;">
+              <option value='' default selected hidden> </option>
+                <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
+              </select>
+              <hr>
+
+              <input type="hidden" id="rotation_id" name="rotation_id" value= <%= rotation.id %>>
+              <input type="hidden" id="student_id" name="student_id" value= <%= student.id %>>
+
+              <input type="submit" value="Submit" class = "btn btn-outline-primary">
+            </form>
+
+              </div>
+            <%end%>
+
+          </td>
+
 
                 <div class="btn-group" role="group" aria-label="Basic example">
                 <%= link_to 'Manage',new_schedule_path(@schedules), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>

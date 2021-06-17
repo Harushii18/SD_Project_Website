@@ -3,13 +3,46 @@
 <h1>Manage Blocks</h1>
 <br></br>
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-evenly">
+<script>
+  //Show/Hide "Import from CSV" div -->
+  function toggleShow() {
+    var x = document.getElementById("csvBlocks");
+    var btnShowDiv = document.getElementById("btnShowCSVdiv");
+
+    if (x.style.display == "none") {
+      x.style.display = "block";
+      btnShowDiv.className = "btn btn-outline-primary";
+    } else {
+      x.style.display = "none";
+      btnShowDiv.className = "btn btn-primary";
+    }
+  }
+
+//Toggle Import Button
+  function toggleButton(){
+    var uploadBox = document.getElementById("uploadBox");
+    var x = document.getElementById("btnImport");
+    if(uploadBox.value == ""){
+      x.disabled = true;
+    }
+    else{
+      x.disabled = false;
+    }
+
+  }
+
+</script>
+
+
 
         <!--<button type="button" class="btn btn-outline-secondary">Add From CSV</button>-->
         <%= link_to 'Create New Block', new_block_path, class: "btn btn-primary", style: "width: 13rem; height: 2.5rem;"%>
+        <br></br>
         <!-- <button type="button" class="btn btn-outline-secondary">Remove From CSV</button> -->
 
+
+        <button class = "btn btn-primary", style = "width: 13rem; height: 2.5rem;", onclick = "toggleShow()", id = "btnShowCSVdiv">Import Blocks from CSV</button>
+        <br></br>
       <!--  <form action="csvs/add_csv">
           <label for="file">Choose CSV file to upload</label>
           <input type="file" name="filename" value = "blocks.csv" accept=".csv">
@@ -22,14 +55,37 @@
         </form>
 
         -->
-        <div>
-        <%= form_tag import_blocks_path, multipart: true do %>
+        <div class="container-fluid", id = "csvBlocks" >
+          <div class="d-flex justify-content-evenly">
+
+            <script type="text/javascript">
+              var x = document.getElementById("csvBlocks");
+              if (x.style.display === "none") {
+
+              } else {
+                x.style.display = "none";
+              }
+            </script>
+
+            <div class = "form_card"> <!-- this is for adding from csv -->
+              <div class="card-heading"><strong><i>Upload the CSV File and Select Import</i></strong></div>
+              <div class="card-body"></div>
+        <%= form_tag import_blocks_path, multipart: true, onclick: "toggleButton()" do %>
           <%= file_field_tag :file %>
-          <%= submit_tag "Import Blocks from CSV", class: "btn btn-primary", style: "width: 13rem; height: 2.5rem;" %>
+          <%= submit_tag "Import Blocks from CSV", class: "btn btn-primary", style: "width: 13rem; height: 2.5rem;",  id: "btnImport" %>
+          <script>
+            var x = document.getElementById("btnImport");
+            x.disabled = true;
+          </script>
+
         <% end %>
+        <!-- Initially disable the Import Button -->
+
+
         </div>
-    </div>
-</div>
+
+        </div>
+      </div>
 <br>
 
 

@@ -14,8 +14,8 @@ class CourseSpecialtiesTest < ApplicationSystemTestCase
     visit course_specialties_url
     click_on "New Course Specialty"
 
-    fill_in "Course", with: @course_specialty.Course_id
-    fill_in "Specialty", with: @course_specialty.Specialty_id
+    fill_in "Course", with: @course_specialty.course_id
+    fill_in "Specialty", with: @course_specialty.specialty_id
     click_on "Create Course specialty"
 
     assert_text "Course specialty was successfully created"
@@ -26,8 +26,8 @@ class CourseSpecialtiesTest < ApplicationSystemTestCase
     visit course_specialties_url
     click_on "Edit", match: :first
 
-    fill_in "Course", with: @course_specialty.Course_id
-    fill_in "Specialty", with: @course_specialty.Specialty_id
+    fill_in "Course", with: @course_specialty.course_id
+    fill_in "Specialty", with: @course_specialty.specialty_id
     click_on "Update Course specialty"
 
     assert_text "Course specialty was successfully updated"

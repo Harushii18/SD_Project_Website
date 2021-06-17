@@ -2,10 +2,10 @@
 
 one:
   hospital_name: MyString
-  hospital_locatioin: MyString
+  hospital_location: MyString
   hospital_contactNo: MyString
 
 two:
   hospital_name: MyString
-  hospital_locatioin: MyString
+  hospital_location: MyString
   hospital_contactNo: MyString

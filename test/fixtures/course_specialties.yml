@@ -1,9 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  Course: one
-  Specialty: one
+  course_id: 1
+  specialty_id: 1
 
 two:
-  Course: two
-  Specialty: two
+  course_id: 2
+  specialty_id: 2

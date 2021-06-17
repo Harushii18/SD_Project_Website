@@ -2,7 +2,7 @@
 
 one:
   studentNumber: 1
-  courseCodes: MyString
+  courseCodes: course
   programme_id: 1
   user_id: 1
 

@@ -12,22 +12,33 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id%>
-  </div> 
-
-
-  <div class="field">
-    <%= form.label :courseCodes %>
-    <%= form.text_field :courseCodes %>
+    <%= form.label :user_id, value: "User ID: " %>
+    <select name="student[user_id]" id="student_user_id" class="btn btn-outline-dark dropdown-toggle">
+      <%= options = options_from_collection_for_select(User.all, 'id', 'id') %>
+    </select>
+</br>
+    <%# form.label :user_id %>
+    <%# form.number_field :user_id%>
   </div>
-
+</br>
   <div class="field">
-    <%= form.label :programme_id %>
-    <%= form.text_field :programme_id %>
+    <!--<%= form.label :studentNumber %>-->
+    <%= form.number_field :studentNumber, class:"form-control", placeholder:"Student Number"%>
   </div>
-
+</br>
+  <div class="field">
+    <!--<%= form.label :courseCodes %>--->
+    <%= form.text_field :courseCodes, class:"form-control", placeholder:"Course Codes"  %>
+  </div>
+</br>
+  <div class="field">
+    <%= form.label :programme_id, value: "Programme ID: "  %>
+    <select name="student[programme_id]" id="student_programme_id" class="btn btn-outline-dark dropdown-toggle">
+      <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code') %>
+    </select>
+  </div>
+</br>
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-secondary" %>
   </div>
 <% end %>

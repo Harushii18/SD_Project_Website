@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
     <%= javascript_include_tag "rails-ujs" %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <!-- make a bootstrap alert-->
@@ -34,14 +34,15 @@
    <% if admin_signed_in?%>
     <%= render "home/header" %>
    <%end%>
- 
+
    <div class="container-fluid data-mdb-perfect-scrollbar='true'">
      <% if notice%>
       <%= render "layouts/alters" %>
     <%end%>
+    <%= stylesheet_link_tag "dashboard" %>
        <%= yield %>
     <!--Used shared footer partial-->
-        
+
     </div>
 
 

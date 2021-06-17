@@ -1,6 +1,14 @@
-<h1>Editing Rotation</h1>
 
-<%= render 'form', rotation: @rotation %>
 
-<%= link_to 'Show', @rotation %> |
-<%= link_to 'Back', rotations_path %>
+<br/>
+<div class="form_card">
+  <div class="card-body">
+    <h1>Edit rotation</h1>
+
+    <%= render 'form', rotation: @rotation%>
+    <br/>
+    <%= link_to 'Show', @rotation, class:"btn btn-outline-dark" %>
+
+    <%= link_to 'Back', rotations_path, class:"btn btn-outline-dark" %>
+  </div>
+</div>

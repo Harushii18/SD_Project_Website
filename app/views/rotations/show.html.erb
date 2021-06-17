@@ -1,19 +1,31 @@
+
+<br/>
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Startdate:</strong>
-  <%= @rotation.startDate %>
-</p>
 
-<p>
-  <strong>Enddate:</strong>
-  <%= @rotation.endDate %>
-</p>
+<div class="form_card" >
+  <div class="card-body">
 
-<p>
-  <strong>Programme:</strong>
-  <%= @rotation.programme_id %>
-</p>
+    <p class="lead"><b>Rotation Start Date:</b></p>
+    <p class="lead"> <%= @rotation.startDate %></p>
 
-<%= link_to 'Edit', edit_rotation_path(@rotation) %> |
-<%= link_to 'Back', rotations_path %>
+    <p class="lead"><b>Rotation End Date:</b></p>
+    <p class="lead"> <%= @rotation.endDate %></p>
+
+    
+    <p class="lead"><b>Programme ID:</b></p>
+    <p class="lead"> <%= @rotation.programme_id %></p>
+
+
+  
+
+
+    <%= link_to 'Edit', edit_rotation_path(@rotation), class:"btn btn-outline-dark"%>
+    <%= link_to 'Back',rotations_path, class:"btn btn-outline-dark" %>
+
+  </div>
+</div>
+
+<br/>
+
+<!----------------------------------------------------------------------------------------------------------->
