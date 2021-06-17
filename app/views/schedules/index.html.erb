@@ -1,6 +1,5 @@
 
 
-
 <div style="text-align:center">
 <br></br>
 <h1>Manage Schedules</h1>
@@ -8,8 +7,6 @@
 <br>
 <div class="container-fluid">
     <div class="d-flex justify-content-evenly">
-
-
 
     </div>
 </div>
@@ -47,15 +44,12 @@
   <thead>
         <tr>
           <th scope="col">Student Number</th>
-          <th scope="col">Student First Name</th>
-          <th scope="col">Student Last Name</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
 
-          <% for i in 1..@numRotations do %>
-            <%# @users[i].name %>
-            <th scope="col">Rotation <%= i %></th>
-          <% end %>
+          
 
-         <th  scope="col"></th>
+         <th  scope="col">Rotations</th>
         </tr>
       </thead>
 
@@ -66,39 +60,19 @@
         <% @students.each do |student| %>
 
           <tr>
-          <td class="col-1"><%= student.studentNumber %></td>
+          <td class="col-1"><%= student.user_id%></td>
           <td class="col-3"><%= @users.find(student.user_id).user_FirstName %></td>
           <td class="col-3"><%= @users.find(student.user_id).user_LastName %></td>
-           
-          <% @rotations.each do |rotation| %>
-          <td class="col-2">
-                
-  
-            <form action="/schedules/create_schedule" method="post">
-              <label> Select Specialty </label>
-              <select name="specialty_id" id="specialty_id">
-                <%= options = options_from_collection_for_select(Specialty.all, 'id', 'SpecialtyName') %>
-              </select>
-              <br></br>
+         <td class="col-1">
 
-              <label> Select Hospital </label>
-              <select name="hospital_id" id="hospital_id">
-                <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
-              </select>
-              <br></br>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                <%= link_to 'Manage',new_schedule_path(@schedules), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                <%= link_to 'Show',@schedule , class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+               
 
-              <input type="hidden" id="rotation_id" name="rotation_id" value= <%= rotation.id %>>
-              <input type="hidden" id="student_id" name="student_id" value= <%= student.id %>>
-              <br>
-              <input type="submit" value="Submit">
-            </form>
-   
               </div>
-      
-          </td>
-
-          <% end %>
-
+            </td>
+     
           </tr>
         <% end %>
       </tbody>
