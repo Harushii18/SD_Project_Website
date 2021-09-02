@@ -5,39 +5,39 @@ class RotationsControllerTest < ActionDispatch::IntegrationTest
 #    @rotation = rotations(:one)
   end
 
-  test "should get new" do
+  #test "should get new" do
 #    get new_rotation_url
 #    assert_response :success
-  end
+  #end
 
-  test "should create rotation" do
+  #test "should create rotation" do
 #    assert_difference('Rotation.count') do
 #      post rotations_url, params: { rotation: { endDate: @rotation.endDate, programme_id: @rotation.programme_id, startDate: @rotation.startDate } }
 #    end
 
 #    assert_redirected_to rotation_url(Rotation.last)
-  end
+ # end
 
-  test "should show rotation" do
+  #test "should show rotation" do
 #    get rotation_url(@rotation)
 #    assert_response :success
-  end
+  #end
 
-  test "should get edit" do
+  #test "should get edit" do
 #    get edit_rotation_url(@rotation)
 #    assert_response :success
-  end
+  #end
 
-  test "should update rotation" do
+  #test "should update rotation" do
 #    patch rotation_url(@rotation), params: { rotation: { endDate: @rotation.endDate, programme_id: @rotation.programme_id, startDate: @rotation.startDate } }
 #    assert_redirected_to rotation_url(@rotation)
-  end
+  #end
 
-  test "should destroy rotation" do
+  #test "should destroy rotation" do
 #    assert_difference('Rotation.count', -1) do
 #      delete rotation_url(@rotation)
 #    end
 
 #    assert_redirected_to rotations_url
-  end
+  #end
 end

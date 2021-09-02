@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  student: one
-  specialty: one
-  hospital: one
-  rotation: one
+  student: 1
+  specialty: 1
+  hospital: 2
+  rotation: 2
 
 two:
-  student: two
-  specialty: two
-  hospital: two
-  rotation: two
+  student: 1
+  specialty: 1
+  hospital: 2
+  rotation: 1

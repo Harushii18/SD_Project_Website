@@ -1,8 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  CourseDescription: COMS3002A
-  string: MyString
-two:
+  id: 1
   CourseDescription: COMS3002A
   string: MyString

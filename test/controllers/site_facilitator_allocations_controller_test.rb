@@ -3,6 +3,9 @@ require "test_helper"
 class SiteFacilitatorAllocationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @site_facilitator_allocation = site_facilitator_allocations(:one)
+    get '/admins/sign_in'
+    sign_in admins(:admin_001)
+    post admin_session_url
   end
 
   test "should get index" do
@@ -17,7 +20,7 @@ class SiteFacilitatorAllocationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create site_facilitator_allocation" do
     assert_difference('SiteFacilitatorAllocation.count') do
-      post site_facilitator_allocations_url, params: { site_facilitator_allocation: { hospital_id: @site_facilitator_allocation.hospital_id, site_facilitator_id: @site_facilitator_allocation.site_facilitator_id } }
+      post site_facilitator_allocations_url, params: { site_facilitator_allocation: { hospital_id: 1, site_facilitator_id: 1 } }
     end
 
     assert_redirected_to site_facilitator_allocation_url(SiteFacilitatorAllocation.last)
@@ -34,7 +37,7 @@ class SiteFacilitatorAllocationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update site_facilitator_allocation" do
-    patch site_facilitator_allocation_url(@site_facilitator_allocation), params: { site_facilitator_allocation: { hospital_id: @site_facilitator_allocation.hospital_id, site_facilitator_id: @site_facilitator_allocation.site_facilitator_id } }
+    patch site_facilitator_allocation_url(@site_facilitator_allocation), params: { site_facilitator_allocation: { hospital_id: 1, site_facilitator_id: 1 } }
     assert_redirected_to site_facilitator_allocation_url(@site_facilitator_allocation)
   end
 

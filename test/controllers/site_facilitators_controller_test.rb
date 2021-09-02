@@ -3,6 +3,9 @@ require "test_helper"
 class SiteFacilitatorsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @site_facilitator = site_facilitators(:one)
+    get '/admins/sign_in'
+    sign_in admins(:admin_001)
+    post admin_session_url
   end
 
   test "should get index" do
@@ -17,7 +20,7 @@ class SiteFacilitatorsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create site_facilitator" do
     assert_difference('SiteFacilitator.count') do
-      post site_facilitators_url, params: { site_facilitator: { Site_Facilitator_ContactNo: @site_facilitator.Site_Facilitator_ContactNo, Site_Facilitator_Email: @site_facilitator.Site_Facilitator_Email, Site_Facilitator_Name: @site_facilitator.Site_Facilitator_Name } }
+      post site_facilitators_url, params: { site_facilitator: { Site_Facilitator_ContactNo: "0843746253", Site_Facilitator_Email: "John@gmail.com", Site_Facilitator_Name: "John" } }
     end
 
     assert_redirected_to site_facilitator_url(SiteFacilitator.last)
@@ -34,7 +37,7 @@ class SiteFacilitatorsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update site_facilitator" do
-    patch site_facilitator_url(@site_facilitator), params: { site_facilitator: { Site_Facilitator_ContactNo: @site_facilitator.Site_Facilitator_ContactNo, Site_Facilitator_Email: @site_facilitator.Site_Facilitator_Email, Site_Facilitator_Name: @site_facilitator.Site_Facilitator_Name } }
+    patch site_facilitator_url(@site_facilitator), params: { site_facilitator: { Site_Facilitator_ContactNo: "0843746253", Site_Facilitator_Email: "John@gmail.com", Site_Facilitator_Name: "John" } }
     assert_redirected_to site_facilitator_url(@site_facilitator)
   end
 
