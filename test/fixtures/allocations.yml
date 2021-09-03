@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hospital_id: 1
+  specialty_id: 1
+  available_slots: 1
+  used_slots: 1
+  start_date: 2021-08-25
+  end_date: 2021-08-25
+
+two:
+  hospital_id: 1
+  specialty_id: 1
+  available_slots: 1
+  used_slots: 1
+  start_date: 2021-08-25
+  end_date: 2021-08-25

@@ -1,0 +1,1 @@
+json.partial! "site_facilitator_allocations/site_facilitator_allocation", site_facilitator_allocation: @site_facilitator_allocation

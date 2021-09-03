@@ -1,0 +1,32 @@
+<%= form_with(model: site_facilitator_allocation) do |form| %>
+  <% if site_facilitator_allocation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(site_facilitator_allocation.errors.count, "error") %> prohibited this site_facilitator_allocation from being saved:</h2>
+
+      <ul>
+        <% site_facilitator_allocation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+
+  <label for="hospital_id">Hospital ID:</label>
+    <%= form.number_field :hospital_id ,class:"form-control" , id:"hospital_id", placeholder: "Hospital ID" %>
+
+    </br>
+
+     <label for="site_facilitator_id ">Site Facilitator ID:</label>
+    <%= form.number_field :site_facilitator_id ,class:"form-control" , id:"site_facilitator_id ", placeholder: "Site Facilitator ID" %>
+
+    </br>
+
+ 
+
+  <div class="actions">
+    <%= form.submit class: "btn btn-secondary" %>
+  </div>
+  <br>
+<% end %>

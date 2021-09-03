@@ -13,7 +13,22 @@
 
 <div class="d-flex justify-content-evenly" align = "center">
 <div class="row">
+
 <div class="row row-cols-1 row-cols-md-4 g-4">
+<div class = "col">
+         <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+    <div id="myCard10"class="card-body">
+        <h5 class="card-title">Dashboard</h5>
+        <p class="card-text">View Overview</p>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+            document.getElementById("myCard10").onclick = function () {
+                location.href = "http://localhost:3000/dashboard";
+            };
+  </script>
+</div>
 
 <div class = "col">
   <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
@@ -169,6 +184,8 @@
             };
   </script>
 </div>
+
+
 
 
 </div>

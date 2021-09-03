@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+
+
+ 
+<%#  %>
+
+  <div class="card "  >
+  <div class="card-body">
+
+    <p class="lead"><b>Hospital ID:</b></p>
+    <p class="lead"> <%= @site_facilitator_allocation.hospital_id %></p>
+
+    <p class="lead"><b>Hospital Name:</b></p>
+    <p class="lead"><%= Hospital.find(@site_facilitator_allocation.hospital_id ).hospital_name %></p>
+
+   <br>
+    <p class="lead"><b>Site facilitatorn ID:</b></p>
+    <p class="lead"> <%= @site_facilitator_allocation.site_facilitator_id %></p>
+
+
+    <p class="lead"><b>Site facilitator Name:</b></p>
+    <p class="lead"> <%= SiteFacilitator.find(@site_facilitator_allocation.site_facilitator_id).Site_Facilitator_Name %></p>
+
+<br>
+
+  <%= link_to 'Edit', edit_site_facilitator_allocation_path(@site_facilitator_allocation), class:"btn btn-outline-dark"%> 
+  <%= link_to 'Back',site_facilitator_allocations_path , class:"btn btn-outline-dark" %>
+
+  </div>
+</div>

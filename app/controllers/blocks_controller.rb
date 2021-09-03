@@ -36,7 +36,7 @@ class BlocksController < ApplicationController
         end
 
       else#START Showing alert message for invalid block dates---------------------------------------------------------------------------------------------------------------------------------------------------
-        flash.now[:alert] = "Block Start Date cannot be after the Block End Data. Please choose a Block Start Date that is eariler than the Block End Date"
+        flash.now[:alert] = "Block Start Date cannot be after the Block End Date. Please choose a Block Start Date that is earlier than the Block End Date"
         respond_to do |format|
             format.html { render :new, status: :unprocessable_entity }
             format.json { render json: @block.errors, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class BlocksController < ApplicationController
         end
       end
     else#START Showing alert message for invalid block dates----------------------------------------------------------------------------------------------------------------------------------------------
-      flash.now[:alert] = "Block Start Date cannot be after the Block End Data. Please choose a Block Start Date that is eariler than the Block End Date"
+      flash.now[:alert] = "Block Start Date cannot be after the Block End Date. Please choose a Block Start Date that is earlier than the Block End Date"
       respond_to do |format|
           format.html { render :edit, status: :unprocessable_entity }
           format.json { render json: @block.errors, status: :unprocessable_entity }

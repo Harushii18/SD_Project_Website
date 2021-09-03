@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<div style="text-align:center">
+<br></br>
+<h1>Allocations</h1>
+<br>
+
+<div class="container-fluid">
+  <div class="d-flex justify-content-evenly">
+
+      <%= link_to 'New Allocation', new_allocation_path,class:"btn btn-primary", style: "width: 12rem; height: 2.5rem;" %>
+  </div>
+</div>
+
+<%# ------------------------------------------------------------------------------------------------------------------- %>
+
+<div class="m-4">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Hospital</th>
+      <th>Specialty</th>
+      <th>Available slots</th>
+      <th>Used slots</th>
+      <th>Start date</th>
+      <th>End date</th>
+      <th  scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @allocations.each do |allocation| %>
+      <tr>
+        <td><%= allocation.hospital_id %></td>
+        <td><%= allocation.specialty_id %></td>
+        <td><%= allocation.available_slots %></td>
+        <td><%= allocation.used_slots %></td>
+        <td><%= allocation.start_date %></td>
+        <td><%= allocation.end_date %></td>
+  
+
+         <td class="col-1">
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                <%= link_to 'Show', allocation, class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                <%= link_to 'Edit',  edit_allocation_path(allocation), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                <%= link_to 'Delete', allocation, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
+
+
+              </div>
+            </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<br>
+<br>
+<br>
+<br><br>
+
+
+

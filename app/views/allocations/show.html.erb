@@ -1,0 +1,47 @@
+<br/>
+<p id="notice"><%= notice %></p>
+
+
+
+
+<div class="card" >
+  <div class="card-body">
+
+    <p class="lead"><b>Hospital ID:</b> <%= @allocation.hospital_id %></p>
+   
+
+    <p class="lead"><b>Hospital Name:</b> <%= Hospital.find(@allocation.hospital_id).hospital_name%></p>
+
+    <br>
+    
+   
+    <p class="lead"><b>Specialty ID:</b> <%= @allocation.specialty_id %></p>
+
+
+    <p class="lead"><b>Specialty Name:</b> <%= Specialty.find(@allocation.specialty_id).SpecialtyName%></p>
+   <br>
+
+
+    <p class="lead"><b>Available slots:</b> <%= @allocation.available_slots %></p>
+   
+
+    <p class="lead"><b>Used slots:</b> <%= @allocation.used_slots %></p>
+  <br>
+
+    <p class="lead"><b>Start date:</b> <%= @allocation.start_date%></p>
+ 
+    <p class="lead"><b>End date:</b> <%= @allocation.end_date%></p>
+   
+ <br>
+
+    <%= link_to 'Edit', edit_allocation_path(@allocation) , class:"btn btn-outline-dark"%> 
+    <%= link_to 'Back', allocations_path, class:"btn btn-outline-dark" %>
+
+  </div>
+</div>
+
+<br/>
+<br/>
+
+<br/>
+<br/><br/><br/><br/>

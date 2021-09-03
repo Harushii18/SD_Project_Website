@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<div style="text-align:center">
+<br></br>
+<h1>Site Facilitator</h1>
+<br>
+
+<div class="container-fluid">
+  <div class="d-flex justify-content-evenly">
+
+      <%= link_to 'New Site Facilitator', new_site_facilitator_path ,class:"btn btn-primary", style: "width: 12rem; height: 2.5rem;" %>
+  </div>
+</div>
+
+<%# ------------------------------------------------------------------------------------------------------------------- %>
+
+<div class="m-4">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Site facilitator name</th>
+      <th>Site facilitator contact no</th>
+      <th>Site facilitator email</th>
+      <th  scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @site_facilitators.each do |site_facilitator| %>
+      <tr>
+        <td><%= site_facilitator.Site_Facilitator_Name %></td>
+        <td><%= site_facilitator.Site_Facilitator_ContactNo %></td>
+        <td><%= site_facilitator.Site_Facilitator_Email %></td>
+
+         <td class="col-1">
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                <%= link_to 'Show', site_facilitator, class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                <%= link_to 'Edit',  edit_site_facilitator_path(site_facilitator), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                <%= link_to 'Delete', site_facilitator, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
+              </div>
+            </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<br>
+
+

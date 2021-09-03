@@ -9,6 +9,15 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
+        <li class="nav-item">
+          <% if controller_name == "dashboard"%>
+          <!-- If we're at the dashboard view, set this nav link to active -->
+            <%= link_to 'Dashboard', dashboard_index_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+            <%= link_to 'Dashboard', dashboard_index_path, class:"nav-link" %>
+          <% end %>
+        </li>
 
         <li class="nav-item">
           <% if controller_name == "menu"%>
@@ -22,7 +31,7 @@
 
         <li class="nav-item">
           <% if controller_name == "home"%>
-          <!-- If we're at the Menu view, set this nav link to active -->
+          <!-- If we're at the home view, set this nav link to active -->
             <%= link_to 'Admins', home_index_path, class:"nav-link active" %>
           <!-- If we're at another view, set this to normal nav link -->
           <% else %>
@@ -53,16 +62,49 @@
           <% end %>
         </li>
 
-        <li class="nav-item">
-          <!-- If we're at the Manage Users view, set this nav link to active -->
+<!--HOSPITAL DROPDOWN===========================================================-->
+      <li class="nav-item dropdown">
+
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Hospitals
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <!-- If we're at the Hospital Info view, set this nav link to active -->
           <% if controller_name == "hospitals"%>
-            <%= link_to 'Hospitals', hospitals_path, class:"nav-link active" %>
+            <%= link_to 'Manage Hospitals', hospitals_path, class:"nav-link active dropdown-item" %>
           <!-- If we're at another view, set this to normal nav link -->
           <% else %>
-            <%= link_to 'Hospitals', hospitals_path, class:"nav-link" %>
+            <%= link_to 'Manage Hospitals', hospitals_path, class:" dropdown-item" %>
           <% end %>
-        </li>
 
+   
+        <% if controller_name == "allocations"%>
+        <%= link_to 'Hospital Allocations', allocations_path, class:"nav-link active dropdown-item" %>
+        <!-- If we're at another view, set this to normal nav link -->
+        <% else %>
+          <%= link_to 'Hospital Allocations', allocations_path, class:"dropdown-item" %>
+        <% end %>
+        
+        <% if controller_name == "site_facilitators"%>
+           <%= link_to 'Site Facilitators', site_facilitators_path, class:"nav-link active  dropdown-item" %>
+          <!-- If we're at another view, set this to normal nav link -->
+        <% else %> 
+           <%= link_to 'Site Facilitators', site_facilitators_path, class:"dropdown-item" %>
+        <% end %>
+  
+
+
+          <% if controller_name == "site_facilitator_allocations"%>
+            <%= link_to 'Site Facilitator Allocations', site_facilitator_allocations_path, class:"nav-link active dropdown-item" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+            <%= link_to 'Site Facilitator Allocations', site_facilitator_allocations_path, class:"dropdown-item" %>
+          <% end %>
+
+        </div>
+
+<!--END OF HOSPITAL DROPDOWN========================================================-->
 
         <li class="nav-item">
           <!-- If we're at the Manage Specialties view, set this nav link to active -->
@@ -130,12 +172,14 @@
         <!-- If we're at the Manage courses view, set this nav link to active -->
 
         <% if controller_name == "schedules"%>
-          <%= link_to 'Student Dashboard', schedules_path, class:"nav-link active" %>
+          <%= link_to 'Schedules', schedules_path, class:"nav-link active" %>
         <!-- If we're at another view, set this to normal nav link -->
         <% else %>
-          <%= link_to 'Student Dashboard', schedules_path, class:"nav-link" %>
+          <%= link_to 'Schedules', schedules_path, class:"nav-link" %>
         <% end %>
       </li>
+     
+  </li>
 
 
 

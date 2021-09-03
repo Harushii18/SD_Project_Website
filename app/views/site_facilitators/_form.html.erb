@@ -1,0 +1,39 @@
+<%= form_with(model: site_facilitator) do |form| %>
+  <% if site_facilitator.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(site_facilitator.errors.count, "error") %> prohibited this site_facilitator from being saved:</h2>
+
+      <ul>
+        <% site_facilitator.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+
+  <br/>
+     <label for="Site_Facilitator_Nam">Site Facilitator Name:</label>
+     </br>
+    <%= form.text_field :Site_Facilitator_Name, class:"form-control" ,id:"Site_Facilitator_Nam",placeholder:"Site Facilitator Name" %>
+    
+
+     <br/>
+     <label for="Site_Facilitator_C">Site Facilitator Contact No:</label>
+     </br>
+    <%= form.text_field :Site_Facilitator_ContactNo, class:"form-control" ,id:"Site_Facilitator_C",placeholder:"Site Facilitator Contact No" %>
+    
+
+    <br/>
+     <label for="Site_Facilitator_E">Site Facilitator Email:</label>
+     </br>
+    <%= form.text_field :Site_Facilitator_Email, class:"form-control" ,id:"Site_Facilitator_E",placeholder:"Site Facilitator Email" %>
+    </br>
+
+  
+  <div class="actions">
+    <%= form.submit class: "btn btn-secondary" %>
+  </div>
+  <br>
+<% end %>

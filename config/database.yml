@@ -15,7 +15,8 @@ default: &default
   collation: utf8mb4_general_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-  password: Joker_366
+  password: perseverance99.99#
+
 
   host: localhost
   database: student_placements
