@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_113431) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+
   create_table "allocations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "hospital_id"
     t.integer "specialty_id"
@@ -34,6 +35,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_113431) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
+
 
   create_table "blocks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "BlockStartDate"
@@ -135,6 +137,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_113431) do
     t.index ["student_id"], name: "index_schedules_on_student_id"
   end
 
+
   create_table "site_facilitator_allocations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "hospital_id"
     t.integer "site_facilitator_id"
@@ -149,6 +152,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_113431) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
+
 
   create_table "specialties", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "SpecialtyName"
