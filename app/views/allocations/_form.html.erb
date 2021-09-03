@@ -1,0 +1,50 @@
+<%= form_with(model: allocation) do |form| %>
+  <% if allocation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(allocation.errors.count, "error") %> prohibited this allocation from being saved:</h2>
+
+      <ul>
+        <% allocation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<br>
+  <label for="hos_id">Hospital ID:</label>
+    <%= form.number_field :hospital_id ,class:"form-control" , id:"hos_id", placeholder: "Hospital ID" %>
+    </br>
+
+
+  <label for="specialty_id">Specialty ID:</label>
+    <%= form.number_field :specialty_id ,class:"form-control" , id:"specialty_id", placeholder: "Specialty ID" %>
+
+    </br>
+
+    <label for="available_slots">Available Slots:</label>
+    <%= form.number_field :available_slots ,class:"form-control" , id:"available_slots", placeholder: "Available Slots" %>
+
+    </br>
+
+    <label for="used_slots">Used Slots:</label>
+    <%= form.number_field :used_slots ,class:"form-control" , id:"used_slots", placeholder: "Used Slots" %>
+
+    </br>
+
+
+    <label for="Start">Start Date:</label>
+     <br>
+    <%= form.date_field :start_date, class:"form-control" ,id:"Start",placeholder:"Start Date" %>
+<br>
+    <label for="End">End Date:</label>
+     </br>
+    <%= form.date_field :end_date, class:"form-control" ,id:"End",placeholder:"End Date" %>
+
+  <br>
+
+ <div class="actions">
+    <%= form.submit class: "btn btn-secondary" %>
+  </div>
+  <br>
+
+<% end %>

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Site_Facilitator_Name: MyString
+  Site_Facilitator_ContactNo: MyString
+  Site_Facilitator_Email: MyString
+
+two:
+  Site_Facilitator_Name: MyString
+  Site_Facilitator_ContactNo: MyString
+  Site_Facilitator_Email: MyString
