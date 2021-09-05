@@ -1,6 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   email: kameron1222@gmail.com
   user_FirstName: MyString
   user_LastName: MyString
@@ -9,6 +10,7 @@ one:
   user_Type: Student
 
 two:
+  id: 2
   email: kameron13@gmail.com
   user_FirstName: MyString
   user_LastName: MyString

@@ -15,16 +15,16 @@ default: &default
   collation: utf8mb4_general_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-  password: perseverance99.99#
+  password: ICTPass1
 
 
   host: localhost
-  database: student_placements
+  database: student_placement
   port: 3306
 
 development:
   <<: *default
-  database: student_placements
+  database: student_placement
 
 
 # Warning: The database defined as "test" will be erased and
