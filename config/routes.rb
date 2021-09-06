@@ -27,8 +27,7 @@ Rails.application.routes.draw do
   resources :groups
 
     resources :blocks 
-    resources :specialty_pages
-    resources :specialties
+      resources :specialties
     resources :hospitals
     resources :users do
         collection { post :import} # route for importing from csv
