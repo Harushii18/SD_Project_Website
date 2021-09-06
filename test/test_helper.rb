@@ -1,13 +1,22 @@
+
 ENV['RAILS_ENV'] ||= 'test'
-require_relative "../config/environment"
-require "rails/test_help"
+
+require 'simplecov'
 require 'coveralls'
 Coveralls.wear!
+
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.start do
+  add_filter 'app/secrets'
+end
+require_relative "../config/environment"
+require "rails/test_help"
+
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   #This is commented out to get rid of a testing error
-  parallelize(workers: :number_of_processors, with: :threads)
+ # parallelize(workers: :number_of_processors, with: :threads)
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
