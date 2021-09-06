@@ -26,5 +26,7 @@ before_script:
 
   - yarn
 script:
-  - bundle exec rake test
+  #Commented out temporarily
+#  - bundle exec rake test
+  - bundle exec rake :test_with_coveralls
   #- bundle exec rake test:system
