@@ -1,3 +1,4 @@
+require "test_helper"
 
 class BlocksControllerTest < ActionDispatch::IntegrationTest
   setup do

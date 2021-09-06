@@ -1,3 +1,4 @@
+require "test_helper"
 
 class HospitalsControllerTest < ActionDispatch::IntegrationTest
   setup do

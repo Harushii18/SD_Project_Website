@@ -1,5 +1,6 @@
 require "test_helper"
 
+require "test_helper"
 class DashboardControllerTest < ActionDispatch::IntegrationTest
   setup do
     get '/admins/sign_in'

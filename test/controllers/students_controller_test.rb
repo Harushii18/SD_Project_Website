@@ -8,6 +8,11 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
     post admin_session_url
   end
 
+  test "should get index" do
+    get students_url
+    assert_response :success
+  end
+
   test "should get new" do
     get new_student_url
     assert_response :success
@@ -43,4 +48,19 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to students_url
   end
+
+  test "should not create student" do
+    assert_difference('Student.count',0) do
+      post students_url, params: { student: { courseCodes: "coms2003", programme_id: 7, studentNumber: 12093337, user_id: 1 } }
+    end
+
+    assert_response(422)
+  end
+
+  test "should not update student" do
+    patch student_url(@student), params: { student: { courseCodes: "coms2003", programme_id: 7, studentNumber: 12093337, user_id: 1 }}
+
+    assert_response(422)
+  end
+
 end

@@ -1,3 +1,4 @@
+require "test_helper"
 
 class ProgrammeCoursesControllerTest < ActionDispatch::IntegrationTest
   setup do
