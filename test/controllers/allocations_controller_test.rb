@@ -48,4 +48,6 @@ class AllocationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to allocations_url
   end
+
+
 end

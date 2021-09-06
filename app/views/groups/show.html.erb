@@ -12,14 +12,6 @@
     <p class="lead"><b>Specialty Name:</b></p>
     <p class="lead"><%= Specialty.find(@group.specialty_id).SpecialtyName%></p>
 
-    <p class="lead"><b>Block ID:</b></p>
-    <p class="lead"><%= @group.block_id %></p>
-
-    <p class="lead"><b>Block Start ID:</b></p>
-    <p class="lead"><%= Block.find(@group.block_id).BlockStartDate %></p>
-
-    <p class="lead"><b>Block End ID:</b></p>
-    <p class="lead"><%= Block.find(@group.block_id).BlockEndDate %></p>
 
     <%= link_to 'Edit', edit_group_path(@group), class:"btn btn-outline-dark"%>
     <%= link_to 'Back',groups_path, class:"btn btn-outline-dark" %>

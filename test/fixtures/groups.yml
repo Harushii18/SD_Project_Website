@@ -1,10 +1,5 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  specialty: one
-  block: one
-
-two:
-  specialty: two
-  block: two
-
+  id: 1
+  specialty_id: 1

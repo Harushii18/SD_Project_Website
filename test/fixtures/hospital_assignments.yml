@@ -2,10 +2,9 @@
 
 one:
   user: one
-  block: one
+
   hospital: one
 
 two:
   user: two
-  block: two
   hospital: two

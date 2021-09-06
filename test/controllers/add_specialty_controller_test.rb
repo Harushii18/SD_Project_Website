@@ -1,5 +1,3 @@
-require "test_helper"
-
 class AddSpecialtyControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
