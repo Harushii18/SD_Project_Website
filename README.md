@@ -4,7 +4,7 @@ Website to facilitate administrator functions
 
 ## Build-Test Status
 
-[![Build Status](https://travis-ci.com/RXRider1451/SD_Project_Website.svg?branch=main)](https://travis-ci.com/RXRider1451/SD_Project_Website) [![Coverage Status](https://coveralls.io/repos/github/RXRider1451/SD_Project_Website/badge.svg?branch=main)](https://coveralls.io/github/RXRider1451/SD_Project_Website?branch=main)
+[![Build Status](https://travis-ci.com/RXRider1451/SD_Project_Website.svg?branch=main)](https://travis-ci.com/RXRider1451/SD_Project_Website) https://coveralls.io/repos/github/RXRider1451/SD_Project_Website/badge.svg?branch=main(Coverage Status)!:https://coveralls.io/github/RXRider1451/SD_Project_Website?branch=main
 
 
 
