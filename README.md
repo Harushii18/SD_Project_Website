@@ -6,6 +6,8 @@ Website to facilitate administrator functions
 
 [![Build Status](https://travis-ci.com/RXRider1451/SD_Project_Website.svg?branch=main)](https://travis-ci.com/RXRider1451/SD_Project_Website) [![Coverage Status](https://coveralls.io/repos/github/RXRider1451/SD_Project_Website/badge.svg?branch=main)](https://coveralls.io/github/RXRider1451/SD_Project_Website?branch=main)
 
+Note: The Badge hasn't updated yet. The coverage percentage should read 88%.
+
 ## Developers
 
 * Sedzani 
