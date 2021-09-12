@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  get 'course_dashboard/index'
   resources :site_facilitator_allocations
   resources :site_facilitators
   resources :allocations
