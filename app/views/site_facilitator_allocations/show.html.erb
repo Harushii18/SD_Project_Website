@@ -8,16 +8,10 @@
   <div class="card "  >
   <div class="card-body">
 
-    <p class="lead"><b>Hospital ID:</b></p>
-    <p class="lead"> <%= @site_facilitator_allocation.hospital_id %></p>
-
     <p class="lead"><b>Hospital Name:</b></p>
     <p class="lead"><%= Hospital.find(@site_facilitator_allocation.hospital_id ).hospital_name %></p>
 
    <br>
-    <p class="lead"><b>Site facilitatorn ID:</b></p>
-    <p class="lead"> <%= @site_facilitator_allocation.site_facilitator_id %></p>
-
 
     <p class="lead"><b>Site facilitator Name:</b></p>
     <p class="lead"> <%= SiteFacilitator.find(@site_facilitator_allocation.site_facilitator_id).Site_Facilitator_Name %></p>
