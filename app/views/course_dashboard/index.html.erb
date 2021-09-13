@@ -16,7 +16,23 @@
 <% @count=0%>
 
 <div class="card card-body">
-Assigned specialties
+
+        <!--ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO-->
+        <%if  CourseSpecialty.where(:course_id => course.id).count== 0%>
+           
+                There are no specialties assigned to this course.
+        
+        <%else%>
+        <!--=====================-->
+
+<!--Display how many specialties there are -->
+    <!--Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties:-->
+    <%if  CourseSpecialty.where(:course_id => course.id).count== 1%>
+        There is <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialty to this course:
+    <%else%>
+        There are <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialties to this course:
+    <%end%>
+
  <% @course_specialties.each do |course_specialty| %>
     <%if course_specialty.course_id== course.id%>
     
@@ -32,14 +48,8 @@ Assigned specialties
 
         <% end %> 
         <% end %> 
+       <%end%>
 
-        <!--ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO-->
-        <%if @count== 0%>
-            <div class="card card-body">
-                There are no specialties assigned to this course.
-            </div>
-        <%end%>
-        <!--=====================-->
         
     </div>
 </br>
