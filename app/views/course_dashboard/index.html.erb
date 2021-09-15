@@ -1,58 +1,94 @@
  </br>
- 
- <% @dtId=0%>
- <% @courses.each do |course| %>
-  <% @dtId=@dtId+1%>
- 
- <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
-    +
-  </button>
-  <%= course.CourseDescription %>
-</p>
-<div class="collapse" id=<%="collapseExample"+@dtId.to_s%> >
-    
-<!--The counter below keeps track of how many specialties there are-->
-<% @count=0%>
-
-<div class="card card-body">
-
-        <!--ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO-->
-        <%if  CourseSpecialty.where(:course_id => course.id).count== 0%>
-           
-                There are no specialties assigned to this course.
+ <div class="row">
+     
+        <div class="w-25" >
         
-        <%else%>
-        <!--=====================-->
+            <div class="card border-info " style="height: 100%">
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+            </div>
+            </div>
+        
+   
+        
+         <div class="w-75">
+        
+            <div class="card h-100">
+            <div class="card-body">
+                <%# <h5 class="card-title">Special title treatment</h5> %>
+                <p class="card-text">
 
-<!--Display how many specialties there are -->
-    <!--Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties:-->
-    <%if  CourseSpecialty.where(:course_id => course.id).count== 1%>
-        There is <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialty to this course:
-    <%else%>
-        There are <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialties to this course:
-    <%end%>
+                         <% @dtId=0%>
+                        <% @courses.each do |course| %>
+                        <% @dtId=@dtId+1%>
+                        
+                        <p>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
+                        +
+                    </button>
+                    <%= course.CourseDescription %>
+                    </p>
+                    <div class="collapse" id=<%="collapseExample"+@dtId.to_s%> >
+                        
+                    <%# The counter below keeps track of how many specialties there are %>
+                    <% @count=0%>
 
- <% @course_specialties.each do |course_specialty| %>
-    <%if course_specialty.course_id== course.id%>
-    
-        <% @count=@count+1%>
-       
+                    <div class="card card-body">
 
-        <!-- SPECIALTIES POPULATED -> name extracted only-->
-    
-        <div class="card card-body">
-            <%= @count%>. <%=" "+Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>
+                        <%# ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO %>
+                            <%if  CourseSpecialty.where(:course_id => course.id).count== 0%>
+                            
+                                    There are no specialties assigned to this course.
+                            
+                            <%else%>
+                            <%# ==================== %>
+
+                        <%# Display how many specialties there are  %>
+                    <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
+                        <%if  CourseSpecialty.where(:course_id => course.id).count== 1%>
+                            There is <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialty to this course:
+                        <%else%>
+                            There are <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialties to this course:
+                        <%end%>
+
+                    <% @course_specialties.each do |course_specialty| %>
+                        <%if course_specialty.course_id== course.id%>
+                        
+                            <% @count=@count+1%>
+                        
+
+                            <%# SPECIALTIES POPULATED -> name extracted only %>
+                        
+                            <div class="card card-body">
+                                <%= @count%>. <%=" "+Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>
+                            </div>
+
+
+                            <% end %> 
+                            <% end %> 
+                        <%end%>
+
+                            
+                        </div>
+                    </br>
+                    </div>
+
+                    <% end %>
+                
+                
+                
+                
+                </p>
+                <%# <a href="#" class="btn btn-primary">Go somewhere</a> %>
+            </div>
+            </div>
         </div>
+  </div> 
 
 
-        <% end %> 
-        <% end %> 
-       <%end%>
-
-        
-    </div>
-</br>
-</div>
-
- <% end %>
+ 
+ 
+ 
