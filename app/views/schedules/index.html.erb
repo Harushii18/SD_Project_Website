@@ -93,19 +93,33 @@
         this.initialiseSpecialties();
         this.initialiseSchedules();
 
-        //this.displayTimeline();
+        this.btnUpdateSchedule = document.createElement('button');
+        this.btnUpdateSchedule.onclick = function(ev){
+          for(var i=0; i<timeBlocks.length;i++){
+            if(timeBlocks[i].getAssigned()==true){
+              var newSchedule = new Schedule();
+              newSchedule.setWeekNo(timeBlocks[i].getWeekNo());
+              newSchedule.setSpecialtyID(timeBlocks[i].getSpecialtyID());
+              newSchedule.setStudentID(studentID);
+              this.schedules.push(newSchedule);
+            }
+
+          }
+        };
+
     }
 
     initialiseTimeBlocks(){
       for(var i =0; i<52; i++){
-        this.timeBlocks.push(new TimeBlock(i+1));
+        var timeBlock = new TimeBlock(i+1);
+        this.timeBlocks.push(timeBlock);
       }
     }
 
     //TODO: Store specialty IDs for the specialties the student is taking
     initialiseSpecialties(){
       <% @specialties.each do |specialty| %>
-      var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, <%=specialty.id%>, 2);
+        var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, "Anatomy", 2);
         this.specialties.push(specialtyBlock);
       <%end%>
     }
@@ -151,6 +165,7 @@
       //Main Table
       var table = document.createElement('table');
 
+
       //console.log('executed here');
       //Add multiple information of student
       var studentInformation = [this.studentID, this.studentName];
@@ -160,6 +175,7 @@
         p.innerHTML = studentInformation[i];
         console.log("Student Info: " + p.innerHTML);
         var td = document.createElement('td');
+        //td.style.align="left";
         td.appendChild(p);
         tr.appendChild(td);
         table.appendChild(tr);
@@ -201,6 +217,10 @@
 
       table.appendChild(tr);
 
+      //var tr = document.createElement('tr');
+      //tr.appendChild(this.btnUpdateSchedule);
+      //table.appendChild(tr);
+
       return table; //Return row which corresponds to a student's timeline
       //Append to main document
     //  this.parentObject.appendChild(table);
@@ -210,12 +230,17 @@
 
   }
 
-  class TimeBlock{
+  class TimeBlock {
     constructor(weekNo){
+
       this.weekNo = weekNo;
       this.div = document.createElement('div');
+      this.specialtyID = "";
+      this.assigned = false;
       this.startDate = new Date();
       this.endDate = new Date();
+      this.specialtyID = "";
+
 
       this.initialiseStartDate();
       this.initialiseEndDate();
@@ -229,7 +254,32 @@
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
+
+
+      //On Drop Function
+      this.div.ondrop = function(ev){
+      ev.preventDefault();
+
+      var specialtyID = ev.dataTransfer.getData("specialtyID");
+      console.log("Sent value is: " + specialtyID);
+      this.specialtyID = specialtyID;
+
+      var data = ev.dataTransfer.getData("text");
+      //APPEND TO TIMEBOX
+
+      //Once assigned, allow for modal box to appear
+      ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+      ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+      this.assigned = true;
+      };
+
+      //DragOver function
+      this.div.ondragover = function(ev){
+        ev.preventDefault();
+      };
+
     }
+
 
     initialiseStartDate(){
       this.startDate.setMonth(0);
@@ -241,17 +291,53 @@
       this.endDate.setDate(this.endDate.getDate()+6); //Day just before the start of the next week
     }
 
+    getWeekNo(){
+      return this.weekNo;
+    }
+
     getDiv(){
       return this.div;
     }
 
+    setSpecialtyID(specialtyID){
+      this.specialtyID = specialtyID;
+    }
+
+    getSpecialtyID(){
+      return this.specialtyID;
+    }
+
+    getAssigned(){
+      return this.assigned;
+    }
+
+    setAssigned(value){
+      this.assigned = value;
+    }
+
    }
 
-   class Schedule{
+  class Schedule{
      constructor(studentID,weekNo,specialtyID,hospitalID){
+       this.studentID = "";
+       this.weekNo = "";
+       this.specialtyID = "";
+       this.hospitalID = "";
+     }
+
+     setStudentID(studentID){
        this.studentID = studentID;
+     }
+
+     setWeekNo(weekNo){
        this.weekNo = weekNo;
+     }
+
+     setSpecialtyID(specialtyID){
        this.specialtyID = specialtyID;
+     }
+
+     setHospitalID(hospitalID){
        this.hospitalID = hospitalID;
      }
 
@@ -272,7 +358,7 @@
 
     }
 
-    class SpecialtyBlock{
+  class SpecialtyBlock{
       constructor(specialtyID,specialtyName,specialtyDuration){
         this.div = document.createElement('div');
         this.specialtyID = specialtyID;
@@ -290,9 +376,30 @@
         this.div.style.display = 'flex';
         this.div.style.border = "1px solid #aaaaaa";
         this.div.style.alignItems = 'center';
-        this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-        this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-        this.div.innerHTML = String(this.specialtyName);
+        //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+        //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+        this.div.setAttribute("draggable","true");
+        //this.div.setAttribute("id","1");
+        this.div.innerHTML = String(this.specialtyID);
+
+        //On dragstart function
+        this.div.ondragstart = function(ev){
+          console.log("BEING DRAGGED");
+          ev.dataTransfer.setData("text", ev.target.id);
+          var temp = ev.target.innerHTML;
+          console.log("Trying to send: "+ ev.target.innerHTML);
+          ev.dataTransfer.setData("specialtyID", temp);
+        };
+
+        this.div.ondragend = function(ev){
+          console.log("drag end");
+          var scheduleSpecialtyID = new Schedule();
+          scheduleSpecialtyID.setSpecialtyID(this.specialtyID);
+          this.scheduleSpecialtyID = scheduleSpecialtyID;
+          this.assigned = true;
+        }
+
+
       }
 
       getSpecialtyName(){
@@ -308,7 +415,7 @@
 
      }
 
-     class ProgrammeSchedule{
+  class ProgrammeSchedule{
         constructor(parentObject){
         //  this.programmeCode = programmeCode;
           this.parentObject = parentObject;
@@ -321,7 +428,7 @@
         //Create a number of timelines for each student in the programme
         initialiseTimelines(){
           <% @students.each do |student| %>
-            this.timelines.push(new Timeline(<%=student.id%>,"John Doe"));
+            this.timelines.push(new Timeline(<%=student.id%>, <%= User.find(student.user_id).id%>));
           <%end%>
         }
 
