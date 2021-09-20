@@ -75,130 +75,119 @@
 <!-- Some functions for the Drag and Drop Feature -->
 
 
-
+<div class="m-4" id="schedule_window">
 
 <!-- My Classes -->
 <script>
-  //Time Block class for each individual div
-   class TimeBlock{
-    constructor(document, weekNo, studentNo){
-      //Class attributes
-      this.currDiv = document.createElement('div'); //NB
-      this.weekNo = weekNo; //NB
-      this.startDate = new Date(); //NB
-      this.assigned = ""; //When dropped on this timeblock, value will be the name of the specialty
-
-      //Initially set start date to first day of the year
-      this.startDate.setDate(1);
-      this.startDate.setMonth(0);
-      this.startDate.setYear(2021); //Change to current year - for every year
-
-      this.startDate.setDate(1+ (7*this.weekNo) );
-
-      //Set End Date
-      this.endDate = this.startDate; //NB
-      this.endDate.setDate(this.endDate.getDate()+6);
-
-      //DOM element
-      this.document = document;
-
-      this.studentNo = studentNo;
-
-      //Div attributes for each div block in the timeline
-      this.currDiv.style.width = '60px';
-      this.currDiv.style.height = '10px';
-      this.currDiv.style.padding = '10px';
-      this.currDiv.style.display = 'flex';
-      this.currDiv.style.border = "1px solid #aaaaaa";
-      this.currDiv.style.alignItems = 'center';
-      //this.currDiv.setAttribute("id", this.studentNo+this.weekNo);
-
-      this.currDiv.ondrop = function(ev){
-        ev.preventDefault();
-
-        var data = ev.dataTransfer.getData("text");
-        //var newTarget = document.getElementById(this.studentNo+this.weekNo);
-
-        ev.target.appendChild(document.getElementById(data));
-        //ev.target.style.backgroundColor = 'green' ;
-      };
-
-      //this.currDiv.onclick = function(ev){
-        //var orig = document.getElementById('colorBox');
-        //orig.style.backgroundColor = 'white';
-      //}
 
 
-      this.currDiv.ondragover = function(ev){
-        ev.preventDefault();
-      };
+  class Timeline{
+    constructor(studentID, studentName, parentObject){
+        this.studentID = studentID;
+        this.studentName = studentName;
+        this.parentObject = parentObject;
+        this.specialties = [];
+        this.timeBlocks = [];
+        this.schedules = [];
+        this.initialiseTimeBlocks();
+        this.initialiseSpecialties();
+        this.initialiseSchedules();
 
-    //  this.setAttributeOfDiv("ondrop","drop(event)");
-    //  this.setAttributeOfDiv("ondragover","allowDrop(event)");
+        //this.displayTimeline();
+    }
+
+    initialiseTimeBlocks(){
+      for(var i =0; i<52; i++){
+        this.timeBlocks.push(new TimeBlock(i+1));
+      }
+    }
+
+    //TODO: Store specialty IDs for the specialties the student is taking
+    initialiseSpecialties(){
+      <% @specialties.each do |specialty| %>
+      var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, <%=specialty.id%>, 2);
+        this.specialties.push(specialtyBlock);
+      <%end%>
+    }
+
+    //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
+    initialiseSchedules(){
 
     }
 
-
-      setColour(colour){
-        this.currDiv.style.backgroundColor = colour;
+    //Add a new schedule to the schedule array
+    //TODO: Fix overlapping Scheduling - in terms of durations and the week of the desired scheduling vs currently scheduled
+    addSchedule(studentID, weekNo, specialtyID, hospitalID){
+      var isValid = true;
+      for(var i=0; i<this.schedules.length; i++){
+        if(this.schedules[i].getWeekNo==weekNo){
+          //NEEDS MORE ATTENTION
+          isValid = false;
+        }
       }
 
-    //Getter Methods
-      getWeekNo(){
-        return this.weekNo;
+      if(isValid==true){
+        this.schedules.push(new Schedule(studentID, weekNo, specialtyID, hospitalID));
       }
 
-      getAssigned(){
-        return this.assigned;
-      }
-
-      getStartDate(){
-        return this.startDate;
-      }
-
-      getEndDate(){
-        return this.endDate;
-      }
-
-    //Setter Methods
-    setAttributeOfDiv(attribute, attributeValue){
-      this.currDiv.setAttribute(attribute,attributeValue);
     }
 
-    //Return td with div appended to it
-    returnTD(){
-      var td = this.document.createElement('td');
-      td.appendChild(this.currDiv);
-      return td;
+    //Remove Schedule for a weekNo
+    removeSchedule(weekNo){
+      for(var i = 0; i< this.schedules.length; i++){
+        if(this.schedules[i].getWeekNo()==weekNo){
+          this.schedules.splice(i,1);
+        }
+      }
     }
 
-    //Testing
-    output(message){
-      console.log(message);
+    //Return array of schedules
+    getSchedules(){
+      return this.schedules;
     }
 
-  } //OLD
+    displayTimeline(){
 
-  //Timeline class for the entire timeline
-    class Timeline{
-    constructor(document, studentNo){
+      //Main Table
+      var table = document.createElement('table');
 
-      this.document = document;
-      this.timeBlocks = []
-      this.studentNo = studentNo;
+      //console.log('executed here');
+      //Add multiple information of student
+      var studentInformation = [this.studentID, this.studentName];
+      for(var i = 0 ;i<studentInformation.length;i++){
+        var tr = document.createElement('tr');
+        var p = document.createElement('p');
+        p.innerHTML = studentInformation[i];
+        console.log("Student Info: " + p.innerHTML);
+        var td = document.createElement('td');
+        td.appendChild(p);
+        tr.appendChild(td);
+        table.appendChild(tr);
+      }
 
-      //Append the tr (with the 52 time blocks) to a table
-      var table = this.document.createElement('table');
-      var tr = this.setTimeBlocks();
-      table.appendChild(tr);
+      //Add Specialties for students
+      console.log("Length of specialties is: "  + this.specialties.length);
+      for(var i = 0; i<this.specialties.length;i++ ){
+        console.log("Added this specialty: "+i);
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.appendChild(this.specialties[i].getDiv());
+        tr.appendChild(td);
+        table.appendChild(tr);
+      }
 
-      //Append the table to a new row
-      var tr = this.document.createElement('tr');
-      tr.appendChild(table);
 
 
-      //This div holds the timeline (All 52 div blocks)
-      var container = this.document.createElement('div');
+      //Add TimeBlocks for timeline
+      var tr = document.createElement('tr');
+      for(var i = 0; i<52; i++){
+        var p = document.createElement('p');
+        //p.innerHTML = studentInformation[i];
+        var td = document.createElement('td');
+        td.appendChild(this.timeBlocks[i].getDiv());
+        tr.appendChild(td);
+      }
+      var container = document.createElement('div');
       container.appendChild(tr);
       //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
       //Note: I think we need to use window.InnerWidth and window.InnerHeight here but we'll come back to this at some point.
@@ -207,41 +196,93 @@
       container.style.overflow = 'scroll';
       container.style.alignItems = 'center';
 
-      //This is the complete timeline
-      this.timeline = container;
-
-    }
-
-  //Set time blocks and return a tr with all 52 timeblocks appended to it
-    setTimeBlocks(){
       var tr = document.createElement('tr');
-      //Create 52 div blocks
-      for(let i = 1; i<=52;i++){ //Loop Counter is set like this to keep track of the week number
-             var currTimeBlock = new TimeBlock(this.document,i, this.studentNo);
-             //currTimeBlock.output("yes"); //Testing
+      tr.appendChild(container);
 
-            // currTimeBlock.setAttributeOfDiv("ondrop","drop(event)");
-             //currTimeBlock.setAttributeOfDiv("ondragover","allowDrop(event)");
+      table.appendChild(tr);
 
-             tr.appendChild(currTimeBlock.returnTD());
-             this.timeBlocks.push(currTimeBlock);
-         }
-      return tr;
+      return table; //Return row which corresponds to a student's timeline
+      //Append to main document
+    //  this.parentObject.appendChild(table);
+
     }
 
-    getTimeline(){
-      return this.timeline;
+
+  }
+
+  class TimeBlock{
+    constructor(weekNo){
+      this.weekNo = weekNo;
+      this.div = document.createElement('div');
+      this.startDate = new Date();
+      this.endDate = new Date();
+
+      this.initialiseStartDate();
+      this.initialiseEndDate();
+      this.initialiseDivAttributes();
     }
-} //OLD
+
+    initialiseDivAttributes(){
+      this.div.style.width = '60px';
+      this.div.style.height = '10px';
+      this.div.style.padding = '10px';
+      this.div.style.display = 'flex';
+      this.div.style.border = "1px solid #aaaaaa";
+      this.div.style.alignItems = 'center';
+    }
+
+    initialiseStartDate(){
+      this.startDate.setMonth(0);
+      this.startDate.setDate(1+(7*(this.weekNo-1)));
+    }
+
+    initialiseEndDate(){
+      this.endDate = this.startDate;
+      this.endDate.setDate(this.endDate.getDate()+6); //Day just before the start of the next week
+    }
+
+    getDiv(){
+      return this.div;
+    }
+
+   }
+
+   class Schedule{
+     constructor(studentID,weekNo,specialtyID,hospitalID){
+       this.studentID = studentID;
+       this.weekNo = weekNo;
+       this.specialtyID = specialtyID;
+       this.hospitalID = hospitalID;
+     }
+
+     getWeekNo(){
+       return this.weekNo;
+     }
+     getStudentID(){
+       return this.studentID;
+     }
+     getSpecialtyID(){
+       return this.specialtyID;
+     }
+     getHospitalID(){
+       return this.hospitalID;
+     }
+
+
+
+    }
 
     class SpecialtyBlock{
-      constructor(document, studentID, weeks){
-        this.document = document;
-        this.div = document.createElement("div");
-        this.specialtyName = "";
-        this.id = studentID;
-        this.weeks = weeks;
+      constructor(specialtyID,specialtyName,specialtyDuration){
+        this.div = document.createElement('div');
+        this.specialtyID = specialtyID;
+        this.specialtyName = specialtyName;
+        this.specialtyDuration = specialtyDuration;
 
+        this.initialiseDivAttributes();
+      }
+
+      initialiseDivAttributes(){
         //Set div attributes
         this.div.style.width = '60px';
         this.div.style.height = '10px';
@@ -251,49 +292,29 @@
         this.div.style.alignItems = 'center';
         this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-
-
-
+        this.div.innerHTML = String(this.specialtyName);
       }
 
-      setSpecialtyName(specaltyName){
-        this.specialtyName = specialtyName;
+      getSpecialtyName(){
+        return this.specialtyName;
       }
 
-      returnSpecialtyDivRow(){
-        var tr = this.document.createElement('tr');
-        var td = this.document.createElement('td');
-
-        var disName = this.document.createElement('p');
-        disName.innerHTML = String(this.specialtyName);
-        this.div.appendChild(disName);
-
-        //Div attributes for the draggable box (to drag and drop the specialty in the timeline)
-        this.div.setAttribute("id", this.id + this.specialtyName); // id needs to be different for each div
-        this.div.setAttribute("draggable","true");
-        this.div.ondragstart = function(ev){
-          console.log("BEING DRAGGED");
-
-
-          ev.dataTransfer.setData("text", ev.target.id);
-        };
-
-
-
-        td.appendChild(this.div);
-        tr.appendChild(td);
-
-        return tr;
+      getSpecialtyDuration(){
+        return this.specialtyDuration;
       }
-} //OLD
+      getDiv(){
+        return this.div;
+      }
+
+     }
 
      class ProgrammeSchedule{
-        constructor(programmeCode, parentObject){
-          this.programmeCode = programmeCode;
+        constructor(parentObject){
+        //  this.programmeCode = programmeCode;
           this.parentObject = parentObject;
           this.timelines =[];
           this.initialiseTimelines();
-          this.displayTimeline();
+          this.populateSchedule();
         }
 
 
@@ -306,10 +327,10 @@
 
         saveSchedule(){
           //For each timeline
-          for(int i =0; i<this.timelines.length; i++){
+          for(var i =0; i<this.timelines.length; i++){
             var currSchedule = this.timelines[i].getSchedule();
             //For each schedule in a timeline
-            for(int j =0; j<currSchedule.length;j++){
+            for(var j =0; j<currSchedule.length;j++){
               var weekNo = currSchedule[j].getWeekNo();
               var specialtyID = currSchedule[j].getSpecialtyID();
               var hospitalID = currSchedule[j].getHospitalID();
@@ -319,310 +340,35 @@
           }
         }
 
-        displaySchedule(){
+        populateSchedule(){
           var table = document.createElement('table');
-          for(int i = 0; i<this.timelines.length; i++){
+          for(var i = 0; i<this.timelines.length; i++){
             var tr = this.timelines[i].displayTimeline();
             table.appendChild(tr);
           }
           this.parentObject.appendChild(table);
         }
 
-      }
-
-    class Timeline{
-      constructor(studentID, studentName, parentObject){
-          this.studentID = studentID;
-          this.studentName = studentName;
-          this.parentObject = parentObject;
-          this.specialties = [];
-          this.timeBlocks = [];
-          this.schedules = [];
-          this.initialiseTimeBlocks();
-          this.initialiseSpecialties();
-          this.initialiseSchedules();
-
-          //this.displayTimeline();
-      }
-
-      initialiseTimeBlocks(){
-        for(int i =0; i<52; i++){
-          this.timeBlocks[i] = new TimeBlock(i+1);
-        }
-      }
-
-      //TODO: Store specialty IDs for the specialties the student is taking
-      initialiseSpecialties(){
-        <% @specialties.each do |specialty| %>
-        var specialtyBlock = new SpecialtyBlock(<% specialty.id %>, <%specialty.SpecialtyName%>, 2);
-          this.specialties.push(specialtyBlock);
-        <%end%>
-      }
-
-      //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
-      initialiseSchedules(){
-
-      }
-
-      //Add a new schedule to the schedule array
-      //TODO: Fix overlapping Scheduling - in terms of durations and the week of the desired scheduling vs currently scheduled
-      addSchedule(studentID, weekNo, specialtyID, hospitalID){
-        var isValid = true;
-        for(int i=0; i<this.schedules.length; i++){
-          if(this.schedules[i].getWeekNo==weekNo){
-            //NEEDS MORE ATTENTION
-            isValid = false;
-          }
-        }
-
-        if(isValid==true){
-          this.schedules.push(new Schedule(studentID, weekNo, specialtyID, hospitalID));
+        returnDisplay(){
+          return this.parentObject;
         }
 
       }
 
-      //Remove Schedule for a weekNo
-      removeSchedule(weekNo){
-        for(int i = 0; i< this.schedules.length; i++){
-          if(this.schedules[i].getWeekNo()==weekNo){
-            this.schedules.splice(i,1);
-          }
-        }
-      }
-
-      //Return array of schedules
-      getSchedules(){
-        return this.schedules;
-      }
-
-      displayTimeline(){
-
-        //Main Table
-        var table = document.createElement('table');
-
-        //Add multiple information of student
-        var studentInformation = [studentNumber, studentName];
-        for(int i = 0 ;i<studentInformation.length;i++){
-          var tr = document.createElement('tr');
-          var p = document.createElement('p');
-          p.innerHTML = studentInformation[i];
-          var td = document.createElement('td');
-          td.appendChild(p);
-          tr.appendChild(td);
-          table.appendChild(tr);
-        }
-
-        //Add Specialties for students
-        for(int i = 0; i<specialties.length;i++ ){
-          var tr = document.createElement('tr');
-          var td = document.createElement('td');
-          td.appendChild(specialties[i].getDiv());
-          tr.appendChild(td);
-        }
-        table.appendChild(tr);
-
-
-        //Add TimeBlocks for timeline
-        var tr = document.createElement('tr');
-        for(int i = 0; i<52; i++){
-          var p = document.createElement('p');
-          //p.innerHTML = studentInformation[i];
-          var td = document.createElement('td');
-          td.appendChild(this.timeBlocks[i].getDiv());
-          tr.appendChild(td);
-        }
-        var container = this.document.createElement('div');
-        container.appendChild(tr);
-        //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
-        //Note: I think we need to use window.InnerWidth and window.InnerHeight here but we'll come back to this at some point.
-        container.style.height = "50px";
-        container.style.width = "1800px";
-        container.style.overflow = 'scroll';
-        container.style.alignItems = 'center';
-
-        var tr = document.createElement('tr');
-        tr.appendChild(container);
-
-
-        return tr; //Return row which corresponds to a student's timeline
-        //Append to main document
-      //  this.parentObject.appendChild(table);
-
-      }
-
-
-    }
-
-    class TimeBlock{
-      constructor(weekNo){
-        this.weekNo = weekNo;
-        this.div = document.createElement('div');
-        this.startDate = new Date();
-        this.endDate = new Date();
-
-        this.initialiseStartDate();
-        this.initialiseEndDate();
-        this.initialiseDivAttributes();
-      }
-
-      initialiseDivAttributes(){
-        this.div.style.width = '60px';
-        this.div.style.height = '10px';
-        this.div.style.padding = '10px';
-        this.div.style.display = 'flex';
-        this.div.style.border = "1px solid #aaaaaa";
-        this.div.style.alignItems = 'center';
-      }
-
-      initialiseStartDate(){
-        this.startDate.setMonth(0);
-        this.startDate.setDate(1+(7*(this.weekNo-1)));
-      }
-
-      initialiseEndDate(){
-        this.endDate = this.startDate;
-        this.endDate.setDate(this.endDate.getDate()+6); //Day just before the start of the next week
-      }
-
-      getDiv(){
-        return this.div;
-      }
-
-     }
-
-     class Schedule{
-       constructor(studentID,weekNo,specialtyID,hospitalID){
-         this.studentID = studentID;
-         this.weekNo = weekNo;
-         this.specialtyID = specialtyID;
-         this.hospitalID = hospitalID;
-       }
-
-       getWeekNo(){
-         return this.weekNo;
-       }
-       getStudentID(){
-         return this.studentID;
-       }
-       getSpecialtyID(){
-         return this.specialtyID;
-       }
-       getHospitalID(){
-         return this.hospitalID;
-       }
 
 
 
-      }
+  var programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
 
-      class SpecialtyBlock{
-        constructor(specialtyID,specialtyName,specialtyDuration){
-          this.div = document.createElement('div');
-          this.specialtyID = specialtyID;
-          this.specialtyName = specialtyName;
-          this.specialtyDuration = specialtyDuration;
-
-          this.initialiseDivAttributes();
-        }
-
-        initialiseDivAttributes(){
-          //Set div attributes
-          this.div.style.width = '60px';
-          this.div.style.height = '10px';
-          this.div.style.padding = '15px';
-          this.div.style.display = 'flex';
-          this.div.style.border = "1px solid #aaaaaa";
-          this.div.style.alignItems = 'center';
-          this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-          this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-        }
-
-        getSpecialtyName(){
-          return this.specialtyName;
-        }
-
-        getSpecialtyDuration(){
-          return this.specialtyDuration;
-        }
-        getDiv(){
-          return this.div;
-        }
-
-       }
+  //var divElement = document.getElementById('schedule_window');
+  //divElement.appendChild(programmeSchedule.returnDisplay());
 
 </script>
 
 
-<div class="m-4">
 
 
-<!-- Main Table - this is the table where each row represents a single student's schedule -->
- <table id="mainTable">
-
-<!-- <script type="module" src="../../../classes/timeline.js"></script> -->
- <script>
-
-   <% @students.each do |student| %>
-     //Main Table
-     var mainTable = document.getElementById('mainTable');
-
-
-
-     //STUDENT INFORMATION
-
-     var table = document.createElement('table'); //Temporary Table element for Student information (this table is appended to the row of the main table)
-
-     //Student Number
-     var tr = document.createElement('tr'); //Table row element
-     var studentNo = document.createElement('p'); //Paragraph element - for text
-     var td = document.createElement('td'); //Table cell element
-
-     //Note: This needs to be the student's name
-     //This is the text for the cell
-     studentNo.innerHTML = <%= student.studentNumber %>;
-
-     td.appendChild(studentNo); //Add paragraph element to data cell element
-     tr.appendChild(td); //Add data cell element to row element
-     table.appendChild(tr); //Add row element to temporary table
-
-
-     //For some reason, the Student Name doesn't work right now (There's a reference error)
-/*
-     //Student Name
-     var studentName = document.createElement('p');
-     var td = document.createElement('td');
-     //Note: This needs to be the student's name
-     studentName.innerHTML = "Student Name";
-     td.appendChild(studentName);
-     tr.appendChild(td);
-     table.appendChild(tr);
-*/
-
-    //Create a new row element
-     var tr = document.createElement('tr');
-     tr.appendChild(table); //Add the temporary table to the new row element
-     mainTable.appendChild(tr); //Add the new row element to the main table
-
-
-     //NOTE, any other student information should appear here before the Disciplines below
-
-
-
-
-
-     var tr = document.createElement('tr');
-     tr.appendChild(table);
-
-     mainTable.appendChild(tr); //Append to main table
-
-
-
-    var timeline = new Timeline(document, studentNo.innerHTML);
-    //tempDiv is the container in the timeline class
-     mainTable.appendChild(timeline.getTimeline()); //Append to main table
-
-<% end %>
-
+<script>
   //onclick function to assign student to hospital
   function assignHospital()
   {
@@ -634,7 +380,7 @@
   }
  </script>
 
-</table>
+
 
   <!---------------------------------------------------------------------------------------------->
 
