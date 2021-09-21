@@ -62,6 +62,22 @@
           <% end %>
         </li>
 
+
+        <!--MAKE THIS A DROPDOWN!!!------------------------------->
+
+         <li class="nav-item">
+          <!-- If we're at the Course Dashboard view, set this nav link to active -->
+          <% if controller_name == "course_dashboard"%>
+
+            <%= link_to 'Course Dashboard', course_dashboard_index_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+            <%= link_to 'Course Dashboard', course_dashboard_index_path, class:"nav-link" %>
+
+          <% end %>
+        </li>
+
+
 <!--HOSPITAL DROPDOWN===========================================================-->
       <li class="nav-item dropdown">
 
