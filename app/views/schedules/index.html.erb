@@ -61,8 +61,8 @@
 <!--ADD Below check users controller and -filters.html.erb for eg -->
 
 
-<button type="button" class="btn btn-primary" onclick="" >Save Changes</button>
-<br></br>
+
+
 <form action="/schedules">
 <label> <h5>Select Programme Code</h5> </label>
 <br>
@@ -70,8 +70,8 @@
 <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
 </select>
 </form>
-
-
+<br></br>
+<button type="button" class="btn btn-primary" onclick="makeChanges()">Make Changes</button>
 <!-- Some functions for the Drag and Drop Feature -->
 
 
@@ -92,20 +92,26 @@
         this.initialiseTimeBlocks();
         this.initialiseSpecialties();
         this.initialiseSchedules();
-
+        //console.log("There are this many timeblocks: "+this.timeBlocks.length);
         this.btnUpdateSchedule = document.createElement('button');
+        this.btnUpdateSchedule.innerHTML = "Save to changes";
+        this.btnUpdateSchedule.setAttribute("class","btn btn-outline-success");
+
+        var that = this;
         this.btnUpdateSchedule.onclick = function(ev){
-          for(var i=0; i<timeBlocks.length;i++){
-            if(timeBlocks[i].getAssigned()==true){
+          console.log("StudentID is: " + that.studentID);
+          for(var i=0; i<52;i++){
+            if(that.timeBlocks[i].getAssigned()==true){
               var newSchedule = new Schedule();
-              newSchedule.setWeekNo(timeBlocks[i].getWeekNo());
-              newSchedule.setSpecialtyID(timeBlocks[i].getSpecialtyID());
-              newSchedule.setStudentID(studentID);
-              this.schedules.push(newSchedule);
+              newSchedule.setWeekNo(that.timeBlocks[i].getWeekNo());
+              newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
+              newSchedule.setStudentID(that.studentID);
+              that.schedules.push(newSchedule);
             }
 
           }
         };
+
 
     }
 
@@ -116,7 +122,7 @@
       }
     }
 
-    //TODO: Store specialty IDs for the specialties the student is taking
+    //TODO: Fetch Specialty Name and Duration
     initialiseSpecialties(){
       <% @specialties.each do |specialty| %>
         var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, "Anatomy", 2, this.studentID);
@@ -131,10 +137,11 @@
 
     //Add a new schedule to the schedule array
     //TODO: Fix overlapping Scheduling - in terms of durations and the week of the desired scheduling vs currently scheduled
+    /*
     addSchedule(studentID, weekNo, specialtyID, hospitalID){
       var isValid = true;
       for(var i=0; i<this.schedules.length; i++){
-        if(this.schedules[i].getWeekNo==weekNo){
+        if(this.schedules[i].getWeekNo()==weekNo){
           //NEEDS MORE ATTENTION
           isValid = false;
         }
@@ -145,6 +152,7 @@
       }
 
     }
+*/
 
     //Remove Schedule for a weekNo
     removeSchedule(weekNo){
@@ -164,10 +172,14 @@
 
       //Main Table
       var table = document.createElement('table');
+      table.setAttribute("border","border:1px solid gray");
 
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      var br = document.createElement('br');
+      table.appendChild(br);
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-      //console.log('executed here');
-      //Add multiple information of student
+      //Add student information
       var studentInformation = [this.studentID, this.studentName];
       for(var i = 0 ;i<studentInformation.length;i++){
         var tr = document.createElement('tr');
@@ -194,7 +206,8 @@
 
 
 
-      //Add TimeBlocks for timeline
+      //Visual timeline
+      //52 divs - Timeblocks
       var tr = document.createElement('tr');
       for(var i = 0; i<52; i++){
         var p = document.createElement('p');
@@ -203,6 +216,8 @@
         td.appendChild(this.timeBlocks[i].getDiv());
         tr.appendChild(td);
       }
+
+      //Container for 52 Timeblocks
       var container = document.createElement('div');
       container.appendChild(tr);
       //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
@@ -211,19 +226,28 @@
       container.style.width = "1800px";
       container.style.overflow = 'scroll';
       container.style.alignItems = 'center';
-
       var tr = document.createElement('tr');
       tr.appendChild(container);
-
       table.appendChild(tr);
 
-      //var tr = document.createElement('tr');
-      //tr.appendChild(this.btnUpdateSchedule);
-      //table.appendChild(tr);
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      var br = document.createElement('br');
+      table.appendChild(br);
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+      //Button to update Schedule
+      var tr = document.createElement('tr');
+      tr.appendChild(this.btnUpdateSchedule);
+      table.appendChild(tr);
+
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      var br = document.createElement('br');
+      table.appendChild(br);
+      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       return table; //Return row which corresponds to a student's timeline
       //Append to main document
-    //  this.parentObject.appendChild(table);
+     //this.parentObject.appendChild(table);
 
     }
 
@@ -256,27 +280,51 @@
       this.div.style.alignItems = 'center';
 
 
+
+
       //On Drop Function
       this.div.ondrop = function(ev){
       ev.preventDefault();
 
+      //Retrieve Specialty ID
       var specialtyID = ev.dataTransfer.getData("specialtyID");
-      console.log("Sent value is: " + specialtyID);
       this.specialtyID = specialtyID;
 
+      //Value that's passed
+      //console.log("Sent value is: " + specialtyID);
+
+      //Retrieve timebox div id
       var data = ev.dataTransfer.getData("text");
-      //APPEND TO TIMEBOX
+
+      //Put specialty div in timebox div
       ev.target.appendChild(document.getElementById(data));
 
       //Once assigned, allow for modal box to appear
       ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
       ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
       this.assigned = true;
+
       };
 
       //DragOver function
       this.div.ondragover = function(ev){
         ev.preventDefault();
+      };
+
+      //These are extra functions to try and fix the modal box not appearing after moving specialty div around
+      //OnDragLeave function
+      this.div.ondragleave = function(ev){
+        //Hide Modal Box
+        ev.target.setAttribute("data-toggle",""); // defining the click to bring up the modal box
+        ev.target.setAttribute("data-target",""); // setting the target to the modals id
+        this.assigned = false;
+      };
+      //OnDragEnter Function
+      this.div.ondragenter = function(ev){
+        //Show Modal Box
+        ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+        ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+        this.assigned = true;
       };
 
     }
@@ -345,12 +393,15 @@
      getWeekNo(){
        return this.weekNo;
      }
+
      getStudentID(){
        return this.studentID;
      }
+
      getSpecialtyID(){
        return this.specialtyID;
      }
+
      getHospitalID(){
        return this.hospitalID;
      }
@@ -383,26 +434,20 @@
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
         this.div.setAttribute("draggable","true");
-        //this.div.setAttribute("id","1");
-        this.div.innerHTML = String(this.specialtyID);
+        this.div.innerHTML = String(this.specialtyName);
         this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
 
         //On dragstart function
+        var that = this;
         this.div.ondragstart = function(ev){
-          console.log("BEING DRAGGED");
+          console.log("ondragstart");
+          //Transfer div id
           ev.dataTransfer.setData("text", ev.target.id);
-          var temp = ev.target.innerHTML;
-          console.log("Trying to send: "+ ev.target.innerHTML);
-          ev.dataTransfer.setData("specialtyID", temp);
+          //Transfer SpecialtyID
+          //console.log("Trying to send: "+ that.specialtyID);
+          ev.dataTransfer.setData("specialtyID", that.specialtyID);
         };
 
-        this.div.ondragend = function(ev){
-          console.log("drag end");
-          var scheduleSpecialtyID = new Schedule();
-          scheduleSpecialtyID.setSpecialtyID(this.specialtyID);
-          this.scheduleSpecialtyID = scheduleSpecialtyID;
-          this.assigned = true;
-        }
 
 
       }
@@ -414,6 +459,7 @@
       getSpecialtyDuration(){
         return this.specialtyDuration;
       }
+
       getDiv(){
         return this.div;
       }
@@ -456,32 +502,30 @@
         populateSchedule(){
           var table = document.createElement('table');
           for(var i = 0; i<this.timelines.length; i++){
+            var br = document.createElement('br'); //Front-end
+            table.appendChild(br); //Front-end
+
             var tr = this.timelines[i].displayTimeline();
             table.appendChild(tr);
+
+            table.appendChild(br); //Front-end
           }
           this.parentObject.appendChild(table);
-        }
-
-        returnDisplay(){
-          return this.parentObject;
         }
 
       }
 
 
 
-
+  //Create a new programme schedule for a specific programme
   var programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
 
-  //var divElement = document.getElementById('schedule_window');
-  //divElement.appendChild(programmeSchedule.returnDisplay());
-
-</script>
-
-
+//onclick function to save all the schedules to the database
+  function makeChanges(){
+    programmeSchedule.saveSchedule();
+  }
 
 
-<script>
   //onclick function to assign student to hospital
   function assignHospital()
   {
