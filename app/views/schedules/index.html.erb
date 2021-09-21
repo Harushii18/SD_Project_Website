@@ -104,12 +104,16 @@ Timeline-->Schedule
         this.initialiseSpecialties();
         this.initialiseSchedules();
         //console.log("There are this many timeblocks: "+this.timeBlocks.length);
-        this.btnUpdateSchedule = document.createElement('button');
-        this.btnUpdateSchedule.innerHTML = "Save to changes";
-        this.btnUpdateSchedule.setAttribute("class","btn btn-outline-success");
 
+        //This button acts as an event so that the array of schedules can be poppulated
+        this.btnSaveToChanges = document.createElement('button');
+        this.btnSaveToChanges.innerHTML = "Save to changes";
+        this.btnSaveToChanges.setAttribute("class","btn btn-outline-success");
+
+        //When Save to Changes is clicked, populate schedules with all current schedules in timeline - checks each timebox.
         var that = this;
-        this.btnUpdateSchedule.onclick = function(ev){
+        this.btnSaveToChanges.onclick = function(ev){
+          this.schedules = [];
           console.log("StudentID is: " + that.studentID);
           for(var i=0; i<52;i++){
             if(that.timeBlocks[i].getAssigned()==true){
@@ -230,7 +234,7 @@ Timeline-->Schedule
 
       //Button to update Schedule
       var tr = document.createElement('tr');
-      tr.appendChild(this.btnUpdateSchedule);
+      tr.appendChild(this.btnSaveToChanges);
       table.appendChild(tr);
 
       //Spacing
