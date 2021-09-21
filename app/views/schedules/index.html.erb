@@ -117,6 +117,7 @@ Timeline-->Schedule
               newSchedule.setWeekNo(that.timeBlocks[i].getWeekNo());
               newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
               newSchedule.setStudentID(that.studentID);
+              newSchedule.setSpecialtyDuration(that.timeBlocks[i].getSpecialtyDuration());
               that.schedules.push(newSchedule);
             }
 
@@ -177,7 +178,7 @@ Timeline-->Schedule
         var tr = document.createElement('tr');
         var p = document.createElement('p');
         p.innerHTML = studentInformation[i];
-        console.log("Student Info: " + p.innerHTML);
+        //console.log("Student Info: " + p.innerHTML);
         var td = document.createElement('td');
         //td.style.align="left";
         td.appendChild(p);
@@ -186,9 +187,9 @@ Timeline-->Schedule
       }
 
       //Add Specialties for students
-      console.log("Length of specialties is: "  + this.specialties.length);
+      //console.log("Length of specialties is: "  + this.specialties.length);
       for(var i = 0; i<this.specialties.length;i++ ){
-        console.log("Added this specialty: "+i);
+        //console.log("Added this specialty: "+i);
         var tr = document.createElement('tr');
         var td = document.createElement('td');
         td.appendChild(this.specialties[i].getDiv());
@@ -251,11 +252,11 @@ Timeline-->Schedule
 
       this.weekNo = weekNo;
       this.div = document.createElement('div');
-      this.specialtyID = "";
       this.assigned = false;
       this.startDate = new Date();
       this.endDate = new Date();
       this.specialtyID = "";
+      this.specialtyDuration = "";
 
 
       this.initialiseStartDate();
@@ -281,6 +282,11 @@ Timeline-->Schedule
       //Retrieve Specialty ID
       var specialtyID = ev.dataTransfer.getData("specialtyID");
       this.specialtyID = specialtyID;
+
+      //Retrieve Specialty Duration
+      var specialtyDuration = ev.dataTransfer.getData("specialtyDuration");
+      this.specialtyDuration = specialtyDuration;
+      //console.log("Received specialty duration: "+specialtyDuration);
 
       //Value that's passed
       //console.log("Sent value is: " + specialtyID);
@@ -332,6 +338,10 @@ Timeline-->Schedule
       this.endDate.setDate(this.endDate.getDate()+6); //Day just before the start of the next week
     }
 
+    getSpecialtyDuration(){
+      return this.specialtyDuration;
+    }
+
     getWeekNo(){
       return this.weekNo;
     }
@@ -359,11 +369,12 @@ Timeline-->Schedule
    }
 
   class Schedule{
-     constructor(studentID,weekNo,specialtyID,hospitalID){
+     constructor(){
        this.studentID = "";
        this.weekNo = "";
        this.specialtyID = "";
        this.hospitalID = "";
+       this.specialtyDuration = ""
      }
 
      setStudentID(studentID){
@@ -380,6 +391,14 @@ Timeline-->Schedule
 
      setHospitalID(hospitalID){
        this.hospitalID = hospitalID;
+     }
+
+     setSpecialtyDuration(specialtyDuration){
+       this.specialtyDuration = specialtyDuration;
+     }
+
+     getSpecialtyDuration(){
+       return this.specialtyDuration;
      }
 
      getWeekNo(){
@@ -432,12 +451,15 @@ Timeline-->Schedule
         //On dragstart function
         var that = this;
         this.div.ondragstart = function(ev){
-          console.log("ondragstart");
+          //console.log("ondragstart");
           //Transfer div id
           ev.dataTransfer.setData("text", ev.target.id);
           //Transfer SpecialtyID
           //console.log("Trying to send: "+ that.specialtyID);
           ev.dataTransfer.setData("specialtyID", that.specialtyID);
+
+          //Transfer Specialty Duration
+          ev.dataTransfer.setData("specialtyDuration", that.specialtyDuration);
         };
 
 
@@ -484,6 +506,7 @@ Timeline-->Schedule
               var studentID = currSchedule[j].getStudentID();
               var weekNo = currSchedule[j].getWeekNo();
               var specialtyID = currSchedule[j].getSpecialtyID();
+              var specialtyDuration = currSchedule[j].getSpecialtyDuration();
               var hospitalID = currSchedule[j].getHospitalID();
               //TODO: Save this schedule to the Database
 
