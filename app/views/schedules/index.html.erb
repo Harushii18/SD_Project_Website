@@ -117,6 +117,7 @@ Timeline-->Schedule
           console.log("StudentID is: " + that.studentID);
           for(var i=0; i<52;i++){
             if(that.timeBlocks[i].getAssigned()==true){
+              console.log("Create a new schedule in the timeline");
               var newSchedule = new Schedule();
               newSchedule.setWeekNo(that.timeBlocks[i].getWeekNo());
               newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
@@ -278,18 +279,18 @@ Timeline-->Schedule
 
 
 
-
+      var that = this;
       //On Drop Function
       this.div.ondrop = function(ev){
       ev.preventDefault();
 
       //Retrieve Specialty ID
       var specialtyID = ev.dataTransfer.getData("specialtyID");
-      this.specialtyID = specialtyID;
+      that.specialtyID = specialtyID;
 
       //Retrieve Specialty Duration
       var specialtyDuration = ev.dataTransfer.getData("specialtyDuration");
-      this.specialtyDuration = specialtyDuration;
+      that.specialtyDuration = specialtyDuration;
       //console.log("Received specialty duration: "+specialtyDuration);
 
       //Value that's passed
@@ -304,7 +305,7 @@ Timeline-->Schedule
       //Once assigned, allow for modal box to appear
       ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
       ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-      this.assigned = true;
+      that.assigned = true;
 
       };
 
@@ -319,14 +320,14 @@ Timeline-->Schedule
         //Hide Modal Box
         ev.target.setAttribute("data-toggle",""); // defining the click to bring up the modal box
         ev.target.setAttribute("data-target",""); // setting the target to the modals id
-        this.assigned = false;
+        that.assigned = false;
       };
       //OnDragEnter Function
       this.div.ondragenter = function(ev){
         //Show Modal Box
         ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-        this.assigned = true;
+        that.assigned = true;
       };
 
     }
@@ -502,16 +503,21 @@ Timeline-->Schedule
         }
 
         saveSchedule(){
+          console.log("Trying to save schedule");
           //For each timeline
           for(var i =0; i<this.timelines.length; i++){
+            console.log("Checking timline no: "+i);
             var currSchedule = this.timelines[i].getSchedules();
+            console.log("Number of schedules for timeline: "+currSchedule.length);
             //For each schedule in a timeline
             for(var j =0; j<currSchedule.length;j++){
+              console.log("Check schedule no: "+j);
               var studentID = currSchedule[j].getStudentID();
               var weekNo = currSchedule[j].getWeekNo();
               var specialtyID = currSchedule[j].getSpecialtyID();
               var specialtyDuration = currSchedule[j].getSpecialtyDuration();
               var hospitalID = currSchedule[j].getHospitalID();
+              console.log("Schedule information is: "+studentID+" "+weekNo+" "+specialtyID+" "+specialtyDuration+" "+hospitalID);
               //TODO: Save this schedule to the Database
 
             }
@@ -540,6 +546,7 @@ Timeline-->Schedule
 
 //onclick function to save all the schedules to the database
   function makeChanges(){
+    console.log("Make changes");
     programmeSchedule.saveSchedule();
   }
 
