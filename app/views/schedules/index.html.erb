@@ -123,6 +123,8 @@ Timeline-->Schedule
               newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
               newSchedule.setStudentID(that.studentID);
               newSchedule.setSpecialtyDuration(that.timeBlocks[i].getSpecialtyDuration());
+              //TODO: Set Hospital ID
+
               that.schedules.push(newSchedule);
             }
 
@@ -258,10 +260,12 @@ Timeline-->Schedule
       this.weekNo = weekNo;
       this.div = document.createElement('div');
       this.assigned = false;
-      this.startDate = new Date();
-      this.endDate = new Date();
       this.specialtyID = "";
       this.specialtyDuration = "";
+
+      //Not really using right now
+      this.startDate = new Date();
+      this.endDate = new Date();
 
 
       this.initialiseStartDate();
