@@ -81,11 +81,15 @@
 <script>
 
 /*Note: Here is a rough hierarchical structure of the classes:
+
 (-->: uses)
+
 ProgrammeSchedule-->Timeline
 Timeline-->TimeBlock
 Timeline-->SpecialtyBlock
-Timeline-->Schedule*/
+Timeline-->Schedule
+
+*/
 
 
   class Timeline{
@@ -493,7 +497,7 @@ Timeline-->Schedule*/
         saveSchedule(){
           //For each timeline
           for(var i =0; i<this.timelines.length; i++){
-            var currSchedule = this.timelines[i].getSchedule();
+            var currSchedule = this.timelines[i].getSchedules();
             //For each schedule in a timeline
             for(var j =0; j<currSchedule.length;j++){
               var studentID = currSchedule[j].getStudentID();
