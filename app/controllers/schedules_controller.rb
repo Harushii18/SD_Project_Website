@@ -8,8 +8,8 @@ class SchedulesController < ApplicationController
   def index
     @users = @q.result
     @programmes = Programme.all
-    @programme_courses = ProgrammeCourse.all
-    @course_specialties = CourseSpecialty.all
+
+
     @specialties = Specialty.all
     puts("look here")
     @current_programme_id = 1
@@ -18,6 +18,15 @@ class SchedulesController < ApplicationController
         @current_programme_id =  params[:programme_id]
     #else
     end
+
+
+    @programme_courses = ProgrammeCourse.where(programme_id: @current_programme_id).select([:course_id])
+
+    @course_specialties = CourseSpecialty.where(course_id: @programme_courses).select([:specialty_id])
+
+    @specialties = Specialty.where(id: @course_specialties)
+
+
 
     @students = Student.filter_by_programme_id(@current_programme_id)
     #@students = @students.find()
