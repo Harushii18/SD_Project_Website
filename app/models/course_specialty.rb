@@ -1,4 +1,4 @@
 class CourseSpecialty < ApplicationRecord
-  belongs_to :Course
-  belongs_to :Specialty
+  belongs_to :course
+  belongs_to :specialty
 end
