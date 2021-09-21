@@ -93,10 +93,10 @@ Timeline-->Schedule
 
 
   class Timeline{
-    constructor(studentID, studentName, parentObject){
+    constructor(studentID, studentName){
         this.studentID = studentID;
         this.studentName = studentName;
-        this.parentObject = parentObject;
+        //this.parentObject = parentObject;
         this.specialties = [];
         this.timeBlocks = [];
         this.schedules = [];
@@ -136,7 +136,7 @@ Timeline-->Schedule
     //TODO: Fetch Specialty Name and Duration
     initialiseSpecialties(){
       <% @specialties.each do |specialty| %>
-        var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, "Anatomy", 2, this.studentID);
+        var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, <%= specialty.id %>, 2, this.studentID);
         this.specialties.push(specialtyBlock);
       <%end%>
     }
@@ -145,25 +145,6 @@ Timeline-->Schedule
     initialiseSchedules(){
 
     }
-
-    //Add a new schedule to the schedule array
-    //TODO: Fix overlapping Scheduling - in terms of durations and the week of the desired scheduling vs currently scheduled
-    /*
-    addSchedule(studentID, weekNo, specialtyID, hospitalID){
-      var isValid = true;
-      for(var i=0; i<this.schedules.length; i++){
-        if(this.schedules[i].getWeekNo()==weekNo){
-          //NEEDS MORE ATTENTION
-          isValid = false;
-        }
-      }
-
-      if(isValid==true){
-        this.schedules.push(new Schedule(studentID, weekNo, specialtyID, hospitalID));
-      }
-
-    }
-*/
 
     //Remove Schedule for a weekNo
     removeSchedule(weekNo){
