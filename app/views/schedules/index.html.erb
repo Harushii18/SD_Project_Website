@@ -93,10 +93,10 @@ Timeline-->Schedule
 
 
   class Timeline{
-    constructor(studentID, studentName){
+    constructor(studentID, studentName, studentNumber){
         this.studentID = studentID;
         this.studentName = studentName;
-        //this.parentObject = parentObject;
+        this.studentNumber = studentNumber;
         this.specialties = [];
         this.timeBlocks = [];
         this.schedules = [];
@@ -172,7 +172,7 @@ Timeline-->Schedule
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       //Add student information
-      var studentInformation = [this.studentID, this.studentName];
+      var studentInformation = [this.studentNumber, this.studentName];
       for(var i = 0 ;i<studentInformation.length;i++){
         var tr = document.createElement('tr');
         var p = document.createElement('p');
@@ -471,7 +471,7 @@ Timeline-->Schedule
         //Create a number of timelines for each student in the programme
         initialiseTimelines(){
           <% @students.each do |student| %>
-            this.timelines.push(new Timeline(<%=student.id%>, <%= User.find(student.user_id).id%>));
+            this.timelines.push(new Timeline(<%=student.id%>, <%= User.find(student.user_id).id%>, <%=student.studentNumber%>));
           <%end%>
         }
 
