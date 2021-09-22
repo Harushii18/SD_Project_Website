@@ -102,13 +102,10 @@ Timeline-->Schedule
         this.specialties = [];
         this.hospitals = [];
         this.timeBlocks = [];
-        this.schedules = [];
-<<<<<<< HEAD
-        this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
-        this.initialiseTimeBlocks();
-=======
+        this.schedules = [];  //,
+        this.colour_pallette = ["#04b8a9", "#b80453", "#7c7e20", "#269942", "#fdd64d", "#0a6e9f", "indigo"];
+        //this.initialiseTimeBlocks();
         this.initialiseTimeBlocks(studentID);
->>>>>>> c46dbec5ced5f5430784c9535aa5f91fce04ab93
         this.initialiseSpecialties();
         this.initialiseSchedules();
         //console.log("There are this many timeblocks: "+this.timeBlocks.length);
@@ -241,19 +238,17 @@ Timeline-->Schedule
       //Container for 52 Timeblocks
       var container = document.createElement('div');
       container.appendChild(tr);
+      container.appendChild(document.createElement('br'));
       //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
       //Note: I think we need to use window.InnerWidth and window.InnerHeight here but we'll come back to this at some point.
-<<<<<<< HEAD
       container.style.height = "50%";
-      container.style.width = "1300px";
-      container.style.overflow = 'scroll';
-=======
-      container.style.height = "50px";
+     // container.style.width = "1300px";
+     // container.style.overflow = 'scroll';
+      //container.style.height = "50px";
 
       //was 1800px before. Now it is 95 percent of the viewport
       container.style.width="95vw";
       container.style.overflow = 'overlay';
->>>>>>> c46dbec5ced5f5430784c9535aa5f91fce04ab93
       container.style.alignItems = 'center';
       var tr = document.createElement('tr');
       tr.appendChild(container);
@@ -515,16 +510,13 @@ Timeline-->Schedule
         this.div.style.display = 'flex';
         this.div.style.border = "1px solid #aaaaaa"; 
         this.div.style.alignItems = 'center';
-<<<<<<< HEAD
         this.div.style.background = this.color;
         this.div.style.color = "white"
         
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-=======
 
 
->>>>>>> c46dbec5ced5f5430784c9535aa5f91fce04ab93
         this.div.setAttribute("draggable","true");
          //String(this.specialtyName);
         this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
