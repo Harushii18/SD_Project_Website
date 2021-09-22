@@ -1,4 +1,5 @@
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 
 <!-- Div to display alerts when studnets are assigned -->
 <div id="showAssign" class="alert alert-primary" role="alert">
@@ -469,6 +470,8 @@ Timeline-->Schedule
 
           //Transfer Specialty Duration
           ev.dataTransfer.setData("specialtyDuration", that.specialtyDuration);
+
+
         };
 
 
@@ -523,6 +526,10 @@ Timeline-->Schedule
               var hospitalID = currSchedule[j].getHospitalID();
               console.log("Schedule information is: "+studentID+" "+weekNo+" "+specialtyID+" "+specialtyDuration+" "+hospitalID);
               //TODO: Save this schedule to the Database
+              //calls function to do an ajax req
+              //still need to update parameters and fix Db table
+              SaveRecord(studentID,specialtyID);
+
 
             }
           }
@@ -562,8 +569,16 @@ Timeline-->Schedule
     document.getElementById('showAssign').innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
 
   }
-
-
+  //need to change the params for rotation to weekno and add specialtyduration
+  function SaveRecord(studentID,specialtyID){
+    $.post("/schedules",
+    {
+    student_id: studentID,
+    specialty_id: specialtyID,
+    rotation_id: 1,
+    hospital_id: 1
+    });
+  }
  </script>
 
 
