@@ -51,14 +51,28 @@
 
 
   </head>
-
+<style>
+  html, body {
+    height: 100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  .content {
+    flex: 1 0 auto;
+  }
+  .footer {
+    flex-shrink: 0;
+  }
+</style>
 
  <body>
    <% if admin_signed_in?%>
     <%= render "home/header" %>
    <%end%>
 
-   <div class="container-fluid data-mdb-perfect-scrollbar='true'">
+   <div class="content container-fluid data-mdb-perfect-scrollbar='true'">
      <% if notice%>
       <%= render "layouts/alters" %>
     <%end%>

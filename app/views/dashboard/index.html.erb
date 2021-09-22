@@ -3,13 +3,14 @@
 <h1>Dashboard</h1>
 <br></br>
 
+
 <!-- dropdown for hospitals-->
 <form action="/dashboard">
-<label> <h5>Select Hospital</h5> </label>
-<br>
-<select name="hospital_id" id="hospital_select" onchange="showSummary(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
+  <label> <h5>Select Hospital</h5> </label>
+  <br>
+  <select name="hospital_id" id="hospital_select" onchange="showSummary(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
 
-</select>
+  </select>
 </form>
 
 
@@ -143,21 +144,22 @@
 
 
 <!--The selected hospital is a variable that stores the ID from the dropdown-->
-<!--FAVOUR! CHANGE THE 1 TO THE VALUE THAT IS OBTAINED FROM THE DROPDOWN. JUST USED 1 FOR TESTING!!-->
- 
+      <!--Code below does not need to be modified. Looks like it works perfectly for the one test case I tried-->
+      <div class="m-4">
+      <table class="table table-hover" id="students_table">
+        <thead >
+          <tr>
+            <th scope="col"><h6>Student ID</h6></th>
+            <th scope="col"><h6>Student First Name</h6></th>
+            <th scope="col"><h6>Student Last Name</h6></th>
+          </tr>
+        </thead>
+        <tbody id= "table_records">
+      
+        </tbody>
+      </table>
+      <div>
+  </div>
+  </div>
 
-<!--Code below does not need to be modified. Looks like it works perfectly for the one test case I tried-->
-<div class="m-4">
-<table class="table table-hover" id="students_table">
-  <thead >
-    <tr>
-      <th scope="col"><h6>Student ID</h6></th>
-      <th scope="col"><h6>Student First Name</h6></th>
-      <th scope="col"><h6>Student Last Name</h6></th>
-    </tr>
-  </thead>
-  <tbody id= "table_records">
- 
-  </tbody>
-</table>
-<div>
+</div>
