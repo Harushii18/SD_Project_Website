@@ -131,10 +131,8 @@ ActiveRecord::Schema.define(version: 2021_09_22_121948) do
     t.integer "week_no"
     t.string "specialty_duration"
     t.index ["hospital_id"], name: "index_schedules_on_hospital_id"
-    t.index ["specialty_id", "hospital_id"], name: "index_schedules_on_specialty_id_and_hospital_id"
     t.index ["specialty_id"], name: "index_schedules_on_specialty_id"
     t.index ["student_id"], name: "index_schedules_on_student_id"
-    t.index ["student_id"], name: "index_schedules_on_student_id_and_rotation_id"
   end
 
   create_table "site_facilitator_allocations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -161,11 +159,10 @@ ActiveRecord::Schema.define(version: 2021_09_22_121948) do
   create_table "students", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "studentNumber"
     t.string "courseCodes"
-    t.integer "user_id", null: false
     t.integer "programme_id"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_students_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
