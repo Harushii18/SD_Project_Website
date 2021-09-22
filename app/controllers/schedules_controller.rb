@@ -64,10 +64,11 @@
     if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]   ))
       respond_to do |format|
           if @schedule.save
-              format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
+            puts("kameron---------------------------Saved")
+             # format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
               format.json { render :show, status: :created, location: @schedule }
           else
-            puts("kameron::::in schedules controller")
+            puts("kameron::::in schedules controller failed to save")
             format.html { render :new, status: :unprocessable_entity }
             format.json { render json: @schedule.errors, status: :unprocessable_entity }
         end

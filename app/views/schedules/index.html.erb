@@ -660,15 +660,15 @@ Timeline-->Schedule
     
     document.getElementById('showAssign').innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
 
-    //console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
-
+    
     var hospital_id = drop.options[drop.selectedIndex].value;
     chosen_hospital_id = hospital_id;
     var week_no = drop.getAttribute("weekNo");
-    //console.log("weekNo is: " +drop.getAttribute("weekNo"));
+
+    
 
     var student_id = drop.getAttribute("studentID");
-    //console.log("studentid is: " + drop.getAttribute("studentID"));
+
     
     var timelines = programmeSchedule.timelines;
     var size = timelines.length;
@@ -696,8 +696,10 @@ Timeline-->Schedule
     timeblock.hospitalID = hospital_id;
 
 
-    
-    //console.log("in hos assign: " + timeblock.hospitalID);
+    console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
+    console.log("weekNo is: " +drop.getAttribute("weekNo"));
+    console.log("studentid is: " + drop.getAttribute("studentID"));
+    console.log("in hos assign: " + timeblock.hospitalID);
 
 
 
