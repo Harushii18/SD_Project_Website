@@ -589,6 +589,7 @@ Timeline-->Schedule
 
   //Create a new programme schedule for a specific programme
   var programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
+  var chosen_hospital_id = 0;
 
 //onclick function to save all the schedules to the database
   function makeChanges(){
@@ -606,7 +607,7 @@ Timeline-->Schedule
     console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
 
     var hospital_id = drop.options[drop.selectedIndex].value;
-    
+    chosen_hospital_id = hospital_id;
     var week_no = drop.getAttribute("weekNo");
     console.log("weekNo is: " +drop.getAttribute("weekNo"));
 
