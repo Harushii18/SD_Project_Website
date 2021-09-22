@@ -14,14 +14,16 @@
   
 
   <label for="hospital_id">Hospital ID:</label>
-    <%= form.number_field :hospital_id ,class:"form-control" , id:"hospital_id", placeholder: "Hospital ID" %>
-
-    </br>
+      <%= collection_select(:site_facilitator_allocation, :hospital_id, Hospital.all, :id, :hospital_name, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
+    
+        </br>
+         </br>
 
      <label for="site_facilitator_id ">Site Facilitator ID:</label>
-    <%= form.number_field :site_facilitator_id ,class:"form-control" , id:"site_facilitator_id ", placeholder: "Site Facilitator ID" %>
-
+       <%= collection_select(:site_facilitator_allocation, :site_facilitator_id, SiteFacilitator.all, :id, :Site_Facilitator_Name, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
+   
     </br>
+     </br>
 
  
 
