@@ -8,7 +8,7 @@ class SchedulesController < ApplicationController
   def index
     @users = @q.result
     @programmes = Programme.all
-
+    @all_users = User.all
 
     @specialties = Specialty.all
     puts("look here")

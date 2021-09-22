@@ -100,6 +100,7 @@ Timeline-->Schedule
         this.specialties = [];
         this.timeBlocks = [];
         this.schedules = [];
+        this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
         this.initialiseTimeBlocks();
         this.initialiseSpecialties();
         this.initialiseSchedules();
@@ -141,11 +142,16 @@ Timeline-->Schedule
       }
     }
 
+    
+
     //TODO: Fetch Specialty Name and Duration
     initialiseSpecialties(){
+      var index = 0;
       <% @specialties.each do |specialty| %>
-        var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, <%= specialty.id %>, 2, this.studentID);
+        var color = this.colour_pallette[index];
+        var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, "<%= specialty.SpecialtyName %>", 2, this.studentID, color);
         this.specialties.push(specialtyBlock);
+        index = index + 1;
       <%end%>
     }
 
@@ -173,6 +179,7 @@ Timeline-->Schedule
       //Main Table
       var table = document.createElement('table');
       table.setAttribute("border","border:1px solid gray");
+      table.style.background = "#f5f7f7";
 
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       var br = document.createElement('br');
@@ -180,15 +187,15 @@ Timeline-->Schedule
       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       //Add student information
-      var studentInformation = [this.studentNumber, this.studentName];
+      var studentInformation = [this.studentName, this.studentNumber];
       for(var i = 0 ;i<studentInformation.length;i++){
         var tr = document.createElement('tr');
-        var p = document.createElement('p');
-        p.innerHTML = studentInformation[i];
+        var h5 = document.createElement('h5');
+        h5.innerHTML = studentInformation[i];
         //console.log("Student Info: " + p.innerHTML);
         var td = document.createElement('td');
         //td.style.align="left";
-        td.appendChild(p);
+        td.appendChild(h5);
         tr.appendChild(td);
         table.appendChild(tr);
       }
@@ -222,8 +229,8 @@ Timeline-->Schedule
       container.appendChild(tr);
       //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
       //Note: I think we need to use window.InnerWidth and window.InnerHeight here but we'll come back to this at some point.
-      container.style.height = "50px";
-      container.style.width = "1800px";
+      container.style.height = "50%";
+      container.style.width = "1300px";
       container.style.overflow = 'scroll';
       container.style.alignItems = 'center';
       var tr = document.createElement('tr');
@@ -275,11 +282,12 @@ Timeline-->Schedule
 
     initialiseDivAttributes(){
       this.div.style.width = '60px';
-      this.div.style.height = '10px';
+      this.div.style.height = '100px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
+      
 
 
 
@@ -304,7 +312,9 @@ Timeline-->Schedule
       var data = ev.dataTransfer.getData("text");
 
       //Put specialty div in timebox div
-      ev.target.appendChild(document.getElementById(data));
+      //ev.target.appendChild(document.getElementById(data));
+      ev.target.style.background = document.getElementById(data).style.background;
+     // ev.target.innerHTML = document.getElementById(data).innerHTML;
 
       //Once assigned, allow for modal box to appear
       ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
@@ -431,12 +441,12 @@ Timeline-->Schedule
     }
 
   class SpecialtyBlock{
-      constructor(specialtyID,specialtyName,specialtyDuration,studentID){
+      constructor(specialtyID,specialtyName,specialtyDuration,studentID,color){
         this.div = document.createElement('div');
         this.specialtyID = specialtyID;
         this.specialtyName = specialtyName;
         this.specialtyDuration = specialtyDuration;
-
+        this.color = color;
         //For div ID
         this.studentID = studentID;
 
@@ -445,16 +455,19 @@ Timeline-->Schedule
 
       initialiseDivAttributes(){
         //Set div attributes
-        this.div.style.width = '60px';
-        this.div.style.height = '10px';
-        this.div.style.padding = '15px';
+        this.div.innerHTML = this.specialtyName;
+        this.div.style.width = '7%';
+        this.div.style.height = '10%';
         this.div.style.display = 'flex';
-        this.div.style.border = "1px solid #aaaaaa";
+        this.div.style.border = "1px solid #aaaaaa"; 
         this.div.style.alignItems = 'center';
+        this.div.style.background = this.color;
+        this.div.style.color = "white"
+        
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
         this.div.setAttribute("draggable","true");
-        this.div.innerHTML = String(this.specialtyName);
+         //String(this.specialtyName);
         this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
 
         //On dragstart function
@@ -502,7 +515,14 @@ Timeline-->Schedule
         //Create a number of timelines for each student in the programme
         initialiseTimelines(){
           <% @students.each do |student| %>
-            this.timelines.push(new Timeline(<%=student.id%>, <%= User.find(student.user_id).id%>, <%=student.studentNumber%>));
+            var student_user_id = "<%=student.user_id%>";   
+            var student_name = "student";                     //default name incase of errors
+            <% @all_users.each do |user| %>                 // search for user
+                if(student_user_id == <%=user.id%>){
+                    student_name = "<%=user.user_LastName%> " + "<%=user.user_FirstName%>"; 
+                }
+            <%end%>
+            this.timelines.push(new Timeline(<%=student.id%>, student_name, <%=student.studentNumber%>));
           <%end%>
         }
 
