@@ -9,36 +9,38 @@
 -->
 
 <div style="text-align:center">
-<br></br>
-<h1>Assign Students to Hospitals</h1>
+  <br></br>
+  <h1>Assign Students to Hospitals</h1>
 
-</br>
-<%= link_to 'New Hospital Assignment', new_hospital_assignment_path,class: "btn btn-primary" %>
+  </br>
+  <%= link_to 'New Hospital Assignment', new_hospital_assignment_path,class: "btn btn-primary" %>
 
-<br></br>
-<table class="table table-hover ">
-<!--  <thead style="color: #1757A6">-->
-  <thead>
-    <tr>
-      <th>Hospital Name</th>
-      <th>Student Name</th>
-      <th>Block Number</th>
-
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
+  <br></br>
+  <table class="table table-hover ">
+  <!--  <thead style="color: #1757A6">-->
+    <thead>
       <tr>
-        <% @hospital_assignments.each do |hospital_assignment| %>
-        <td><%= hospital_assignment.hospital.hospital_name %></td>
-        <td><%= hospital_assignment.user.user_FirstName+" "+ hospital_assignment.user.user_LastName %></td>
-        <td><%= hospital_assignment.block_id %></td>
-        <td><%= link_to 'Show', hospital_assignment,class: "btn btn-outline-info" %></td>
-        <td><%= link_to 'Edit', edit_hospital_assignment_path(hospital_assignment),class: "btn btn-outline-primary"%></td>
-        <td><%= link_to 'Destroy', hospital_assignment, method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-outline-danger"%>
-        </td>
+        <th>Hospital Name</th>
+        <th>Student Name</th>
+        <th>Block Number</th>
+
+        <th colspan="3"></th>
       </tr>
-        <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+        <tr>
+          <% @hospital_assignments.each do |hospital_assignment| %>
+          <td><%= hospital_assignment.hospital.hospital_name %></td>
+          <td><%= hospital_assignment.user.user_FirstName+" "+ hospital_assignment.user.user_LastName %></td>
+          <td><%= hospital_assignment.block_id %></td>
+          <td><%= link_to 'Show', hospital_assignment,class: "btn btn-outline-info" %></td>
+          <td><%= link_to 'Edit', edit_hospital_assignment_path(hospital_assignment),class: "btn btn-outline-primary"%></td>
+          <td><%= link_to 'Destroy', hospital_assignment, method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-outline-danger"%>
+          </td>
+        </tr>
+          <% end %>
+    </tbody>
+  </table>
+
+</div>

@@ -1,3 +1,15 @@
+<%# Javascript code for changing the value of the collapsible button from + to - %>
+<script>
+function ChangeText(strId) {
+    if (document.getElementById(strId).innerHTML==="-"){
+        document.getElementById(strId).innerHTML = "+";
+    }else{
+        document.getElementById(strId).innerHTML = "-";
+    }
+}
+</script>
+<%# =============================================================================== %>
+ 
  </br>
  <div class="row">
      
@@ -26,7 +38,7 @@
                         <% @dtId=@dtId+1%>
                         
                         <p>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn btn-primary" onclick="ChangeText(<%=@dtId.to_s%>)" id=<%=@dtId.to_s%> type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
                         +
                     </button>
                     <%= course.CourseDescription %>
@@ -88,7 +100,5 @@
         </div>
   </div> 
 
-
- 
  
  
