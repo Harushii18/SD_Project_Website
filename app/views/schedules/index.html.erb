@@ -263,7 +263,7 @@ Timeline-->Schedule
       this.assigned = false;
       this.specialtyID = "";
       this.specialtyDuration = "";
-        
+
       //Not really using right now
       this.startDate = new Date();
       this.endDate = new Date();
@@ -528,7 +528,7 @@ Timeline-->Schedule
               //TODO: Save this schedule to the Database
               //calls function to do an ajax req
               //still need to update parameters and fix Db table
-              SaveRecord(studentID,specialtyID);
+              SaveRecord(studentID,specialtyID,weekNo,specialtyDuration);
 
 
             }
@@ -570,13 +570,14 @@ Timeline-->Schedule
 
   }
   //need to change the params for rotation to weekno and add specialtyduration
-  function SaveRecord(studentID,specialtyID){
+  function SaveRecord(studentID,specialtyID,weekNo,specialtyDuration){
     $.post("/schedules",
     {
     student_id: studentID,
     specialty_id: specialtyID,
-    rotation_id: 1,
-    hospital_id: 1
+    hospital_id: 1,
+    week_no: weekNo,
+    specialty_duration: specialtyDuration
     });
   }
  </script>

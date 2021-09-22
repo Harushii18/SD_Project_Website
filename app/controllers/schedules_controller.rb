@@ -60,14 +60,14 @@
   # POST /schedules or /schedules.json
   def create
     @schedule = Schedule.new(schedule_params)
-    respond_to do |format|
-      if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],rotation_id:params[:rotation_id]))
-        if @schedule.save
-            format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
-            format.json { render :show, status: :created, location: @schedule }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @schedule.errors, status: :unprocessable_entity }
+    if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]   ))
+      respond_to do |format|
+          if @schedule.save
+              format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
+              format.json { render :show, status: :created, location: @schedule }
+          else
+            format.html { render :new, status: :unprocessable_entity }
+            format.json { render json: @schedule.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -130,6 +130,6 @@
 
     # Only allow a list of trusted parameters through.
     def schedule_params
-      params.permit(:student_id, :specialty_id, :rotation_id, :hospital_id)
+      params.permit(:student_id, :specialty_id, :hospital_id , :week_no , :specialty_duration)
     end
 end
