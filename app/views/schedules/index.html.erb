@@ -125,6 +125,7 @@ Timeline-->Schedule
               newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
               newSchedule.setStudentID(that.studentID);
               newSchedule.setSpecialtyDuration(that.timeBlocks[i].getSpecialtyDuration());
+              console.log("save clicked, hospitalID is : " +that.timeBlocks[i].hospitalID)
               //TODO: Set Hospital ID
 
               console.log("timeline constructor")
@@ -646,6 +647,7 @@ Timeline-->Schedule
     }
 
     timeblock.hospitalID = hospital_id;
+    console.log("in hos assign: " + timeblock.hospitalID);
 
 
     console.log("programme code is: " +programmeSchedule.programmeCode);
