@@ -102,11 +102,13 @@ Timeline-->Schedule
         this.specialties = [];
         this.hospitals = [];
         this.timeBlocks = [];
-        this.schedules = [];  //,
-        this.colour_pallette = ["#04b8a9", "#b80453", "#7c7e20", "#269942", "#fdd64d", "#0a6e9f", "indigo"];
-        //this.initialiseTimeBlocks();
-        this.initialiseTimeBlocks(studentID);
+
+        this.schedules = [];
+        this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
         this.initialiseSpecialties();
+        this.initialiseTimeBlocks(this.specialties, studentID);
+
+
         this.initialiseSchedules();
         //console.log("There are this many timeblocks: "+this.timeBlocks.length);
 
@@ -147,9 +149,9 @@ Timeline-->Schedule
 
     }
 
-    initialiseTimeBlocks(studentID){
+    initialiseTimeBlocks(specialties,studentID){
       for(var i =0; i<52; i++){
-        var timeBlock = new TimeBlock(i+1, studentID);
+        var timeBlock = new TimeBlock(i+1, studentID, specialties);
         
        this.timeBlocks.push(timeBlock);
       }
@@ -166,6 +168,8 @@ Timeline-->Schedule
         this.specialties.push(specialtyBlock);
         index = index + 1;
       <%end%>
+
+      console.log(this.specialties);
     }
 
     //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
@@ -244,10 +248,6 @@ Timeline-->Schedule
       //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
       //Note: I think we need to use window.InnerWidth and window.InnerHeight here but we'll come back to this at some point.
       container.style.height = "50%";
-     // container.style.width = "1300px";
-     // container.style.overflow = 'scroll';
-      //container.style.height = "50px";
-
       //was 1800px before. Now it is 95 percent of the viewport
       container.style.width="95vw";
       container.style.overflow = 'overlay';
@@ -281,15 +281,19 @@ Timeline-->Schedule
   }
 
   class TimeBlock {
-    constructor(weekNo,studentID){
+    constructor(weekNo,studentID, specialties){
+
 
       this.weekNo = weekNo;
       this.studentID = studentID;
       this.hospitalID = 0;
-
+      this.specialtiesArr=specialties;
       this.div = document.createElement('div');
       this.div.setAttribute("weekNo",this.weekNo);
       this.div.setAttribute("studentID", this.studentID);
+
+      //makes each div's id the week number as well for easy retrieval and colouring
+      this.div.id=this.weekNo;
       
 
       this.assigned = false;
@@ -307,13 +311,13 @@ Timeline-->Schedule
     }
 
     initialiseDivAttributes(){
-      this.div.style.width = '60px';
+      
       this.div.style.height = '100px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
-      
+      this.div.style.width = '60px';
 
 
 
@@ -331,8 +335,10 @@ Timeline-->Schedule
       //Retrieve Specialty Duration
       var specialtyDuration = ev.dataTransfer.getData("specialtyDuration");
       that.specialtyDuration = specialtyDuration;
-      console.log("Received specialty duration: "+specialtyDuration);
+      // console.log("Received specialty duration: "+specialtyDuration);
 
+
+    
       //Value that's passed
       //console.log("Sent value is: " + specialtyID);
 
@@ -343,6 +349,31 @@ Timeline-->Schedule
       //ev.target.appendChild(document.getElementById(data));
       ev.target.style.background = document.getElementById(data).style.background;
      // ev.target.innerHTML = document.getElementById(data).innerHTML;
+
+      //colours divs according to specialty duration
+
+      let numDivSpan=that.div.getAttribute("weekNo");
+      let colorVal, specialtyN;
+      for (let i=0;i<that.specialtiesArr.length;i++){
+        //ensure that div is colour of specialty it is assigned to
+        if (that.specialtiesArr[i].specialtyID==that.specialtyID){
+          colorVal=that.specialtiesArr[i].color;
+          specialtyN=that.specialtiesArr[i].getSpecialtyName();
+          break;
+        }
+      }
+     
+
+    //change colours of amount of divs of specialty duration
+      for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
+        //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
+        document.getElementById(i).style.background= colorVal; 
+
+
+        //CHANGE TEXT OF DIV- currently buggy as when text is changed, div moves downwards
+        // document.getElementById(i).style.wordBreak="break-all";      
+        // document.getElementById(i).innerHTML=specialtyN;    
+      }
 
       //Once assigned, allow for modal box to appear
       ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
@@ -501,12 +532,13 @@ Timeline-->Schedule
         this.div = document.createElement('div');
         this.specialtyID = specialtyID;
         this.div.setAttribute("specialtyID", specialtyID);
-        this.div.setAttribute("specialtyID",specialtyID)
         this.specialtyName = specialtyName;
         this.specialtyDuration = specialtyDuration;
+        this.specialtyID=specialtyID;
         this.color = color;
         //For div ID
         this.studentID = studentID;
+        this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
 
         this.initialiseDivAttributes();
       }
@@ -525,10 +557,9 @@ Timeline-->Schedule
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
 
-
         this.div.setAttribute("draggable","true");
          //String(this.specialtyName);
-        this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
+        
 
         //On dragstart function
         var that = this;
@@ -540,8 +571,6 @@ Timeline-->Schedule
           console.log("Trying to send: "+ that.specialtyID);
           ev.dataTransfer.setData("specialtyID", that.specialtyID);
 
-         
-          
           //Transfer Specialty Duration
 
           ev.dataTransfer.setData("specialtyDuration", that.specialtyDuration);
