@@ -29,7 +29,7 @@
 
         <!--Dropdown for hospitals -->
         <select name="hospital_drop" id="hospital_id" onchange="this.form.submit()" class="btn btn-secondary dropdown-toggle">
-        <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
+          <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
         </select>
 
       </div>
@@ -104,6 +104,7 @@
 
       this.studentNo = studentNo;
 
+
       //Div attributes for each div block in the timeline
       this.currDiv.style.width = '60px';
       this.currDiv.style.height = '10px';
@@ -111,6 +112,7 @@
       this.currDiv.style.display = 'flex';
       this.currDiv.style.border = "1px solid #aaaaaa";
       this.currDiv.style.alignItems = 'center';
+      this.currDiv.style.position = 'relative';
       //this.currDiv.setAttribute("id", this.studentNo+this.weekNo);
 
       this.currDiv.ondrop = function(ev){
@@ -254,9 +256,15 @@
         this.div.style.display = 'flex';
         this.div.style.border = "1px solid #aaaaaa";
         this.div.style.alignItems = 'center';
+        this.div.style.justifyContent = 'center';
+        this.div.style.overflowWrap = 'break-word'; //Just to try and
+        this.div.style.wordWrap = 'break-word'; // force the content of the div to fit
+        this.div.style.hyphens = 'auto';// within the box
+        this.div.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);;
+
+        
         this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-
 
 
       }
@@ -269,8 +277,10 @@
         var tr = this.document.createElement('tr');
         var td = this.document.createElement('td');
 
-        var disName = this.document.createElement('p');
+        var disName = this.document.createElement('p'); // Text within the div
         disName.innerHTML = String(this.specialtyName);
+        disName.style.fontSize = "small";
+        disName.style.color = 'white';
         this.div.appendChild(disName);
 
         //Div attributes for the draggable box (to drag and drop the specialty in the timeline)
@@ -420,6 +430,8 @@
     document.getElementById('showAssign').innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
 
   }
+
+
  </script>
 
 </table>
