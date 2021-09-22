@@ -103,12 +103,9 @@ Timeline-->Schedule
         this.hospitals = [];
         this.timeBlocks = [];
         this.schedules = [];
-<<<<<<< HEAD
         this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
         this.initialiseTimeBlocks();
-=======
-        this.initialiseTimeBlocks(studentID);
->>>>>>> c46dbec5ced5f5430784c9535aa5f91fce04ab93
+
         this.initialiseSpecialties();
         this.initialiseSchedules();
         //console.log("There are this many timeblocks: "+this.timeBlocks.length);
@@ -243,17 +240,13 @@ Timeline-->Schedule
       container.appendChild(tr);
       //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
       //Note: I think we need to use window.InnerWidth and window.InnerHeight here but we'll come back to this at some point.
-<<<<<<< HEAD
+
       container.style.height = "50%";
-      container.style.width = "1300px";
-      container.style.overflow = 'scroll';
-=======
-      container.style.height = "50px";
 
       //was 1800px before. Now it is 95 percent of the viewport
       container.style.width="95vw";
       container.style.overflow = 'overlay';
->>>>>>> c46dbec5ced5f5430784c9535aa5f91fce04ab93
+
       container.style.alignItems = 'center';
       var tr = document.createElement('tr');
       tr.appendChild(container);
@@ -310,13 +303,13 @@ Timeline-->Schedule
     }
 
     initialiseDivAttributes(){
-      this.div.style.width = '60px';
+      
       this.div.style.height = '100px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
-      
+      this.div.style.width = '60px';
 
 
 
@@ -332,7 +325,10 @@ Timeline-->Schedule
       //Retrieve Specialty Duration
       var specialtyDuration = ev.dataTransfer.getData("specialtyDuration");
       that.specialtyDuration = specialtyDuration;
-      //console.log("Received specialty duration: "+specialtyDuration);
+      // console.log("Received specialty duration: "+specialtyDuration);
+
+      //resizes div according to specialty duration
+      that.div.style.width = String(60*parseInt(specialtyDuration))+'px';
 
       //Value that's passed
       //console.log("Sent value is: " + specialtyID);
@@ -515,16 +511,12 @@ Timeline-->Schedule
         this.div.style.display = 'flex';
         this.div.style.border = "1px solid #aaaaaa"; 
         this.div.style.alignItems = 'center';
-<<<<<<< HEAD
         this.div.style.background = this.color;
         this.div.style.color = "white"
         
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-=======
 
-
->>>>>>> c46dbec5ced5f5430784c9535aa5f91fce04ab93
         this.div.setAttribute("draggable","true");
          //String(this.specialtyName);
         this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
