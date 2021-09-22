@@ -104,9 +104,10 @@ Timeline-->Schedule
         this.timeBlocks = [];
         this.schedules = [];
         this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
-        this.initialiseTimeBlocks();
-
         this.initialiseSpecialties();
+        this.initialiseTimeBlocks(this.specialties, studentID);
+
+
         this.initialiseSchedules();
         //console.log("There are this many timeblocks: "+this.timeBlocks.length);
 
@@ -145,9 +146,9 @@ Timeline-->Schedule
 
     }
 
-    initialiseTimeBlocks(studentID){
+    initialiseTimeBlocks(specialties,studentID){
       for(var i =0; i<52; i++){
-        var timeBlock = new TimeBlock(i+1, studentID);
+        var timeBlock = new TimeBlock(i+1, studentID, specialties);
         
        this.timeBlocks.push(timeBlock);
       }
@@ -164,6 +165,8 @@ Timeline-->Schedule
         this.specialties.push(specialtyBlock);
         index = index + 1;
       <%end%>
+
+      console.log(this.specialties);
     }
 
     //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
@@ -277,15 +280,19 @@ Timeline-->Schedule
   }
 
   class TimeBlock {
-    constructor(weekNo,studentID){
+    constructor(weekNo,studentID, specialties){
+
 
       this.weekNo = weekNo;
       this.studentID = studentID;
       this.hospitalID = 0;
-
+      this.specialtiesArr=specialties;
       this.div = document.createElement('div');
       this.div.setAttribute("weekNo",this.weekNo);
       this.div.setAttribute("studentID", this.studentID);
+
+      //makes each div's id the week number as well for easy retrieval and colouring
+      this.div.id=this.weekNo;
       
 
       this.assigned = false;
@@ -327,9 +334,7 @@ Timeline-->Schedule
       that.specialtyDuration = specialtyDuration;
       // console.log("Received specialty duration: "+specialtyDuration);
 
-      //resizes div according to specialty duration
-      that.div.style.width = String(60*parseInt(specialtyDuration))+'px';
-
+    
       //Value that's passed
       //console.log("Sent value is: " + specialtyID);
 
@@ -340,6 +345,28 @@ Timeline-->Schedule
       //ev.target.appendChild(document.getElementById(data));
       ev.target.style.background = document.getElementById(data).style.background;
      // ev.target.innerHTML = document.getElementById(data).innerHTML;
+
+      //colours divs according to specialty duration
+      let numDivSpan=that.div.getAttribute("weekNo");
+      let colorVal;
+      console.log(that.specialtiesArr);
+      // console.log(this.specialties[that.specialtyID].color);
+      for (let i=0;i<that.specialtiesArr.length;i++){
+        console.log(that.specialtiesArr[i].specialtyID);
+        console.log(that.specialtyID);
+        if (that.specialtiesArr[i].specialtyID===that.specialtyID){
+          colorVal=that.specialtiesArr[i].color;
+          console.log("Got in!")
+          break;
+        }
+      }
+      console.log(colorVal);
+
+      for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
+        //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
+        document.getElementById(i).style.background= document.getElementById(String(that.studentID)+"#"+String(that.specialtyID)).style.background;
+   
+      }
 
       //Once assigned, allow for modal box to appear
       ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
@@ -493,12 +520,15 @@ Timeline-->Schedule
       constructor(specialtyID,specialtyName,specialtyDuration,studentID,color){
         this.div = document.createElement('div');
         this.div.setAttribute("specialtyID", specialtyID);
-        this.div.setAttribute("specialtyID",specialtyID)
         this.specialtyName = specialtyName;
         this.specialtyDuration = specialtyDuration;
+        this.specialtyID=specialtyID;
         this.color = color;
         //For div ID
         this.studentID = studentID;
+        this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
+        // this.div.id=String(this.studentID)+"#"+String(this.specialtyID);
+        // console.log("fhdhdf"+document.getElementById(this.studentID+"#"+(this.specialtyID)));
 
         this.initialiseDivAttributes();
       }
@@ -519,7 +549,7 @@ Timeline-->Schedule
 
         this.div.setAttribute("draggable","true");
          //String(this.specialtyName);
-        this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
+        
 
         //On dragstart function
         var that = this;
