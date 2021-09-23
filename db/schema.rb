@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_30_113431) do
+ActiveRecord::Schema.define(version: 2021_09_22_121948) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -126,11 +126,11 @@ ActiveRecord::Schema.define(version: 2021_08_30_113431) do
     t.bigint "student_id", null: false
     t.bigint "specialty_id", null: false
     t.bigint "hospital_id", null: false
-    t.bigint "rotation_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "week_no"
+    t.string "specialty_duration"
     t.index ["hospital_id"], name: "index_schedules_on_hospital_id"
-    t.index ["rotation_id"], name: "index_schedules_on_rotation_id"
     t.index ["specialty_id"], name: "index_schedules_on_specialty_id"
     t.index ["student_id"], name: "index_schedules_on_student_id"
   end
@@ -187,7 +187,6 @@ ActiveRecord::Schema.define(version: 2021_08_30_113431) do
   add_foreign_key "programme_courses", "courses"
   add_foreign_key "programme_courses", "programmes"
   add_foreign_key "schedules", "hospitals"
-  add_foreign_key "schedules", "rotations"
   add_foreign_key "schedules", "specialties"
   add_foreign_key "schedules", "students"
 end

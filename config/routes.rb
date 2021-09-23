@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  get 'course_dashboard/index'
   resources :site_facilitator_allocations
   resources :site_facilitators
   resources :allocations
@@ -10,10 +11,7 @@ Rails.application.routes.draw do
     collection { post :import}#route for csv importer
 
   end
-  resources :schedules do
-    collection { post :create_schedule} #route for creating a schedule
-    collection { post :update_schedule} #route for updating a schedule
-  end 
+  resources :schedules
   resources :students
   resources :hospital_assignments
   resources :course_specialties
@@ -26,7 +24,7 @@ Rails.application.routes.draw do
   resources :group_assignments
   resources :groups
 
-    resources :blocks 
+    resources :blocks
     resources :specialty_pages
     resources :specialties
     resources :hospitals

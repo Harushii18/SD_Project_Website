@@ -1,4 +1,4 @@
-class SchedulesController < ApplicationController
+                                                                        class SchedulesController < ApplicationController
   skip_forgery_protection
   before_action :set_schedule, only: %i[ show edit update destroy ]
   before_action :set_search
@@ -8,8 +8,10 @@ class SchedulesController < ApplicationController
   def index
     @users = @q.result
     @programmes = Programme.all
-    @programme_courses = ProgrammeCourse.all
-    @course_specialties = CourseSpecialty.all
+    @courseSpecialties=CourseSpecialty.all
+    @programmCourses=ProgrammeCourse.all
+    @all_users = User.all
+
     @specialties = Specialty.all
     puts("look here")
     @current_programme_id = 1
@@ -18,6 +20,16 @@ class SchedulesController < ApplicationController
         @current_programme_id =  params[:programme_id]
     #else
     end
+
+
+    @programme_courses = ProgrammeCourse.where(programme_id: @current_programme_id).select([:course_id])
+
+    @course_specialties = CourseSpecialty.where(course_id: @programme_courses).select([:specialty_id])
+
+    
+
+    @specialties = Specialty.where(id: @course_specialties)
+
 
     @students = Student.filter_by_programme_id(@current_programme_id)
     #@students = @students.find()
@@ -51,13 +63,18 @@ class SchedulesController < ApplicationController
   # POST /schedules or /schedules.json
   def create
     @schedule = Schedule.new(schedule_params)
-    respond_to do |format|
-      if @schedule.save
-        format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
-        format.json { render :show, status: :created, location: @schedule }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @schedule.errors, status: :unprocessable_entity }
+
+    if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]   ))
+      respond_to do |format|
+          if @schedule.save
+            puts("kameron---------------------------Saved")
+             # format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
+              format.json { render :show, status: :created, location: @schedule }
+          else
+            puts("kameron::::in schedules controller failed to save")
+            format.html { render :new, status: :unprocessable_entity }
+            format.json { render json: @schedule.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -119,6 +136,6 @@ class SchedulesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def schedule_params
-      params.permit(:student_id, :specialty_id, :rotation_id, :hospital_id)
+      params.permit(:student_id, :specialty_id, :hospital_id , :week_no , :specialty_duration)
     end
 end

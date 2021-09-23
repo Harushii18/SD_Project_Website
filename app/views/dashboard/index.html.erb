@@ -3,13 +3,14 @@
 <h1>Dashboard</h1>
 <br></br>
 
+
 <!-- dropdown for hospitals-->
 <form action="/dashboard">
-<label> <h5>Select Hospital</h5> </label>
-<br>
-<select name="hospital_id" id="hospital_select" onchange="showSummary(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
+  <label> <h5>Select Hospital</h5> </label>
+  <br>
+  <select name="hospital_id" id="hospital_select" onchange="showSummary(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
 
-</select>
+  </select>
 </form>
 
 
@@ -26,18 +27,20 @@
 
 
 <!-- Scrollable modal pops up with hospital information-->
-    <div id="summaryInfo" style="display:none;" class="modal-dialog modal-dialog-scrollable">
+    <div id="summary_information_card" style="display:none;" class="modal-dialog modal-dialog-scrollable">
         <div class = "modal-content">
           <div class="modal-header">
               <h5 class="modal-title" id="modal_title">Clinical Site Information</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
           </div>
           <div id = "card_body" class="card-body">     <!-- Card body-->
-            <h5 id="hosp_name" class="text-center" class="card-title"></h5>
-            <p id= "hosp_loc" class="card-text"></p>
-            <p id= "hosp_contact" class="card-text"></p>
-            <h5 id= "hosp_capacity"></h5>
+            <h2 id="hosp_name" class="text-center" class="card-title"></h2>
+            <h5 id= "hosp_loc" class="card-text"></h5>
+            <h5 id= "hosp_contact" class="card-text"></h5>
             <h5 id= "hosp_site_fac"></h5>
+            <br>
+            <h6 id= "hosp_capacity"></h6>
+            <h6 id= "hosp_available_slots"></h6>
           </div>
           <div class="modal-footer">                  <!-- Modal Footer-->
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">
@@ -47,13 +50,25 @@
         </div>
     </div>
 
-<!-- function to display hospital summary on card -->
+<br>
+
+<!-- dropdown for specialties-->
+<form action="/dashboard" style="display:none" id="select_specialty">
+<label> <h5>Select Specialty</h5> </label>
+<br>
+<select name="specialty_id" id = "specialty_select" class="btn btn-primary dropdown-toggle">
+</select>
+</form>
+
+
+<!-- function to display hospital summary on card ; pass hospital ID from hospital dropdown-->
 <script>
-  var showSummary = function(hospID) {
-    document.getElementById("summaryInfo").style.display = "flex";
-    
+  var showSummary = function(hospital_ID) {
+    document.getElementById("summary_information_card").style.display = "flex";
+    document.getElementById("select_specialty").style.display = "block";
+
     <% @hospitals.each do |hospital| %>
-       if (hospID == "<%= hospital.id%>") {
+       if (hospital_ID == "<%= hospital.id%>") {   //find the right hospital from database and add its information to card
           document.getElementById('hosp_name').innerHTML = "<%= hospital.hospital_name%>"
           document.getElementById('hosp_loc').innerHTML = "<%= hospital.hospital_location%>";
           document.getElementById('hosp_contact').innerHTML = "Contact: " + "<%= hospital.hospital_contactNo%>";
@@ -72,24 +87,49 @@
             table.deleteRow(x);
           }
          
-          
-          //<!--Find the students that are at the specific hospital-->
+            //<!--Find the students that are at the specific hospital-->
            <% @schedules.each do |schedule| %>
             <%if schedule.hospital_id == hospital.id%>             
 
-                 var row = table.insertRow(table.rows.length);
+                  // add new row and three column cells on that row
+                var row = table.insertRow(table.rows.length);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);                   
             
-                //<!--Get the student's name from the user table-->
+                //<!--Get the student's name from the user table and insert student details in cells created-->
                 <% student = @users.find(schedule.student_id) %>
+                //student_arr.insert(student)
                 cell1.innerHTML = "<%= schedule.student_id%>"
                 cell2.innerHTML = "<%= student.user_FirstName %>"
                 cell3.innerHTML = "<%= student.user_LastName %>"
             <%end%>
            <%end%>
           
+          // find the capacity and used slots
+          <% @allocations.each do |allocation| %>
+            <%if allocation.hospital_id == hospital.id%>
+                document.getElementById("hosp_capacity").innerHTML = "Total Capacity: " + "<%= allocation.available_slots%>"
+                document.getElementById("hosp_available_slots").innerHTML = "Available Space: " + (parseInt("<%= allocation.available_slots%>")-parseInt("<%= allocation.used_slots%>")).toString();
+            <%end%>
+
+            // add all specilaties allocated this hospital from the allocations records
+              specialty_select = document.getElementById('specialty_select')     //get dropdown
+
+                //clear specialties drop down of all current items firstly
+              while (specialty_select.options.length > 0) {                
+                  specialty_select.remove(0);
+              }
+                  // proceed to add the specialties
+              option = document.createElement( 'option' );
+              option.value = <%= allocation.specialty_id %>
+              <% @specialties.each do |specialty| %>
+                  <%if specialty.id == allocation.specialty_id%>
+                        option.text = "<%= specialty.SpecialtyName %>";
+                        specialty_select.add( option );
+                  <%end%>
+              <%end%>
+           <%end%>
        }
     <%end%>
 
@@ -98,30 +138,28 @@
 
 <script>
   function closeModal(){
-  document.getElementById("summaryInfo").style.display = "none";
+  document.getElementById("summary_information_card").style.display = "none";
   }
 </script>
 
 
 <!--The selected hospital is a variable that stores the ID from the dropdown-->
-<!--FAVOUR! CHANGE THE 1 TO THE VALUE THAT IS OBTAINED FROM THE DROPDOWN. JUST USED 1 FOR TESTING!!-->
- 
+      <!--Code below does not need to be modified. Looks like it works perfectly for the one test case I tried-->
+      <div class="m-4">
+      <table class="table table-hover" id="students_table">
+        <thead >
+          <tr>
+            <th scope="col"><h6>Student ID</h6></th>
+            <th scope="col"><h6>Student First Name</h6></th>
+            <th scope="col"><h6>Student Last Name</h6></th>
+          </tr>
+        </thead>
+        <tbody id= "table_records">
+      
+        </tbody>
+      </table>
+      <div>
+  </div>
+  </div>
 
-<!--Code below does not need to be modified. Looks like it works perfectly for the one test case I tried-->
-<div class="m-4">
-<table class="table table-hover" id="students_table">
-  <thead >
-    <tr>
-      <th scope="col"><h6>Student ID</h6></th>
-      <th scope="col"><h6>Student First Name</h6></th>
-      <th scope="col"><h6>Student Last Name</h6></th>
-    </tr>
-  </thead>
-  <tbody id= "table_records">
- 
-  </tbody>
-</table>
-<div>
-
-
-
+</div>
