@@ -109,8 +109,8 @@ Timeline-->Schedule
         this.initialiseTimeBlocks(this.specialties, studentID);
 
 
-        this.initialiseSchedules();
-        //console.log("There are this many timeblocks: "+this.timeBlocks.length);
+        //this.initialiseSchedules();
+
 
         //This button acts as an event so that the array of schedules can be poppulated
         this.btnSaveToChanges = document.createElement('button');
@@ -152,8 +152,8 @@ Timeline-->Schedule
     initialiseTimeBlocks(specialties,studentID){
       for(var i =0; i<52; i++){
         var timeBlock = new TimeBlock(i+1, studentID, specialties);
-
-       this.timeBlocks.push(timeBlock);
+        //console.log("Initialised Timeblock no: "+i);
+        this.timeBlocks.push(timeBlock);
       }
     }
 
@@ -174,6 +174,80 @@ Timeline-->Schedule
 
     //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
     initialiseSchedules(){
+      console.log("Initialising Schedules");
+      <% @schedules.each do |schedule| %>
+        if(<%=schedule.student_id%>==this.studentID){
+          //console.log("StudentID is: "+this.studentID);
+          console.log("Matched :" + <%=schedule.student_id%> + " AND "+this.studentID);
+          var currentSchedule = new Schedule();
+
+          //console.log("Week No:"  + <%=schedule.week_no%>);
+          currentSchedule.setWeekNo(<%=schedule.week_no%>); //THIS ISN"T WORKING FOR SOME REASON NB NB NB
+          currentSchedule.setHospitalID(<%=schedule.hospital_id%>);
+          currentSchedule.setSpecialtyID(<%=schedule.specialty_id%>);
+          currentSchedule.setSpecialtyDuration(<%=schedule.specialty_duration%>);
+
+          this.showScheduleOnTimeline(currentSchedule);
+
+        }
+
+      <% end %>
+    }
+
+    //Show the schedule object on the timeline
+    showScheduleOnTimeline(schedule){
+      //this.timeBlocks[schedule.getWeekNo()-1].setAssigned(true);
+      var weekNo = schedule.getWeekNo();
+      console.log("Week no is: "+weekNo);
+
+      var timeBlock = this.timeBlocks[weekNo-1];
+
+      //Retrieve Specialty ID
+      var specialtyID = schedule.getSpecialtyID();
+      console.log("The time blocks are: "+ timeBlock);
+      //this.timeBlocks[weekNo-1].setSpecialtyID(specialtyID);
+
+
+      //Retrieve Specialty Duration
+      var specialtyDuration = schedule.getSpecialtyDuration();
+      this.timeBlocks[weekNo-1].setSpecialtyDuration(specialtyDuration);
+
+      //Retrieve timebox div id
+      var data = this.timeBlocks[weekNo-1].getDivID();
+
+      //Put specialty div in timebox div
+      //ev.target.appendChild(document.getElementById(data));
+      this.timeBlocks[weekNo-1].getDiv().style.background = document.getElementById(data).style.background;
+     // ev.target.innerHTML = document.getElementById(data).innerHTML;
+
+      //colours divs according to specialty duration
+      let numDivSpan = this.timeBlocks[weekNo-1].getDiv().getAttribute("weekNo");
+      let colorVal, specialtyN;
+      for (let i=0;i<this.specialties.length;i++){
+        //ensure that div is colour of specialty it is assigned to
+        if (this.specialties[i].specialtyID==specialtyID){
+          colorVal=this.specialties[i].color;
+          specialtyN=this.specialties[i].getSpecialtyName();
+          break;
+        }
+      }
+
+
+    //change colours of amount of divs of specialty duration
+      for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
+        //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
+        var currDivID = that.studentID+"#"+i;
+        //console.log("TempID is: "+tempID);
+        document.getElementById(currDivID).style.background= colorVal;
+
+      }
+
+      //Once assigned, allow for modal box to appear
+      this.timeBlocks[weekNo-1].getDiv().setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+      this.timeBlocks[weekNo-1].getDiv().setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+    //var hospital = prompt("please enter hospital", "vic");
+
+      this.timeBlocks[weekNo-1].setAssigned(true);
 
     }
 
@@ -294,7 +368,7 @@ Timeline-->Schedule
       this.div.setAttribute("studentID", this.studentID);
 
       //makes each div's id the week number as well for easy retrieval and colouring
-      this.div.id=this.weekNo;
+      //this.div.id=this.weekNo;
 
 
       this.assigned = false;
@@ -327,7 +401,7 @@ Timeline-->Schedule
       var that = this;
       //On Drop Function
       this.div.ondrop = function(ev){
-        console.log(that.weekNo);
+      console.log(that.weekNo);
       ev.preventDefault();
 
       //Retrieve Specialty ID
@@ -354,8 +428,9 @@ Timeline-->Schedule
       ev.target.style.background = document.getElementById(data).style.background;
      // ev.target.innerHTML = document.getElementById(data).innerHTML;
 
-      //colours divs according to specialty duration
 
+
+      //colours divs according to specialty duration
       let numDivSpan=that.div.getAttribute("weekNo");
       let colorVal, specialtyN;
       for (let i=0;i<that.specialtiesArr.length;i++){
@@ -439,6 +514,9 @@ Timeline-->Schedule
 
     }
 
+    getDivID(){
+      return this.div.id;
+    }
 
     initialiseStartDate(){
       this.startDate.setMonth(0);
@@ -473,6 +551,7 @@ Timeline-->Schedule
     getSpecialtyID(){
       return this.specialtyID;
     }
+
 
     getAssigned(){
       return this.assigned;
@@ -556,6 +635,7 @@ Timeline-->Schedule
       initialiseDivAttributes(){
         //Set div attributes
         this.div.innerHTML = this.specialtyName;
+        this.div.style.textAlign = 'center';
         this.div.style.width = (100*this.specialtyDuration) +'px';
         this.div.style.height = '30px';
         this.div.style.display = 'flex';
