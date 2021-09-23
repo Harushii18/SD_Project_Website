@@ -119,42 +119,78 @@ function ChangeText(strId) {
          <div class="w-75">
         
             <div class="card h-100">
+            
             <div class="card-body">
-                <%# <h5 class="card-title">Special title treatment</h5> %>
-                <p class="card-text">
+           <!-- Programme Code
+            
+            <%= collection_select(:course_dashboard, :programme_id, Programme.all, :id, :programme_code, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
+           -->
+            <!-- dropdown for programmes-->
+            <form action="/courseDashboard">
+            <label> <h5>Select Programme Code</h5> </label>
+            <br>
+            <select name="programme_id" id="programme_select" onchange="showSummary(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
 
-                         <% @dtId=0%>
-                        <% @courses.each do |course| %>
-                        <% @dtId=@dtId+1%>
-                        
-                        <p>
+            </select>
+            </form>
+           
+           <!-- Populate dropdown or hospital select with hospitals-->
+            <% @programmes.each do |programme| %>
+            <script >
+                select = document.getElementById('programme_select')
+                option = document.createElement( 'option' );
+                option.value = <%= programme.id %>
+                option.text = "<%= programme.programme_code %>";
+                select.add( option );
+            </script>
+            <%end%>
+
+
+            <br>
+
+
+<script>
+    var showSummary = function(programme_ID){
+    <% @programmes_courses.each do |programmeCourse| %>
+    if(programme_ID == "<%= programmeCourse.programme_id%>") {  
+                
+        //<%# <h5 class="card-title">Special title treatment</h5> %>
+            //<!-- <p class="card-text"> -->
+
+        <% @dtId=0%>
+        <% @courses.each do |course| %>
+        if ("<%= programmeCourse.course_id %>" == course.id){
+            <% @dtId=@dtId+1%>
+                    
+               <p>
                     <button class="btn btn-primary" onclick="ChangeText(<%=@dtId.to_s%>)" id=<%=@dtId.to_s%> type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
                         +
                     </button>
                     <%= course.CourseDescription %>
                     </p>
                     <div class="collapse" id=<%="collapseExample"+@dtId.to_s%> >
+                    
+            <%# The counter below keeps track of how many specialties there are %>
+            <% @count=0%>
+
+            <div class="card card-body">
+                <%# ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO %>
+                    <%if  CourseSpecialty.where(:course_id => course.id).count== 0%>
                         
-                    <%# The counter below keeps track of how many specialties there are %>
-                    <% @count=0%>
+                    There are no specialties assigned to this course.
 
-                    <div class="card card-body">
+                        
+                    <%else%>
+                    <%# ==================== %>
 
-                        <%# ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO %>
-                            <%if  CourseSpecialty.where(:course_id => course.id).count== 0%>
-                            
-                                    There are no specialties assigned to this course.
-                            
-                            <%else%>
-                            <%# ==================== %>
+                    <%# Display how many specialties there are  %>
+                <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
+                    <%if  CourseSpecialty.where(:course_id => course.id).count== 1%>
+                        There is <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialty to this course:
+                    <%else%>
+                        There are <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialties to this course:
+                    <%end%>
 
-                        <%# Display how many specialties there are  %>
-                    <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
-                        <%if  CourseSpecialty.where(:course_id => course.id).count== 1%>
-                            There is <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialty to this course:
-                        <%else%>
-                            There are <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialties to this course:
-                        <%end%>
 
                     <% @course_specialties.each do |course_specialty| %>
                         <%if course_specialty.course_id== course.id%>
@@ -169,11 +205,14 @@ function ChangeText(strId) {
                             </div>
 
 
-                            <% end %> 
-                            <% end %> 
-                        <%end%>
-
-                            
+                        <% end %> 
+                    <% end %> 
+                <%end%>
+        }
+        <%end%>
+    }
+};
+</script> 
                         </div>
                     </br>
                     </div>
@@ -183,7 +222,7 @@ function ChangeText(strId) {
                 
                 
                 
-                </p>
+                    <!-- </p> -->
                 <%# <a href="#" class="btn btn-primary">Go somewhere</a> %>
             </div>
             </div>
