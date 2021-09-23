@@ -138,7 +138,7 @@ Timeline-->Schedule
               //console.log("timeline constructor")
               //console.log(that.timeBlocks[i].getSpecialtyID());
               //console.log("timeline constructor")
-           
+
 
               that.schedules.push(newSchedule);
             }
@@ -152,12 +152,12 @@ Timeline-->Schedule
     initialiseTimeBlocks(specialties,studentID){
       for(var i =0; i<52; i++){
         var timeBlock = new TimeBlock(i+1, studentID, specialties);
-        
+
        this.timeBlocks.push(timeBlock);
       }
     }
 
-    
+
 
     //TODO: Fetch Specialty Name and Duration
     initialiseSpecialties(){
@@ -289,12 +289,13 @@ Timeline-->Schedule
       this.hospitalID = 0;
       this.specialtiesArr=specialties;
       this.div = document.createElement('div');
+
       this.div.setAttribute("weekNo",this.weekNo);
       this.div.setAttribute("studentID", this.studentID);
 
       //makes each div's id the week number as well for easy retrieval and colouring
       this.div.id=this.weekNo;
-      
+
 
       this.assigned = false;
       this.specialtyID = "";
@@ -311,15 +312,16 @@ Timeline-->Schedule
     }
 
     initialiseDivAttributes(){
-      
-      
+
+
       this.div.style.height = '30px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
       this.div.style.width = '100px';
-
+      this.div.setAttribute("id",this.studentID+"#"+this.weekNo);
+      //console.log("Div ID is set to: "+this.studentID+"#"+this.weekNo )
 
 
       var that = this;
@@ -340,7 +342,7 @@ Timeline-->Schedule
       // console.log("Received specialty duration: "+specialtyDuration);
 
 
-    
+
       //Value that's passed
       //console.log("Sent value is: " + specialtyID);
 
@@ -364,26 +366,28 @@ Timeline-->Schedule
           break;
         }
       }
-     
+
 
     //change colours of amount of divs of specialty duration
       for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
         //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
-        document.getElementById(i).style.background= colorVal;
+        var currDivID = that.studentID+"#"+i;
+        //console.log("TempID is: "+tempID);
+        document.getElementById(currDivID).style.background= colorVal;
 
         //document.getElementById(i).ondrop(ev);
 
 
         //CHANGE TEXT OF DIV- currently buggy as when text is changed, div moves downwards
-        // document.getElementById(i).style.wordBreak="break-all";      
-        // document.getElementById(i).innerHTML=specialtyN;    
+        // document.getElementById(i).style.wordBreak="break-all";
+        // document.getElementById(i).innerHTML=specialtyN;
       }
 
       //Once assigned, allow for modal box to appear
       ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
       ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
     //var hospital = prompt("please enter hospital", "vic");
-    
+
       that.assigned = true;
 
       };
@@ -392,7 +396,7 @@ Timeline-->Schedule
       this.div.ondragover = function(ev){
         ev.preventDefault();
 
-        
+
       };
 
       //These are extra functions to try and fix the modal box not appearing after moving specialty div around
@@ -410,8 +414,8 @@ Timeline-->Schedule
         ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
         ev.target.setAttribute("student","studentValue");
 
-      
-       
+
+
         that.assigned = true;
       };
 
@@ -425,7 +429,7 @@ Timeline-->Schedule
 
             drop.setAttribute("weekNo",this.getAttribute("weekNo"));
             drop.setAttribute("studentID", this.getAttribute("studentID"));
-        
+
             drop.setAttribute("timeBlock", this.getAttribute("timeBlock"));
 
             drop.setAttribute("specialtyID", ev.target.getAttribute("specialtyID"));
@@ -544,7 +548,7 @@ Timeline-->Schedule
         this.color = color;
         //For div ID
         this.studentID = studentID;
-        this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
+        this.div.setAttribute("id",this.studentID+"#"+this.specialtyID+"#"+this.specialtyName);
 
         this.initialiseDivAttributes();
       }
@@ -555,22 +559,22 @@ Timeline-->Schedule
         this.div.style.width = (100*this.specialtyDuration) +'px';
         this.div.style.height = '30px';
         this.div.style.display = 'flex';
-        this.div.style.border = "1px solid #aaaaaa"; 
+        this.div.style.border = "1px solid #aaaaaa";
         this.div.style.alignItems = 'center';
         this.div.style.background = this.color;
         this.div.style.color = "white"
-        
+
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
 
         this.div.setAttribute("draggable","true");
          //String(this.specialtyName);
-        
+
 
         //On dragstart function
         var that = this;
         this.div.ondragstart = function(ev){
-          
+
          // console.log("ondragstart");
           //Transfer div id
           ev.dataTransfer.setData("text", ev.target.id);
@@ -623,11 +627,11 @@ Timeline-->Schedule
         initialiseTimelines(){
 
           <% @students.each do |student| %>
-            var student_user_id = "<%=student.user_id%>";   
+            var student_user_id = "<%=student.user_id%>";
             var student_name = "student";                     //default name incase of errors
             <% @all_users.each do |user| %>                 // search for user
                 if(student_user_id == <%=user.id%>){
-                    student_name = "<%=user.user_LastName%> " + "<%=user.user_FirstName%>"; 
+                    student_name = "<%=user.user_LastName%> " + "<%=user.user_FirstName%>";
                 }
             <%end%>
             this.timelines.push(new Timeline(<%=student.id%>, student_name, <%=student.studentNumber%>));
@@ -693,19 +697,19 @@ Timeline-->Schedule
   function assignHospital(){
     var drop = document.getElementById('hospital_id');
     var hospitalName = drop.options[drop.selectedIndex].text;
-    
+
     document.getElementById('showAssign').innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
 
-    
+
     var hospital_id = drop.options[drop.selectedIndex].value;
     chosen_hospital_id = hospital_id;
     var week_no = drop.getAttribute("weekNo");
 
-    
+
 
     var student_id = drop.getAttribute("studentID");
 
-    
+
     var timelines = programmeSchedule.timelines;
     var size = timelines.length;
 
