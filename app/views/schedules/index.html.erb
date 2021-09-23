@@ -312,18 +312,20 @@ Timeline-->Schedule
 
     initialiseDivAttributes(){
       
-      this.div.style.height = '100px';
+      
+      this.div.style.height = '30px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
-      this.div.style.width = '60px';
+      this.div.style.width = '100px';
 
 
 
       var that = this;
       //On Drop Function
       this.div.ondrop = function(ev){
+        console.log(that.weekNo);
       ev.preventDefault();
 
       //Retrieve Specialty ID
@@ -367,7 +369,9 @@ Timeline-->Schedule
     //change colours of amount of divs of specialty duration
       for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
         //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
-        document.getElementById(i).style.background= colorVal; 
+        document.getElementById(i).style.background= colorVal;
+
+        //document.getElementById(i).ondrop(ev);
 
 
         //CHANGE TEXT OF DIV- currently buggy as when text is changed, div moves downwards
@@ -387,6 +391,8 @@ Timeline-->Schedule
       //DragOver function
       this.div.ondragover = function(ev){
         ev.preventDefault();
+
+        
       };
 
       //These are extra functions to try and fix the modal box not appearing after moving specialty div around
@@ -403,7 +409,7 @@ Timeline-->Schedule
         ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
         ev.target.setAttribute("student","studentValue");
-        
+
       
        
         that.assigned = true;
@@ -546,8 +552,8 @@ Timeline-->Schedule
       initialiseDivAttributes(){
         //Set div attributes
         this.div.innerHTML = this.specialtyName;
-        this.div.style.width = '7%';
-        this.div.style.height = '10%';
+        this.div.style.width = (100*this.specialtyDuration) +'px';
+        this.div.style.height = '30px';
         this.div.style.display = 'flex';
         this.div.style.border = "1px solid #aaaaaa"; 
         this.div.style.alignItems = 'center';
@@ -564,6 +570,7 @@ Timeline-->Schedule
         //On dragstart function
         var that = this;
         this.div.ondragstart = function(ev){
+          
          // console.log("ondragstart");
           //Transfer div id
           ev.dataTransfer.setData("text", ev.target.id);
@@ -723,6 +730,8 @@ Timeline-->Schedule
     }
 
     timeblock.hospitalID = hospital_id;
+
+    timeblock.div.innerHTML = hospitalName;
 
 
     console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
