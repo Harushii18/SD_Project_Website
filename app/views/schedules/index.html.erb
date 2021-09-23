@@ -150,7 +150,7 @@ Timeline-->Schedule
     }
 
     initialiseTimeBlocks(specialties,studentID){
-      for(var i =0; i<52; i++){
+      for(let i =0; i<52; i++){
         var timeBlock = new TimeBlock(i+1, studentID, specialties);
 
        this.timeBlocks.push(timeBlock);
@@ -719,17 +719,22 @@ Timeline-->Schedule
       timeline = timelines[i];
       if (timeline.studentID == student_id)
         {
+          console.log("timeline has been found!!!!");
           break;
         }
     }
 
     var timeblock;
     var timeblockNum;
+    size = timeline.timeBlocks.length;
     for (let i = 0 ; i < size; i++)
     {
       timeblock = timeline.timeBlocks[i];
+
+      console.log("there are this many timeblocks: " +size);
       if (timeblock.weekNo == week_no)
         {
+          console.log("time block has been found!!!!");
           timeblockNum = i;
           break;
         }
