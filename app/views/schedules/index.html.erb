@@ -109,8 +109,8 @@ Timeline-->Schedule
         this.initialiseTimeBlocks(this.specialties, studentID);
 
 
-        this.initialiseSchedules();
-        //console.log("There are this many timeblocks: "+this.timeBlocks.length);
+        //this.initialiseSchedules();
+
 
         //This button acts as an event so that the array of schedules can be poppulated
         this.btnSaveToChanges = document.createElement('button');
@@ -150,10 +150,10 @@ Timeline-->Schedule
     }
 
     initialiseTimeBlocks(specialties,studentID){
-      for(let i =0; i<52; i++){
+      for(var i =0; i<52; i++){
         var timeBlock = new TimeBlock(i+1, studentID, specialties);
-
-       this.timeBlocks.push(timeBlock);
+        //console.log("Initialised Timeblock no: "+i);
+        this.timeBlocks.push(timeBlock);
       }
     }
 
@@ -172,10 +172,85 @@ Timeline-->Schedule
         index = index + 1;
       <%end%>
 
+      console.log(this.specialties);
     }
 
     //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
     initialiseSchedules(){
+      console.log("Initialising Schedules");
+      <% @schedules.each do |schedule| %>
+        if(<%=schedule.student_id%>==this.studentID){
+          //console.log("StudentID is: "+this.studentID);
+          console.log("Matched :" + <%=schedule.student_id%> + " AND "+this.studentID);
+          var currentSchedule = new Schedule();
+
+          //console.log("Week No:"  + <%=schedule.week_no%>);
+          currentSchedule.setWeekNo(<%=schedule.week_no%>); //THIS ISN"T WORKING FOR SOME REASON NB NB NB
+          currentSchedule.setHospitalID(<%=schedule.hospital_id%>);
+          currentSchedule.setSpecialtyID(<%=schedule.specialty_id%>);
+          currentSchedule.setSpecialtyDuration(<%=schedule.specialty_duration%>);
+
+          this.showScheduleOnTimeline(currentSchedule);
+
+        }
+
+      <% end %>
+    }
+
+    //Show the schedule object on the timeline
+    showScheduleOnTimeline(schedule){
+      //this.timeBlocks[schedule.getWeekNo()-1].setAssigned(true);
+      var weekNo = schedule.getWeekNo();
+      console.log("Week no is: "+weekNo);
+
+      var timeBlock = this.timeBlocks[weekNo-1];
+
+      //Retrieve Specialty ID
+      var specialtyID = schedule.getSpecialtyID();
+      console.log("The time blocks are: "+ timeBlock);
+      //this.timeBlocks[weekNo-1].setSpecialtyID(specialtyID);
+
+
+      //Retrieve Specialty Duration
+      var specialtyDuration = schedule.getSpecialtyDuration();
+      this.timeBlocks[weekNo-1].setSpecialtyDuration(specialtyDuration);
+
+      //Retrieve timebox div id
+      var data = this.timeBlocks[weekNo-1].getDivID();
+
+      //Put specialty div in timebox div
+      //ev.target.appendChild(document.getElementById(data));
+      this.timeBlocks[weekNo-1].getDiv().style.background = document.getElementById(data).style.background;
+     // ev.target.innerHTML = document.getElementById(data).innerHTML;
+
+      //colours divs according to specialty duration
+      let numDivSpan = this.timeBlocks[weekNo-1].getDiv().getAttribute("weekNo");
+      let colorVal, specialtyN;
+      for (let i=0;i<this.specialties.length;i++){
+        //ensure that div is colour of specialty it is assigned to
+        if (this.specialties[i].specialtyID==specialtyID){
+          colorVal=this.specialties[i].color;
+          specialtyN=this.specialties[i].getSpecialtyName();
+          break;
+        }
+      }
+
+
+    //change colours of amount of divs of specialty duration
+      for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
+        //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
+        var currDivID = that.studentID+"#"+i;
+        //console.log("TempID is: "+tempID);
+        document.getElementById(currDivID).style.background= colorVal;
+
+      }
+
+      //Once assigned, allow for modal box to appear
+      this.timeBlocks[weekNo-1].getDiv().setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+      this.timeBlocks[weekNo-1].getDiv().setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+    //var hospital = prompt("please enter hospital", "vic");
+
+      this.timeBlocks[weekNo-1].setAssigned(true);
 
     }
 
@@ -200,10 +275,10 @@ Timeline-->Schedule
       table.setAttribute("border","border:1px solid gray");
       table.style.background = "#f5f7f7";
 
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      //Spacing
       var br = document.createElement('br');
       table.appendChild(br);
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      //Spacing
 
       //Add student information
       var studentInformation = [this.studentName, this.studentNumber];
@@ -291,12 +366,13 @@ Timeline-->Schedule
       this.hospitalID = 0;
       this.specialtiesArr=specialties;
       this.div = document.createElement('div');
+      this.assigned_hosp = document.createElement('p');
 
       this.div.setAttribute("weekNo",this.weekNo);
       this.div.setAttribute("studentID", this.studentID);
 
       //makes each div's id the week number as well for easy retrieval and colouring
-      this.div.id=this.weekNo;
+      //this.div.id=this.weekNo;
 
 
       this.assigned = false;
@@ -311,17 +387,20 @@ Timeline-->Schedule
       this.initialiseStartDate();
       this.initialiseEndDate();
       this.initialiseDivAttributes();
+      this.displayDate();
+      this.initialiseAssignedHospAttributes();
+
     }
 
     initialiseDivAttributes(){
 
 
-      this.div.style.height = '30px';
+      this.div.style.height = '120px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
-      this.div.style.width = '100px';
+      this.div.style.width = '150px'; //120
       this.div.setAttribute("id",this.studentID+"#"+this.weekNo);
       //console.log("Div ID is set to: "+this.studentID+"#"+this.weekNo )
 
@@ -329,7 +408,7 @@ Timeline-->Schedule
       var that = this;
       //On Drop Function
       this.div.ondrop = function(ev){
-        console.log(that.weekNo);
+      console.log(that.weekNo);
       ev.preventDefault();
 
       //Retrieve Specialty ID
@@ -356,8 +435,9 @@ Timeline-->Schedule
       ev.target.style.background = document.getElementById(data).style.background;
      // ev.target.innerHTML = document.getElementById(data).innerHTML;
 
-      //colours divs according to specialty duration
 
+
+      //colours divs according to specialty duration
       let numDivSpan=that.div.getAttribute("weekNo");
       let colorVal;//, specialtyN;
       for (let i=0;i<that.specialtiesArr.length;i++){
@@ -441,6 +521,9 @@ Timeline-->Schedule
 
     }
 
+    getDivID(){
+      return this.div.id;
+    }
 
     initialiseStartDate(){
       this.startDate.setMonth(0);
@@ -450,6 +533,13 @@ Timeline-->Schedule
     initialiseEndDate(){
       this.endDate = this.startDate;
       this.endDate.setDate(this.endDate.getDate()+6); //Day just before the start of the next week
+    }
+
+    initialiseAssignedHospAttributes(){
+      this.assigned_hosp.style.textAlign = "center"
+      //p.style.width = "100%";
+      this.div.appendChild(document.createElement('br')); //put space first
+      this.div.appendChild(this.assigned_hosp);
     }
 
     getHospitalID(){
@@ -476,12 +566,30 @@ Timeline-->Schedule
       return this.specialtyID;
     }
 
+
     getAssigned(){
       return this.assigned;
     }
 
     setAssigned(value){
       this.assigned = value;
+    }
+
+    displayDate(){
+      var temp = document.createElement('div');
+      var p = document.createElement('p');
+
+      p.setAttribute('id','start_date');
+      temp.style.textAlign = "center"
+      temp.style.width = "100%";
+      temp.style.borderRadius= "25px";
+      temp.style.background = "#FFFFFF";
+      p.style.color = "black";
+      p.innerHTML = this.startDate.getDate() + "-" + this.startDate.getMonth() + "-" + this.startDate.getFullYear();
+
+      temp.appendChild(p);
+      this.div.appendChild(temp);
+      this.div.appendChild(document.createElement('br'));
     }
 
    }
@@ -558,6 +666,7 @@ Timeline-->Schedule
       initialiseDivAttributes(){
         //Set div attributes
         this.div.innerHTML = this.specialtyName;
+        this.div.style.textAlign = 'center';
         this.div.style.width = (100*this.specialtyDuration) +'px';
         this.div.style.height = '30px';
         this.div.style.display = 'flex';
@@ -565,6 +674,7 @@ Timeline-->Schedule
         this.div.style.alignItems = 'center';
         this.div.style.background = this.color;
         this.div.style.color = "white"
+        //this.div.style.textAlign = "center"   //this didnt work to center the specialty name
 
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
@@ -633,7 +743,7 @@ Timeline-->Schedule
             var student_name = "student";                     //default name incase of errors
             <% @all_users.each do |user| %>                 // search for user
                 if(student_user_id == <%=user.id%>){
-                    student_name = "<%=user.user_LastName%> " + "<%=user.user_FirstName%>";
+                    student_name = "<%=user.user_LastName%>" +", "+ "<%=user.user_FirstName%>";
                 }
             <%end%>
             this.timelines.push(new Timeline(<%=student.id%>, student_name, <%=student.studentNumber%>));
@@ -721,46 +831,27 @@ Timeline-->Schedule
       timeline = timelines[i];
       if (timeline.studentID == student_id)
         {
-          console.log("timeline has been found!!!!");
           break;
         }
     }
 
     var timeblock;
-    var timeblockNum;
-    size = timeline.timeBlocks.length;
     for (let i = 0 ; i < size; i++)
     {
       timeblock = timeline.timeBlocks[i];
-
-      console.log("there are this many timeblocks: " +size);
       if (timeblock.weekNo == week_no)
         {
-          console.log("time block has been found!!!!");
-          timeblockNum = i;
           break;
         }
     }
 
     timeblock.hospitalID = hospital_id;
-    timeblock.div.innerHTML = hospitalName;
+    timeblock.assigned_hosp.innerHTML = hospitalName;
 
     //to add hospital name to extra timeblocks according to specailty duration
     specialty_duration = timeblock.specialtyDuration;
 
-    console.log("specailty duration " +specialty_duration);
-    console.log("timeblockNum " +timeblockNum);
-
-  	var start = parseInt(timeblockNum) + 1;
-    var end = parseInt(timeblockNum) + parseInt(specialty_duration);
-    for (let j = start  ; j < end ; j++)
-    {
-
-        var tempTimeBlock = timeline.timeBlocks[j];
-        tempTimeBlock.div.innerHTML = hospitalName;
-    }
-
- 
+    timeblock.div.innerHTML = hospitalName;
 
 
     console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
