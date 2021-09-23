@@ -150,7 +150,7 @@ Timeline-->Schedule
     }
 
     initialiseTimeBlocks(specialties,studentID){
-      for(var i =0; i<52; i++){
+      for(let i =0; i<52; i++){
         var timeBlock = new TimeBlock(i+1, studentID, specialties);
         //console.log("Initialised Timeblock no: "+i);
         this.timeBlocks.push(timeBlock);
@@ -169,7 +169,6 @@ Timeline-->Schedule
         index = index + 1;
       <%end%>
 
-      console.log(this.specialties);
     }
 
     //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
@@ -799,23 +798,46 @@ Timeline-->Schedule
       timeline = timelines[i];
       if (timeline.studentID == student_id)
         {
+          console.log("timeline has been found!!!!");
           break;
         }
     }
 
     var timeblock;
+    var timeblockNum;
+    size = timeline.timeBlocks.length;
     for (let i = 0 ; i < size; i++)
     {
       timeblock = timeline.timeBlocks[i];
+
+      console.log("there are this many timeblocks: " +size);
       if (timeblock.weekNo == week_no)
         {
+          console.log("time block has been found!!!!");
+          timeblockNum = i;
           break;
         }
     }
 
     timeblock.hospitalID = hospital_id;
-
     timeblock.div.innerHTML = hospitalName;
+
+    //to add hospital name to extra timeblocks according to specailty duration
+    specialty_duration = timeblock.specialtyDuration;
+
+    console.log("specailty duration " +specialty_duration);
+    console.log("timeblockNum " +timeblockNum);
+
+  	var start = parseInt(timeblockNum) + 1;
+    var end = parseInt(timeblockNum) + parseInt(specialty_duration);
+    for (let j = start  ; j < end ; j++)
+    {
+
+        var tempTimeBlock = timeline.timeBlocks[j];
+        tempTimeBlock.div.innerHTML = hospitalName;
+    }
+
+ 
 
 
     console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
