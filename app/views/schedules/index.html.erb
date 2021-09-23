@@ -288,6 +288,7 @@ Timeline-->Schedule
       this.hospitalID = 0;
       this.specialtiesArr=specialties;
       this.div = document.createElement('div');
+      this.assigned_hosp = document.createElement('p');
 
       this.div.setAttribute("weekNo",this.weekNo);
       this.div.setAttribute("studentID", this.studentID);
@@ -308,17 +309,20 @@ Timeline-->Schedule
       this.initialiseStartDate();
       this.initialiseEndDate();
       this.initialiseDivAttributes();
+      this.displayDate();
+      this.initialiseAssignedHospAttributes();
+      
     }
 
     initialiseDivAttributes(){
 
 
-      this.div.style.height = '30px';
+      this.div.style.height = '120px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
-      this.div.style.width = '100px';
+      this.div.style.width = '150px'; //120
       this.div.setAttribute("id",this.studentID+"#"+this.weekNo);
       //console.log("Div ID is set to: "+this.studentID+"#"+this.weekNo )
 
@@ -449,6 +453,13 @@ Timeline-->Schedule
       this.endDate.setDate(this.endDate.getDate()+6); //Day just before the start of the next week
     }
 
+    initialiseAssignedHospAttributes(){
+      this.assigned_hosp.style.textAlign = "center"
+      //p.style.width = "100%";
+      this.div.appendChild(document.createElement('br')); //put space first
+      this.div.appendChild(this.assigned_hosp);
+    }
+
     getHospitalID(){
       return this.hospitalID;
     }
@@ -479,6 +490,18 @@ Timeline-->Schedule
 
     setAssigned(value){
       this.assigned = value;
+    }
+
+    displayDate(){
+      var p = document.createElement('p');
+      p.setAttribute('id','start_date');
+      //p.style.textAlign = "center"
+      p.style.width = "100%";
+      p.style.background = "#CB22D8";
+      p.style.color = "white";
+      p.innerHTML = this.startDate.getDate() + "-" + this.startDate.getMonth() + "-" + this.startDate.getFullYear();
+      this.div.appendChild(p);
+      this.div.appendChild(document.createElement('br'));
     }
 
    }
@@ -562,6 +585,7 @@ Timeline-->Schedule
         this.div.style.alignItems = 'center';
         this.div.style.background = this.color;
         this.div.style.color = "white"
+        //this.div.style.textAlign = "center"   //this didnt work to center the specialty name
 
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
@@ -740,7 +764,7 @@ Timeline-->Schedule
     }
 
     timeblock.hospitalID = hospital_id;
-    timeblock.div.innerHTML = hospitalName;
+    timeblock.assigned_hosp.innerHTML = hospitalName;
 
     //to add hospital name to extra timeblocks according to specailty duration
     specialty_duration = timeblock.specialtyDuration;
