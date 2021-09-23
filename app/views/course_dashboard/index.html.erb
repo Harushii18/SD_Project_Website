@@ -149,20 +149,16 @@ function ChangeText(strId) {
             <br>
 
 
-<script>
-    var showSummary = function(programme_ID){
-    <% @programmes_courses.each do |programmeCourse| %>
-    if(programme_ID == "<%= programmeCourse.programme_id%>") {  
+
                 
-        //<%# <h5 class="card-title">Special title treatment</h5> %>
-            //<!-- <p class="card-text"> -->
+        <%# <h5 class="card-title">Special title treatment</h5> %>
+            <!-- <p class="card-text"> -->
 
         <% @dtId=0%>
         <% @courses.each do |course| %>
-        if ("<%= programmeCourse.course_id %>" == course.id){
             <% @dtId=@dtId+1%>
                     
-               <p>
+               
                     <button class="btn btn-primary" onclick="ChangeText(<%=@dtId.to_s%>)" id=<%=@dtId.to_s%> type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
                         +
                     </button>
@@ -208,11 +204,9 @@ function ChangeText(strId) {
                         <% end %> 
                     <% end %> 
                 <%end%>
-        }
-        <%end%>
-    }
-};
-</script> 
+        
+    
+
                         </div>
                     </br>
                     </div>
@@ -229,5 +223,16 @@ function ChangeText(strId) {
         </div>
   </div> 
 
+    <script>
+    var showSummary = function(programme_ID){
+        let cardBody = document.getElementByClass("card-body");
+    <% @programmes_courses.each do |programmeCourse| %>
+    if(programme_ID == "<%= programmeCourse.programme_id%>") { 
+
+    }
+        <%end%>
+
+};
+</script> 
  
  
