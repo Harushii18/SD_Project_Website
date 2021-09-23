@@ -573,14 +573,19 @@ Timeline-->Schedule
     }
 
     displayDate(){
+      var temp = document.createElement('div');
       var p = document.createElement('p');
+
       p.setAttribute('id','start_date');
-      //p.style.textAlign = "center"
-      p.style.width = "100%";
-      p.style.background = "#CB22D8";
-      p.style.color = "white";
+      temp.style.textAlign = "center"
+      temp.style.width = "100%";
+      temp.style.borderRadius= "25px";
+      temp.style.background = "#FFFFFF";
+      p.style.color = "black";
       p.innerHTML = this.startDate.getDate() + "-" + this.startDate.getMonth() + "-" + this.startDate.getFullYear();
-      this.div.appendChild(p);
+
+      temp.appendChild(p);
+      this.div.appendChild(temp);
       this.div.appendChild(document.createElement('br'));
     }
 
