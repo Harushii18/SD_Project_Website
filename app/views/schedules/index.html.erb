@@ -272,10 +272,10 @@ Timeline-->Schedule
       table.setAttribute("border","border:1px solid gray");
       table.style.background = "#f5f7f7";
 
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      //Spacing
       var br = document.createElement('br');
       table.appendChild(br);
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Spacing>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      //Spacing
 
       //Add student information
       var studentInformation = [this.studentName, this.studentNumber];
@@ -386,7 +386,7 @@ Timeline-->Schedule
       this.initialiseDivAttributes();
       this.displayDate();
       this.initialiseAssignedHospAttributes();
-      
+
     }
 
     initialiseDivAttributes(){
@@ -838,13 +838,10 @@ Timeline-->Schedule
     }
 
     timeblock.hospitalID = hospital_id;
-<<<<<<< HEAD
-=======
     timeblock.assigned_hosp.innerHTML = hospitalName;
 
     //to add hospital name to extra timeblocks according to specailty duration
     specialty_duration = timeblock.specialtyDuration;
->>>>>>> da05d6f1e05d8e914985e88c0be8bed653676300
 
     timeblock.div.innerHTML = hospitalName;
 
