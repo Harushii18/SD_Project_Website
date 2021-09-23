@@ -396,7 +396,7 @@ Timeline-->Schedule
 
     initialiseDivAttributes(){
 
-/*
+
       this.div.style.height = '120px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
@@ -404,8 +404,13 @@ Timeline-->Schedule
       this.div.style.alignItems = 'center';
       this.div.style.width = '150px'; //120
       this.div.setAttribute("id",this.studentID+"#"+this.weekNo);
+      this.div.style.justifyContent = 'center';
+      this.div.style.overflowWrap = 'break-word'; //Just to try and
+      this.div.style.wordWrap = 'break-word'; // force the content of the div to fit
+      this.div.style.hyphens = 'auto';// within the box
+      //this.div.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);;
       //console.log("Div ID is set to: "+this.studentID+"#"+this.weekNo )
-*/
+/*
         //Set div attributes
         this.div.style.width = '60px';
         this.div.style.height = '10px';
@@ -418,11 +423,11 @@ Timeline-->Schedule
         this.div.style.wordWrap = 'break-word'; // force the content of the div to fit
         this.div.style.hyphens = 'auto';// within the box
         this.div.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);;
+*/
 
-        
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-      
+
 
       var that = this;
       //On Drop Function
@@ -696,12 +701,17 @@ Timeline-->Schedule
 
       initialiseDivAttributes(){
         //Set div attributes
+        var nameDiv = document.createElement('div');
+        nameDiv.style.alignItems = 'center';
+        nameDiv.style.justifyContent = 'center';
         var temp = document.createElement('p');
         temp.style.textAlign = "center";
         temp.style.alignItems = "center";
         //temp.width = "wrap-text";
         temp.innerHTML = this.specialtyName;
-        this.div.appendChild(temp);
+        nameDiv.appendChild(temp);
+
+        this.div.appendChild(nameDiv);
         //this.div.innerHTML = this.specialtyName;
         this.div.style.textAlign = 'center';
         this.div.style.width = (100*this.specialtyDuration) +'px';
