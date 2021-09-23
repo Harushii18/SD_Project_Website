@@ -29,8 +29,10 @@
         <br>
 
         <!--Dropdown for hospitals -->
+
         <select name="hospital_drop" id="hospital_id"  class="btn btn-secondary dropdown-toggle">
         <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
+
         </select>
 
       </div>
@@ -394,7 +396,7 @@ Timeline-->Schedule
 
     initialiseDivAttributes(){
 
-
+/*
       this.div.style.height = '120px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
@@ -403,13 +405,31 @@ Timeline-->Schedule
       this.div.style.width = '150px'; //120
       this.div.setAttribute("id",this.studentID+"#"+this.weekNo);
       //console.log("Div ID is set to: "+this.studentID+"#"+this.weekNo )
+*/
+        //Set div attributes
+        this.div.style.width = '60px';
+        this.div.style.height = '10px';
+        this.div.style.padding = '15px';
+        this.div.style.display = 'flex';
+        this.div.style.border = "1px solid #aaaaaa";
+        this.div.style.alignItems = 'center';
+        this.div.style.justifyContent = 'center';
+        this.div.style.overflowWrap = 'break-word'; //Just to try and
+        this.div.style.wordWrap = 'break-word'; // force the content of the div to fit
+        this.div.style.hyphens = 'auto';// within the box
+        this.div.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);;
 
+        
+        //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+        //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+      
 
       var that = this;
       //On Drop Function
       this.div.ondrop = function(ev){
       console.log(that.weekNo);
       ev.preventDefault();
+
 
       //Retrieve Specialty ID
       var specialtyID = ev.dataTransfer.getData("specialtyID");
@@ -427,8 +447,10 @@ Timeline-->Schedule
       //Value that's passed
       //console.log("Sent value is: " + specialtyID);
 
+
       //Retrieve timebox div id
       var data = ev.dataTransfer.getData("text");
+
 
       //Put specialty div in timebox div
       //ev.target.appendChild(document.getElementById(data));
@@ -447,6 +469,7 @@ Timeline-->Schedule
          // specialtyN=that.specialtiesArr[i].getSpecialtyName();
           break;
         }
+
       }
 
 
@@ -470,7 +493,15 @@ Timeline-->Schedule
       ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
     //var hospital = prompt("please enter hospital", "vic");
 
+  //Added here
+        var disName = this.document.createElement('p'); // Text within the div
+        disName.innerHTML = String(this.specialtyName);
+        disName.style.fontSize = "small";
+        disName.style.color = 'white';
+        this.div.appendChild(disName);
+//Just Check
       that.assigned = true;
+
 
       };
 
@@ -887,6 +918,8 @@ Timeline-->Schedule
     specialty_duration: specialtyDuration
     });
   }
+
+
  </script>
 
 
