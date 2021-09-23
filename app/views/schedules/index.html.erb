@@ -582,7 +582,7 @@ Timeline-->Schedule
       temp.style.borderRadius= "25px";
       temp.style.background = "#FFFFFF";
       p.style.color = "black";
-      p.innerHTML = this.startDate.getDate() + "-" + this.startDate.getMonth() + "-" + this.startDate.getFullYear();
+      p.innerHTML = this.startDate.getDate() + "-" + this.startDate.getMonth()+1 + "-" + this.startDate.getFullYear();
 
       temp.appendChild(p);
       this.div.appendChild(temp);
@@ -662,7 +662,13 @@ Timeline-->Schedule
 
       initialiseDivAttributes(){
         //Set div attributes
-        this.div.innerHTML = this.specialtyName;
+        var temp = document.createElement('p');
+        temp.style.textAlign = "center";
+        temp.style.alignItems = "center";
+        //temp.width = "wrap-text";
+        temp.innerHTML = this.specialtyName;
+        this.div.appendChild(temp);
+        //this.div.innerHTML = this.specialtyName;
         this.div.style.textAlign = 'center';
         this.div.style.width = (100*this.specialtyDuration) +'px';
         this.div.style.height = '30px';
@@ -671,6 +677,7 @@ Timeline-->Schedule
         this.div.style.alignItems = 'center';
         this.div.style.background = this.color;
         this.div.style.color = "white"
+        this.div.style.borderRadius= "10px";
         //this.div.style.textAlign = "center"   //this didnt work to center the specialty name
 
         //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
