@@ -164,7 +164,10 @@ Timeline-->Schedule
       var index = 0;
       <% @specialties.each do |specialty| %>
         var color = this.colour_pallette[index];
-        var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, "<%= specialty.SpecialtyName %>", 2, this.studentID, color);
+
+        var progsId=<%=@current_programme_id%>;
+        var weeks=<%=CourseSpecialty.where(course_id: @programme_courses).where( specialty_id: specialty).pluck(:weeks)%>
+        var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, "<%= specialty.SpecialtyName %>", weeks, this.studentID, color);
         this.specialties.push(specialtyBlock);
         index = index + 1;
       <%end%>
@@ -356,12 +359,12 @@ Timeline-->Schedule
       //colours divs according to specialty duration
 
       let numDivSpan=that.div.getAttribute("weekNo");
-      let colorVal, specialtyN;
+      let colorVal;//, specialtyN;
       for (let i=0;i<that.specialtiesArr.length;i++){
         //ensure that div is colour of specialty it is assigned to
         if (that.specialtiesArr[i].specialtyID==that.specialtyID){
           colorVal=that.specialtiesArr[i].color;
-          specialtyN=that.specialtiesArr[i].getSpecialtyName();
+         // specialtyN=that.specialtiesArr[i].getSpecialtyName();
           break;
         }
       }
@@ -378,7 +381,7 @@ Timeline-->Schedule
 
 
         //CHANGE TEXT OF DIV- currently buggy as when text is changed, div moves downwards
-        // document.getElementById(i).style.wordBreak="break-all";
+         document.getElementById(currDivID).style.wordBreak="break-all";
         // document.getElementById(i).innerHTML=specialtyN;
       }
 
