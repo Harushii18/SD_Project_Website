@@ -120,7 +120,7 @@ function ChangeText(strId) {
         
             <div class="card h-100">
             
-            <div class="card-body">
+            <div class="card-body" id="cardBody">
            <!-- Programme Code
             
             <%= collection_select(:course_dashboard, :programme_id, Programme.all, :id, :programme_code, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
@@ -225,9 +225,21 @@ function ChangeText(strId) {
 
     <script>
     var showSummary = function(programme_ID){
-        let cardBody = document.getElementByClass("card-body");
+        let cardBody = document.getElementById("cardBody");
     <% @programmes_courses.each do |programmeCourse| %>
     if(programme_ID == "<%= programmeCourse.programme_id%>") { 
+        <% @dtId=0%>
+        <% @courses.each do |course| %>
+            if (course.id == "<%= programmeCourse.course_id%>"){
+                <% @dtId=@dtId+1%>
+                var button = document.createElement("BUTTON");
+                button.innerHTML = "button";
+
+                cardBody.appendChild(button);
+            }
+
+     
+        <%end%>
 
     }
         <%end%>
