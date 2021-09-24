@@ -588,11 +588,15 @@ Timeline-->Schedule
       p.style.color = "black";
       console.log(typeof this.startDate.getMonth());
       var month = this.startDate.getMonth()+1;
+      var day = this.startDate.getDate();
       if(month<10){
         month = "0" + month;
       }
+      if(day<10){
+        day = "0" + day;
+      }
       console.log("Month is: "+ month);
-      p.innerHTML = this.startDate.getDate() + "-" + month + "-" + this.startDate.getFullYear();
+      p.innerHTML =  day + "-" + month + "-" + this.startDate.getFullYear();
 
       temp.appendChild(p);
       this.div.appendChild(temp);
