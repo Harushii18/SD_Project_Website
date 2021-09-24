@@ -1,11 +1,17 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: %i[ show edit update destroy ]
+  before_action :set_search
 
   # GET /courses or /courses.json
   def index
-    @courses = Course.all
+    @courses = @q.result 
+    # @courses = Course.all
     @course_specialties = CourseSpecialty.all
     @specialties = Specialty.all
+  end
+  
+  def set_search
+    @q=Course.ransack(params[:q])
   end
 
   # GET /courses/1 or /courses/1.json

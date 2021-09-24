@@ -1,0 +1,29 @@
+
+<!---Search bar-->
+</br>
+<%= search_form_for @q do |f| %>
+<div class="d-flex flex-row">
+
+<script>
+	//Function to clear the search field
+	function emptySearch(){
+			var searchField = document.getElementById("searchField");
+			searchField.value = "";
+		}
+</script>
+
+
+ <%= f.search_field :id_or_CourseDescription_cont ,class:"form-control mr-sm-2" ,placeholder:"Search", id:"searchField" %>
+
+  <div class="btn-group" role="group" aria-label="Basic example">
+		<!--Submit the form with an empty search field-->
+		<%= f.submit 'Clear', class: "btn btn-outline-dark", style: "width: 5rem; height: 2.5rem;", onclick: "emptySearch()"%>
+
+		<!-- Search Button -->
+ 		<%= f.submit class:"btn btn-outline-dark", style: "width: 5rem; height: 2.5rem;" %>
+</div>
+
+
+<% end %>
+</div>
+<!-- ================-->

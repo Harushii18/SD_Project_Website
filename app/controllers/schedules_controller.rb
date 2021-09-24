@@ -8,7 +8,9 @@
   def index
     @users = @q.result
     @programmes = Programme.all
-
+    @courseSpecialties=CourseSpecialty.all
+    @programmCourses=ProgrammeCourse.all
+    @all_users = User.all
 
     @specialties = Specialty.all
     puts("look here")
@@ -24,8 +26,9 @@
 
     @course_specialties = CourseSpecialty.where(course_id: @programme_courses).select([:specialty_id])
 
-    @specialties = Specialty.where(id: @course_specialties)
+    
 
+    @specialties = Specialty.where(id: @course_specialties)
 
 
     @students = Student.filter_by_programme_id(@current_programme_id)
@@ -60,12 +63,15 @@
   # POST /schedules or /schedules.json
   def create
     @schedule = Schedule.new(schedule_params)
+
     if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]   ))
       respond_to do |format|
           if @schedule.save
-              format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
+            puts("kameron---------------------------Saved")
+             # format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
               format.json { render :show, status: :created, location: @schedule }
           else
+            puts("kameron::::in schedules controller failed to save")
             format.html { render :new, status: :unprocessable_entity }
             format.json { render json: @schedule.errors, status: :unprocessable_entity }
         end
