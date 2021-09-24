@@ -1,11 +1,12 @@
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 
 <!-- Div to display alerts when studnets are assigned -->
 <div id="showAssign" class="alert alert-primary" role="alert">
 
 </div>
 
-<div style="text-align:center; position:absolute;">
+<div id="sizingDiv" style="text-align:center">
 <br></br>
 <h1>Manage Schedules</h1>
 
@@ -28,7 +29,7 @@
         <br>
 
         <!--Dropdown for hospitals -->
-        <select name="hospital_drop" id="hospital_id" onchange="this.form.submit()" class="btn btn-secondary dropdown-toggle">
+        <select name="hospital_drop" id="hospital_id"  class="btn btn-secondary dropdown-toggle">
         <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
         </select>
 
@@ -75,7 +76,8 @@
 <!-- Some functions for the Drag and Drop Feature -->
 
 
-<div class="m-4" id="schedule_window">
+<%# centers div %>
+<div class="mt-4 d-flex justify-content-center" id="schedule_window">
 
 
 <script>
@@ -98,9 +100,10 @@ Timeline-->Schedule
         this.studentName = studentName;
         this.studentNumber = studentNumber;
         this.specialties = [];
+        this.hospitals = [];
         this.timeBlocks = [];
         this.schedules = [];
-        this.initialiseTimeBlocks();
+        this.initialiseTimeBlocks(studentID);
         this.initialiseSpecialties();
         this.initialiseSchedules();
         //console.log("There are this many timeblocks: "+this.timeBlocks.length);
@@ -123,7 +126,13 @@ Timeline-->Schedule
               newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
               newSchedule.setStudentID(that.studentID);
               newSchedule.setSpecialtyDuration(that.timeBlocks[i].getSpecialtyDuration());
+              console.log("save clicked, hospitalID is : " +that.timeBlocks[i].hospitalID)
               //TODO: Set Hospital ID
+
+              console.log("timeline constructor")
+              console.log(that.timeBlocks[i].getSpecialtyID());
+              console.log("timeline constructor")
+           
 
               that.schedules.push(newSchedule);
             }
@@ -134,10 +143,11 @@ Timeline-->Schedule
 
     }
 
-    initialiseTimeBlocks(){
+    initialiseTimeBlocks(studentID){
       for(var i =0; i<52; i++){
-        var timeBlock = new TimeBlock(i+1);
-        this.timeBlocks.push(timeBlock);
+        var timeBlock = new TimeBlock(i+1, studentID);
+        
+       this.timeBlocks.push(timeBlock);
       }
     }
 
@@ -223,8 +233,10 @@ Timeline-->Schedule
       //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
       //Note: I think we need to use window.InnerWidth and window.InnerHeight here but we'll come back to this at some point.
       container.style.height = "50px";
-      container.style.width = "1800px";
-      container.style.overflow = 'scroll';
+
+      //was 1800px before. Now it is 95 percent of the viewport
+      container.style.width="95vw";
+      container.style.overflow = 'overlay';
       container.style.alignItems = 'center';
       var tr = document.createElement('tr');
       tr.appendChild(container);
@@ -255,10 +267,17 @@ Timeline-->Schedule
   }
 
   class TimeBlock {
-    constructor(weekNo){
+    constructor(weekNo,studentID){
 
       this.weekNo = weekNo;
+      this.studentID = studentID;
+      this.hospitalID = 0;
+
       this.div = document.createElement('div');
+      this.div.setAttribute("weekNo",this.weekNo);
+      this.div.setAttribute("studentID", this.studentID);
+      
+
       this.assigned = false;
       this.specialtyID = "";
       this.specialtyDuration = "";
@@ -309,6 +328,8 @@ Timeline-->Schedule
       //Once assigned, allow for modal box to appear
       ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
       ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+    //var hospital = prompt("please enter hospital", "vic");
+    
       that.assigned = true;
 
       };
@@ -331,8 +352,30 @@ Timeline-->Schedule
         //Show Modal Box
         ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
         ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+        ev.target.setAttribute("student","studentValue");
+        
+      
+       
         that.assigned = true;
       };
+
+      //
+      this.div.onclick = function(ev){
+        if (that.assigned)
+          {
+
+            //This code runs for a TimeBlock when a SpecialtyBlock is dropped onto it
+            var drop = document.getElementById('hospital_id');
+
+            drop.setAttribute("weekNo",this.getAttribute("weekNo"));
+            drop.setAttribute("studentID", this.getAttribute("studentID"));
+        
+            drop.setAttribute("timeBlock", this.getAttribute("timeBlock"));
+
+            drop.setAttribute("specialtyID", ev.target.getAttribute("specialtyID"));
+
+        }
+      }
 
     }
 
@@ -433,7 +476,8 @@ Timeline-->Schedule
   class SpecialtyBlock{
       constructor(specialtyID,specialtyName,specialtyDuration,studentID){
         this.div = document.createElement('div');
-        this.specialtyID = specialtyID;
+        this.div.setAttribute("specialtyID", specialtyID);
+        this.div.setAttribute("specialtyID",specialtyID)
         this.specialtyName = specialtyName;
         this.specialtyDuration = specialtyDuration;
 
@@ -451,8 +495,8 @@ Timeline-->Schedule
         this.div.style.display = 'flex';
         this.div.style.border = "1px solid #aaaaaa";
         this.div.style.alignItems = 'center';
-        //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-        //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+
+
         this.div.setAttribute("draggable","true");
         this.div.innerHTML = String(this.specialtyName);
         this.div.setAttribute("id",this.studentID+"#"+this.specialtyID);
@@ -460,15 +504,20 @@ Timeline-->Schedule
         //On dragstart function
         var that = this;
         this.div.ondragstart = function(ev){
-          //console.log("ondragstart");
+         // console.log("ondragstart");
           //Transfer div id
           ev.dataTransfer.setData("text", ev.target.id);
           //Transfer SpecialtyID
           //console.log("Trying to send: "+ that.specialtyID);
-          ev.dataTransfer.setData("specialtyID", that.specialtyID);
+          //ev.dataTransfer.setData("specialtyID", that.specialtyID);
 
+          ev.target.setAttribute("specialtyID",this.getAttribute("specialtyID"));
+          
           //Transfer Specialty Duration
+
           ev.dataTransfer.setData("specialtyDuration", that.specialtyDuration);
+
+
         };
 
 
@@ -491,7 +540,7 @@ Timeline-->Schedule
 
   class ProgrammeSchedule{
         constructor(parentObject){
-        //  this.programmeCode = programmeCode;
+          this.programmeCode = "i am the code";
           this.parentObject = parentObject;
           this.timelines =[];
           this.initialiseTimelines();
@@ -501,6 +550,7 @@ Timeline-->Schedule
 
         //Create a number of timelines for each student in the programme
         initialiseTimelines(){
+
           <% @students.each do |student| %>
             this.timelines.push(new Timeline(<%=student.id%>, <%= User.find(student.user_id).id%>, <%=student.studentNumber%>));
           <%end%>
@@ -523,6 +573,10 @@ Timeline-->Schedule
               var hospitalID = currSchedule[j].getHospitalID();
               console.log("Schedule information is: "+studentID+" "+weekNo+" "+specialtyID+" "+specialtyDuration+" "+hospitalID);
               //TODO: Save this schedule to the Database
+              //calls function to do an ajax req
+              //still need to update parameters and fix Db table
+              SaveRecord(studentID,specialtyID,weekNo,specialtyDuration);
+
 
             }
           }
@@ -547,6 +601,7 @@ Timeline-->Schedule
 
   //Create a new programme schedule for a specific programme
   var programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
+  var chosen_hospital_id = 0;
 
 //onclick function to save all the schedules to the database
   function makeChanges(){
@@ -558,12 +613,68 @@ Timeline-->Schedule
   function assignHospital(){
     var drop = document.getElementById('hospital_id');
     var hospitalName = drop.options[drop.selectedIndex].text;
-
+    
     document.getElementById('showAssign').innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
 
+    console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
+
+    var hospital_id = drop.options[drop.selectedIndex].value;
+    chosen_hospital_id = hospital_id;
+    var week_no = drop.getAttribute("weekNo");
+    console.log("weekNo is: " +drop.getAttribute("weekNo"));
+
+    var student_id = drop.getAttribute("studentID");
+    console.log("studentid is: " + drop.getAttribute("studentID"));
+    
+    var timelines = programmeSchedule.timelines;
+    var size = timelines.length;
+
+    var timeline;
+    for (let i = 0 ; i < size; i++)
+    {
+      timeline = timelines[i];
+      if (timeline.studentID == student_id)
+        {
+          break;
+        }
+    }
+
+    var timeblock;
+    for (let i = 0 ; i < size; i++)
+    {
+      timeblock = timeline.timeBlocks[i];
+      if (timeblock.weekNo == week_no)
+        {
+          break;
+        }
+    }
+
+    timeblock.hospitalID = hospital_id;
+    console.log("in hos assign: " + timeblock.hospitalID);
+
+
+    console.log("programme code is: " +programmeSchedule.programmeCode);
+
+
+    console.log("in assignHospital, specialty is: " + drop.getAttribute("specialtyID"));
+
+
+
+
+
+
   }
-
-
+  //need to change the params for rotation to weekno and add specialtyduration
+  function SaveRecord(studentID,specialtyID,weekNo,specialtyDuration){
+    $.post("/schedules",
+    {
+    student_id: studentID,
+    specialty_id: specialtyID,
+    hospital_id: 1,
+    week_no: weekNo,
+    specialty_duration: specialtyDuration
+    });
+  }
  </script>
 
 

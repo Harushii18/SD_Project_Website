@@ -1,3 +1,15 @@
+<%# Javascript code for changing the value of the collapsible button from + to - %>
+<script>
+function ChangeText(strId) {
+    if (document.getElementById(strId).innerHTML==="-"){
+        document.getElementById(strId).innerHTML = "+";
+    }else{
+        document.getElementById(strId).innerHTML = "-";
+    }
+}
+</script>
+<%# =============================================================================== %>
+ 
  </br>
  <div class="row">
      
@@ -5,9 +17,99 @@
         
             <div class="card border-info " style="height: 100%">
             <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h5 class="card-title">Infographs</h5>
+                <p class="card-text">Nr of specialties.</p>
+                
+
+                <%# -------------------------------------------------------------------------- %>
+                <%# returns number of unique specialties  %>
+                <%@totSpecialties=CourseSpecialty.distinct.count(:specialty_id)%> 
+                <%# returns unique specialty id's %>
+                <%@totSpecialtiesNames= CourseSpecialty.distinct.pluck(:specialty_id)%>
+                <%# Client.distinct.pluck(:name) %>
+
+                <%# creating array of labels and data %>
+                <%# will store labels %>
+                <% @arrThing= Array.new(@totSpecialties,"")%> 
+
+                <%# will store data %>
+                <% @arrNum= Array.new(@totSpecialties,0)%>
+                
+                
+               <%# countid to keep track of index of arrays %>
+                <% @countid=0%>   
+
+                <%# updating arrThing->:Labels %>
+                <%@totSpecialtiesNames.each do |item|%>
+                <%@arrThing[@countid]=Specialty.where(:id => item).pluck(:SpecialtyName).first%>
+                <% @countid=@countid+1%>
+               
+                <%end%>
+                
+
+                <%# updating arrNum array->data %>
+                <% @course_specialties.each do |item| %>
+                    <% @countid=0%> 
+                        <%@totSpecialtiesNames.each do |i|%>
+                            <%if item.specialty_id==i%>
+                                <%@arrNum[@countid]= @arrNum[@countid]+1%>
+                            <%end%>
+                            <% @countid=@countid+1%>
+                        <%end%>
+                <%end%>
+
+                <%# -------------------------------------------------------------------------- %>
+                <%# java script to create pie chart  %>
+                <canvas id="myChart" width="150" height="200"></canvas>
+                <script>
+                        //randomly generates colours 
+                        var randomColorGenerator = function () { 
+                            return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
+                        };
+
+                        //array that stores random colours
+                        const cols = [];
+
+                        //passes ruby arrays to java script 
+                        var LabelArray= <%=@arrThing.to_json.html_safe %>;
+                        var DataArray= <%=@arrNum.to_json.html_safe %>;
+                        
+                        //stores length of data array
+                        let len= DataArray.length;
+
+                        //populates data array 
+                        for (let i=0;i<len;i++){
+                            cols.push(randomColorGenerator());
+                        }
+
+                        //creating pie chart 
+                        var ctx = document.getElementById('myChart');
+                        
+                        var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: LabelArray,
+                            datasets: [{
+                            label: 'Number of specialties',
+                            data: DataArray,
+                            backgroundColor: cols,
+                            borderWidth:0
+                           
+                            }]
+                        },
+                        // options: {
+                        //     scales: {
+                        //     yAxes: [{
+                        //         ticks: {
+                        //         beginAtZero: true
+                        //         }
+                        //     }]
+                        //     }
+                        // }
+                        });
+                        </script>
+                        <%# -------------------------------------------------------------------------- %>
+
             </div>
             </div>
             </div>
@@ -17,42 +119,74 @@
          <div class="w-75">
         
             <div class="card h-100">
-            <div class="card-body">
-                <%# <h5 class="card-title">Special title treatment</h5> %>
-                <p class="card-text">
+            
+            <div class="card-body" id="cardBody">
+           <!-- Programme Code
+            
+            <%= collection_select(:course_dashboard, :programme_id, Programme.all, :id, :programme_code, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
+           -->
+            <!-- dropdown for programmes-->
+            <form action="/courseDashboard">
+            <label> <h5>Select Programme Code</h5> </label>
+            <br>
+            <select name="programme_id" id="programme_select" onchange="showSummary(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
 
-                         <% @dtId=0%>
-                        <% @courses.each do |course| %>
-                        <% @dtId=@dtId+1%>
-                        
-                        <p>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
+            </select>
+            </form>
+           
+           <!-- Populate dropdown or hospital select with hospitals-->
+            <% @programmes.each do |programme| %>
+            <script >
+                select = document.getElementById('programme_select')
+                option = document.createElement( 'option' );
+                option.value = <%= programme.id %>
+                option.text = "<%= programme.programme_code %>";
+                select.add( option );
+            </script>
+            <%end%>
+
+
+            <br>
+
+
+
+                
+        <%# <h5 class="card-title">Special title treatment</h5> %>
+            <!-- <p class="card-text"> -->
+
+        <% @dtId=0%>
+        <% @courses.each do |course| %>
+            <% @dtId=@dtId+1%>
+                    
+               
+                    <button class="btn btn-primary" onclick="ChangeText(<%=@dtId.to_s%>)" id=<%=@dtId.to_s%> type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
                         +
                     </button>
                     <%= course.CourseDescription %>
                     </p>
                     <div class="collapse" id=<%="collapseExample"+@dtId.to_s%> >
+                    
+            <%# The counter below keeps track of how many specialties there are %>
+            <% @count=0%>
+
+            <div class="card card-body">
+                <%# ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO %>
+                    <%if  CourseSpecialty.where(:course_id => course.id).count== 0%>
                         
-                    <%# The counter below keeps track of how many specialties there are %>
-                    <% @count=0%>
+                    There are no specialties assigned to this course.
 
-                    <div class="card card-body">
+                        
+                    <%else%>
+                    <%# ==================== %>
 
-                        <%# ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO %>
-                            <%if  CourseSpecialty.where(:course_id => course.id).count== 0%>
-                            
-                                    There are no specialties assigned to this course.
-                            
-                            <%else%>
-                            <%# ==================== %>
+                    <%# Display how many specialties there are  %>
+                <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
+                    <%if  CourseSpecialty.where(:course_id => course.id).count== 1%>
+                        There is <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialty to this course:
+                    <%else%>
+                        There are <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialties to this course:
+                    <%end%>
 
-                        <%# Display how many specialties there are  %>
-                    <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
-                        <%if  CourseSpecialty.where(:course_id => course.id).count== 1%>
-                            There is <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialty to this course:
-                        <%else%>
-                            There are <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialties to this course:
-                        <%end%>
 
                     <% @course_specialties.each do |course_specialty| %>
                         <%if course_specialty.course_id== course.id%>
@@ -67,11 +201,12 @@
                             </div>
 
 
-                            <% end %> 
-                            <% end %> 
-                        <%end%>
+                        <% end %> 
+                    <% end %> 
+                <%end%>
+        
+    
 
-                            
                         </div>
                     </br>
                     </div>
@@ -81,14 +216,35 @@
                 
                 
                 
-                </p>
+                    <!-- </p> -->
                 <%# <a href="#" class="btn btn-primary">Go somewhere</a> %>
             </div>
             </div>
         </div>
   </div> 
 
+    <script>
+    var showSummary = function(programme_ID){
+        let cardBody = document.getElementById("cardBody");
+    <% @programmes_courses.each do |programmeCourse| %>
+    if(programme_ID == "<%= programmeCourse.programme_id%>") { 
+        <% @dtId=0%>
+        <% @courses.each do |course| %>
+            if (course.id == "<%= programmeCourse.course_id%>"){
+                <% @dtId=@dtId+1%>
+                var button = document.createElement("BUTTON");
+                button.innerHTML = "button";
 
- 
+                cardBody.appendChild(button);
+            }
+
+     
+        <%end%>
+
+    }
+        <%end%>
+
+};
+</script> 
  
  
