@@ -74,7 +74,7 @@
 </select>
 </form>
 <br></br>
-<button type="button" class="btn btn-primary" onclick="makeChanges()">Make Changes</button>
+<button type="button" class="btn btn-primary" onclick="makeChanges()">Update Database with Changes</button>
 <!-- Some functions for the Drag and Drop Feature -->
 
 
@@ -116,8 +116,9 @@ Timeline-->Schedule
 
         //This button acts as an event so that the array of schedules can be poppulated
         this.btnSaveToChanges = document.createElement('button');
-        this.btnSaveToChanges.innerHTML = "Save to changes";
-        this.btnSaveToChanges.setAttribute("class","btn btn-outline-success");
+        this.btnSaveToChanges.innerHTML = "Save changes";
+        this.btnSaveToChanges.setAttribute("class","btn btn-success");
+        this.btnSaveToChanges.setAttribute("style","border-radius: 100px; display: inline-block; text-align: center; padding: 10px; width: 150px;");
 
         //When Save to Changes is clicked, populate schedules with all current schedules in timeline - checks each timebox.
         var that = this;
@@ -272,50 +273,69 @@ Timeline-->Schedule
 
     displayTimeline(){
 
+      var timeLineDiv = document.createElement('div');
+      //timeLineDiv.setAttribute("border","border:1px solid gray");
+      timeLineDiv.style.borderRadius= "25px";
+      timeLineDiv.style.boxShadow = "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)";
+      timeLineDiv.style.padding = "10px";
+      //timeLineDiv.style.backgroundColor = "green";
+
       //Main Table
       var table = document.createElement('table');
-      table.setAttribute("border","border:1px solid gray");
-      table.style.background = "#f5f7f7";
+
+      //Button to update Schedule
+      var headerDiv = document.createElement('div');
+      headerDiv.setAttribute("style","margin-top:20px; margin-bottom:0px;");
+
+      var buttonDiv = document.createElement('div');
+      buttonDiv.setAttribute("style","margin-left: auto; margin-right: 10px; margin-top: 5px; float: right;");
+      buttonDiv.appendChild(this.btnSaveToChanges);
+      headerDiv.appendChild(buttonDiv);
+
+
+      //Add student information
+      var studentInfoDiv = document.createElement('div');
+      studentInfoDiv.setAttribute("style","display: inline-block; margin-left: 125px;");
+      var studentInformation = [this.studentName, this.studentNumber];
+
+      var tempTable = document.createElement('table');
+      for(var i = 0 ;i<studentInformation.length;i++){
+        var tr = document.createElement('tr');
+        var h5 = document.createElement('h5');
+        h5.innerHTML = studentInformation[i];
+        var td = document.createElement('td');
+        td.appendChild(h5);
+        tr.appendChild(td);
+        tempTable.appendChild(tr);
+      }
+      studentInfoDiv.appendChild(tempTable);
+      headerDiv.appendChild(studentInfoDiv);
+      var tr = document.createElement('tr');
+      tr.appendChild(headerDiv);
+      table.appendChild(tr);
+
+      var tr = document.createElement('tr');
+      var specialtyDiv = document.createElement('div');
+      specialtyDiv.setAttribute("style","border-radius: 25px; border: 2px dotted gray; display: inline-block; padding: 15px; float: left;");
+      //Add Specialties for students
+      for(var i = 0; i<this.specialties.length;i++ ){
+        specialtyDiv.appendChild(this.specialties[i].getDiv());
+      }
+      tr.appendChild(specialtyDiv);
+      table.appendChild(tr);
 
       //Spacing
       var br = document.createElement('br');
       table.appendChild(br);
       //Spacing
 
-      //Add student information
-      var studentInformation = [this.studentName, this.studentNumber];
-      for(var i = 0 ;i<studentInformation.length;i++){
-        var tr = document.createElement('tr');
-        var h5 = document.createElement('h5');
-        h5.innerHTML = studentInformation[i];
-        //console.log("Student Info: " + p.innerHTML);
-        var td = document.createElement('td');
-        //td.style.align="left";
-        td.appendChild(h5);
-        tr.appendChild(td);
-        table.appendChild(tr);
-      }
-
-      //Add Specialties for students
-      //console.log("Length of specialties is: "  + this.specialties.length);
-      for(var i = 0; i<this.specialties.length;i++ ){
-        //console.log("Added this specialty: "+i);
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        td.appendChild(this.specialties[i].getDiv());
-        tr.appendChild(td);
-        table.appendChild(tr);
-      }
-
-
-
       //Visual timeline
       //52 divs - Timeblocks
       var tr = document.createElement('tr');
       for(var i = 0; i<52; i++){
         var p = document.createElement('p');
-        //p.innerHTML = studentInformation[i];
         var td = document.createElement('td');
+        td.style.padding ="0px"; //No spacing between timeBoxes
         td.appendChild(this.timeBlocks[i].getDiv());
         tr.appendChild(td);
       }
@@ -324,8 +344,6 @@ Timeline-->Schedule
       var container = document.createElement('div');
       container.appendChild(tr);
       container.appendChild(document.createElement('br'));
-      //Need to dynamically set the width and height in the future (So the timeline adjusts size with the window size of the browser)
-      //Note: I think we need to use window.InnerWidth and window.InnerHeight here but we'll come back to this at some point.
       container.style.height = "50%";
       //was 1800px before. Now it is 95 percent of the viewport
       container.style.width="95vw";
@@ -340,19 +358,18 @@ Timeline-->Schedule
       table.appendChild(br);
       //Spacing
 
-      //Button to update Schedule
-      var tr = document.createElement('tr');
-      tr.appendChild(this.btnSaveToChanges);
-      table.appendChild(tr);
+
 
       //Spacing
       var br = document.createElement('br');
       table.appendChild(br);
       //Spacing
 
-      return table; //Return row which corresponds to a student's timeline
-      //Append to main document
-     //this.parentObject.appendChild(table);
+
+      timeLineDiv.appendChild(table);
+      console.log(timeLineDiv);
+
+      return timeLineDiv; //Return row which corresponds to a student's timeline
 
     }
 
@@ -394,6 +411,8 @@ Timeline-->Schedule
 
     }
 
+    //initialistaion Methods
+
     initialiseDivAttributes(){
 
 
@@ -408,26 +427,17 @@ Timeline-->Schedule
       this.div.style.overflowWrap = 'break-word'; //Just to try and
       this.div.style.wordWrap = 'break-word'; // force the content of the div to fit
       this.div.style.hyphens = 'auto';// within the box
+      this.div.style.backgroundColor = "#B8B8B8";
+      this.div.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+      this.div.style.marginBottom = "5px";
+      if(this.weekNo==1){
+        this.div.style.borderRadius = "15px 0 0 15px";
+      }
+      if(this.weekNo==52){
+        this.div.style.borderRadius = "0 15px 15px 0";
+      }
+
       //this.div.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);;
-      //console.log("Div ID is set to: "+this.studentID+"#"+this.weekNo )
-/*
-        //Set div attributes
-        this.div.style.width = '60px';
-        this.div.style.height = '10px';
-        this.div.style.padding = '15px';
-        this.div.style.display = 'flex';
-        this.div.style.border = "1px solid #aaaaaa";
-        this.div.style.alignItems = 'center';
-        this.div.style.justifyContent = 'center';
-        this.div.style.overflowWrap = 'break-word'; //Just to try and
-        this.div.style.wordWrap = 'break-word'; // force the content of the div to fit
-        this.div.style.hyphens = 'auto';// within the box
-        this.div.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);;
-*/
-
-        //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-        //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-
 
       var that = this;
       //On Drop Function
@@ -445,24 +455,13 @@ Timeline-->Schedule
       //Retrieve Specialty Duration
       var specialtyDuration = ev.dataTransfer.getData("specialtyDuration");
       that.specialtyDuration = specialtyDuration;
-      // console.log("Received specialty duration: "+specialtyDuration);
-
-
-
-      //Value that's passed
-      //console.log("Sent value is: " + specialtyID);
-
 
       //Retrieve timebox div id
       var data = ev.dataTransfer.getData("text");
 
 
       //Put specialty div in timebox div
-      //ev.target.appendChild(document.getElementById(data));
       ev.target.style.background = document.getElementById(data).style.background;
-     // ev.target.innerHTML = document.getElementById(data).innerHTML;
-
-
 
       //colours divs according to specialty duration
       let numDivSpan=that.div.getAttribute("weekNo");
@@ -471,7 +470,6 @@ Timeline-->Schedule
         //ensure that div is colour of specialty it is assigned to
         if (that.specialtiesArr[i].specialtyID==that.specialtyID){
           colorVal=that.specialtiesArr[i].color;
-         // specialtyN=that.specialtiesArr[i].getSpecialtyName();
           break;
         }
 
@@ -557,10 +555,6 @@ Timeline-->Schedule
 
     }
 
-    getDivID(){
-      return this.div.id;
-    }
-
     initialiseStartDate(){
       this.startDate.setMonth(0);
       this.startDate.setDate(1+(7*(this.weekNo-1)));
@@ -576,6 +570,39 @@ Timeline-->Schedule
       //p.style.width = "100%";
       this.div.appendChild(document.createElement('br')); //put space first
       this.div.appendChild(this.assigned_hosp);
+    }
+
+    //Other Class Methods
+
+    displayDate(){
+      var temp = document.createElement('div');
+      var p = document.createElement('p');
+
+      p.setAttribute('id','start_date');
+      temp.style.textAlign = "center"
+      temp.style.width = "100%";
+      temp.style.borderRadius= "25px";
+      temp.style.background = "#FFFFFF";
+      temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+      //temp.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+      p.style.color = "black";
+      console.log(typeof this.startDate.getMonth());
+      var month = this.startDate.getMonth()+1;
+      if(month<10){
+        month = "0" + month;
+      }
+      console.log("Month is: "+ month);
+      p.innerHTML = this.startDate.getDate() + "-" + month + "-" + this.startDate.getFullYear();
+
+      temp.appendChild(p);
+      this.div.appendChild(temp);
+      this.div.appendChild(document.createElement('br'));
+    }
+
+    //Getter and Setter Methods
+
+    getDivID(){
+      return this.div.id;
     }
 
     getHospitalID(){
@@ -594,39 +621,23 @@ Timeline-->Schedule
       return this.div;
     }
 
-    setSpecialtyID(specialtyID){
-      this.specialtyID = specialtyID;
-    }
-
     getSpecialtyID(){
       return this.specialtyID;
     }
 
-
     getAssigned(){
       return this.assigned;
+    }
+
+    setSpecialtyID(specialtyID){
+      this.specialtyID = specialtyID;
     }
 
     setAssigned(value){
       this.assigned = value;
     }
 
-    displayDate(){
-      var temp = document.createElement('div');
-      var p = document.createElement('p');
 
-      p.setAttribute('id','start_date');
-      temp.style.textAlign = "center"
-      temp.style.width = "100%";
-      temp.style.borderRadius= "25px";
-      temp.style.background = "#FFFFFF";
-      p.style.color = "black";
-      p.innerHTML = this.startDate.getDate() + "-" + this.startDate.getMonth()+1 + "-" + this.startDate.getFullYear();
-
-      temp.appendChild(p);
-      this.div.appendChild(temp);
-      this.div.appendChild(document.createElement('br'));
-    }
 
    }
 
@@ -704,9 +715,12 @@ Timeline-->Schedule
         var nameDiv = document.createElement('div');
         nameDiv.style.alignItems = 'center';
         nameDiv.style.justifyContent = 'center';
+        nameDiv.style.margin = "auto auto";
         var temp = document.createElement('p');
         temp.style.textAlign = "center";
         temp.style.alignItems = "center";
+        temp.style.textShadow =  "1px 1px 1px #000000";
+
         //temp.width = "wrap-text";
         temp.innerHTML = this.specialtyName;
         nameDiv.appendChild(temp);
@@ -714,7 +728,10 @@ Timeline-->Schedule
         this.div.appendChild(nameDiv);
         //this.div.innerHTML = this.specialtyName;
         this.div.style.textAlign = 'center';
+        //this.div.style.width = "100px";
         this.div.style.width = (100*this.specialtyDuration) +'px';
+        console.log("Specialty Duration is: "+this.specialtyDuration);
+        console.log("This is the divs width: "+ (100*this.specialtyDuration) +'px');
         this.div.style.height = '30px';
         this.div.style.display = 'flex';
         this.div.style.border = "1px solid #aaaaaa";
@@ -722,18 +739,15 @@ Timeline-->Schedule
         this.div.style.background = this.color;
         this.div.style.color = "white"
         this.div.style.borderRadius= "10px";
-        //this.div.style.textAlign = "center"   //this didnt work to center the specialty name
-
-        //this.div.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-        //this.div.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+        this.div.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+        this.div.style.marginBottom = "5px";
 
         this.div.setAttribute("draggable","true");
-         //String(this.specialtyName);
-
 
         //On dragstart function
         var that = this;
         this.div.ondragstart = function(ev){
+
 
          // console.log("ondragstart");
           //Transfer div id
@@ -749,8 +763,15 @@ Timeline-->Schedule
 
         };
 
+        this.div.ondrag = function(ev){
+          console.log("dragging");
+          //ev.preventDefault();
+          //document.body.style.cursor = 'none';
+        };
+
         this.div.ondrop = function(ev){
           console.log("in specialty drop: " +this.getAttribute("specialtyID"));
+          //that.div.style.background = "black";
           ev.target.setAttribute("specialtyID",this.getAttribute("specialtyID"));
 
         };
@@ -827,6 +848,7 @@ Timeline-->Schedule
         }
 
         populateSchedule(){
+
           var table = document.createElement('table');
           for(var i = 0; i<this.timelines.length; i++){
             var br = document.createElement('br'); //Front-end
@@ -837,6 +859,7 @@ Timeline-->Schedule
 
             table.appendChild(br); //Front-end
           }
+          //timeLineDiv.appendChild(table);
           this.parentObject.appendChild(table);
         }
 
