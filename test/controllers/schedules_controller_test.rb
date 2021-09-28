@@ -13,12 +13,13 @@ class SchedulesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
- # test "should create schedule" do
- ##   assert_difference('Schedule.count') do
-  #    post schedules_url, params: {   hospital: 1, rotation: 1, specialty: 1, student: 1 } 
+
+  #test "should create schedule" do
+  #  assert_difference('Schedule.count') do
+  #    post schedules_url, params: {   hospital: 1, week_no: 1, specialty: 1, student: 1, specialty_duration: 1 }
   #  end
 
-   #assert_redirected_to schedule_url(Schedule.last)
+  # assert_redirected_to schedule_url(Schedule.last)
   #end
 
   test "should show schedule" do
