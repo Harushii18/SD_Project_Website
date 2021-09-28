@@ -23,7 +23,6 @@ before_script:
   - bundle install --gemfile=Gemfile
   - bundle exec rake db:create
   - bundle exec rake db:migrate
-  - bundle exec rails webpacker:install
 
 
   - yarn
