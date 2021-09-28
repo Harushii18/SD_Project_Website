@@ -129,7 +129,7 @@ function ChangeText(strId) {
             <form action="/courseDashboard">
             <label> <h5>Select Programme Code</h5> </label>
             <br>
-            <select name="programme_id" id="programme_select" onchange="showSummary(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
+            <select name="programme_id" id="programme_select" onchange="displayCourses(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
 
             </select>
             </form>
@@ -147,104 +147,162 @@ function ChangeText(strId) {
 
 
             <br>
+            <div id="divCourses">
+                <%# The contents here will be dynamically instantiated via JS %>
+            </div>
 
+<%# EXPERIMENTING=============================================== %>
+<script>
+  var displayCourses = function(programme_ID) {
+      //remove all previously made buttons on click
+      $("#divCourses").children().remove();
 
-
-                
-        <%# <h5 class="card-title">Special title treatment</h5> %>
-            <!-- <p class="card-text"> -->
-
-        <% @dtId=0%>
-        <% @courses.each do |course| %>
-            <% @dtId=@dtId+1%>
-                    
-               
-                    <button class="btn btn-primary" onclick="ChangeText(<%=@dtId.to_s%>)" id=<%=@dtId.to_s%> type="button" data-toggle="collapse" data-target=<%="#collapseExample"+@dtId.to_s%>  aria-expanded="false" aria-controls="collapseExample">
-                        +
-                    </button>
-                    <%= course.CourseDescription %>
-                    </p>
-                    <div class="collapse" id=<%="collapseExample"+@dtId.to_s%> >
-                    
-            <%# The counter below keeps track of how many specialties there are %>
-            <% @count=0%>
-
-            <div class="card card-body">
-                <%# ENSURE THAT IF THERE ARE NO SPECIALTIES, IT STATES SO %>
-                    <%if  CourseSpecialty.where(:course_id => course.id).count== 0%>
-                        
-                    There are no specialties assigned to this course.
-
-                        
-                    <%else%>
-                    <%# ==================== %>
-
-                    <%# Display how many specialties there are  %>
-                <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
-                    <%if  CourseSpecialty.where(:course_id => course.id).count== 1%>
-                        There is <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialty to this course:
-                    <%else%>
-                        There are <%= CourseSpecialty.where(:course_id => course.id).count%> assigned specialties to this course:
-                    <%end%>
-
-
-                    <% @course_specialties.each do |course_specialty| %>
-                        <%if course_specialty.course_id== course.id%>
-                        
-                            <% @count=@count+1%>
-                        
-
-                            <%# SPECIALTIES POPULATED -> name extracted only %>
-                        
-                            <div class="card card-body">
-                                <%= @count%>. <%=" "+Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>
-                            </div>
-
-
-                        <% end %> 
-                    <% end %> 
-                <%end%>
-        
     
+    var CCount=0;
+    //loop through programmes
+    <%@programmes_courses.each do |programme_course| %>
+       if (programme_ID == "<%= programme_course.programme_id%>") {
+           CCount+=1;
+           
+           console.log("hhbnm"+ "<%= programme_course.programme_id%>");
+             
+             
+                <% @dtId=0%>
+                <% @courses.each do |course| %>
+                    
+                   
+                    if ("<%=course.id%>" == "<%= programme_course.course_id%>"){
+                        
+                         <% @dtId=@dtId+1%>
 
-                        </div>
-                    </br>
-                    </div>
+                        //div to contain button + course name
+                        var divCourse = document.createElement("div");
 
-                    <% end %>
-                
-                
-                
-                
-                    <!-- </p> -->
-                <%# <a href="#" class="btn btn-primary">Go somewhere</a> %>
-            </div>
-            </div>
-        </div>
-  </div> 
+                       
+                        //create button 
+                        var button = document.createElement("button");
+                        button.innerHTML="+";
+                        button.id="<%=@dtId.to_s%>";
 
-    <script>
-    var showSummary = function(programme_ID){
-        let cardBody = document.getElementById("cardBody");
-    <% @programmes_courses.each do |programmeCourse| %>
-    if(programme_ID == "<%= programmeCourse.programme_id%>") { 
-        <% @dtId=0%>
-        <% @courses.each do |course| %>
-            if (course.id == "<%= programmeCourse.course_id%>"){
-                <% @dtId=@dtId+1%>
-                var button = document.createElement("BUTTON");
-                button.innerHTML = "button";
+                        button.className="btn btn-primary";
+                        $("<%="#"+@dtId.to_s%>").attr("data-toggle", "collapse");
+                        $("<%="#"+@dtId.to_s%>").attr("data-target", "<%="#collapseExample"+@dtId.to_s%>" );
+                        $("<%="#"+@dtId.to_s%>").attr("aria-expanded", "false");
+                        $("<%="#"+@dtId.to_s%>").attr("aria-controls", "collapseExample");
 
-                cardBody.appendChild(button);
-            }
+                        button.onclick = function() { //changes + to - and vice versa on click
+                           let strId="<%=@dtId.to_s%>";
+                            if (document.getElementById(strId).innerHTML==="-"){
+                                document.getElementById(strId).innerHTML = "+";
+                            }else{
+                                document.getElementById(strId).innerHTML = "-";
+                            }
 
-     
-        <%end%>
+                            $("<%="#collapseExample"+@dtId.to_s%>").collapse('toggle')
+                        }
+
+                        
+
+                        //add course text next to button
+                        var newP = document.createElement("p"); 
+	                    var textNode = document.createTextNode("<%= course.CourseDescription %>"); 
+                        newP.style.display="inline-block";
+
+                        //TODO: This should become a scalable size depending on screen later
+                        newP.style.paddingLeft="5px";
+	                    newP.appendChild(textNode);
+
+                         //add button and course name to div
+                        divCourse.appendChild(button);
+                        divCourse.appendChild(newP);
+                       
+                        var divOuter = document.createElement("div");
+                        divOuter.className="collapse";
+                        divOuter.id="<%="collapseExample"+@dtId.to_s%>";
+                        divOuter.style.marginBottom="15px";
+                        divCourse.appendChild(divOuter);
+
+                        
+                        //extra div for styling
+                        var divOuter1= document.createElement("div");
+                        divOuter1.className="card card-body";
+                        divOuter.appendChild(divOuter1);
+
+
+
+
+
+                    if  ("<%=CourseSpecialty.where(:course_id => course.id).count%>"== "0"){
+                        
+                        divOuter1.innerHTML="There are no specialties assigned to this course.";
+
+                        divOuter.appendChild(divOuter1);
+
+
+                    }else{
+               
+
+                        //counter for just displaying purposes
+                        <% @count=0%>
+
+                            // <%# Display how many specialties there are  %>
+                        // <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
+                        if ("<%= CourseSpecialty.where(:course_id => course.id).count%>"== "1"){
+                            divOuter1.innerHTML="There is "+"<%= CourseSpecialty.where(:course_id => course.id).count%>"+" assigned specialty to this course:";
+                        }else{
+                            
+                            divOuter1.innerHTML="There are "+"<%= CourseSpecialty.where(:course_id => course.id).count%>"+" assigned specialties to this course:";
+                        }
+                        divOuter.appendChild(divOuter1);
+
+
+
+
+                        //add to specialties to collapsible div
+                        <% @course_specialties.each do |course_specialty| %>
+                            if ("<%=course_specialty.course_id%>"== "<%=course.id%>"){
+                                <% @count=@count+1%>
+                                var divInner=document.createElement("div");
+                                divInner.className="card card-body";
+                                divInner.innerHTML="<%= @count%>"+". "+"<%=Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>";
+                                
+                                
+                                //add to outer div
+                            divOuter1.appendChild(divInner);
+
+                            }
+                        <%end%>
+                    }
+
+                        
+
+                       
+                        document.getElementById("divCourses").appendChild(divCourse);
+                     //   document.getElementById("divCourses").appendChild(divOuter);
+
+                     }
+                <%end%>
+            
+           
+       }
+    <%end%>
+   
+  
+    //if there are no courses, state it
+    if (CCount===0){
+
+                   var divNoCourses = document.createElement("div");
+                   divNoCourses.innerHTML="There are no courses in this programme.";
+                   document.getElementById("divCourses").appendChild(divNoCourses);
+
 
     }
-        <%end%>
+                
 
-};
-</script> 
- 
- 
+  }; //end of function
+</script>
+
+<%# EXPERIMENTING=========================================== %>
+
+</div>
+</div>
