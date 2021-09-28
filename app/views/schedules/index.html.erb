@@ -165,14 +165,8 @@ Timeline-->Schedule
         };
 
         this.btnClearSchedule.onclick = function(ev){
-          console.log("Clicked");
-          //TODO: Use a better method than a loop NB NB
-          <% @schedules.each do |schedule| %>
-            if(<%=schedule.student_id%> == that.studentID){
-                //DELETE THAT SCHEDULE
-            }
-          <% end %>
-
+          //Does an ajax Post request to the delete_with_student_id function in the schedules controller with params that.studentID
+          $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentID}) });
         };
 
 

@@ -11,7 +11,11 @@ Rails.application.routes.draw do
     collection { post :import}#route for csv importer
 
   end
-  resources :schedules
+  resources :schedules do
+    collection { post :delete_with_student_id} #route to controller function for deleting schedules of a specific student id
+
+    #get :delete_with_student_id, on: :collection
+  end
   resources :students
   resources :hospital_assignments
   resources :course_specialties
