@@ -163,9 +163,6 @@ function ChangeText(strId) {
     <%@programmes_courses.each do |programme_course| %>
        if (programme_ID == "<%= programme_course.programme_id%>") {
            CCount+=1;
-           
-           console.log("hhbnm"+ "<%= programme_course.programme_id%>");
-             
              
                 <% @dtId=0%>
                 <% @courses.each do |course| %>
@@ -291,9 +288,9 @@ function ChangeText(strId) {
     //if there are no courses, state it
     if (CCount===0){
 
-                   var divNoCourses = document.createElement("div");
-                   divNoCourses.innerHTML="There are no courses in this programme.";
-                   document.getElementById("divCourses").appendChild(divNoCourses);
+        var divNoCourses = document.createElement("div");
+        divNoCourses.innerHTML="There are no courses in this programme.";
+        document.getElementById("divCourses").appendChild(divNoCourses);
 
 
     }
@@ -304,5 +301,7 @@ function ChangeText(strId) {
 
 <%# EXPERIMENTING=========================================== %>
 
+</div>
+</div>
 </div>
 </div>
