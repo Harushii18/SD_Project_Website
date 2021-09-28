@@ -152,6 +152,8 @@ Timeline-->Schedule
 
     }
 
+
+    //Initialisation Methods
     initialiseTimeBlocks(specialties,studentID){
       for(var i =0; i<52; i++){
         var timeBlock = new TimeBlock(i+1, studentID, specialties);
@@ -159,8 +161,6 @@ Timeline-->Schedule
         this.timeBlocks.push(timeBlock);
       }
     }
-
-
 
     //TODO: Fetch Specialty Name and Duration
     initialiseSpecialties(){
@@ -200,6 +200,7 @@ Timeline-->Schedule
       <% end %>
     }
 
+    //Class Methods
     //Show the schedule object on the timeline
     showScheduleOnTimeline(schedule){
       //this.timeBlocks[schedule.getWeekNo()-1].setAssigned(true);
@@ -266,11 +267,6 @@ Timeline-->Schedule
       }
     }
 
-    //Return array of schedules
-    getSchedules(){
-      return this.schedules;
-    }
-
     displayTimeline(){
 
       var timeLineDiv = document.createElement('div');
@@ -331,6 +327,7 @@ Timeline-->Schedule
 
       //Visual timeline
       //52 divs - Timeblocks
+
       var tr = document.createElement('tr');
       for(var i = 0; i<52; i++){
         var p = document.createElement('p');
@@ -339,6 +336,17 @@ Timeline-->Schedule
         td.appendChild(this.timeBlocks[i].getDiv());
         tr.appendChild(td);
       }
+
+/*
+      var tr = document.createElement('tr');
+      for(var i = 0; i<52; i++){
+        var p = document.createElement('p');
+        var td = document.createElement('td');
+        td.style.padding ="0px"; //No spacing between timeBoxes
+        td.appendChild(this.timeBlocks[i].getDiv());
+        tr.appendChild(td);
+      }
+      */
 
       //Container for 52 Timeblocks
       var container = document.createElement('div');
@@ -372,6 +380,14 @@ Timeline-->Schedule
       return timeLineDiv; //Return row which corresponds to a student's timeline
 
     }
+
+    //Getter & Setter Methods
+    //Return array of schedules
+    getSchedules(){
+      return this.schedules;
+    }
+
+
 
 
   }
@@ -577,6 +593,7 @@ Timeline-->Schedule
     displayDate(){
       var temp = document.createElement('div');
       var p = document.createElement('p');
+
 
       p.setAttribute('id','start_date');
       temp.style.textAlign = "center"
