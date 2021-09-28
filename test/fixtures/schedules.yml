@@ -4,10 +4,13 @@ one:
   student: 1
   specialty: 1
   hospital: 2
-  rotation: 2
+  week_no: 2
+  specialty_duration: 2
+
 
 two:
   student: 1
   specialty: 1
   hospital: 2
-  rotation: 1
+  week_no: 6
+  specialty_duration: 2
