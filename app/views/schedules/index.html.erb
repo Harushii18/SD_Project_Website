@@ -570,7 +570,11 @@ Timeline-->Schedule
 
       //DragOver function
       this.div.ondragover = function(ev){
+
+        //change cursor to hand pointer after dragging specialty block onto div
+        that.div.style.cursor="pointer";
         ev.preventDefault();
+       
 
 
       };
@@ -599,7 +603,7 @@ Timeline-->Schedule
       this.div.onclick = function(ev){
         if (that.assigned)
           {
-
+            that.div.style.cursor="pointer";
             //This code runs for a TimeBlock when a SpecialtyBlock is dropped onto it
             var drop = document.getElementById('hospital_id');
 
@@ -815,8 +819,10 @@ Timeline-->Schedule
         this.div.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
         this.div.style.marginBottom = "5px";
 
-        this.div.setAttribute("draggable","true");
+        //change cursor
+        this.div.style.cursor="pointer";
 
+        this.div.setAttribute("draggable","true");
         //On dragstart function
         var that = this;
         this.div.ondragstart = function(ev){
@@ -837,6 +843,7 @@ Timeline-->Schedule
         };
 
         this.div.ondrag = function(ev){
+          
           console.log("dragging");
           //ev.preventDefault();
           //document.body.style.cursor = 'none';
