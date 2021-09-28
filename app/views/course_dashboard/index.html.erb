@@ -225,22 +225,15 @@ function ChangeText(strId) {
                         divOuter1.className="card card-body";
                         divOuter.appendChild(divOuter1);
 
-
-
-
-
                     if  ("<%=CourseSpecialty.where(:course_id => course.id).count%>"== "0"){
                         
                         divOuter1.innerHTML="There are no specialties assigned to this course.";
 
                         divOuter.appendChild(divOuter1);
 
-
                     }else{
-               
-
                         //counter for just displaying purposes
-                        <% @count=0%>
+                        var count=0;
 
                             // <%# Display how many specialties there are  %>
                         // <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
@@ -252,16 +245,13 @@ function ChangeText(strId) {
                         }
                         divOuter.appendChild(divOuter1);
 
-
-
-
                         //add to specialties to collapsible div
                         <% @course_specialties.each do |course_specialty| %>
                             if ("<%=course_specialty.course_id%>"== "<%=course.id%>"){
-                                <% @count=@count+1%>
+                                count+=1;
                                 var divInner=document.createElement("div");
                                 divInner.className="card card-body";
-                                divInner.innerHTML="<%= @count%>"+". "+"<%=Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>";
+                                divInner.innerHTML=count+". "+"<%=Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>";
                                 
                                 
                                 //add to outer div
@@ -270,17 +260,12 @@ function ChangeText(strId) {
                             }
                         <%end%>
                     }
-
-                        
-
-                       
+    
                         document.getElementById("divCourses").appendChild(divCourse);
                      //   document.getElementById("divCourses").appendChild(divOuter);
 
                      }
-                <%end%>
-            
-           
+                <%end%>     
        }
     <%end%>
    
@@ -291,17 +276,18 @@ function ChangeText(strId) {
         var divNoCourses = document.createElement("div");
         divNoCourses.innerHTML="There are no courses in this programme.";
         document.getElementById("divCourses").appendChild(divNoCourses);
-
-
     }
                 
-
   }; //end of function
 </script>
 
 <%# EXPERIMENTING=========================================== %>
 
 </div>
+<%# card body %>
 </div>
+<%# card border info %>
 </div>
-</div>
+<%# w-25 %>
+</div> 
+<%# row %>
