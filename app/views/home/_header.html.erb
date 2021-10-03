@@ -3,11 +3,11 @@
 
   <div class="container-fluid">
     <%= link_to 'Student Placement System', menu_index_path, class:"navbar-brand" %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
           <% if controller_name == "dashboard"%>
@@ -119,6 +119,7 @@
           <% end %>
 
         </div>
+      </li>
 
 <!--END OF HOSPITAL DROPDOWN========================================================-->
 
@@ -173,34 +174,27 @@
         <% end %>
         </li>
 
-        <li class="nav-item">
-        <!-- If we're at the Manage courses view, set this nav link to active -->
+          <li class="nav-item">
+          <!-- If we're at the Manage courses view, set this nav link to active -->
 
-        <% if controller_name == "rotations"%>
-          <%= link_to 'Rotations', rotations_path, class:"nav-link active" %>
-        <!-- If we're at another view, set this to normal nav link -->
-        <% else %>
-          <%= link_to 'Rotations', rotations_path, class:"nav-link" %>
-        <% end %>
-      </li>
+          <% if controller_name == "rotations"%>
+            <%= link_to 'Rotations', rotations_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+            <%= link_to 'Rotations', rotations_path, class:"nav-link" %>
+          <% end %>
+          </li>
 
-        <li class="nav-item">
-        <!-- If we're at the Manage courses view, set this nav link to active -->
+          <li class="nav-item">
+          <!-- If we're at the Manage courses view, set this nav link to active -->
 
-        <% if controller_name == "schedules"%>
-          <%= link_to 'Schedules', schedules_path, class:"nav-link active" %>
-        <!-- If we're at another view, set this to normal nav link -->
-        <% else %>
-          <%= link_to 'Schedules', schedules_path, class:"nav-link" %>
-        <% end %>
-      </li>
-     
-  </li>
-
-
-
-
-
+          <% if controller_name == "schedules"%>
+            <%= link_to 'Schedules', schedules_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+            <%= link_to 'Schedules', schedules_path, class:"nav-link" %>
+          <% end %>
+          </li>
 
 
       </ul>
