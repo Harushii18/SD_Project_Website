@@ -26,7 +26,7 @@
 
     @course_specialties = CourseSpecialty.where(course_id: @programme_courses).select([:specialty_id])
 
-    
+
 
     @specialties = Specialty.where(id: @course_specialties)
 
@@ -34,6 +34,7 @@
     @students = Student.filter_by_programme_id(@current_programme_id)
     #@students = @students.find()
     @schedules = Schedule.all
+    @hospitals = Hospital.all
 
     @rotations = Rotation.filter_by_programme_id(@current_programme_id)
 

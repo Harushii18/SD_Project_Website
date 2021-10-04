@@ -285,10 +285,12 @@ Timeline-->Schedule
 
       }
 
+      this.timeBlocks[weekNo-1].showHospitalName();
+
       //Once assigned, allow for modal box to appear
-      this.timeBlocks[weekNo-1].getDiv().setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-      this.timeBlocks[weekNo-1].getDiv().setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-    //var hospital = prompt("please enter hospital", "vic");
+      //this.timeBlocks[weekNo-1].getDiv().setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+      //this.timeBlocks[weekNo-1].getDiv().setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+      //var hospital = prompt("please enter hospital", "vic");
 
       this.timeBlocks[weekNo-1].setAssigned(true);
 
@@ -372,7 +374,7 @@ Timeline-->Schedule
 
       var tr = document.createElement('tr');
       for(var i = 0; i<52; i++){
-        var p = document.createElement('p');
+        //var p = document.createElement('p');
         var td = document.createElement('td');
         td.style.padding ="0px"; //No spacing between timeBoxes
         td.appendChild(this.timeBlocks[i].getDiv());
@@ -505,6 +507,7 @@ Timeline-->Schedule
       console.log(that.weekNo);
       ev.preventDefault();
 
+      that.showHospitalPrompt();
 
       //Retrieve Specialty ID
       var specialtyID = ev.dataTransfer.getData("specialtyID");
@@ -556,12 +559,15 @@ Timeline-->Schedule
       ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
     //var hospital = prompt("please enter hospital", "vic");
 
+/*
   //Added here
         var disName = document.createElement('p'); // Text within the div
         disName.innerHTML = String(that.specialtyName);
         disName.style.fontSize = "small";
         disName.style.color = 'white';
         that.div.appendChild(disName);
+*/
+
 //Just Check
       that.assigned = true;
 
@@ -574,7 +580,7 @@ Timeline-->Schedule
         //change cursor to hand pointer after dragging specialty block onto div
         that.div.style.cursor="pointer";
         ev.preventDefault();
-       
+
 
 
       };
@@ -630,10 +636,10 @@ Timeline-->Schedule
     }
 
     initialiseAssignedHospAttributes(){
-      this.assigned_hosp.style.textAlign = "center"
+      //this.assigned_hosp.style.textAlign = "center"
       //p.style.width = "100%";
-      this.div.appendChild(document.createElement('br')); //put space first
-      this.div.appendChild(this.assigned_hosp);
+      //this.div.appendChild(document.createElement('br')); //put space first
+      //this.div.appendChild(this.assigned_hosp);
     }
 
     //Other Class Methods
@@ -665,8 +671,72 @@ Timeline-->Schedule
 
       temp.appendChild(p);
       this.div.appendChild(temp);
-      this.div.appendChild(document.createElement('br'));
+      //this.div.appendChild(document.createElement('br'));
     }
+
+    removeChildDiv(){
+      console.log("TRYING TO REMOVE CHILD");
+      this.div.firstChild.remove();
+      console.log("CHILD REMOVED\n");
+    }
+
+    showHospitalPrompt(){
+
+      this.removeChildDiv();
+
+      var temp = document.createElement('div');
+      var p = document.createElement('p');
+
+
+      p.setAttribute('id','hospital_prompt');
+      temp.style.textAlign = "center"
+      temp.style.width = "100%";
+      temp.style.borderRadius= "25px";
+      temp.style.background = "#FFFFFF";
+      temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+      //temp.style.margin = "5px";
+      p.style.color = "black";
+      p.style.marginTop = "20px";
+      p.innerHTML =  "Click to choose a hospital";
+
+      temp.appendChild(p);
+      this.div.appendChild(temp);
+      //this.div.appendChild(document.createElement('br'));
+    }
+
+
+
+    showHospitalName(){
+      var hospitalName = "unassigned";
+      this.removeChildDiv();
+
+      <% @hospitals.each do |hospital| %>
+        if(<%=hospital.id%> == this.hospitalID){
+          hospitalName = <%=raw(Hospital.where(id: hospital.id).pluck(:hospital_name))%>;
+        }
+      <%end%>
+
+
+      //Create a div with the hospital name
+      var temp = document.createElement('div');
+      var p = document.createElement('p');
+
+      p.setAttribute('id','start_date');
+      temp.style.textAlign = "center"
+      temp.style.width = "100%";
+      temp.style.borderRadius= "25px";
+      temp.style.background = "#FFFFFF";
+      temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+
+      p.style.color = "black";
+      p.style.marginTop = "20px";
+      p.innerHTML =  hospitalName;
+
+      temp.appendChild(p);
+      this.div.appendChild(temp);
+    }
+
+
 
     //Getter and Setter Methods
 
@@ -843,19 +913,19 @@ Timeline-->Schedule
         };
 
         this.div.ondrag = function(ev){
-          
+
           console.log("dragging");
           //ev.preventDefault();
           //document.body.style.cursor = 'none';
         };
-
+/*
         this.div.ondrop = function(ev){
           console.log("in specialty drop: " +this.getAttribute("specialtyID"));
           //that.div.style.background = "black";
           ev.target.setAttribute("specialtyID",this.getAttribute("specialtyID"));
 
         };
-
+*/
 
 
       }
@@ -933,6 +1003,7 @@ Timeline-->Schedule
           }
         }
 
+        //Populate Schedule with existing schedules from the database
         populateSchedule(){
 
           var table = document.createElement('table');
@@ -970,6 +1041,8 @@ Timeline-->Schedule
 
   //onclick function to assign student to hospital
   function assignHospital(){
+
+
     var drop = document.getElementById('hospital_id');
     var hospitalName = drop.options[drop.selectedIndex].text;
 
@@ -1008,14 +1081,22 @@ Timeline-->Schedule
         }
     }
 
+    //timeblock.removeChildDiv();
+
+
     //timeblock.hospitalID = hospital_id;
     timeblock.setHospitalID(hospital_id);
-    timeblock.assigned_hosp.innerHTML = hospitalName;
+    //timeblock.assigned_hosp.innerHTML = hospitalName;
 
     //to add hospital name to extra timeblocks according to specailty duration
     specialty_duration = timeblock.specialtyDuration;
 
-    timeblock.div.innerHTML = hospitalName;
+
+    timeblock.showHospitalName();
+
+    //this.div.appendChild(document.createElement('br'));
+
+    //timeblock.div.innerHTML = hospitalName;
 
 
     console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
