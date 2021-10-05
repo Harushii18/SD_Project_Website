@@ -121,10 +121,7 @@ function ChangeText(strId) {
             <div class="card h-100">
             
             <div class="card-body" id="cardBody">
-           <!-- Programme Code
-            
-            <%= collection_select(:course_dashboard, :programme_id, Programme.all, :id, :programme_code, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
-           -->
+
             <!-- dropdown for programmes-->
             <form action="/courseDashboard">
             <label> <h5>Select Programme Code</h5> </label>
@@ -150,8 +147,6 @@ function ChangeText(strId) {
             <div id="divCourses">
                 <%# The contents here will be dynamically instantiated via JS %>
             </div>
-
-<%# EXPERIMENTING=============================================== %>
 <script>
   var displayCourses = function(programme_ID) {
       //remove all previously made buttons on click
@@ -262,8 +257,7 @@ function ChangeText(strId) {
                     }
     
                         document.getElementById("divCourses").appendChild(divCourse);
-                     //   document.getElementById("divCourses").appendChild(divOuter);
-
+                  
                      }
                 <%end%>     
        }
@@ -280,8 +274,6 @@ function ChangeText(strId) {
                 
   }; //end of function
 </script>
-
-<%# EXPERIMENTING=========================================== %>
 
 </div>
 <%# card body %>
