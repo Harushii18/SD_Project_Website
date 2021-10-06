@@ -10,6 +10,73 @@
       </ul>
     </div>
   <% end %>
+                                      <!--Drop down for programmes --> 
+  <div class="row justify-content-md-center">
+      <div class="col-2">
+          <label> <h5>Select Programme</h5> </label>
+          <br>
+          <select id="programme_select" onchange="display_groups(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
+          </select>
+      </div>
+  </div>
+  
+      
+           <!-- Populate dropdown or programme select with programmes-->
+    <% @programmes.each do |programme| %>
+      <script >
+        programmes_select = document.getElementById('programme_select')
+        option = document.createElement('option');
+        option.value = <%= programme.id %>
+        option.text = "<%= programme.programme_code %>";
+        programmes_select.add( option );
+      </script>
+    <%end%>
+    <br>
+                       <!--Drop down for groups --> 
+     <div style="display:none" id = "select_group" class="row justify-content-md-center">
+      <div class="col-2">
+          <label> <h5>Select Group</h5> </label>
+          <br>
+          <select  id="group_select" onchange="choose_group(this.options[this.selectedIndex].value,this.options[this.selectedIndex].innerHTML)" class="btn btn-primary dropdown-toggle">
+          </select>
+      </div>
+  </div>
+
+  <script>
+      
+      var display_groups = function(programme_id){
+         document.getElementById('select_group').style.display = "flex"
+
+                   // clear the drop down of any existing items                
+         while (document.getElementById('group_select').options.length > 0) {  
+              document.getElementById('group_select').remove(0);
+         }
+
+          <% @groups.each do |group| %>
+              if(programme_id == "<%= group.programme_id%>"){
+                  option = document.createElement('option');
+                  option.value = <%= group.id %>
+                  option.text = "<%= group.group_name %>";
+                  document.getElementById('group_select').add( option );
+              }
+          <%end%>
+
+          if(document.getElementById('group_select').options.length < 1){
+            alert("No Groups have been created under this programme")
+          }
+            //display default selected value on groups select
+          document.getElementById('student_group_group_id').value = document.getElementById('group_select').options[document.getElementById('group_select').selectedIndex].value;
+          document.getElementById('student_group_group_name').innerHTML = "Chosen Group: " + document.getElementById('group_select').options[document.getElementById('group_select').selectedIndex].text;
+      }
+
+      var choose_group = function(group_id, group_name){
+        group_field = document.getElementById('student_group_group_id')  // got this from inspecting page on browser
+        group_field.value = group_id;
+        document.getElementById('student_group_group_name').innerHTML = "Chosen Group: " + group_name
+      }
+  </script>
+
+  <h5 id="student_group_group_name"> </h5>
 
   <div class="field">
     <%= form.label :student_id %>

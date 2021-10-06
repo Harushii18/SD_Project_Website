@@ -12,12 +12,46 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :programme_id %>
+        <!-- dropdown for programmes-->
+  
+    <div class="row justify-content-md-center">
+      <div class="col-2">
+          <label> <h5>Select Programme</h5> </label>
+          <br>
+          <select id="programme_select" onchange="set_chosen_programme(this.options[this.selectedIndex].value,this.options[this.selectedIndex].innerHTML)" class="btn btn-primary dropdown-toggle">
+          </select>
+      </div>
+   </div>
+  
+      
+           <!-- Populate dropdown or programme select with programmes-->
+    <% @programmes.each do |programme| %>
+      <script >
+        select = document.getElementById('programme_select')
+        option = document.createElement( 'option' );
+        option.value = <%= programme.id %>
+        option.text = "<%= programme.programme_code %>";
+        select.add( option );
+      </script>
+    <%end%>
+    <br>
+
+    <script>
+      var set_chosen_programme = function(programme_id,programme_code){
+        programme_field = document.getElementById('group_programme_id') // got this from inspecting page on browser
+        programme_field.value = programme_id;
+        document.getElementById('group_programme_code').innerHTML = "Chosen Programme: " + programme_code
+      }
+    </script>
+
+    <h5 id="group_programme_code"> </h5>
+    <%= form.label :programme_ID %>
     <%= form.text_field :programme_id %>
+
   </div>
 
   <div class="field">
-    <%= form.label :group_name %>
+    <%= form.label :enter_group_name %>
     <%= form.text_field :group_name %>
   </div>
 
@@ -25,3 +59,6 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+
+

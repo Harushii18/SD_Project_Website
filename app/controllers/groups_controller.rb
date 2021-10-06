@@ -4,15 +4,20 @@ class GroupsController < ApplicationController
   # GET /groups or /groups.json
   def index
     @groups = Group.all
+    @programmes = Programme.all
   end
 
   # GET /groups/1 or /groups/1.json
   def show
   end
 
+  def _form
+  end
+
   # GET /groups/new
   def new
     @group = Group.new
+    @programmes = Programme.all
   end
 
   # GET /groups/1/edit

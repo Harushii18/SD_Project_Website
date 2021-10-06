@@ -15,7 +15,7 @@
   <tbody>
     <% @groups.each do |group| %>
       <tr>
-        <td><%= group.group_id %></td>
+        <td><%= group.id %></td>
         <td><%= group.group_name %></td>
         <td><%= group.programme_id %></td>
         <td><%= link_to 'Show', group %></td>
@@ -28,4 +28,6 @@
 
 <br>
 
-<%= link_to 'New Group', new_group_path %>
+<%= link_to 'Create New Group', new_group_path, class:"btn btn-primary btn-lg" %> 
+<br><br>
+<%= link_to 'Add student to group', new_student_group_path, class:"btn btn-primary btn-lg" %>

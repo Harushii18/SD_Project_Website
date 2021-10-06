@@ -12,6 +12,8 @@ class StudentGroupsController < ApplicationController
 
   # GET /student_groups/new
   def new
+    @programmes = Programme.all
+    @groups = Group.all
     @student_group = StudentGroup.new
   end
 
