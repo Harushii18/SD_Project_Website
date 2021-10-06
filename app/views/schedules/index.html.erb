@@ -274,6 +274,7 @@ Timeline-->Schedule
         if (this.specialties[i].specialtyID==specialtyID){
           colorVal=this.specialties[i].color;
           specialtyN=this.specialties[i].getSpecialtyName();
+          this.timeBlocks[weekNo-1].setSpecialtyName(specialtyN); //Set specialtyName in TimeBlock
           break;
         }
       }
@@ -864,6 +865,10 @@ Timeline-->Schedule
       this.specialtyID = specialtyID;
     }
 
+    setSpecialtyName(specialtyName){
+      this.specialtyName = specialtyName;
+    }
+
     setSpecialtyDuration(specialtyDuration){
       this.specialtyDuration = specialtyDuration;
     }
@@ -1178,6 +1183,7 @@ Timeline-->Schedule
 
     //timeblock.hospitalID = hospital_id;
     timeblock.setHospitalID(hospital_id);
+
     //timeblock.findHospitalName();
     //timeblock.assigned_hosp.innerHTML = hospitalName;
 
@@ -1186,7 +1192,7 @@ Timeline-->Schedule
 
 
     timeblock.showHospitalName();
-    timeblock.setToolTipContents();
+    timeblock.setToolTipContents(); // Need to set tooltip contents because the hospitalID was updated
 
     //this.div.appendChild(document.createElement('br'));
 
@@ -1197,14 +1203,6 @@ Timeline-->Schedule
     console.log("weekNo is: " +drop.getAttribute("weekNo"));
     console.log("studentid is: " + drop.getAttribute("studentID"));
     console.log("in hos assign: " + timeblock.hospitalID);
-
-
-
-
-
-
-
-
   }
   //need to change the params for rotation to weekno and add specialtyduration
   function SaveRecord(studentID,specialtyID,weekNo,specialtyDuration, hospitalID){
