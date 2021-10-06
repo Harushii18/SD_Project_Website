@@ -1,10 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  specialty: one
-  block: one
+  programme: one
+  group_name: MyString
 
 two:
-  specialty: two
-  block: two
-
+  programme: two
+  group_name: MyString
