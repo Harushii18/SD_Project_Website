@@ -94,21 +94,21 @@
             <%= link_to 'Manage Hospitals', hospitals_path, class:" dropdown-item" %>
           <% end %>
 
-   
+
         <% if controller_name == "allocations"%>
         <%= link_to 'Hospital Allocations', allocations_path, class:"nav-link active dropdown-item" %>
         <!-- If we're at another view, set this to normal nav link -->
         <% else %>
           <%= link_to 'Hospital Allocations', allocations_path, class:"dropdown-item" %>
         <% end %>
-        
+
         <% if controller_name == "site_facilitators"%>
            <%= link_to 'Site Facilitators', site_facilitators_path, class:"nav-link active  dropdown-item" %>
           <!-- If we're at another view, set this to normal nav link -->
-        <% else %> 
+        <% else %>
            <%= link_to 'Site Facilitators', site_facilitators_path, class:"dropdown-item" %>
         <% end %>
-  
+
 
 
           <% if controller_name == "site_facilitator_allocations"%>
@@ -200,8 +200,8 @@
       </ul>
 
        <!-- Sign Out Button -->
+        <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete, class:"btn btn-danger", style:"margin-left: auto" %>
 
-        <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete, class:"btn btn-danger", style:"margin-left:auto" %>
 
 
     </div>
