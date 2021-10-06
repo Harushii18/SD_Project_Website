@@ -1149,9 +1149,6 @@ Timeline-->Schedule
     var hospital_id = drop.options[drop.selectedIndex].value;
     chosen_hospital_id = hospital_id;
     var week_no = drop.getAttribute("weekNo");
-
-
-
     var student_id = drop.getAttribute("studentID");
 
 
@@ -1169,7 +1166,7 @@ Timeline-->Schedule
     }
 
     var timeblock;
-    for (let i = 0 ; i < size; i++)
+    for (let i = 0 ; i < 52; i++)
     {
       timeblock = timeline.timeBlocks[i];
       if (timeblock.weekNo == week_no)
