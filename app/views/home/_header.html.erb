@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
 
   <div class="container-fluid">
     <%= link_to 'Student Placement System', menu_index_path, class:"navbar-brand" %>
@@ -200,8 +200,8 @@
       </ul>
 
        <!-- Sign Out Button -->
-
         <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete, class:"btn btn-danger", style:"margin-left: auto" %>
+
 
 
     </div>

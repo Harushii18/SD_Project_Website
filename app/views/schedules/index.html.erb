@@ -214,9 +214,20 @@ Timeline-->Schedule
 
           //console.log("Week No:"  + <%=schedule.week_no%>);
           var week_no = <%=Schedule.where(id: schedule.id).pluck(:week_no)%>;
-          currentSchedule.setWeekNo(week_no); //THIS ISN"T WORKING FOR SOME REASON NB NB NB
+          currentSchedule.setWeekNo(week_no); 
           currentSchedule.setHospitalID(<%=schedule.hospital_id%>);
           currentSchedule.setSpecialtyID(<%=schedule.specialty_id%>);
+
+          //ensure that we cannot drag that specialty since it is already there:
+          //hide the specialty so it is not re-selected-> disable that specialty div
+          var specialtyName =  <%=raw(Specialty.where(id: schedule.specialty_id).pluck(:specialtyName))%>;
+          var currSp=document.getElementById(<%=schedule.student_id%>+"#"+<%=schedule.specialty_id%>+"#"+specialtyName);
+          //change div's property
+          currSp.style.cursor="not-allowed";
+          currSp.style.opacity=0.3;
+          //don't allow it to be dragged
+          currSp.draggable=false;
+          
 
 
           var specialtyDuration = <%=raw(Schedule.where(id: schedule.id).pluck(:specialty_duration))%>;
@@ -548,6 +559,7 @@ Timeline-->Schedule
 
       //Retrieve Specialty ID
       var specialtyID = ev.dataTransfer.getData("specialtyID");
+
       that.specialtyID = specialtyID;
       that.findSpecialtyName();
 
@@ -558,6 +570,18 @@ Timeline-->Schedule
       that.specialtyDuration = specialtyDuration;
       //console.log("Retrieved Specialty Duration: "+that.specialtyDuration);
       that.setEndDate();
+
+      //hide the specialty so it is not re-selected-> disable that specialty div
+      var specialtyName = ev.dataTransfer.getData("specialtyName");
+      that.specialtyName = specialtyName;
+      var currSp=document.getElementById(that.studentID+"#"+that.specialtyID+"#"+that.specialtyName);
+
+      //change div's property
+      currSp.style.cursor="not-allowed";
+      currSp.style.opacity=0.3;
+      //don't allow it to be dragged
+      currSp.draggable=false;
+       
 
       //Retrieve timebox div id
       var data = ev.dataTransfer.getData("text");
@@ -1007,6 +1031,7 @@ Timeline-->Schedule
           //Transfer Specialty Duration
 
           ev.dataTransfer.setData("specialtyDuration", that.specialtyDuration);
+          ev.dataTransfer.setData("specialtyName", that.specialtyName);
 
 
         };
@@ -1020,8 +1045,15 @@ Timeline-->Schedule
 /*
         this.div.ondrop = function(ev){
           console.log("in specialty drop: " +this.getAttribute("specialtyID"));
-          //that.div.style.background = "black";
+       
+
+          //don't allow specialty to drop
+          
           ev.target.setAttribute("specialtyID",this.getAttribute("specialtyID"));
+          
+
+
+          //allow specialty to drop if it isn't in the divs already
 
         };
 */
@@ -1203,10 +1235,12 @@ Timeline-->Schedule
     console.log("weekNo is: " +drop.getAttribute("weekNo"));
     console.log("studentid is: " + drop.getAttribute("studentID"));
     console.log("in hos assign: " + timeblock.hospitalID);
+
   }
   //need to change the params for rotation to weekno and add specialtyduration
   function SaveRecord(studentID,specialtyID,weekNo,specialtyDuration, hospitalID){
 
+  //TODO:if this ends up reloading page, also ensure that specialties that are present in the schedule cannot be readded 
   console.log("specialtyID in SaveRecord: " +specialtyID);
     $.post("/schedules",
     {
