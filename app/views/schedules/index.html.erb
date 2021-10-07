@@ -134,12 +134,12 @@ Timeline-->Schedule
           this.schedules = [];
           //console.log("StudentID is: " + that.studentID);
           for(var i=0; i<52;i++){
-            if(that.timeBlocks[i].getAssigned()==true){
+            if(that.timeBlocks[i].getAssigned()== "true"){
               console.log("Create a new schedule in the timeline");
               var newSchedule = new Schedule();
               newSchedule.setWeekNo(that.timeBlocks[i].getWeekNo());
               newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
-              //console.log("in btnSaveToChange: " + that.timeBlocks[i].getSpecialtyID());
+              console.log("in btnSaveToChange: " + that.timeBlocks[i].getSpecialtyID());
               newSchedule.setStudentID(that.studentID);
               newSchedule.setSpecialtyDuration(that.timeBlocks[i].getSpecialtyDuration());
               //console.log("save clicked, hospitalID is : " +that.timeBlocks[i].hospitalID)
@@ -166,11 +166,10 @@ Timeline-->Schedule
 
         this.btnClearSchedule.onclick = function(ev){
           //Does an ajax Post request to the delete_with_student_id function in the schedules controller with params that.studentID
-          $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentID}) });
-          window.location.reload();
+
+          $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
+        
         };
-
-
     }
 
 
@@ -951,7 +950,7 @@ if(isAssigned == false)
         {
       
         var timeline = this.getTimeline(student_id);
-        var size = timeline.length;
+        var size = timeline.timeBlocks.length;
          
           var timeblock;
           for (let i = 0 ; i < size; i++)
@@ -984,15 +983,15 @@ if(isAssigned == false)
         }
 
         saveSchedule(){
-          //console.log("Trying to save schedule");
+          console.log("Trying to save schedule");
           //For each timeline
           for(var i =0; i<this.timelines.length; i++){
-            //console.log("Checking timline no: "+i);
+            console.log("Checking timline no: "+i);
             var currSchedule = this.timelines[i].getSchedules();
-            //console.log("Number of schedules for timeline: "+currSchedule.length);
+            console.log("Number of schedules for timeline: "+currSchedule.length);
             //For each schedule in a timeline
             for(var j =0; j<currSchedule.length;j++){
-              //console.log("Check schedule no: "+j);
+              console.log("Check schedule no: "+j);
               var studentID = currSchedule[j].getStudentID();
               var weekNo = currSchedule[j].getWeekNo();
               var specialtyID = currSchedule[j].getSpecialtyID();
@@ -1048,7 +1047,7 @@ if(isAssigned == false)
 
 //onclick function to save all the schedules to the database
   function makeChanges(){
-    //console.log("Make changes");
+  //console.log("Make changes");
     programmeSchedule.saveSchedule();
   }
 
@@ -1071,7 +1070,8 @@ if(isAssigned == false)
     var timeblock = programmeSchedule.getTimeBlock(week_no,student_id);
 
 
-
+console.log("trying to update ");
+console.log(timeblock);
     //timeblock.hospitalID = hospital_id;
     timeblock.setHospitalID(hospital_id);
     timeblock.assigned_hosp.innerHTML = hospitalName;
