@@ -171,6 +171,7 @@ Timeline-->Schedule
         this.btnClearSchedule.onclick = function(ev){
           //Does an ajax Post request to the delete_with_student_id function in the schedules controller with params that.studentID
           $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentID}) });
+          window.location.reload();
         };
 
 
@@ -517,6 +518,7 @@ Timeline-->Schedule
       this.div.style.display = 'flex';
       this.div.style.border = "1px solid #aaaaaa";
       this.div.style.alignItems = 'center';
+      //this.div.style.position = 'absolute';
       this.div.style.width = '150px'; //120
       this.div.setAttribute("id",this.studentID+"#"+this.weekNo);
       this.div.style.justifyContent = 'center';
@@ -681,10 +683,10 @@ Timeline-->Schedule
         var y_pos = ev.clientY;
         tooltip.style.position = "absolute";
         if(tooltip.style.left>x_pos+5 || tooltip.style.left<x_pos-5){
-          tooltip.style.left = x_pos+'px';
+          tooltip.style.left = x_pos+20+'px';
         }
         if(tooltip.style.top>y_pos+5 || tooltip.style.top<y_pos-5){
-            tooltip.style.top = y_pos+'px';
+            tooltip.style.top = y_pos+20+'px';
         }
 
 
@@ -1134,6 +1136,7 @@ Timeline-->Schedule
   function makeChanges(){
     //console.log("Make changes");
     programmeSchedule.saveSchedule();
+    window.location.reload();
   }
 
   //onclick function to assign student to hospital
