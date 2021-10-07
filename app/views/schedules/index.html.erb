@@ -511,11 +511,12 @@ Timeline-->Schedule
         console.log("duration in ondrop timeblock: " +specialtyDuration);
         var isAssigned = false;
         var weekNo = that.weekNo;
-
+        console.log("timeblock on drop, week No: " + weekNo);
+        console.log("timeblock on drop, specialtyduration: " + specialtyDuration);
         for (let i = weekNo ; i < (weekNo + specialtyDuration) ; i++)
         {
 
-          if (timeline.timeBlocks[i].getAssigned() == "true")
+          if (timeline.timeBlocks[i-1].getAssigned() == "true")
             {
               isAssigned = true;
             }
