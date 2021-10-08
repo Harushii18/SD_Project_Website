@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  resources :student_groups
+  resources :groups
   get 'course_dashboard/index'
   resources :site_facilitator_allocations
   resources :site_facilitators
@@ -25,8 +27,6 @@ Rails.application.routes.draw do
   resources :programme_courses
   resources :programmes
   resources :dashboard
-  resources :group_assignments
-  resources :groups
 
     resources :blocks
     resources :specialty_pages

@@ -1,8 +1,8 @@
 class CreateGroups < ActiveRecord::Migration[6.1]
   def change
     create_table :groups do |t|
-      t.belongs_to :specialty, null: false, foreign_key: true
-      t.belongs_to :block, null: false, foreign_key: true
+      t.references :programme, null: false, foreign_key: true
+      t.string :group_name
 
       t.timestamps
     end
