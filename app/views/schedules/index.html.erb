@@ -47,9 +47,52 @@
 
 <br>
 
+<style>
+  #timeBlockPopUp{
+    padding: 20px;
+    position: absolute;
+    height: auto;
+    min-width: 100px;
+    width: auto;
+    transition: 0s;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+    background-color: white;
+    filter: grayscale(0%);
+    //opacity: 90%;
+    background: rgba(255, 255, 255, 0.9);
+
+  }
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 20px; /* 5px rounded corners */
+  }
+
+
+  }
+</style>
+
+
 <!-- I used this to keep the popup div somewhere -->
-<div id="timeBlockPopUp">
-  </div>
+<div id="timeBlockPopUp" class="card"></div>
+<script>
+  var timeBlockPopUp = document.getElementById('timeBlockPopUp');
+  document.addEventListener('mousemove',function(ev){
+      var x = ev.pageX;
+      var y = ev.pageY;
+      timeBlockPopUp.style.left = x+"px";
+      timeBlockPopUp.style.top = y+"px";
+
+  });
+
+
+</script>
+
+
+
+
 
 <div class="container-fluid">
     <div class="d-flex justify-content-evenly">
@@ -214,7 +257,7 @@ Timeline-->Schedule
 
           //console.log("Week No:"  + <%=schedule.week_no%>);
           var week_no = <%=Schedule.where(id: schedule.id).pluck(:week_no)%>;
-          currentSchedule.setWeekNo(week_no); 
+          currentSchedule.setWeekNo(week_no);
           currentSchedule.setHospitalID(<%=schedule.hospital_id%>);
           currentSchedule.setSpecialtyID(<%=schedule.specialty_id%>);
 
@@ -227,7 +270,7 @@ Timeline-->Schedule
           currSp.style.opacity=0.3;
           //don't allow it to be dragged
           currSp.draggable=false;
-          
+
 
 
           var specialtyDuration = <%=raw(Schedule.where(id: schedule.id).pluck(:specialty_duration))%>;
@@ -581,7 +624,7 @@ Timeline-->Schedule
       currSp.style.opacity=0.3;
       //don't allow it to be dragged
       currSp.draggable=false;
-       
+
 
       //Retrieve timebox div id
       var data = ev.dataTransfer.getData("text");
@@ -678,7 +721,13 @@ Timeline-->Schedule
       }
 
       var tooltip = document.getElementById('timeBlockPopUp');
-      tooltip.style.backgroundColor = "grey";
+      tooltip.style.display = "none";
+      //tooltip.style.backgroundColor = "grey";
+      //tooltip.style.minWidth = "100px";
+      //tooltip.style.padding = "20px";
+      //tooltip.style.opacity=0.95;
+
+
 
       //var field_unassigned_message = that.startDate;
 
@@ -686,43 +735,25 @@ Timeline-->Schedule
       var that = this;
 
       this.div.onmouseenter = function(ev){
+        if(that.assigned==true){
+          tooltip.style.display = "block";
+          var tooltipContents = document.createElement('p');
 
-        var tooltipContents = document.createElement('p');
+          for(var i = 0; i<that.tooltipContents.length;i++){
+            var field = document.createElement('p');
+            field.innerHTML = that.tooltipContents[i];
+            tooltipContents.appendChild(field);
+          }
 
-        for(var i = 0; i<that.tooltipContents.length;i++){
-          var field = document.createElement('p');
-          field.innerHTML = that.tooltipContents[i];
-          tooltipContents.appendChild(field);
+          tooltip.appendChild(tooltipContents);
         }
-
-        tooltip.appendChild(tooltipContents);
       }
 
       this.div.onmouseleave = function(ev){
-        tooltip.innerHTML = "";
-      }
-
-      this.div.onmousemove = function(ev){
-        var x_pos = ev.clientX;
-        var y_pos = ev.clientY;
-        tooltip.style.position = "absolute";
-        if(tooltip.style.left>x_pos+5 || tooltip.style.left<x_pos-5){
-          tooltip.style.left = x_pos+20+'px';
+        if(that.assigned==true){
+          tooltip.innerHTML = "";
+          tooltip.style.display = "none";
         }
-        if(tooltip.style.top>y_pos+5 || tooltip.style.top<y_pos-5){
-            tooltip.style.top = y_pos+20+'px';
-        }
-
-
-
-      }
-
-      this.div.onmouseover = function(ev){
-        var x_pos = ev.clientX;
-        var y_pos = ev.clientY;
-        tooltip.style.position = "absolute";
-        tooltip.style.left = x_pos+'px';
-        tooltip.style.top = y_pos+'px';
       }
 
 
@@ -1045,12 +1076,12 @@ Timeline-->Schedule
 /*
         this.div.ondrop = function(ev){
           console.log("in specialty drop: " +this.getAttribute("specialtyID"));
-       
+
 
           //don't allow specialty to drop
-          
+
           ev.target.setAttribute("specialtyID",this.getAttribute("specialtyID"));
-          
+
 
 
           //allow specialty to drop if it isn't in the divs already
@@ -1240,7 +1271,7 @@ Timeline-->Schedule
   //need to change the params for rotation to weekno and add specialtyduration
   function SaveRecord(studentID,specialtyID,weekNo,specialtyDuration, hospitalID){
 
-  //TODO:if this ends up reloading page, also ensure that specialties that are present in the schedule cannot be readded 
+  //TODO:if this ends up reloading page, also ensure that specialties that are present in the schedule cannot be readded
   console.log("specialtyID in SaveRecord: " +specialtyID);
     $.post("/schedules",
     {
