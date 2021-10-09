@@ -66,8 +66,19 @@
   }
 
   .heading{
-    color:red;
+    color:black;
+    text-shadow: 1px 1px 0px #d3d3d3;
    }
+
+   .field_heading{
+
+     color:black;
+    }
+
+   .field_info{
+
+      color:black;
+    }
 
   .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -543,13 +554,14 @@ Timeline-->Schedule
     }
 
     setToolTipContents(){
+      /*
       var field_weekNo = "Week Number:<br>" + this.weekNo;
-      var field_start_date = "Start Date:<br>" + this.returnFormattedDate(this.startDate);
-      var field_end_date ="End Date:<br>" + this.returnFormattedDate(this.endDate);
+      var field_start_date = "Start Date:<br>" + this.returnLongFormattedDate(this.startDate);
+      var field_end_date ="End Date:<br>" + this.returnLongFormattedDate(this.endDate);
       var field_specialty_name ="Specialty Name:<br>" + this.specialtyName;
       var field_hospital_name = "Hospital Name:<br>" + this.hospitalName;
-      console.log("Hospital NAME is: "+ this.hospitalName);
-      this.tooltipContents = [field_weekNo, field_start_date, field_end_date, field_specialty_name, field_hospital_name];
+      */
+      this.tooltipContents = ["Week Number",this.weekNo,"Start Date",this.returnLongFormattedDate(this.startDate),"End Date",this.returnLongFormattedDate(this.endDate),"Specialty Name", this.specialtyName,"Hospital Name", this.hospitalName];
 
     }
 
@@ -564,6 +576,66 @@ Timeline-->Schedule
       }
 
       return day + "-" + month + "-" + dateObject.getFullYear();
+
+
+    }
+
+    returnLongFormattedDate(dateObject){
+      var month = dateObject.getMonth()+1;
+      var date = dateObject.getDate();
+      var year = dateObject.getFullYear();
+      switch(month){
+        case 1:
+          month = "Jan";
+          break;
+
+        case 2:
+          month = "Feb";
+          break;
+
+        case 3:
+          month = "Mar";
+          break;
+
+        case 4:
+          month = "Apr";
+          break;
+
+        case 5:
+          month = "May";
+          break;
+
+        case 6:
+          month = "Jun";
+          break;
+
+        case 7:
+          month = "Jul";
+          break;
+
+        case 8:
+          month = "Aug";
+          break;
+
+        case 9:
+          month = "Sep";
+          break;
+
+        case 10:
+          month = "Oct";
+          break;
+
+        case 11:
+          month = "Nov";
+          break;
+
+        case 12:
+          month = "Dec";
+          break;
+
+      }
+
+      return date +" "+month+" "+year;
 
 
     }
@@ -728,38 +800,37 @@ Timeline-->Schedule
 
       var tooltip = document.getElementById('timeBlockPopUp');
       tooltip.style.display = "none";
-      //tooltip.style.backgroundColor = "grey";
-      //tooltip.style.minWidth = "100px";
-      //tooltip.style.padding = "20px";
-      //tooltip.style.opacity=0.95;
 
-
-
-      //var field_unassigned_message = that.startDate;
-
-      //tooltip.style.visibility = "hidden";
       var that = this;
 
       this.div.onmouseenter = function(ev){
         if(that.assigned==true){
-          document.body.style.cursor = "none";
-          //document.body.style.cursor = "crosshair";
           tooltip.style.display = "block";
           var tooltipContents = document.createElement('p');
 
+          var heading = document.createElement('h4');
+          heading.classList.add('heading');
+          heading.innerHTML = "Schedule Information<br><br>";
+          tooltipContents.appendChild(heading);
+
           for(var i = 0; i<that.tooltipContents.length;i++){
-            var field = document.createElement('p');
-            field.innerHTML = that.tooltipContents[i];
+
+
 
             //Field Information
-            //if(i%2==0){
-            //  field.classList.add('field_info');
-            //}
+            if(i%2==0){
+              var field = document.createElement('h6');
+              field.classList.add('field_heading');
+              field.style.margin = "0px";
+            }
             //Field Headings
-            //else{
-            //  field.classList.add('heading');
-             //}
+            else{
+              var field = document.createElement('p');
+              field.classList.add('field_info');
+             }
 
+
+            field.innerHTML = that.tooltipContents[i];
             tooltipContents.appendChild(field);
           }
 
