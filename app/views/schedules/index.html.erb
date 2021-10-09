@@ -60,14 +60,20 @@
     background-color: white;
     filter: grayscale(0%);
     //opacity: 90%;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 1);
+
 
   }
+
+  .heading{
+    color:red;
+   }
 
   .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     border-radius: 20px; /* 5px rounded corners */
+
   }
 
 
@@ -83,9 +89,9 @@
       var x = ev.pageX;
       var y = ev.pageY;
       timeBlockPopUp.style.left = x+"px";
-      timeBlockPopUp.style.top = y+"px";
-
+      timeBlockPopUp.style.top = y-250+"px";
   });
+
 
 
 </script>
@@ -736,12 +742,24 @@ Timeline-->Schedule
 
       this.div.onmouseenter = function(ev){
         if(that.assigned==true){
+          document.body.style.cursor = "none";
+          //document.body.style.cursor = "crosshair";
           tooltip.style.display = "block";
           var tooltipContents = document.createElement('p');
 
           for(var i = 0; i<that.tooltipContents.length;i++){
             var field = document.createElement('p');
             field.innerHTML = that.tooltipContents[i];
+
+            //Field Information
+            //if(i%2==0){
+            //  field.classList.add('field_info');
+            //}
+            //Field Headings
+            //else{
+            //  field.classList.add('heading');
+             //}
+
             tooltipContents.appendChild(field);
           }
 
@@ -750,7 +768,9 @@ Timeline-->Schedule
       }
 
       this.div.onmouseleave = function(ev){
+        document.body.style.cursor = "default";
         if(that.assigned==true){
+          //document.body.style.cursor = "default";
           tooltip.innerHTML = "";
           tooltip.style.display = "none";
         }
