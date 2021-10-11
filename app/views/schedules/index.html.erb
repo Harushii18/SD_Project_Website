@@ -1459,8 +1459,8 @@ Timeline-->Schedule
               let specName=obtainSpecialtyName(specialtyID);
               let hospName= obtainHospitalName(hospitalID);
 
-              if (document.getElementById("div"+studName)!=null){
-                var tmpDiv=document.getElementById("div"+studName);
+              if (document.getElementById("div"+studentID)!=null){
+                var tmpDiv=document.getElementById("div"+studentID);
                 tmpDiv.innerHTML+="<br />"+"\t[ Weeks: "+weekNo+" ]\t[ Specialty: "+specName+" ]\t[ Duration: "+specialtyDuration+" weeks]\t[ Hospital: "+hospName+" ]";
               }else{
              
@@ -1468,7 +1468,7 @@ Timeline-->Schedule
                 var divOuter1= document.createElement("div");
                 
                 divOuter1.className="card card-body my-1 border border-primary rounded-0";
-                divOuter1.id="div"+studName;
+                divOuter1.id="div"+studentID;
                 //when we make it clickable we can do the ffg
                 // divOuter.style.cursor="pointer";
                 // divOuter1.id="card"+j;
