@@ -305,9 +305,8 @@ Timeline-->Schedule
     //Show the schedule object on the timeline
     showScheduleOnTimeline(schedule){
       console.log("Showing New Schedule on Timeline");
-
       console.log("Student ID: " + this.studentID);
-      //this.timeBlocks[schedule.getWeekNo()-1].setAssigned(true);
+
       var weekNo = schedule.getWeekNo();
       console.log("Week No is: "+weekNo);
 
@@ -316,9 +315,6 @@ Timeline-->Schedule
       //Retrieve Specialty ID
       var specialtyID = schedule.getSpecialtyID();
       console.log("Specialty ID is: " + specialtyID);
-      //this.timeBlocks[weekNo-1].setSpecialtyID(specialtyID);
-      //console.log("The time blocks are: "+ timeBlock);
-      //this.timeBlocks[weekNo-1].setSpecialtyID(specialtyID);
 
       //Retrieve Hospital ID
       var hospitalID = schedule.getHospitalID();
@@ -363,7 +359,8 @@ Timeline-->Schedule
 
       }
 
-      this.timeBlocks[weekNo-1].showHospitalName();
+      //Set the Hospital Name in the Time Block
+      this.timeBlocks[weekNo-1].setHospitalName();
 
       //Once assigned, allow for modal box to appear
       //this.timeBlocks[weekNo-1].getDiv().setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
@@ -645,7 +642,6 @@ Timeline-->Schedule
     initialiseDivAttributes(){
 
       //var tooltipContents = document.createElement('p');
-
       this.div.style.height = '120px';
       this.div.style.padding = '10px';
       this.div.style.display = 'flex';
@@ -928,7 +924,7 @@ Timeline-->Schedule
 
 
 
-    findHospitalName(){
+    setHospitalName(){
       <% @hospitals.each do |hospital| %>
         if(<%=hospital.id%> == this.hospitalID){
           this.hospitalName = <%=raw(Hospital.where(id: hospital.id).pluck(:hospital_name))%>;
