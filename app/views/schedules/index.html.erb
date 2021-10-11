@@ -155,21 +155,6 @@
       </div>
       <div id="modalContent" class="modal-body">
 
-        <%# Add dynamically instantiated things here through the loadModalInfo() function
-        <table  class="table">
-        <thead id="tblHeader">
-          <tr>
-            <th scope="col">Student Name </th>
-            <th scope="col">Number of Weeks</th>
-            <th scope="col">Specialty Name</th>
-            <th scope="col">Handle</th>
-             <th scope="col">Hospital Name</th>
-          </tr>
-        </thead>
-        <tbody id="tblRows">
-         
-        </tbody>
-      </table> %>
         
       </div>
       <div class="modal-footer">
@@ -1570,7 +1555,10 @@ if(isAssigned == false)
 
               if (document.getElementById("div"+studentID)!=null){
                 var tmpDiv=document.getElementById("div"+studentID);
-                tmpDiv.innerHTML+="<br />"+"\t[ Weeks: "+weekNo+" ]\t[ Specialty: "+specName+" ]\t[ Duration: "+specialtyDuration+" weeks]\t[ Hospital: "+hospName+" ]";
+                var divInner2=document.createElement("div");
+                divInner2.className="card card-body my-1 border border-secondary ";
+                divInner2.innerHTML="Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+"\t|\t Hospital: "+hospName;
+                tmpDiv.appendChild(divInner2);
               }else{
              
               //extra div for styling
@@ -1582,8 +1570,11 @@ if(isAssigned == false)
                 // divOuter.style.cursor="pointer";
                 // divOuter1.id="card"+j;
                 
-                divOuter1.innerHTML="<b>"+studName.toUpperCase()+"</b><br />"+"[ Weeks: "+weekNo+" ]\t[ Specialty: "+specName+" ]\t[ Duration: "+specialtyDuration+" weeks ]\t[ Hospital: "+hospName+" ]";
-                
+                divOuter1.innerHTML="<b>"+studName.toUpperCase()+"</b>";
+                var divInner=document.createElement("div");
+                divInner.className="card card-body my-1 border border-secondary ";
+                divInner.innerHTML="Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+" \t|\t Hospital: "+hospName;
+                divOuter1.appendChild(divInner);
                 divOuter.appendChild(divOuter1);
               }
           }
