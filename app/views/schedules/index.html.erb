@@ -355,7 +355,10 @@ Timeline-->Schedule
       //Retrieve Specialty Duration
       var specialtyDuration = schedule.getSpecialtyDuration();
       console.log("Specialty Duration is: "+ specialtyDuration);
-      this.timeBlocks[weekNo-1].setSpecialtyDuration(specialtyDuration);
+      this.timeBlocks[weekNo-1].setSpecialtyDuration(specialtyDuration+"");
+
+      //Set the end date
+      this.timeBlocks[weekNo-1].setEndDate();
 
       //Retrieve timeblox div id
       var data = this.timeBlocks[weekNo-1].getDivID();
@@ -392,6 +395,8 @@ Timeline-->Schedule
 
       //Set the Hospital Name in the Time Block
       this.timeBlocks[weekNo-1].setHospitalName();
+
+
 
       //Once assigned, allow for modal box to appear
       //this.timeBlocks[weekNo-1].getDiv().setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
