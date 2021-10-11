@@ -443,7 +443,8 @@ Timeline-->Schedule
       //this.timeBlocks[weekNo-1].getDiv().setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
       //var hospital = prompt("please enter hospital", "vic");
 
-      this.timeBlocks[weekNo-1].setAssigned(true);
+      //this.timeBlocks[weekNo-1].setAssigned(true);
+      this.timeBlocks[weekNo-1].setPseudoAssigned(true);
       this.timeBlocks[weekNo-1].setToolTipContents();
     }
 
@@ -609,6 +610,7 @@ Timeline-->Schedule
       this.hospitalName = "unassigned";
 
       this.setAssigned(false);
+      this.setPseudoAssigned(false);
       this.specialtyID = "";
       this.specialtyName = "";
       this.specialtyDuration = "";
@@ -759,7 +761,7 @@ Timeline-->Schedule
         for (let i = weekNo ; i < (weekNo + specialtyDuration) ; i++)
         {
 
-          if (timeline.timeBlocks[i-1].getAssigned() == "true")
+          if (timeline.timeBlocks[i-1].getPseudoAssigned() == "true")
             {
               isAssigned = true;
             }
@@ -839,7 +841,7 @@ if(isAssigned == false)
 
         var currDiv = document.getElementById(currDivID);
         currDiv.style.background = colorVal;
-        currDiv.setAttribute("assigned",true);
+        currDiv.setAttribute("pseudo_assigned",true);
 
         //document.getElementById(i).ondrop(ev);
 
@@ -864,7 +866,8 @@ if(isAssigned == false)
 //         disName.style.color = 'white';
 //         that.div.appendChild(disName);
 // //Just Check
-      that.setAssigned(true) ;
+      that.setPseudoAssigned(true) ;
+      that.setAssigned(true);
 
 
     }
@@ -877,7 +880,7 @@ if(isAssigned == false)
 
 
 
-        var isAssigned = that.getAssigned();
+        var isAssigned = that.getPseudoAssigned();
         if (isAssigned == "false")
           {
             console.log("ondragover: unassigned");
@@ -909,7 +912,7 @@ if(isAssigned == false)
 
       //Not sure why we need this but we do need it for things to work. Fix this later.
       this.div.onclick = function(ev){
-        if (that.getAssigned())
+        if (that.getPseudoAssigned())
           {
             that.div.style.cursor="pointer";
             //This code runs for a TimeBlock when a SpecialtyBlock is dropped onto it
@@ -1147,6 +1150,11 @@ if(isAssigned == false)
       return this.specialtyID;
     }
 
+    getPseudoAssigned()
+    {
+      return this.div.getAttribute("pseudo_assigned");
+    }
+
     getAssigned(){
       return this.div.getAttribute("assigned");
     }
@@ -1166,6 +1174,10 @@ if(isAssigned == false)
     setAssigned(value){
       this.assigned = value;
       this.div.setAttribute("assigned",value);
+    }
+
+    setPseudoAssigned(value){
+      this.div.setAttribute("pseudo_assigned",value);
     }
 
     setHospitalID(hospitalID){
