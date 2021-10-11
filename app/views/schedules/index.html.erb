@@ -1,4 +1,3 @@
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 
 <!-- Div to display alerts when studnets are assigned -->
@@ -145,7 +144,7 @@
 <br></br>
 <button type="button" class="btn btn-primary" data-toggle="modal" onclick="loadModalInfo()" data-target="#outerDiv">Update Database with Changes</button>
 
-<div id="outerDiv" class="modal"   tabindex="-1" role="dialog">
+<div id="outerDiv" class="modal fade"   tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-scrollable modal-xl"  role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1420,6 +1419,9 @@ Timeline-->Schedule
   function loadModalInfo(){
     //remove previous info 
      $("#modalContent").children().remove();
+    //TODO: Add animation to it later
+     
+            
 
 
      //modal's contents
@@ -1456,15 +1458,25 @@ Timeline-->Schedule
               let studName=obtainUserName(studentID);
               let specName=obtainSpecialtyName(specialtyID);
               let hospName= obtainHospitalName(hospitalID);
+
+              if (document.getElementById("div"+studName)!=null){
+                var tmpDiv=document.getElementById("div"+studName);
+                tmpDiv.innerHTML+="<br />"+"\t[ Weeks: "+weekNo+" ]\t[ Specialty: "+specName+" ]\t[ Duration: "+specialtyDuration+" weeks]\t[ Hospital: "+hospName+" ]";
+              }else{
              
               //extra div for styling
-              var divOuter1= document.createElement("div");
-              divOuter1.id="card"+j;
-              divOuter1.className="card card-body my-1";
-              divOuter.style.cursor="pointer";
-              divOuter1.innerHTML="[ Name:"+studName+" ]\t[ Weeks: "+weekNo+" ]\t[ Specialty: "+specName+" ]\t[ Duration: "+specialtyDuration+" ]\t[ Hospital: "+hospName+" ]";
-              
-              divOuter.appendChild(divOuter1);
+                var divOuter1= document.createElement("div");
+                
+                divOuter1.className="card card-body my-1 border border-primary rounded-0";
+                divOuter1.id="div"+studName;
+                //when we make it clickable we can do the ffg
+                // divOuter.style.cursor="pointer";
+                // divOuter1.id="card"+j;
+                
+                divOuter1.innerHTML="<b>"+studName.toUpperCase()+"</b><br />"+"[ Weeks: "+weekNo+" ]\t[ Specialty: "+specName+" ]\t[ Duration: "+specialtyDuration+" weeks ]\t[ Hospital: "+hospName+" ]";
+                
+                divOuter.appendChild(divOuter1);
+              }
           }
         }
         
