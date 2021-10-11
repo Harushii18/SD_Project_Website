@@ -2,9 +2,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 
 <!-- Div to display alerts when studnets are assigned -->
-<div id="showAssign" class="alert alert-primary" role="alert">
+<div id="showAssign" class="alert alert-primary" role="alert"></div>
 
-</div>
+<script>
+  var alertBox = document.getElementById("showAssign");
+  alertBox.style.display = "none";
+</script>
 
 <div id="sizingDiv" style="text-align:center">
 <br></br>
@@ -198,9 +201,16 @@ Timeline-->Schedule
         this.btnSaveToChanges.onclick = function(ev){
           console.log("\nCleared Schedules Array\n");
           this.schedules = [];
-          //console.log("StudentID is: " + that.studentID);
+
+          //Boolean to show if there's unassigned hospitals
+          var unassignedHospital = false;
+
+          //Var for list of current schedules in the timeline
+          var summaryOfAddedSchedules = "Note:\nClick the button at the top of the screen to save changes to the database.\n\n*Added Changes:\n\n";
+          var scheduleCounter = 0;
           for(var i=0; i<52;i++){
             if(that.timeBlocks[i].getAssigned()==true){
+              scheduleCounter++;
               console.log("Create a new schedule in the timeline");
               var newSchedule = new Schedule();
               newSchedule.setWeekNo(that.timeBlocks[i].getWeekNo());
@@ -223,11 +233,30 @@ Timeline-->Schedule
               //console.log(that.timeBlocks[i].getSpecialtyID());
               //console.log("timeline constructor")
 
+              if(that.timeBlocks[i].getHospitalName()=="unassigned"){
+                unassignedHospital = true;
+                break;
+              }
+
+              var scheduleInformation = scheduleCounter + ". \n["+that.studentName+"]\n"
+                                        + "Start Date: " + that.timeBlocks[i].getStartDate()+"\n"
+                                        + "End Date: " + that.timeBlocks[i].getEndDate()+"\n"
+                                        + "Clinical Site: " + that.timeBlocks[i].getHospitalName()+"\n"
+                                        + "Specialty: " + that.timeBlocks[i].getSpecialtyName()+"\n\n";
+
+              summaryOfAddedSchedules = summaryOfAddedSchedules+ scheduleInformation;
 
               that.schedules.push(newSchedule);
             }
 
           }
+          if(unassignedHospital==true){
+            window.alert("Failed To Save Schedule:\nEnsure all schedules are assigned to clinical sites before saving.");
+          }
+          else{
+            window.confirm(summaryOfAddedSchedules);
+           }
+
         };
 
         this.btnClearSchedule.onclick = function(ev){
@@ -978,6 +1007,21 @@ Timeline-->Schedule
 
 
     //Getter and Setter Methods
+    getStartDate(){
+      return this.returnLongFormattedDate(this.startDate);
+    }
+
+    getEndDate(){
+      return this.returnLongFormattedDate(this.endDate);
+    }
+
+    getHospitalName(){
+      return this.hospitalName;
+    }
+
+    getSpecialtyName(){
+      return this.specialtyName;
+    }
 
     getDivID(){
       return this.div.id;
@@ -1298,8 +1342,14 @@ Timeline-->Schedule
     var drop = document.getElementById('hospital_id');
     var hospitalName = drop.options[drop.selectedIndex].text;
 
-    document.getElementById('showAssign').innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
+    var alertBox = document.getElementById('showAssign');
+    alertBox.style.display = "block";
+    alertBox.innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
 
+    //Wait 5 seconds then remove the alert box
+    setTimeout(function () {
+      alertBox.style.display = "none";
+    }, 5000);
 
     var hospital_id = drop.options[drop.selectedIndex].value;
     chosen_hospital_id = hospital_id;
