@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
 
   <div class="container-fluid">
     <%= link_to 'Student Placement System', menu_index_path, class:"navbar-brand" %>
@@ -10,16 +10,6 @@
       <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <% if controller_name == "dashboard"%>
-          <!-- If we're at the dashboard view, set this nav link to active -->
-            <%= link_to 'Dashboard', dashboard_index_path, class:"nav-link active" %>
-          <!-- If we're at another view, set this to normal nav link -->
-          <% else %>
-            <%= link_to 'Dashboard', dashboard_index_path, class:"nav-link" %>
-          <% end %>
-        </li>
-
-        <li class="nav-item">
           <% if controller_name == "menu"%>
           <!-- If we're at the menu view, set this nav link to active -->
             <%= link_to 'Menu', menu_index_path, class:"nav-link active" %>
@@ -28,6 +18,9 @@
             <%= link_to 'Menu', menu_index_path, class:"nav-link" %>
           <% end %>
         </li>
+
+
+
 
         <li class="nav-item">
           <% if controller_name == "home"%>
@@ -62,22 +55,6 @@
           <% end %>
         </li>
 
-
-        <!--MAKE THIS A DROPDOWN!!!------------------------------->
-
-         <li class="nav-item">
-          <!-- If we're at the Course Dashboard view, set this nav link to active -->
-          <% if controller_name == "course_dashboard"%>
-
-            <%= link_to 'Course Dashboard', course_dashboard_index_path, class:"nav-link active" %>
-          <!-- If we're at another view, set this to normal nav link -->
-          <% else %>
-            <%= link_to 'Course Dashboard', course_dashboard_index_path, class:"nav-link" %>
-
-          <% end %>
-        </li>
-
-
 <!--HOSPITAL DROPDOWN===========================================================-->
       <li class="nav-item dropdown">
 
@@ -94,21 +71,21 @@
             <%= link_to 'Manage Hospitals', hospitals_path, class:" dropdown-item" %>
           <% end %>
 
-   
+
         <% if controller_name == "allocations"%>
         <%= link_to 'Hospital Allocations', allocations_path, class:"nav-link active dropdown-item" %>
         <!-- If we're at another view, set this to normal nav link -->
         <% else %>
           <%= link_to 'Hospital Allocations', allocations_path, class:"dropdown-item" %>
         <% end %>
-        
+
         <% if controller_name == "site_facilitators"%>
            <%= link_to 'Site Facilitators', site_facilitators_path, class:"nav-link active  dropdown-item" %>
           <!-- If we're at another view, set this to normal nav link -->
-        <% else %> 
+        <% else %>
            <%= link_to 'Site Facilitators', site_facilitators_path, class:"dropdown-item" %>
         <% end %>
-  
+
 
 
           <% if controller_name == "site_facilitator_allocations"%>
@@ -185,6 +162,38 @@
           <% end %>
           </li>
 
+          <!--DASHBOARDS DROPDOWN===========================================================-->
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Dashboards
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                      <!--Course Dashboard-->
+                      <!-- If we're at the Course Dashboard view, set this nav link to active -->
+                      <% if controller_name == "course_dashboard"%>
+                        <%= link_to 'Course Dashboard', course_dashboard_index_path, class:"nav-link active dropdown-item" %>
+                      <!-- If we're at another view, set this to normal nav link -->
+                      <% else %>
+                        <%= link_to 'Course Dashboard', course_dashboard_index_path, class:"dropdown-item" %>
+
+                      <% end %>
+
+                      <!--Hospital Dashboard-->
+                      <% if controller_name == "dashboard"%>
+                      <!-- If we're at the dashboard view, set this nav link to active -->
+                        <%= link_to 'Hospital Dashboard', dashboard_index_path, class:"nav-link active dropdown-item" %>
+                      <!-- If we're at another view, set this to normal nav link -->
+                      <% else %>
+                        <%= link_to 'Hospital Dashboard', dashboard_index_path, class:"dropdown-item" %>
+                      <% end %>
+
+
+                    </div>
+                  </li>
+          <!--END OF DASHBOARDS DROPDOWN========================================================-->
+
           <li class="nav-item">
           <!-- If we're at the Manage courses view, set this nav link to active -->
 
@@ -200,8 +209,8 @@
       </ul>
 
        <!-- Sign Out Button -->
+        <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete, class:"btn btn-danger", style:"margin-left: auto" %>
 
-        <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete, class:"btn btn-danger" %>
 
 
     </div>

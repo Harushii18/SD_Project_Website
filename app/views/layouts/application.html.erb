@@ -77,7 +77,8 @@
     <%= render "home/header" %>
    <%end%>
 
-   <div class="content container-fluid data-mdb-perfect-scrollbar='true'">
+  <%# Added padding to body div so that nav bar does not hide content %>
+   <div class="content container-fluid data-mdb-perfect-scrollbar='true' mt-5">
      <% if notice%>
       <%= render "layouts/alters" %>
     <%end%>
@@ -88,11 +89,7 @@
 
     </div>
 
-
-<!--fix footer-->
    <%= render "home/footer" %>
-
-
 
   </body>
 
