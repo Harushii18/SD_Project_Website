@@ -139,7 +139,44 @@
 </select>
 </form>
 <br></br>
-<button type="button" class="btn btn-primary" onclick="makeChanges()">Update Database with Changes</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" onclick="loadModalInfo()" data-target="#outerDiv">Update Database with Changes</button>
+
+<div id="outerDiv" class="modal"   tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl"  role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Pending Changes:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="modalContent" class="modal-body">
+
+        <%# Add dynamically instantiated things here through the loadModalInfo() function
+        <table  class="table">
+        <thead id="tblHeader">
+          <tr>
+            <th scope="col">Student Name </th>
+            <th scope="col">Number of Weeks</th>
+            <th scope="col">Specialty Name</th>
+            <th scope="col">Handle</th>
+             <th scope="col">Hospital Name</th>
+          </tr>
+        </thead>
+        <tbody id="tblRows">
+         
+        </tbody>
+      </table> %>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="makeChanges()" >Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Some functions for the Drag and Drop Feature -->
 
 
@@ -297,7 +334,6 @@ Timeline-->Schedule
           this.showScheduleOnTimeline(currentSchedule);
 
         }
-
       <% end %>
     }
 
@@ -1287,13 +1323,107 @@ Timeline-->Schedule
   var programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
   var chosen_hospital_id = 0;
 
+
+  function obtainUserName(studentID){
+    var fName, lName;
+     <%@students.each do |student|%>
+            if (studentID=="<%=student.id%>"){ 
+
+              var fName= "<%= User.where(:id => student.user_id).pluck(:user_FirstName).first%>";    
+              var lName= "<%= User.where(:id => student.user_id).pluck(:user_LastName).first%>"; 
+              return fName+" "+lName;     
+           
+            }
+    <%end%>
+    
+    return;
+  }
+
+  function obtainSpecialtyName(specId){
+     <%@specialties.each do |specialty|%>
+            if (specId=="<%=specialty.id%>"){ 
+
+              return "<%=specialty.SpecialtyName%>";     
+            }
+    <%end%>
+    
+    return;
+  }
+
+  function obtainHospitalName(hospId){
+     <%@hospitals.each do |hospital|%>
+            if (hospId=="<%=hospital.id%>"){ 
+
+              return "<%=hospital.hospital_name%>";     
+            }
+    <%end%>
+    
+    return;
+  }
+
 //onclick function to save all the schedules to the database
   function makeChanges(){
     //console.log("Make changes");
+ 
     programmeSchedule.saveSchedule();
     window.location.reload();
   }
 
+
+  function loadModalInfo(){
+    //remove previous info 
+     $("#modalContent").children().remove();
+
+
+     //modal's contents
+     var divOuter=document.getElementById("modalContent");
+      let count=0;
+        for(var i =0; i<programmeSchedule.timelines.length; i++){
+            var currSchedule = programmeSchedule.timelines[i].getSchedules();
+            //For each schedule in a timeline
+            if (currSchedule.length>0){
+              count=1;
+              break;
+            }
+        }
+
+    //if there were no saved changes
+     if (count===0){
+      divOuter.innerHTML="There are currently no pending changes.";
+
+     }else{
+      divOuter.innerHTML="";
+      
+       //display schedule info
+        for(var i =0; i<programmeSchedule.timelines.length; i++){
+            var currSchedule = programmeSchedule.timelines[i].getSchedules();
+            //For each schedule in a timeline
+            for(var j =0; j<currSchedule.length;j++){
+              var studentID = currSchedule[j].getStudentID();
+              var weekNo = currSchedule[j].getWeekNo();
+              var specialtyID = currSchedule[j].getSpecialtyID();
+              var specialtyDuration = currSchedule[j].getSpecialtyDuration();
+              var hospitalID = currSchedule[j].getHospitalID();
+
+              //get the details so that user cannot access ID
+              let studName=obtainUserName(studentID);
+              let specName=obtainSpecialtyName(specialtyID);
+              let hospName= obtainHospitalName(hospitalID);
+             
+              //extra div for styling
+              var divOuter1= document.createElement("div");
+              divOuter1.id="card"+j;
+              divOuter1.className="card card-body my-1";
+              divOuter.style.cursor="pointer";
+              divOuter1.innerHTML="[ Name:"+studName+" ]\t[ Weeks: "+weekNo+" ]\t[ Specialty: "+specName+" ]\t[ Duration: "+specialtyDuration+" ]\t[ Hospital: "+hospName+" ]";
+              
+              divOuter.appendChild(divOuter1);
+          }
+        }
+        
+     }
+     //add new changes info
+  }
   //onclick function to assign student to hospital
   function assignHospital(){
 
