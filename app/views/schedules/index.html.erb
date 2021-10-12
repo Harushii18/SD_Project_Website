@@ -155,7 +155,7 @@
       </div>
       <div id="modalContent" class="modal-body">
 
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="makeChanges()" >Save changes</button>
@@ -291,7 +291,7 @@ Timeline-->Schedule
 
 
         //   $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
-        
+
         // };
     }
 
@@ -367,6 +367,7 @@ Timeline-->Schedule
       console.log("Week No is: "+weekNo);
 
       var timeBlock = this.timeBlocks[weekNo-1];
+      timeBlock.setAssigned(true); //This needs to be here for the main timeblock in the schedule to be set to true 
 
       //Retrieve Specialty ID
       var specialtyID = schedule.getSpecialtyID();
@@ -736,7 +737,7 @@ Timeline-->Schedule
 
         var timeline = programmeSchedule.getTimeline( that.studentID);
 
- 
+
         var specialtyDuration = parseInt(ev.dataTransfer.getData("specialtyDuration"));
         console.log("duration in ondrop timeblock: " +specialtyDuration);
         var isAssigned = false;
@@ -756,7 +757,7 @@ Timeline-->Schedule
           {
             console.log("can drop");
           }
-        else 
+        else
           {
             console.log("cannot drop");
           }
@@ -1349,7 +1350,7 @@ if(isAssigned == false)
         {
           var timelines = this.timelines;
           var size = timelines.length;
-      
+
           var timeline;
           for (let i = 0 ; i < size; i++)
           {
@@ -1359,18 +1360,18 @@ if(isAssigned == false)
                 break;
               }
           }
-      
+
           return timeline;
-      
-      
+
+
         }
 
         getTimeBlock(week_no,student_id)
         {
-      
+
         var timeline = this.getTimeline(student_id);
         var size = timeline.timeBlocks.length;
-         
+
           var timeblock;
           for (let i = 0 ; i < size; i++)
           {
@@ -1380,9 +1381,9 @@ if(isAssigned == false)
                 break;
               }
           }
-      
+
           return timeblock;
-      
+
         }
 
 
@@ -1469,37 +1470,37 @@ if(isAssigned == false)
   function obtainUserName(studentID){
     var fName, lName;
      <%@students.each do |student|%>
-            if (studentID=="<%=student.id%>"){ 
+            if (studentID=="<%=student.id%>"){
 
-              var fName= "<%= User.where(:id => student.user_id).pluck(:user_FirstName).first%>";    
-              var lName= "<%= User.where(:id => student.user_id).pluck(:user_LastName).first%>"; 
-              return fName+" "+lName;     
-           
+              var fName= "<%= User.where(:id => student.user_id).pluck(:user_FirstName).first%>";
+              var lName= "<%= User.where(:id => student.user_id).pluck(:user_LastName).first%>";
+              return fName+" "+lName;
+
             }
     <%end%>
-    
+
     return;
   }
 
   function obtainSpecialtyName(specId){
      <%@specialties.each do |specialty|%>
-            if (specId=="<%=specialty.id%>"){ 
+            if (specId=="<%=specialty.id%>"){
 
-              return "<%=specialty.SpecialtyName%>";     
+              return "<%=specialty.SpecialtyName%>";
             }
     <%end%>
-    
+
     return;
   }
 
   function obtainHospitalName(hospId){
      <%@hospitals.each do |hospital|%>
-            if (hospId=="<%=hospital.id%>"){ 
+            if (hospId=="<%=hospital.id%>"){
 
-              return "<%=hospital.hospital_name%>";     
+              return "<%=hospital.hospital_name%>";
             }
     <%end%>
-    
+
     return;
   }
 
@@ -1511,11 +1512,11 @@ if(isAssigned == false)
 
 
   function loadModalInfo(){
-    //remove previous info 
+    //remove previous info
      $("#modalContent").children().remove();
     //TODO: Add animation to it later
-     
-            
+
+
 
 
      //modal's contents
@@ -1536,7 +1537,7 @@ if(isAssigned == false)
 
      }else{
       divOuter.innerHTML="";
-      
+
        //display schedule info
         for(var i =0; i<programmeSchedule.timelines.length; i++){
             var currSchedule = programmeSchedule.timelines[i].getSchedules();
@@ -1560,16 +1561,16 @@ if(isAssigned == false)
                 divInner2.innerHTML="Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+"\t|\t Hospital: "+hospName;
                 tmpDiv.appendChild(divInner2);
               }else{
-             
+
               //extra div for styling
                 var divOuter1= document.createElement("div");
-                
+
                 divOuter1.className="card card-body my-1 border border-primary rounded-0";
                 divOuter1.id="div"+studentID;
                 //when we make it clickable we can do the ffg
                 // divOuter.style.cursor="pointer";
                 // divOuter1.id="card"+j;
-                
+
                 divOuter1.innerHTML="<b>"+studName.toUpperCase()+"</b>";
                 var divInner=document.createElement("div");
                 divInner.className="card card-body my-1 border border-secondary ";
@@ -1579,7 +1580,7 @@ if(isAssigned == false)
               }
           }
         }
-        
+
      }
      //add new changes info
   }
