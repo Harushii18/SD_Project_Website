@@ -1,6 +1,36 @@
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <%= notice %>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<%# CSS to fix the look and position of the closing x in the alert %>
+<style>
+#btnClose{
+  float: right;
+  padding:"0px" !important;
+  color: black !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.btn:focus {
+  outline: none !important;
+}
+
+.close {
+ margin-top:-0.15rem !important;
+ padding-top: 0rem !important;
+ padding-left: 0.5rem !important;
+ padding-bottom: 0rem !important;
+ padding-right: 0.5rem !important;
+}
+
+.alert {
+  position:relative !important;
+}
+
+</style>
+
+</br>
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong><%= notice %></strong> 
+  <button id="btnClose" type="button" class="close btn-success rounded-circle btn btn-lg" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
