@@ -367,7 +367,7 @@ Timeline-->Schedule
       console.log("Week No is: "+weekNo);
 
       var timeBlock = this.timeBlocks[weekNo-1];
-      timeBlock.setAssigned(true); //This needs to be here for the main timeblock in the schedule to be set to true 
+      timeBlock.setAssigned(true); //This needs to be here for the main timeblock in the schedule to be set to true
 
       //Retrieve Specialty ID
       var specialtyID = schedule.getSpecialtyID();
@@ -388,6 +388,12 @@ Timeline-->Schedule
 
       //Retrieve timeblox div id
       var data = this.timeBlocks[weekNo-1].getDivID();
+
+      //Overlapping
+
+      for(var i = weekNo-1; i<weekNo-1+specialtyDuration;i++){
+        this.timeBlocks[i].setPseudoAssigned(true);
+      }
 
       console.log("Div's id is: "+data);
       //Put specialty div in timebox div
