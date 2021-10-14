@@ -1,91 +1,69 @@
 class SchedulesController < ApplicationController
-skip_forgery_protection
-before_action :set_schedule, only: %i[ show edit update destroy ]
-before_action :set_search
+  skip_forgery_protection
+  before_action :set_schedule, only: %i[ show edit update destroy ]
+  before_action :set_search
 
 
 # GET /schedules or /schedules.json
-def index
+  def index
 
-@users = @q.result
-@programmes = Programme.all
-@courseSpecialties=CourseSpecialty.all
-@programmCourses=ProgrammeCourse.all
-@all_users = User.all
+    @users = @q.result
+    @programmes = Programme.all
+    @courseSpecialties=CourseSpecialty.all
+    @programmCourses=ProgrammeCourse.all
+    @all_users = User.all
 
-@specialties = Specialty.all
-puts("look here")
-
-
-@FirstRec = Programme.first;
-@current_programme_id = @FirstRec.id;
+    @specialties = Specialty.all
+    puts("look here")
 
 
-if (params[:programme_id])
-@current_programme_id =  params[:programme_id];
-
-end
-#to get the group ID
-@value;
-#The Recs in Student_groups based on @value
-@Student_Groups;
-#if the user clicks on groups modal box
-if(params[:Group_id])
-@value = params[:Group_id];
-
-end
-
-@Student_Groups = StudentGroup.where(group_id: @value);
+    @FirstRec = Programme.first;
+    @current_programme_id = @FirstRec.id;
 
 
-@programme_courses = ProgrammeCourse.where(programme_id: @current_programme_id).select([:course_id])
+    if (params[:programme_id])
+      @current_programme_id =  params[:programme_id];
 
-@course_specialties = CourseSpecialty.where(course_id: @programme_courses).select([:specialty_id])
+    end
+    #to get the group ID
+    @value;
+    #The Recs in Student_groups based on @value
+    @Student_Groups;
+    #if the user clicks on groups modal box
+    if(params[:Group_id])
+      @value = params[:Group_id];
 
+    end
 
-
-@specialties = Specialty.where(id: @course_specialties)
-
-
-@students = Student.filter_by_programme_id(@current_programme_id);
-#Get the Groups Ass with Prog
-@Groups = Group.where(programme_id: @current_programme_id);
-
-# @Student_Groups = Student_groups.filter_by_group_id()
-#@students = @students.find()
-@schedules = Schedule.all
-
-@rotations = Rotation.filter_by_programme_id(@current_programme_id)
-
-@numRotations = @rotations.length()
-end
-
-def set_search
-@q=User.ransack(params[:q])
-end
-
-def f
-
-end
-
-if (params[:programme_id])
-@current_programme_id =  params[:programme_id];
-
-end
-#to get the group ID
-@value;
-#The Recs in Student_groups based on @value
-@Student_Groups;
-#if the user clicks on groups modal box
-if(params[:Group_id])
-@value = params[:Group_id];
-
-end
-
-@Student_Groups = StudentGroup.where(group_id: @value);
+    @Student_Groups = StudentGroup.where(group_id: @value);
 
 
-@programme_courses = ProgrammeCourse.where(programme_id: @current_programme_id).select([:course_id])
+    @programme_courses = ProgrammeCourse.where(programme_id: @current_programme_id).select([:course_id])
+
+    @course_specialties = CourseSpecialty.where(course_id: @programme_courses).select([:specialty_id])
+
+
+
+    @specialties = Specialty.where(id: @course_specialties)
+
+
+    @students = Student.filter_by_programme_id(@current_programme_id);
+    #Get the Groups Ass with Prog
+    @Groups = Group.where(programme_id: @current_programme_id);
+
+    # @Student_Groups = Student_groups.filter_by_group_id()
+    #@students = @students.find()
+    @schedules = Schedule.all
+
+    @rotations = Rotation.filter_by_programme_id(@current_programme_id)
+
+    @numRotations = @rotations.length()
+  end
+
+  def set_search
+    @q=User.ransack(params[:q])
+  end
+
 
 # GET /schedules/1 or /schedules/1.json
 def show
@@ -133,10 +111,10 @@ end
 end
 end
 
-def delete_with_student_id
-#puts("In /schedules/delete_with_student_id,  params[:student_id] is : " +params[:student_id])
-Schedule.delete_with_student_id( params[:student_id] ) #calls delete_with_student_id in model schedule.rb
-end
+  def delete_with_student_id
+    #puts("In /schedules/delete_with_student_id,  params[:student_id] is : " +params[:student_id])
+    Schedule.delete_with_student_id( params[:student_id] ) #calls delete_with_student_id in model schedule.rb
+  end
 
 # DELETE /schedules/1 or /schedules/1.json
 def destroy
@@ -166,65 +144,15 @@ end
 end
 
 
-# GET /schedules/1 or /schedules/1.json
-def show
-end
 
-# GET /schedules/new
-def new
-@schedule = Schedule.new
-end
+  private
+  # Use callbacks to share common setup or constraints between actions.
+    def set_schedule
+      @schedule = Schedule.find(params[:id])
+    end
 
-# GET /schedules/1/edit
-def edit
-end
-
-# POST /schedules or /schedules.json
-def create
-@schedule = Schedule.new(schedule_params)
-
-if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]   ))
-respond_to do |format|
-if @schedule.save
-puts("kameron---------------------------Saved")
-# format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
-format.json { render :show, status: :created, location: @schedule }
-else
-puts("kameron::::in schedules controller failed to save")
-format.html { render :new, status: :unprocessable_entity }
-format.json { render json: @schedule.errors, status: :unprocessable_entity }
-end
-end
-end
-end
-
-# PATCH/PUT /schedules/1 or /schedules/1.json
-def update
-respond_to do |format|
-if @schedule.update(schedule_params)
-format.html { redirect_to @schedule, notice: "Schedule was successfully updated." }
-format.json { render :show, status: :ok, location: @schedule }
-else
-format.html { render :edit, status: :unprocessable_entity }
-format.json { render json: @schedule.errors, status: :unprocessable_entity }
-end
-end
-end
-
-#def import # importing from csv file
-#  User.import(params[:file]) #call User.import function in user.rb model file
-#  redirect_to users_path, notice: "Users Added Successfully"
-#end
-
-
-private
-# Use callbacks to share common setup or constraints between actions.
-def set_schedule
-@schedule = Schedule.find(params[:id])
-end
-
-# Only allow a list of trusted parameters through.
-def schedule_params
-params.permit(:student_id, :specialty_id, :hospital_id , :week_no , :specialty_duration)
-end
-end
+  # Only allow a list of trusted parameters through.
+    def schedule_params
+      params.permit(:student_id, :specialty_id, :hospital_id , :week_no , :specialty_duration)
+    end
+  end
