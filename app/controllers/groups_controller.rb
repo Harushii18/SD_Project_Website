@@ -3,21 +3,21 @@ class GroupsController < ApplicationController
 
   # GET /groups or /groups.json
   def index
-
-    #search code
-    @q = Group.ransack(params[:q])
-    @groups = @q.result
-    #@groups = Group.all
-
+    @groups = Group.all
+    @programmes = Programme.all
   end
 
   # GET /groups/1 or /groups/1.json
   def show
   end
 
+  def _form
+  end
+
   # GET /groups/new
   def new
     @group = Group.new
+    @programmes = Programme.all
   end
 
   # GET /groups/1/edit
@@ -69,8 +69,6 @@ class GroupsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def group_params
-
-      params.require(:group).permit(:specialty_id, :block_id)
-
+      params.require(:group).permit(:programme_id, :group_name)
     end
 end

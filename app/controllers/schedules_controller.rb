@@ -68,7 +68,24 @@ def f
 
 end
 
+if (params[:programme_id])
+@current_programme_id =  params[:programme_id];
 
+end
+#to get the group ID
+@value;
+#The Recs in Student_groups based on @value
+@Student_Groups;
+#if the user clicks on groups modal box
+if(params[:Group_id])
+@value = params[:Group_id];
+
+end
+
+@Student_Groups = StudentGroup.where(group_id: @value);
+
+
+@programme_courses = ProgrammeCourse.where(programme_id: @current_programme_id).select([:course_id])
 
 # GET /schedules/1 or /schedules/1.json
 def show
@@ -149,7 +166,50 @@ end
 end
 
 
+# GET /schedules/1 or /schedules/1.json
+def show
+end
 
+# GET /schedules/new
+def new
+@schedule = Schedule.new
+end
+
+# GET /schedules/1/edit
+def edit
+end
+
+# POST /schedules or /schedules.json
+def create
+@schedule = Schedule.new(schedule_params)
+
+if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]   ))
+respond_to do |format|
+if @schedule.save
+puts("kameron---------------------------Saved")
+# format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
+format.json { render :show, status: :created, location: @schedule }
+else
+puts("kameron::::in schedules controller failed to save")
+format.html { render :new, status: :unprocessable_entity }
+format.json { render json: @schedule.errors, status: :unprocessable_entity }
+end
+end
+end
+end
+
+# PATCH/PUT /schedules/1 or /schedules/1.json
+def update
+respond_to do |format|
+if @schedule.update(schedule_params)
+format.html { redirect_to @schedule, notice: "Schedule was successfully updated." }
+format.json { render :show, status: :ok, location: @schedule }
+else
+format.html { render :edit, status: :unprocessable_entity }
+format.json { render json: @schedule.errors, status: :unprocessable_entity }
+end
+end
+end
 
 #def import # importing from csv file
 #  User.import(params[:file]) #call User.import function in user.rb model file
