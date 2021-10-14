@@ -65,65 +65,65 @@ class SchedulesController < ApplicationController
   end
 
 
-# GET /schedules/1 or /schedules/1.json
-def show
-end
+  # GET /schedules/1 or /schedules/1.json
+  def show
+  end
 
-# GET /schedules/new
-def new
-@schedule = Schedule.new
-end
+  # GET /schedules/new
+  def new
+    @schedule = Schedule.new
+  end
 
-# GET /schedules/1/edit
-def edit
-end
+  # GET /schedules/1/edit
+  def edit
+  end
 
-# POST /schedules or /schedules.json
-def create
-@schedule = Schedule.new(schedule_params)
+  # POST /schedules or /schedules.json
+  def create
+    @schedule = Schedule.new(schedule_params)
 
-if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]   ))
-respond_to do |format|
-if @schedule.save
-puts("kameron---------------------------Saved")
-# format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
-format.json { render :show, status: :created, location: @schedule }
-else
-puts("kameron::::in schedules controller failed to save")
-format.html { render :new, status: :unprocessable_entity }
-format.json { render json: @schedule.errors, status: :unprocessable_entity }
-end
-end
-end
-end
+    if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]))
+      respond_to do |format|
+        if @schedule.save
+          puts("kameron---------------------------Saved")
+          # format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
+          format.json { render :show, status: :created, location: @schedule }
+        else
+          puts("kameron::::in schedules controller failed to save")
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @schedule.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+  end
 
 
-# PATCH/PUT /schedules/1 or /schedules/1.json
-def update
-respond_to do |format|
-if @schedule.update(schedule_params)
-format.html { redirect_to @schedule, notice: "Schedule was successfully updated." }
-format.json { render :show, status: :ok, location: @schedule }
-else
-format.html { render :edit, status: :unprocessable_entity }
-format.json { render json: @schedule.errors, status: :unprocessable_entity }
-end
-end
-end
+  # PATCH/PUT /schedules/1 or /schedules/1.json
+  def update
+    respond_to do |format|
+      if @schedule.update(schedule_params)
+        format.html { redirect_to @schedule, notice: "Schedule was successfully updated." }
+        format.json { render :show, status: :ok, location: @schedule }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @schedule.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   def delete_with_student_id
     #puts("In /schedules/delete_with_student_id,  params[:student_id] is : " +params[:student_id])
     Schedule.delete_with_student_id( params[:student_id] ) #calls delete_with_student_id in model schedule.rb
   end
 
-# DELETE /schedules/1 or /schedules/1.json
-def destroy
-@schedule.destroy
-respond_to do |format|
-format.html { redirect_to schedules_url, notice: "Schedule was successfully destroyed." }
-format.json { head :no_content }
-end
-end
+  # DELETE /schedules/1 or /schedules/1.json
+  def destroy
+    @schedule.destroy
+    respond_to do |format|
+      format.html { redirect_to schedules_url, notice: "Schedule was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
 
 def create_schedule
 
