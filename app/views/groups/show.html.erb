@@ -1,14 +1,26 @@
+<div style="text-align: center;">
+  <img src="https://www.wits.ac.za/media/wits-university/news-and-events/images/logos-and-icons/WITS-logo-full-colour-600x300.png" class="img-fluid" alt="University Of The Witwatersrand Logo">
+</div>
+
+
+<div class = "card" style="text-align: center; background-color:#eaeaea">
+<br>
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Programme:</strong>
-  <%= @group.programme_id %>
-</p>
+    <strong>Programme:</strong>
+    <%= @group.programme_id %>
+    </p>
 
-<p>
-  <strong>Group name:</strong>
-  <%= @group.group_name %>
+    <p>
+    <strong>Group name:</strong>
+    <%= @group.group_name %>
 </p>
+  <div>
+    <%= link_to 'Edit', edit_group_path(@group), class:"btn btn-outline-primary" %> |
+    <%# no method error %>
+    <%= link_to 'Back', groups_path, class:"btn btn-success" %>
+  </div>
+  <br>
 
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+</div>
