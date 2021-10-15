@@ -10,17 +10,17 @@
       </ul>
     </div>
   <% end %>
-                                      <!--Drop down for programmes --> 
+                                      <!--Drop down for programmes -->
   <div class="row justify-content-md-center">
-      <div class="col-2">
-          <label> <h5>Select Programme</h5> </label>
+      <div class="col-2 text-nowrap">
+          <label> <h4>Select Programme</h4> </label>
           <br>
           <select id="programme_select" onchange="display_groups(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
           </select>
       </div>
   </div>
-  
-      
+
+
            <!-- Populate dropdown or programme select with programmes-->
     <% @programmes.each do |programme| %>
       <script >
@@ -32,7 +32,7 @@
       </script>
     <%end%>
     <br>
-                       <!--Drop down for groups --> 
+                       <!--Drop down for groups -->
      <div style="display:none" id = "select_group" class="row justify-content-md-center">
       <div class="col-2">
           <label> <h5>Select Group</h5> </label>
@@ -43,12 +43,12 @@
   </div>
 
   <script>
-      
+
       var display_groups = function(programme_id){
          document.getElementById('select_group').style.display = "flex"
 
-                   // clear the drop down of any existing items                
-         while (document.getElementById('group_select').options.length > 0) {  
+                   // clear the drop down of any existing items
+         while (document.getElementById('group_select').options.length > 0) {
               document.getElementById('group_select').remove(0);
          }
 
@@ -67,6 +67,7 @@
             //display default selected value on groups select
           document.getElementById('student_group_group_id').value = document.getElementById('group_select').options[document.getElementById('group_select').selectedIndex].value;
           document.getElementById('student_group_group_name').innerHTML = "Chosen Group: " + document.getElementById('group_select').options[document.getElementById('group_select').selectedIndex].text;
+          document.getElementById('student_group_group_name').style.fontWeight = "650";
       }
 
       var choose_group = function(group_id, group_name){
@@ -80,16 +81,18 @@
 
   <div class="field">
     <%= form.label :student_id %>
-    <%= form.text_field :student_id %>
+    <%= form.text_field :student_id, class:"form-control"%>
   </div>
 
   <div class="field">
     <%= form.label :group_id %>
-    <%= form.text_field :group_id %>
+    <%= form.text_field :group_id, class:"form-control" %>
   </div>
+
+  <br>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary"%>      <%# double check turbolink working incorrectly -> NO METHOD ERROR %>
+    <%= link_to 'Back', student_groups_path, class: "btn btn-success" %>
   </div>
 <% end %>
-

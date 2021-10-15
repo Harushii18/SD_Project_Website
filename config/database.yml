@@ -19,12 +19,12 @@ default: &default
 
 
   host: localhost
-  database: student_placement
+  database: student_placements
   port: 3306
 
 development:
   <<: *default
-  database: student_placement
+  database: student_placements
 
 
 # Warning: The database defined as "test" will be erased and

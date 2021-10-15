@@ -123,7 +123,7 @@
 
 <%# centers div %>
 <div class="mt-4 d-flex justify-content-center" id="schedule_window">
-
+</div>
 
 <script>
 
@@ -536,8 +536,16 @@ Timeline-->Schedule
       //On Drop Function
       this.div.ondrop = function(ev){
 //--------------------------------------
+        ev.preventDefault();
+        var timeline;
 
-        var timeline = programmeSchedule.getTimeline( that.studentID);
+        if(that.studentID == -1){
+          timeline  = GroupsTimeline.getTimeline(-1);
+        }
+        else{
+          timeline  = programmeSchedule.getTimeline( that.studentID);
+        }
+
 
 
         var specialtyDuration = parseInt(ev.dataTransfer.getData("specialtyDuration"));
@@ -1138,7 +1146,7 @@ if(isAssigned == false)
           <% @Student_Groups.each do |g| %>
               StudentIDs.push(<%=g.student_id%>);
           <%end%>
-          
+          console.log(StudentIDs);
           //for the len of timeline
           for(var i = 0 ; i < this.timelines.length ; i ++ ){
 
@@ -1179,9 +1187,9 @@ if(isAssigned == false)
           //timeLineDiv.appendChild(table);
           this.parentObject.appendChild(table);
 
-          for(var i = 0; i<this.timelines.length; i++){
-            this.timelines[i].initialiseSchedules();
-          }
+          // for(var i = 0; i<this.timelines.length; i++){
+          //   this.timelines[i].initialiseSchedules();
+          // }
 
         }
 
@@ -1192,20 +1200,24 @@ if(isAssigned == false)
 
 
   //Create a new programme schedule for a specific programme / Group
-
+  var programmeSchedule;
+  var GroupsTimeline;
   //bool value to check if there is a group or not
   this.IsGroup = <%=@value.present? %>
 
   //the user didnt click on the group button
   if(IsGroup == false){
-    this.programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
+    programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
   }
   //clicked! make a single timeline
   else{
     //if there is a group name then there are students in this group and we CAN schedule
     //else the group name is "" then there are no students assigned to this group and WE CANNOT schedule
     if(this.GroupName != ""){
-        this.GroupsTimeline = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
+        GroupsTimeline = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
+
+
+        console.log(GroupsTimeline.getTimeline(-1));
     }
     else{
       console.log("Cannont ASS No Stu");
@@ -1222,11 +1234,13 @@ if(isAssigned == false)
 
     //save the students schedules
     if(IsGroup == false){
-      this.programmeSchedule.saveSchedule();
+      console.log("SAVING INDIVIDUALLY");
+      programmeSchedule.saveSchedule();
     }
     //save the groups schedules
     else{
-      this.GroupsTimeline.saveSchedule();
+        console.log("SAVING GROUP");
+      GroupsTimeline.saveSchedule();
     }
 
   }
@@ -1292,7 +1306,7 @@ if(isAssigned == false)
 
 
 
-</div>
+
 
 <br>
 

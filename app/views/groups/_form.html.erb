@@ -13,17 +13,17 @@
 
   <div class="field">
         <!-- dropdown for programmes-->
-  
-    <div class="row justify-content-md-center">
-      <div class="col-2">
-          <label> <h5>Select Programme</h5> </label>
+
+    <div class="row justify-content-md-center" style="justify-content: center">
+      <div class="col-2 text-nowrap">
+          <label> <h4> Select Programme </h4> </label>
           <br>
           <select id="programme_select" onchange="set_chosen_programme(this.options[this.selectedIndex].value,this.options[this.selectedIndex].innerHTML)" class="btn btn-primary dropdown-toggle">
           </select>
       </div>
    </div>
-  
-      
+
+
            <!-- Populate dropdown or programme select with programmes-->
     <% @programmes.each do |programme| %>
       <script >
@@ -40,22 +40,26 @@
       var set_chosen_programme = function(programme_id,programme_code){
         programme_field = document.getElementById('group_programme_id') // got this from inspecting page on browser
         programme_field.value = programme_id;
-        document.getElementById('group_programme_code').innerHTML = "Chosen Programme: " + programme_code
+        document.getElementById('group_programme_code').innerHTML = "Current Selected Programme: " + programme_code;
+        document.getElementById('group_programme_code').style.fontWeight = "650";
       }
     </script>
 
     <h5 id="group_programme_code"> </h5>
-    <%= form.label :programme_ID %>
-    <%= form.text_field :programme_id %>
+    <%= form.label :enter_programme_ID %>
+    <%= form.text_field :programme_id, class:"form-control" %>
 
   </div>
 
-  <div class="field">
-    <%= form.label :enter_group_name %>
-    <%= form.text_field :group_name %>
+  <div class="form-group">
+    <%= form.label :enter_group_name%>
+    <%= form.text_field :group_name, class:"form-control" %>
   </div>
+
+  <br>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class:"btn btn-success" %>
+    <%= link_to 'Back', groups_path, class:"btn btn-outline-primary"%>
   </div>
 <% end %>
