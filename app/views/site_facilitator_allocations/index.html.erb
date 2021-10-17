@@ -21,7 +21,7 @@
       <thead>
         <tr>
           <th>Hospital</th>
-          <th>Site facilitator</th>
+          <th>Site Facilitator</th>
           <th  scope="col"></th>
         </tr>
       </thead>
@@ -29,8 +29,8 @@
       <tbody>
         <% @site_facilitator_allocations.each do |site_facilitator_allocation| %>
         <tr>
-          <td><%= site_facilitator_allocation.hospital_id %></td>
-          <td><%= site_facilitator_allocation.site_facilitator_id %></td>
+          <td><%= Hospital.where(id: site_facilitator_allocation.hospital_id).pluck(:hospital_name).first %></td>
+          <td><%= SiteFacilitator.where(id: site_facilitator_allocation.site_facilitator_id).pluck(:Site_Facilitator_Name).first%></td>
 
           <td class="col-1">
 
