@@ -21,7 +21,7 @@
 
 
 
-
+<!--ADMINS LINK -->
         <li class="nav-item">
           <% if controller_name == "home"%>
           <!-- If we're at the home view, set this nav link to active -->
@@ -32,7 +32,7 @@
           <% end %>
         </li>
 
-
+<!--USERS LINK -->
         <li class="nav-item">
           <!-- If we're at the Manage Users view, set this nav link to active -->
           <% if controller_name == "users"%>
@@ -43,6 +43,20 @@
           <% end %>
         </li>
 
+        <!--STUDENTS LINK -->
+        <li class="nav-item">
+          <!-- If we're at the Manage courses view, set this nav link to active -->
+
+          <% if controller_name == "students"%>
+          <%= link_to 'Students', students_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+          <%= link_to 'Students', students_path, class:"nav-link" %>
+          <% end %>
+        </li>
+
+
+<!--GROUPS LINK -->
         <li class="nav-item">
           <!-- If we're at the Manage Groups view, set this nav link to active -->
           <% if controller_name == "groups"%>
@@ -54,6 +68,52 @@
 
           <% end %>
         </li>
+
+
+
+<!--PROGRAMMES LINK -->
+        <li class="nav-item">
+          <!-- If we're at the Manage Programmes view, set this nav link to active -->
+
+          <% if controller_name == "programmes"%>
+            <%= link_to 'Programmes', programmes_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+            <%= link_to 'Programmes', programmes_path, class:"nav-link" %>
+          <% end %>
+        </li>
+
+<!-- COURSES LINK -->
+        <li class="nav-item">
+          <!-- If we're at the Manage courses view, set this nav link to active -->
+
+          <% if controller_name == "courses"%>
+            <%= link_to 'Courses', courses_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+            <%= link_to 'Courses', courses_path, class:"nav-link" %>
+          <% end %>
+        </li>
+
+<!--SPECIALTIES LINK -->
+        <li class="nav-item">
+          <!-- If we're at the Manage Specialties view, set this nav link to active -->
+          <% if controller_name == "specialties"%>
+            <%= link_to 'Specialties', specialties_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+            <%= link_to 'Specialties', specialties_path, class:"nav-link" %>
+          <% end %>
+        </li>
+<!--
+        <li class="nav-item">
+          <% if controller_name == "student_dashboard"%>
+            <%= link_to 'Student Dashboard', student_dashboard_index_path, class:"nav-link active" %>
+          <% else %>
+            <%= link_to 'Student Dashboard', student_dashboard_index_path, class:"nav-link" %>
+          <% end %>
+        </li>
+-->
 
 <!--HOSPITAL DROPDOWN===========================================================-->
       <li class="nav-item dropdown">
@@ -99,68 +159,6 @@
       </li>
 
 <!--END OF HOSPITAL DROPDOWN========================================================-->
-
-        <li class="nav-item">
-          <!-- If we're at the Manage Specialties view, set this nav link to active -->
-          <% if controller_name == "specialties"%>
-            <%= link_to 'Specialties', specialties_path, class:"nav-link active" %>
-          <!-- If we're at another view, set this to normal nav link -->
-          <% else %>
-            <%= link_to 'Specialties', specialties_path, class:"nav-link" %>
-          <% end %>
-        </li>
-
-        <li class="nav-item">
-          <!-- If we're at the Manage Programmes view, set this nav link to active -->
-
-          <% if controller_name == "programmes"%>
-            <%= link_to 'Programmes', programmes_path, class:"nav-link active" %>
-          <!-- If we're at another view, set this to normal nav link -->
-          <% else %>
-            <%= link_to 'Programmes', programmes_path, class:"nav-link" %>
-          <% end %>
-        </li>
-
-        <li class="nav-item">
-          <!-- If we're at the Manage courses view, set this nav link to active -->
-
-          <% if controller_name == "courses"%>
-            <%= link_to 'Courses', courses_path, class:"nav-link active" %>
-          <!-- If we're at another view, set this to normal nav link -->
-          <% else %>
-            <%= link_to 'Courses', courses_path, class:"nav-link" %>
-          <% end %>
-        </li>
-<!--
-        <li class="nav-item">
-          <% if controller_name == "student_dashboard"%>
-            <%= link_to 'Student Dashboard', student_dashboard_index_path, class:"nav-link active" %>
-          <% else %>
-            <%= link_to 'Student Dashboard', student_dashboard_index_path, class:"nav-link" %>
-          <% end %>
-        </li>
--->
-        <li class="nav-item">
-        <!-- If we're at the Manage courses view, set this nav link to active -->
-
-        <% if controller_name == "students"%>
-          <%= link_to 'Students', students_path, class:"nav-link active" %>
-        <!-- If we're at another view, set this to normal nav link -->
-        <% else %>
-          <%= link_to 'Students', students_path, class:"nav-link" %>
-        <% end %>
-        </li>
-
-          <li class="nav-item">
-          <!-- If we're at the Manage courses view, set this nav link to active -->
-
-          <% if controller_name == "rotations"%>
-            <%= link_to 'Rotations', rotations_path, class:"nav-link active" %>
-          <!-- If we're at another view, set this to normal nav link -->
-          <% else %>
-            <%= link_to 'Rotations', rotations_path, class:"nav-link" %>
-          <% end %>
-          </li>
 
           <!--DASHBOARDS DROPDOWN===========================================================-->
                   <li class="nav-item dropdown">

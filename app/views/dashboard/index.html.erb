@@ -35,9 +35,9 @@
           </div>
           <div id = "card_body" class="card-body">     <!-- Card body-->
             <h2 id="hosp_name" class="text-center" class="card-title"></h2>
-            <h5 id= "hosp_loc" class="card-text"></h5>
+            <h5 id= "hosp_location" class="card-text"></h5>
             <h5 id= "hosp_contact" class="card-text"></h5>
-            <h5 id= "hosp_site_fac"></h5>
+            <h5 id= "hosp_site_facilitator"></h5>
             <br>
             <h6 id= "hosp_capacity"></h6>
             <h6 id= "hosp_available_slots"></h6>
@@ -70,19 +70,21 @@
     <% @hospitals.each do |hospital| %>
        if (hospital_ID == "<%= hospital.id%>") {   //find the right hospital from database and add its information to card
           document.getElementById('hosp_name').innerHTML = "<%= hospital.hospital_name%>"
-          document.getElementById('hosp_loc').innerHTML = "<%= hospital.hospital_location%>";
+          document.getElementById('hosp_location').innerHTML = "<%= hospital.hospital_location%>";
           document.getElementById('hosp_contact').innerHTML = "Contact: " + "<%= hospital.hospital_contactNo%>";
           <% @site_facilitator_allocations.each do |site_facilitator_allocation| %>
-               document.getElementById('hosp_site_fac').innerHTML = "Site Facilitator: ";
+               document.getElementById('hosp_site_facilitator').innerHTML = "Site Facilitator: ";
               <%if site_facilitator_allocation.hospital_id == hospital.id%>
                   <% @site_facilitator = @site_facilitators.find(site_facilitator_allocation.site_facilitator_id) %>
-                  document.getElementById('hosp_site_fac').innerHTML = "Site Facilitator: " + "<%= @site_facilitator.Site_Facilitator_Name%>";
+                  document.getElementById('hosp_site_facilitator').innerHTML = "Site Facilitator: " + "<%= @site_facilitator.Site_Facilitator_Name%>";
               <%end%>
           <%end%>
           
                 // get reference to table to show allocated students
           var table = document.getElementById('students_table');
           var rowCount = table.rows.length;
+
+          // clear table of any current items
           for (var x=rowCount-1; x>0; x--) {
             table.deleteRow(x);
           }
@@ -106,6 +108,11 @@
             <%end%>
            <%end%>
           
+          // set the total and used slots(paces at hospital) to empty string to clear out previous values
+          document.getElementById("hosp_capacity").innerHTML = "";
+          document.getElementById("hosp_available_slots").innerHTML = "";
+
+
           // find the capacity and used slots
           <% @allocations.each do |allocation| %>
             <%if allocation.hospital_id == hospital.id%>
@@ -136,6 +143,8 @@
   };
 </script>
 
+
+<!--javascript function to close hospital summary modal(card)-->
 <script>
   function closeModal(){
   document.getElementById("summary_information_card").style.display = "none";
