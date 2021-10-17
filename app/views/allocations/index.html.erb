@@ -1,8 +1,9 @@
-<p id="notice"><%= notice %></p>
+<p id="notice" style="margin: 0; padding: 0;"><%= notice %></p>
 
 <div style="text-align:center">
-  <br></br>
-  <h1>Allocations</h1>
+  <div class="main-heading">
+  <h1>Hospital Allocations</h1>
+  </div>
   <br>
 
   <div class="container-fluid">
@@ -37,7 +38,7 @@
           <td><%= allocation.used_slots %></td>
           <td><%= allocation.start_date %></td>
           <td><%= allocation.end_date %></td>
-    
+
 
           <td class="col-1">
 
@@ -60,6 +61,3 @@
   <br>
   <br><br>
 </div>
-
-
-
