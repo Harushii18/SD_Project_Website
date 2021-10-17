@@ -390,8 +390,7 @@ Timeline-->Schedule
       var data = this.timeBlocks[weekNo-1].getDivID();
 
       //Overlapping
-
-      for(var i = weekNo-1; i<weekNo-1+specialtyDuration;i++){
+      for(var i = weekNo-1; i<weekNo-1+parseInt(specialtyDuration);i++){
         this.timeBlocks[i].setPseudoAssigned(true);
       }
 
