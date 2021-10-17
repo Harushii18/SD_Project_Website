@@ -36,7 +36,7 @@ class RotationsController < ApplicationController
         end
 
       else#START Showing alert message for invalid rotation dates---------------------------------------------------------------------------------------------------------------------------------------------------
-        flash.now[:alert] = "Rotation Start Date cannot be after the Rotation End Data. Please choose a Rotation Start Date that is eariler than the Rotation End Date"
+        flash.now[:alert] = "Rotation Start Date cannot be after the Rotation End Date. Please choose a Rotation Start Date that is earlier than the Rotation End Date"
         respond_to do |format|
             format.html { render :new, status: :unprocessable_entity }
             format.json { render json: @rotation.errors, status: :unprocessable_entity }
