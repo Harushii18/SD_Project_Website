@@ -22,7 +22,7 @@ class AllocationsController < ApplicationController
   # POST /allocations or /allocations.json
   def create
     @allocation = Allocation.new(allocation_params)
-    if ( @allocation[:start_date] < @allocation[:end_date] && @allocation[:available_slots] >= @allocation[:used_slots] && @allocation[:available_slots]>0 && @allocation[:used_slots]>0) #checks if the allocation dates make sense
+    if ( @allocation[:start_date] < @allocation[:end_date] && @allocation[:available_slots] >= @allocation[:used_slots] && @allocation[:available_slots]>0 && @allocation[:used_slots]>=0) #checks if the allocation dates make sense
       respond_to do |format|
         if @allocation.save
           format.html { redirect_to @allocation, notice: "Allocation was successfully created." }
@@ -50,7 +50,7 @@ class AllocationsController < ApplicationController
   # PATCH/PUT /allocations/1 or /allocations/1.json
   def update
     @tempall = Allocation.new(allocation_params)
-    if ( @tempall[:start_date] < @tempall[:end_date] && @tempall[:available_slots] >= @tempall[:used_slots] && @tempall[:available_slots]>0 && @tempall[:used_slots]>0) #checks if the block dates make sense
+    if ( @tempall[:start_date] < @tempall[:end_date] && @tempall[:available_slots] >= @tempall[:used_slots] && @tempall[:available_slots]>0 && @tempall[:used_slots]>=0) #checks if the block dates make sense
       respond_to do |format|
         if @allocation.update(allocation_params)
           format.html { redirect_to @allocation, notice: "Allocation was successfully updated." }
