@@ -11,12 +11,12 @@
     </div>
   <% end %>
 <br>
-  <label for="hos_id">Hospital ID:</label>
+  <label for="hos_id">Hospital:</label>
     <%= collection_select(:allocation, :hospital_id, Hospital.all, :id, :hospital_name, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
     </br>
     </br>
 
-  <label for="specialty_id">Specialty ID:</label>
+  <label for="specialty_id">Specialty:</label>
     <%= collection_select(:allocation, :specialty_id, Specialty.all, :id, :SpecialtyName, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
 
     </br>
