@@ -3,6 +3,9 @@ require "test_helper"
 class StudentGroupsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @student_group = student_groups(:one)
+    get '/admins/sign_in'
+    sign_in admins(:admin_001)
+    post admin_session_url
   end
 
   test "should get index" do
@@ -17,7 +20,7 @@ class StudentGroupsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create student_group" do
     assert_difference('StudentGroup.count') do
-      post student_groups_url, params: { student_group: { group_id: @student_group.group_id, student_id: @student_group.student_id } }
+      post student_groups_url, params: { student_group: { student_id: 3, group_id: 2 } }
     end
 
     assert_redirected_to student_group_url(StudentGroup.last)
@@ -34,7 +37,7 @@ class StudentGroupsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update student_group" do
-    patch student_group_url(@student_group), params: { student_group: { group_id: @student_group.group_id, student_id: @student_group.student_id } }
+    patch student_group_url(@student_group), params: { student_group: { student_id: 2 , group_id: 2} }
     assert_redirected_to student_group_url(@student_group)
   end
 

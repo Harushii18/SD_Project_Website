@@ -2,7 +2,7 @@ require "test_helper"
 
 class StudentsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @student = students(:one)
+    @student = students(:four)
     get '/admins/sign_in'
     sign_in admins(:admin_001)
     post admin_session_url
