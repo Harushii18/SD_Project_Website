@@ -13,13 +13,13 @@
 
 
 
-  <label for="hospital_id">Hospital ID:</label>
+  <label for="hospital_id">Hospital: </label>
       <%= collection_select(:site_facilitator_allocation, :hospital_id, Hospital.all, :id, :hospital_name, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
 
         </br>
          </br>
 
-     <label for="site_facilitator_id ">Site Facilitator ID:</label>
+     <label for="site_facilitator_id ">Site Facilitator: </label>
        <%= collection_select(:site_facilitator_allocation, :site_facilitator_id, SiteFacilitator.all, :id, :Site_Facilitator_Name, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
 
     </br>
