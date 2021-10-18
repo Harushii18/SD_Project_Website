@@ -22,6 +22,7 @@
 
 
            <!-- Populate dropdown or programme select with programmes-->
+    <% @programmes = Programme.all %>
     <% @programmes.each do |programme| %>
       <script >
         programmes_select = document.getElementById('programme_select')
@@ -51,7 +52,7 @@
          while (document.getElementById('group_select').options.length > 0) {
               document.getElementById('group_select').remove(0);
          }
-
+          <% @groups = Group.all %>
           <% @groups.each do |group| %>
               if(programme_id == "<%= group.programme_id%>"){
                   option = document.createElement('option');

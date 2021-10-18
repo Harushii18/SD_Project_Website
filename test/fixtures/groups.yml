@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   programme: 1
   group_name: Group1
 
 two:
+  id: 2
   programme: 1
   group_name: Group2
