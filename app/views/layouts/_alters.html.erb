@@ -21,15 +21,17 @@
 }
 
 .alert {
-  position:relative !important;
+  width:100%;
+  position:absolute !important;
+  opacity:80%;
 }
 
 </style>
 
 </br>
 
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong><%= notice %></strong> 
+<div class="alert alert-success alert-dismissible fade show" role="alert" >
+  <strong><%= notice %></strong>
   <button id="btnClose" type="button" class="close btn-success rounded-circle btn btn-lg" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
