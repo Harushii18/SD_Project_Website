@@ -20,7 +20,7 @@ class SiteFacilitatorAllocationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create site_facilitator_allocation" do
     assert_difference('SiteFacilitatorAllocation.count') do
-      post site_facilitator_allocations_url, params: { site_facilitator_allocation: { hospital_id: 1, site_facilitator_id: 1 } }
+      post site_facilitator_allocations_url, params: { site_facilitator_allocation: { hospital_id: 2, site_facilitator_id: 2 } }
     end
 
     assert_redirected_to site_facilitator_allocation_url(SiteFacilitatorAllocation.last)
@@ -37,7 +37,7 @@ class SiteFacilitatorAllocationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update site_facilitator_allocation" do
-    patch site_facilitator_allocation_url(@site_facilitator_allocation), params: { site_facilitator_allocation: { hospital_id: 1, site_facilitator_id: 1 } }
+    patch site_facilitator_allocation_url(@site_facilitator_allocation), params: { site_facilitator_allocation: { hospital_id: 1, site_facilitator_id: 2 } }
     assert_redirected_to site_facilitator_allocation_url(@site_facilitator_allocation)
   end
 

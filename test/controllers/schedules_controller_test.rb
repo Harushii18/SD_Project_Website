@@ -13,6 +13,10 @@ class SchedulesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should get index" do
+    get schedules_url
+    assert_response :success
+  end
 
   #test "should create schedule" do
   #  assert_difference('Schedule.count') do
