@@ -1,4 +1,5 @@
 class SiteFacilitatorAllocationsController < ApplicationController
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_site_facilitator_allocation, only: %i[ show edit update destroy ]
 
   # GET /site_facilitator_allocations or /site_facilitator_allocations.json

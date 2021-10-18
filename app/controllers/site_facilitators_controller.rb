@@ -1,4 +1,5 @@
 class SiteFacilitatorsController < ApplicationController
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_site_facilitator, only: %i[ show edit update destroy ]
 
   # GET /site_facilitators or /site_facilitators.json

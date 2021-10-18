@@ -1,4 +1,5 @@
 class CourseDashboardController < ApplicationController
+  before_action :authenticate_admin!
   def index
     @courses = Course.all
     @course_specialties = CourseSpecialty.all
