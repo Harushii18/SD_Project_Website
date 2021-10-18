@@ -24,8 +24,9 @@
    </div>
 
 
+
            <!-- Populate dropdown or programme select with programmes-->
-    <% @programmes.each do |programme| %>
+    <% Programme.all.each do |programme| %>
       <script >
         select = document.getElementById('programme_select')
         option = document.createElement( 'option' );
@@ -59,7 +60,7 @@
   <br>
 
   <div class="actions">
-    <%= form.submit class:"btn btn-success" %>
+    <%= form.submit class:"btn btn-success" %> |
     <%= link_to 'Back', groups_path, class:"btn btn-outline-primary"%>
   </div>
 <% end %>
