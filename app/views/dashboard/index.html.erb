@@ -1,6 +1,9 @@
 <div style="text-align:center">
-<br></br>
-<h1>Dashboard</h1>
+
+<div class= "main-heading">
+  <h1>Hospital Dashboard</h1>
+</div>
+
 <br></br>
 
 
@@ -79,7 +82,7 @@
                   document.getElementById('hosp_site_facilitator').innerHTML = "Site Facilitator: " + "<%= @site_facilitator.Site_Facilitator_Name%>";
               <%end%>
           <%end%>
-          
+
                 // get reference to table to show allocated students
           var table = document.getElementById('students_table');
           var rowCount = table.rows.length;
@@ -88,17 +91,17 @@
           for (var x=rowCount-1; x>0; x--) {
             table.deleteRow(x);
           }
-         
+
             //<!--Find the students that are at the specific hospital-->
            <% @schedules.each do |schedule| %>
-            <%if schedule.hospital_id == hospital.id%>             
+            <%if schedule.hospital_id == hospital.id%>
 
                   // add new row and three column cells on that row
                 var row = table.insertRow(table.rows.length);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);                   
-            
+                var cell3 = row.insertCell(2);
+
                 //<!--Get the student's name from the user table and insert student details in cells created-->
                 <% student = @users.find(schedule.student_id) %>
                 //student_arr.insert(student)
@@ -107,6 +110,7 @@
                 cell3.innerHTML = "<%= student.user_LastName %>"
             <%end%>
            <%end%>
+
           
           // set the total and used slots(paces at hospital) to empty string to clear out previous values
           document.getElementById("hosp_capacity").innerHTML = "";
@@ -124,7 +128,7 @@
               specialty_select = document.getElementById('specialty_select')     //get dropdown
 
                 //clear specialties drop down of all current items firstly
-              while (specialty_select.options.length > 0) {                
+              while (specialty_select.options.length > 0) {
                   specialty_select.remove(0);
               }
                   // proceed to add the specialties
@@ -164,7 +168,7 @@
           </tr>
         </thead>
         <tbody id= "table_records">
-      
+
         </tbody>
       </table>
       <div>
