@@ -13,3 +13,17 @@ two:
   courseCodes: MyString
   programme_id: 1
   user_id: 1
+
+three:
+  id: 3
+  studentNumber: 43
+  courseCodes: MyString
+  programme_id: 1
+  user_id: 1
+
+four:
+  id: 4
+  studentNumber: 43
+  courseCodes: MyString
+  programme_id: 1
+  user_id: 1

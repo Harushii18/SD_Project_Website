@@ -25,6 +25,7 @@
 
 
            <!-- Populate dropdown or programme select with programmes-->
+    <% @programmes = Programme.all %>
     <% @programmes.each do |programme| %>
       <script >
         select = document.getElementById('programme_select')
