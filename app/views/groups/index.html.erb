@@ -14,7 +14,7 @@
 
 <div style="text-align: center;">
     <form action="/groups">
-    <label> <h5>Select Programme Code:</h5> </label>
+    <label> <h5>Filter By Programme Code:</h5> </label>
       <br>
       <select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
       <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
@@ -42,7 +42,7 @@
               <%= link_to 'Show', group, class:"btn btn-outline-primary" %>
               <%= link_to 'Edit', edit_group_path(group), class:"btn btn-outline-info" %>
               <%= link_to 'Destroy', group_path(group), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger" %>
-              <%= link_to 'Assign Student', new_student_group_path, class:"btn btn-outline-success" %>
+              <%= link_to 'Assign Student', new_student_group_path(:group_id => group.id , :programme_id =>group.programme_id), class:"btn btn-outline-success" %>
             </div>
         </td>
 

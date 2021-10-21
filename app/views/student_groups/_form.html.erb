@@ -10,74 +10,25 @@
       </ul>
     </div>
   <% end %>
-                                      <!--Drop down for programmes -->
-  <div class="row justify-content-md-center">
-      <div class="col-2 text-nowrap">
-          <label> <h4>Select Programme</h4> </label>
-          <br>
-          <select id="programme_select" onchange="display_groups(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
-          </select>
-      </div>
-  </div>
-
-
-           <!-- Populate dropdown or programme select with programmes-->
-    <% @programmes.each do |programme| %>
-      <script >
-        programmes_select = document.getElementById('programme_select')
-        option = document.createElement('option');
-        option.value = <%= programme.id %>
-        option.text = "<%= programme.programme_code %>";
-        programmes_select.add( option );
-      </script>
-    <%end%>
-    <br>
-
-  <script>
-
-      var display_groups = function(programme_id){
-         document.getElementById('select_group').style.display = "flex"
-
-                   // clear the drop down of any existing items
-         while (document.getElementById('group_select').options.length > 0) {
-              document.getElementById('group_select').remove(0);
-         }
-
-          <% @groups.each do |group| %>
-              if(programme_id == "<%= group.programme_id%>"){
-                  option = document.createElement('option');
-                  option.value = <%= group.id %>
-                  option.text = "<%= group.group_name %>";
-                  document.getElementById('group_select').add( option );
-              }
-          <%end%>
-
-          if(document.getElementById('group_select').options.length < 1){
-            alert("No Groups have been created under this programme")
-          }
-            //display default selected value on groups select
-          document.getElementById('student_group_group_id').value = document.getElementById('group_select').options[document.getElementById('group_select').selectedIndex].value;
-          document.getElementById('student_group_group_name').innerHTML = "Chosen Group: " + document.getElementById('group_select').options[document.getElementById('group_select').selectedIndex].text;
-          document.getElementById('student_group_group_name').style.fontWeight = "650";
-      }
-
-      var choose_group = function(group_id, group_name){
-        group_field = document.getElementById('student_group_group_id')  // got this from inspecting page on browser
-        group_field.value = group_id;
-        document.getElementById('student_group_group_name').innerHTML = "Chosen Group: " + group_name
-      }
-  </script>
-
-  <h5 id="student_group_group_name"> </h5>
-
+  <br>
+  <br>
+<div style="text-align: center;">
   <div class="field">
     <%= form.label :student_id, value: "Student: " %>
-    <%= collection_select(:student, :student_id, Student.all, :id, :studentNumber, {}, { :multiple => false, :class => "btn btn-outline-info dropdown-toggle"} ) %>
+    <%if @Students.present?%>
+        <%= form.select :student_id, @Students.map{|s| [s.user.user_FirstName, s.id]},{:prompt => "Select A Student"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
+      <%else%>
+          No Students in This Programme
+    <%end%>
+
   </div>
 
   <div class="field">
-    <%= form.label :group_id %>
-    <%= collection_select(:group, :group_id, Group.all, :id, :group_name, {}, { :multiple => false, :class => "btn btn-outline-info dropdown-toggle"} ) %>
+    <% form.label :group_id %>
+
+    <%if @Groups.present?%>
+      <%= form.hidden_field :group_id, :value => @Groups.first.id %>
+    <%end%>
 
   </div>
 
@@ -87,4 +38,5 @@
     <%= form.submit class: "btn btn-primary"%>      <%# double check turbolink working incorrectly -> NO METHOD ERROR %>
     <%= link_to 'Back', groups_path, class: "btn btn-success" %>
   </div>
+</div>
 <% end %>
