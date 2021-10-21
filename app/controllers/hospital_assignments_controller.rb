@@ -1,4 +1,5 @@
 class HospitalAssignmentsController < ApplicationController
+  before_action :authenticate_admin!
   before_action :set_hospital_assignment, only: %i[ show edit update destroy ]
 
   # GET /hospital_assignments or /hospital_assignments.json

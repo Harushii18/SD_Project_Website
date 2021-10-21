@@ -1,16 +1,48 @@
+
+<style>
+
+
+
+  div#content{
+    position: relative;
+    height: 100%;
+    text-align: center;
+  }
+
+
+
+
+</style>
+
+
+
+
+
 <div style="text-align:center">
-<br></br>
-<h1>Manage Administration</h1>
 
-<br></br>
+  <div class="main-heading">
+    <h1>Manage Administration</h1>
+  </div>
+
+  <br></br>
+
+  <div class="main-description">
+    <p class="main-description">
+      Create a new account with administration previlages, manage current adminstration details or cancel current account.
+    </p>
+
+  </div>
 
 
-<p>
-  <%= link_to 'Create Admin',
-     new_admin_registration_path, class: "btn btn-primary btn-lg", style: "width: 10rem; height: 3rem;" %>
-</p>
-<p>
-  <%= link_to 'Edit Admin',
-     edit_admin_registration_path, class: "btn btn-primary btn-lg", style: "width: 10rem; height: 3rem;" %>
-</p>
+  <div id="content">
+    <p>
+      <%= link_to 'Create a New Admin',
+      new_admin_registration_path, class: "btn btn-primary btn-lg", style: "width: auto; height: 3rem;" %>
+    </p>
+    <p>
+      <%= link_to 'Edit Details or Cancel Account',
+      edit_admin_registration_path, class: "btn btn-primary btn-lg", style: "width: auto; height: 3rem;" %>
+    </p>
+  </div>
+
 </div>

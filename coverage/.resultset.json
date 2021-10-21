@@ -1,7 +1,7 @@
 {
   "MiniTest": {
     "coverage": {
-      "C:/Users/Derrin/github/SD_Project_Website/config/environment.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/environment.rb": [
         null,
         1,
         null,
@@ -11,7 +11,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/application.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/application.rb": [
         1,
         null,
         1,
@@ -35,7 +35,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/environments/test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/environments/test.rb": [
         1,
         null,
         null,
@@ -98,7 +98,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/application_controller_renderer.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/application_controller_renderer.rb": [
         null,
         null,
         null,
@@ -108,7 +108,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/assets.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/assets.rb": [
         null,
         null,
         null,
@@ -125,7 +125,7 @@
         null,
         1
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/backtrace_silencers.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/backtrace_silencers.rb": [
         null,
         null,
         null,
@@ -135,7 +135,7 @@
         null,
         1
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/content_security_policy.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/content_security_policy.rb": [
         null,
         null,
         null,
@@ -167,14 +167,14 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/cookies_serializer.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/cookies_serializer.rb": [
         null,
         null,
         null,
         null,
         1
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/devise.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/devise.rb": [
         null,
         null,
         null,
@@ -487,7 +487,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/filter_parameter_logging.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/filter_parameter_logging.rb": [
         null,
         null,
         null,
@@ -495,7 +495,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/inflections.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/inflections.rb": [
         null,
         null,
         null,
@@ -513,13 +513,13 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/mime_types.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/mime_types.rb": [
         null,
         null,
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/permissions_policy.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/permissions_policy.rb": [
         null,
         null,
         null,
@@ -532,7 +532,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/initializers/wrap_parameters.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/initializers/wrap_parameters.rb": [
         null,
         null,
         null,
@@ -548,7 +548,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/config/routes.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/config/routes.rb": [
         1,
         null,
         null,
@@ -639,7 +639,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/admin.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/admin.rb": [
         1,
         null,
         null,
@@ -647,12 +647,12 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/application_record.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/application_record.rb": [
         1,
         1,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/add_specialty_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/add_specialty_controller_test.rb": [
         1,
         null,
         1,
@@ -661,7 +661,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/allocations_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/allocations_controller_test.rb": [
         1,
         null,
         1,
@@ -714,7 +714,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/blocks_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/blocks_controller_test.rb": [
         1,
         null,
         1,
@@ -724,30 +724,32 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/course_dashboard_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/course_dashboard_controller_test.rb": [
         1,
         null,
         1,
         1,
         1,
+        1,
+        1,
         null,
         null,
         1,
         1,
         1,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/course_specialties_controller_test.rb": [
-        null,
-        1,
-        1,
-        null,
-        null,
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/courses_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/course_specialties_controller_test.rb": [
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/courses_controller_test.rb": [
         1,
         null,
         1,
@@ -800,7 +802,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/dashboard_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/dashboard_controller_test.rb": [
         1,
         null,
         1,
@@ -817,7 +819,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/group_assignments_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/group_assignments_controller_test.rb": [
         1,
         null,
         1,
@@ -827,7 +829,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/groups_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/groups_controller_test.rb": [
         1,
         null,
         1,
@@ -837,24 +839,14 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/home_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/home_controller_test.rb": [
         1,
         null,
         1,
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/hospital_assignments_controller_test.rb": [
-        1,
-        null,
-        1,
-        1,
-        null,
-        null,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/hospitals_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/hospital_assignments_controller_test.rb": [
         1,
         null,
         1,
@@ -864,7 +856,17 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/login_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/hospitals_controller_test.rb": [
+        1,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/login_controller_test.rb": [
         1,
         null,
         1,
@@ -873,7 +875,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/programme_courses_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/programme_courses_controller_test.rb": [
         1,
         null,
         1,
@@ -884,7 +886,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/programmes_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/programmes_controller_test.rb": [
         1,
         null,
         1,
@@ -932,7 +934,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/registrations_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/registrations_controller_test.rb": [
         1,
         null,
         1,
@@ -941,7 +943,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/rotations_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/rotations_controller_test.rb": [
         1,
         null,
         1,
@@ -986,29 +988,15 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/schedules_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/schedules_controller_test.rb": [
         1,
         null,
         1,
         1,
-        4,
-        4,
-        4,
-        4,
-        null,
-        null,
-        1,
-        1,
-        1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+        5,
+        5,
+        5,
+        5,
         null,
         null,
         1,
@@ -1026,33 +1014,7 @@
         null,
         null,
         null,
-        1,
-        1,
-        1,
         null,
-        null,
-        1,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/sessions_controller_test.rb": [
-        1,
-        null,
-        1,
-        null,
-        null,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/site_facilitator_allocations_controller_test.rb": [
-        1,
-        null,
-        1,
-        1,
-        7,
-        7,
-        7,
-        7,
         null,
         null,
         1,
@@ -1065,27 +1027,9 @@
         1,
         null,
         null,
-        1,
-        1,
-        1,
         null,
         null,
-        1,
         null,
-        null,
-        1,
-        1,
-        1,
-        null,
-        null,
-        1,
-        1,
-        1,
-        null,
-        null,
-        1,
-        1,
-        1,
         null,
         null,
         1,
@@ -1097,7 +1041,16 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/site_facilitators_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/sessions_controller_test.rb": [
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/site_facilitator_allocations_controller_test.rb": [
         1,
         null,
         1,
@@ -1150,7 +1103,60 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/specialties_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/site_facilitators_controller_test.rb": [
+        1,
+        null,
+        1,
+        1,
+        7,
+        7,
+        7,
+        7,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/specialties_controller_test.rb": [
         1,
         null,
         1,
@@ -1191,7 +1197,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/students_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/students_controller_test.rb": [
         1,
         null,
         1,
@@ -1259,7 +1265,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/controllers/users_controller_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/controllers/users_controller_test.rb": [
         1,
         null,
         1,
@@ -1301,7 +1307,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/admin_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/admin_test.rb": [
         1,
         null,
         1,
@@ -1310,7 +1316,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/allocation_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/allocation_test.rb": [
         1,
         null,
         1,
@@ -1319,7 +1325,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/block_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/block_test.rb": [
         1,
         null,
         1,
@@ -1328,7 +1334,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/course_specialty_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/course_specialty_test.rb": [
         1,
         null,
         1,
@@ -1337,7 +1343,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/course_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/course_test.rb": [
         1,
         null,
         1,
@@ -1346,7 +1352,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/courses_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/courses_test.rb": [
         1,
         null,
         1,
@@ -1355,7 +1361,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/group_assignment_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/group_assignment_test.rb": [
         1,
         null,
         1,
@@ -1364,7 +1370,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/group_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/group_test.rb": [
         1,
         null,
         1,
@@ -1373,7 +1379,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/hospital_assignment_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/hospital_assignment_test.rb": [
         1,
         null,
         1,
@@ -1382,7 +1388,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/hospital_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/hospital_test.rb": [
         1,
         null,
         1,
@@ -1391,7 +1397,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/programme_course_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/programme_course_test.rb": [
         1,
         null,
         1,
@@ -1400,7 +1406,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/programme_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/programme_test.rb": [
         1,
         null,
         1,
@@ -1409,7 +1415,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/rotation_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/rotation_test.rb": [
         1,
         null,
         1,
@@ -1418,7 +1424,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/schedule_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/schedule_test.rb": [
         1,
         null,
         1,
@@ -1427,7 +1433,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/site_facilitator_allocation_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/site_facilitator_allocation_test.rb": [
         1,
         null,
         1,
@@ -1436,7 +1442,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/site_facilitator_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/site_facilitator_test.rb": [
         1,
         null,
         1,
@@ -1445,7 +1451,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/specialty_page_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/specialty_page_test.rb": [
         1,
         null,
         1,
@@ -1454,7 +1460,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/specialty_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/specialty_test.rb": [
         1,
         null,
         1,
@@ -1463,7 +1469,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/student_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/student_test.rb": [
         1,
         null,
         1,
@@ -1472,7 +1478,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/test/models/user_test.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/test/models/user_test.rb": [
         1,
         null,
         1,
@@ -1481,13 +1487,13 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/allocation.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/allocation.rb": [
         1,
         1,
         1,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/block.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/block.rb": [
         1,
         1,
         1,
@@ -1502,18 +1508,18 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/course.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/course.rb": [
         1,
         1,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/course_specialty.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/course_specialty.rb": [
         1,
         1,
         1,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/group.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/group.rb": [
         1,
         null,
         1,
@@ -1522,12 +1528,12 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/group_assignment.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/group_assignment.rb": [
         1,
         1,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/hospital.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/hospital.rb": [
         1,
         1,
         1,
@@ -1539,7 +1545,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/hospital_assignment.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/hospital_assignment.rb": [
         1,
         1,
         1,
@@ -1549,360 +1555,276 @@
         1,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/programme.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/programme.rb": [
         1,
         1,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/programme_course.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/programme_course.rb": [
         1,
         1,
         1,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/rotation.rb": [
-        1,
-        1,
-        1,
-        null,
-        null,
-        1,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/schedule.rb": [
-        1,
-        null,
-        1,
-        1,
-        1,
-        null,
-        1,
-        0,
-        0,
-        0,
-        0,
-        null,
-        null,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        null,
-        null,
-        1,
-        null,
-        0,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/site_facilitator.rb": [
-        1,
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/site_facilitator_allocation.rb": [
-        1,
-        1,
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/specialty.rb": [
-        1,
-        null,
-        1,
-        1,
-        1,
-        1,
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/student.rb": [
-        1,
-        1,
-        1,
-        1,
-        null,
-        1,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/models/user.rb": [
-        1,
-        1,
-        1,
-        1,
-        1,
-        null,
-        1,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        0,
-        0,
-        null,
-        null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/course_dashboard_controller.rb": [
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        null,
-        1,
-        0,
-        null,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/application_controller.rb": [
-        1,
-        1,
-        null,
-        1,
-        6,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/application_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/add_specialty_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/allocations_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/blocks_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/course_dashboard_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/course_specialties_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/courses_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/dashboard_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/group_assignments_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/groups_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/home_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/hospital_assignments_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/hospitals_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/login_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/programme_courses_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/programmes_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/registrations_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/rotations_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/schedules_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/sessions_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/site_facilitator_allocations_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/site_facilitators_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/specialties_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/specialty_pages_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/students_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/helpers/users_helper.rb": [
-        1,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/dashboard_controller.rb": [
-        1,
-        1,
-        1,
-        1,
-        1,
-        null,
-        1,
-        0,
-        null,
-        null,
-        1,
-        1,
-        1,
-        1,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/specialties_controller.rb": [
-        1,
-        1,
-        null,
-        null,
-        1,
-        0,
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        1,
-        1,
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        1,
-        1,
-        null,
-        1,
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/rotation.rb": [
         1,
         2,
         1,
         null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        1,
-        1,
-        2,
-        1,
-        null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
         null,
         1,
         0,
         0,
-        0,
-        0,
         null,
         null,
         null,
-        1,
         null,
-        1,
-        3,
-        null,
-        null,
-        null,
-        1,
-        2,
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/site_facilitator_allocations_controller.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/schedule.rb": [
+        1,
+        null,
+        1,
+        1,
+        1,
+        null,
+        1,
+        0,
+        0,
+        0,
+        0,
+        null,
+        null,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        null,
+        null,
+        1,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/site_facilitator.rb": [
+        1,
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/site_facilitator_allocation.rb": [
+        1,
+        1,
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/specialty.rb": [
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/student.rb": [
+        1,
+        2,
+        1,
+        1,
+        null,
+        1,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/models/user.rb": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        1,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        0,
+        0,
+        null,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/application_controller.rb": [
+        1,
+        1,
+        null,
+        1,
+        55,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/add_specialty_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/allocations_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/blocks_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/course_dashboard_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/course_specialties_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/courses_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/dashboard_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/group_assignments_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/groups_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/home_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/hospital_assignments_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/hospitals_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/login_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/programme_courses_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/programmes_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/registrations_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/rotations_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/schedules_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/sessions_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/site_facilitator_allocations_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/site_facilitators_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/specialties_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/specialty_pages_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/students_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/helpers/users_helper.rb": [
+        1,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/dashboard_controller.rb": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        1,
+        0,
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/site_facilitators_controller.rb": [
+        1,
         1,
         1,
         null,
@@ -1973,151 +1895,8 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/site_facilitators_controller.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/allocations_controller.rb": [
         1,
-        1,
-        null,
-        null,
-        1,
-        1,
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        1,
-        1,
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        1,
-        1,
-        null,
-        1,
-        1,
-        2,
-        1,
-        null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        1,
-        1,
-        2,
-        1,
-        null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        1,
-        1,
-        2,
-        1,
-        null,
-        null,
-        null,
-        1,
-        null,
-        1,
-        4,
-        null,
-        null,
-        null,
-        1,
-        2,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/students_controller.rb": [
-        1,
-        1,
-        null,
-        null,
-        1,
-        1,
-        1,
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        1,
-        1,
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        1,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        1,
-        null,
-        2,
-        1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        2,
-        2,
-        2,
-        1,
-        null,
-        2,
-        1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        1,
-        1,
-        2,
-        1,
-        null,
-        null,
-        null,
-        1,
-        null,
-        1,
-        5,
-        null,
-        null,
-        null,
-        1,
-        6,
-        null,
-        null
-      ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/allocations_controller.rb": [
         1,
         1,
         null,
@@ -2216,7 +1995,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/programmes_controller.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/programmes_controller.rb": [
         1,
         null,
         1,
@@ -2297,7 +2076,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/schedules_controller.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/courses_controller.rb": [
         1,
         1,
         1,
@@ -2306,42 +2085,311 @@
         null,
         null,
         1,
-        0,
-        0,
-        0,
-        0,
-        0,
+        1,
         null,
-        0,
-        0,
-        0,
+        1,
+        1,
         null,
-        0,
-        0,
+        null,
+        1,
+        7,
         null,
         null,
         null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        1,
+        1,
+        2,
+        1,
         null,
         0,
-        null,
         0,
         null,
         null,
         null,
+        null,
+        null,
+        1,
+        1,
+        1,
+        2,
+        1,
+        null,
+        0,
         0,
         null,
         null,
-        0,
         null,
-        0,
         null,
-        0,
         null,
-        0,
+        1,
+        1,
+        1,
+        2,
+        1,
         null,
+        null,
+        null,
+        1,
         null,
         1,
         4,
+        null,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/specialties_controller.rb": [
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        1,
+        1,
+        2,
+        1,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        1,
+        2,
+        1,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        0,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        3,
+        null,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/course_dashboard_controller.rb": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        1,
+        0,
+        null,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/site_facilitator_allocations_controller.rb": [
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        2,
+        1,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        2,
+        1,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        1,
+        2,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        4,
+        null,
+        null,
+        null,
+        1,
+        3,
+        null,
+        null
+      ],
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/schedules_controller.rb": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        0,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        null,
+        1,
+        5,
         null,
         null,
         null,
@@ -2445,7 +2493,7 @@
         null,
         null
       ],
-      "C:/Users/Derrin/github/SD_Project_Website/app/controllers/courses_controller.rb": [
+      "C:/Users/Wits user/github/SD_Project_Website/app/controllers/students_controller.rb": [
         1,
         1,
         1,
@@ -2453,13 +2501,7 @@
         null,
         1,
         1,
-        null,
         1,
-        1,
-        null,
-        null,
-        1,
-        7,
         null,
         null,
         null,
@@ -2477,28 +2519,29 @@
         null,
         null,
         1,
-        1,
-        null,
-        1,
-        1,
+        2,
+        2,
+        2,
+        2,
+        2,
         2,
         1,
         null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        1,
-        1,
         2,
         1,
         null,
-        0,
-        0,
+        null,
+        null,
+        null,
+        null,
+        1,
+        2,
+        2,
+        2,
+        1,
+        null,
+        2,
+        1,
         null,
         null,
         null,
@@ -2515,16 +2558,16 @@
         1,
         null,
         1,
-        4,
+        5,
         null,
         null,
         null,
         1,
-        2,
+        6,
         null,
         null
       ]
     },
-    "timestamp": 1632833286
+    "timestamp": 1634659424
   }
 }

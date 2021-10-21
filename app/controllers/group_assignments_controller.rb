@@ -1,4 +1,5 @@
 class GroupAssignmentsController < ApplicationController
+  before_action :authenticate_admin!
   before_action :set_group_assignment, only: %i[ show edit update destroy ]
 
   # GET /group_assignments or /group_assignments.json

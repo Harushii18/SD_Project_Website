@@ -1,4 +1,5 @@
 class SpecialtiesController < ApplicationController
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_specialty, only: %i[ show edit update destroy ]
 
   # GET /specialties or /specialties.json

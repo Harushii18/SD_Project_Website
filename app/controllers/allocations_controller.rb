@@ -1,5 +1,6 @@
 class AllocationsController < ApplicationController
   before_action :set_allocation, only: %i[ show edit update destroy ]
+  before_action :authenticate_admin!
 
   # GET /allocations or /allocations.json
   def index

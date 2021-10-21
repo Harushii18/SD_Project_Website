@@ -1,4 +1,5 @@
 class StudentsController < ApplicationController
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_student, only: %i[ show edit update destroy ]
 
   # GET /students or /students.json

@@ -1,7 +1,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 
 <!-- Div to display alerts when studnets are assigned -->
-<div id="showAssign" class="alert alert-primary" role="alert"></div>
+<div id="showAssign" class="alert alert-success" role="alert"></div>
 
 <script>
   var alertBox = document.getElementById("showAssign");
@@ -9,8 +9,10 @@
 </script>
 
 <div id="sizingDiv" style="text-align:center">
-<br></br>
-<h1>Manage Schedules</h1>
+
+<div class= "main-heading">
+  <h1>Manage Schedules</h1>
+</div>
 
 <br>
 
@@ -230,7 +232,7 @@ Timeline-->Schedule
           var summaryOfAddedSchedules = "~ To save changes to the database, click the button at the top of the screen.\n\n*Added Changes for ["+that.studentName+"]\n\n";
           var scheduleCounter = 0;
           for(var i=0; i<52;i++){
-            if(that.timeBlocks[i].getAssigned()=="true"){
+            if((that.timeBlocks[i].getAssigned()=="true") && (that.timeBlocks[i].getSaved()== "false") ){
               scheduleCounter++;
 
               console.log("Create a new schedule in the timeline");
@@ -348,8 +350,10 @@ Timeline-->Schedule
 
 
 
-          var specialtyDuration = <%=raw(Schedule.where(id: schedule.id).pluck(:specialty_duration))%>;
+          var specialtyDuration = <%=  raw(Schedule.where(id: schedule.id).pluck(:specialty_duration))%>;
           currentSchedule.setSpecialtyDuration(specialtyDuration);
+          //currentSchedule.setSaved("true");
+          console.log("current schedule saved: " +currentSchedule.getSaved());
 
           this.showScheduleOnTimeline(currentSchedule);
 
@@ -392,6 +396,7 @@ Timeline-->Schedule
       //Overlapping
       for(var i = weekNo-1; i<weekNo-1+parseInt(specialtyDuration);i++){
         this.timeBlocks[i].setPseudoAssigned(true);
+        this.timeBlocks[i].setSaved("true");
       }
 
       console.log("Div's id is: "+data);
@@ -588,6 +593,7 @@ Timeline-->Schedule
       this.weekNo = weekNo;
       this.studentID = studentID;
       this.hospitalID = 0;
+      this.saved = "false";
       this.specialtiesArr=specialties;
       this.div = document.createElement('div');
       this.assigned_hosp = document.createElement('p');
@@ -600,6 +606,7 @@ Timeline-->Schedule
 
       this.hospitalName = "unassigned";
 
+      
       this.setAssigned(false);
       this.setPseudoAssigned(false);
       this.specialtyID = "";
@@ -1141,6 +1148,11 @@ if(isAssigned == false)
       return this.specialtyID;
     }
 
+    getSaved()
+    {
+      return this.saved;
+    }
+
     getPseudoAssigned()
     {
       return this.div.getAttribute("pseudo_assigned");
@@ -1167,6 +1179,10 @@ if(isAssigned == false)
       this.div.setAttribute("assigned",value);
     }
 
+    setSaved(value){
+    this.saved = value;
+    }
+
     setPseudoAssigned(value){
       this.div.setAttribute("pseudo_assigned",value);
     }
@@ -1186,6 +1202,12 @@ if(isAssigned == false)
        this.specialtyID = "";
        this.hospitalID = "";
        this.specialtyDuration = "";
+       this.saved = "false"
+     }
+
+     setSaved(value)
+     {
+       this.saved = value;
      }
 
      setStudentID(studentID){
@@ -1206,6 +1228,11 @@ if(isAssigned == false)
 
      setSpecialtyDuration(specialtyDuration){
        this.specialtyDuration = specialtyDuration;
+     }
+
+     getSaved()
+     {
+       return this.saved;
      }
 
      getSpecialtyDuration(){
@@ -1417,25 +1444,28 @@ if(isAssigned == false)
             //For each schedule in a timeline
             for(var j =0; j<currSchedule.length;j++){
               console.log("Check schedule no: "+j);
-              var studentID = currSchedule[j].getStudentID();
-              var weekNo = currSchedule[j].getWeekNo();
-              var specialtyID = currSchedule[j].getSpecialtyID();
-              var specialtyDuration = currSchedule[j].getSpecialtyDuration();
-              var hospitalID = currSchedule[j].getHospitalID();
-              console.log("Saving new Schedule to database");
-              console.log("Student ID to save: " +studentID);
-              console.log("Week No to save: " +weekNo);
-              console.log("Specialty ID to save: " +specialtyID);
-              console.log("Specialty Duration to save: " +specialtyDuration);
-              console.log("Hospital ID to save: " +hospitalID);
-              console.log("");
-              //console.log("Schedule information is: "+studentID+" "+weekNo+" "+specialtyID+" "+specialtyDuration+" "+hospitalID);
-              //TODO: Save this schedule to the Database
-              //calls function to do an ajax req
-              //still need to update parameters and fix Db table
-              //console.log(hospitalID);
-              SaveRecord(studentID,specialtyID,weekNo,specialtyDuration,hospitalID);
-
+              console.log("get saved of current schedule " +currSchedule[j].getSaved() );
+              if (currSchedule[j].getSaved() == "false")
+                {
+                  var studentID = currSchedule[j].getStudentID();
+                  var weekNo = currSchedule[j].getWeekNo();
+                  var specialtyID = currSchedule[j].getSpecialtyID();
+                  var specialtyDuration = currSchedule[j].getSpecialtyDuration();
+                  var hospitalID = currSchedule[j].getHospitalID();
+                  console.log("Saving new Schedule to database");
+                  console.log("Student ID to save: " +studentID);
+                  console.log("Week No to save: " +weekNo);
+                  console.log("Specialty ID to save: " +specialtyID);
+                  console.log("Specialty Duration to save: " +specialtyDuration);
+                  console.log("Hospital ID to save: " +hospitalID);
+                  console.log("");
+                  //console.log("Schedule information is: "+studentID+" "+weekNo+" "+specialtyID+" "+specialtyDuration+" "+hospitalID);
+                  //TODO: Save this schedule to the Database
+                  //calls function to do an ajax req
+                  //still need to update parameters and fix Db table
+                  //console.log(hospitalID);
+                  SaveRecord(studentID,specialtyID,weekNo,specialtyDuration,hospitalID);
+                }
 
             }
           }
@@ -1460,6 +1490,7 @@ if(isAssigned == false)
 
           for(var i = 0; i<this.timelines.length; i++){
             this.timelines[i].initialiseSchedules();
+
           }
 
         }

@@ -1,5 +1,6 @@
-                                                                        class SchedulesController < ApplicationController
+ class SchedulesController < ApplicationController
   skip_forgery_protection
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_schedule, only: %i[ show edit update destroy ]
   before_action :set_search
 
@@ -13,7 +14,6 @@
     @all_users = User.all
 
     @specialties = Specialty.all
-    puts("look here")
     @current_programme_id = 1
 
     if (params[:programme_id])
