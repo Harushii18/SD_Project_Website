@@ -32,15 +32,6 @@
       </script>
     <%end%>
     <br>
-                       <!--Drop down for groups -->
-     <div style="display:none" id = "select_group" class="row justify-content-md-center">
-      <div class="col-2">
-          <label> <h5>Select Group</h5> </label>
-          <br>
-          <select  id="group_select" onchange="choose_group(this.options[this.selectedIndex].value,this.options[this.selectedIndex].innerHTML)" class="btn btn-primary dropdown-toggle">
-          </select>
-      </div>
-  </div>
 
   <script>
 
@@ -86,7 +77,8 @@
 
   <div class="field">
     <%= form.label :group_id %>
-    <%= form.text_field :group_id, class:"form-control" %>
+    <%= collection_select(:group, :group_id, Group.all, :id, :group_name, {}, { :multiple => false, :class => "btn btn-outline-info dropdown-toggle"} ) %>
+
   </div>
 
   <br>

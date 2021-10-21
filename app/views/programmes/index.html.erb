@@ -10,8 +10,16 @@
         <%= link_to 'New Programme', new_programme_path, class:"btn btn-primary btn-lg" %>
       </div>
     </div>
-    <hr>
 
+
+    <% unless url_for != programmes_path %>
+    <!--Makes the seach field neater however cant find a way to pull search field to  right of navbar -->
+      <form class="form-inline my-2 my-lg-0">
+          <%=render "programmes/filters"%>
+      </form>
+    <% end %>
+
+    <hr>
 
   <div class="row">
   <div class="row row-cols-1 row-cols-md-4 g-4">

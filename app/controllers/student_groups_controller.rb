@@ -15,6 +15,11 @@ def new
   @programmes = Programme.all
   @groups = Group.all
   @student_group = StudentGroup.new
+
+      if (params[:programme_id])
+        @current_programme_id =  params[:programme_id];
+        @groups = Group.where(programme_id: @current_programme_id);
+      end
 end
 
 # GET /student_groups/1/edit
@@ -69,4 +74,3 @@ private
     params.require(:student_group).permit(:student_id, :group_id)
   end
 end
-
