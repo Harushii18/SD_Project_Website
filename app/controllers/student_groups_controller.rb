@@ -13,9 +13,11 @@ end
 
 # GET /student_groups/new
 def new
-  @programmes = Programme.all
-  @groups = Group.all
+
+  @Groups = Group.where(id: params[:group_id]);
+  @Students = Student.where(programme_id: params[:programme_id]);
   @student_group = StudentGroup.new
+
 end
 
 # GET /student_groups/1/edit
@@ -29,7 +31,7 @@ def create
 
   respond_to do |format|
     if @student_group.save
-      format.html { redirect_to @student_group, notice: "Student group was successfully created." }
+      format.html { redirect_to groups_path, notice: "Student group was successfully created." }
       format.json { render :show, status: :created, location: @student_group }
     else
       format.html { render :new, status: :unprocessable_entity }
@@ -71,4 +73,3 @@ private
     params.require(:student_group).permit(:student_id, :group_id)
   end
 end
-

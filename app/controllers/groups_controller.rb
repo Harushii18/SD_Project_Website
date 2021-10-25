@@ -2,10 +2,22 @@ class GroupsController < ApplicationController
   before_action :authenticate_admin!
   before_action :set_group, only: %i[ show edit update destroy ]
 
+
   # GET /groups or /groups.json
   def index
-    @groups = Group.all
+
     @programmes = Programme.all
+    @FirstRec = Programme.first;
+    @current_programme_id = @FirstRec.id;
+    # @Groups = Group.where(programme_id: @current_programme_id);
+    @Groups = Group.all; #buggy -> doesnt update on first click (so filter on reload)
+
+    if (params[:programme_id])
+      @current_programme_id =  params[:programme_id];
+      @Groups = Group.where(programme_id: @current_programme_id);
+    end
+
+
   end
 
   # GET /groups/1 or /groups/1.json
@@ -13,6 +25,7 @@ class GroupsController < ApplicationController
   end
 
   def _form
+    @programmes = Programme.all
   end
 
   # GET /groups/new

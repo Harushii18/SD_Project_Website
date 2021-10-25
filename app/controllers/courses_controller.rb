@@ -6,12 +6,12 @@ class CoursesController < ApplicationController
 
   # GET /courses or /courses.json
   def index
-    @courses = @q.result 
+    @courses = @q.result
     # @courses = Course.all
     @course_specialties = CourseSpecialty.all
     @specialties = Specialty.all
   end
-  
+
   def set_search
     @q=Course.ransack(params[:q])
   end
