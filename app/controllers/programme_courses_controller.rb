@@ -1,4 +1,5 @@
 class ProgrammeCoursesController < ApplicationController
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_programme_course, only: %i[ show edit update destroy ]
 
   # GET /programme_courses or /programme_courses.json

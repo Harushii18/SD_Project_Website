@@ -1,5 +1,6 @@
 class CourseSpecialtiesController < ApplicationController
   before_action :set_course_specialty, only: %i[ show edit update destroy ]
+  before_action :authenticate_admin!
 
   # GET /course_specialties or /course_specialties.json
   def index

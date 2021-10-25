@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_user, only: %i[ show edit update destroy ]
   before_action :set_search
-  before_action :authenticate_admin!
   #before_action :set_student, only: %i[ show edit update destroy ]
   require "csv"
 

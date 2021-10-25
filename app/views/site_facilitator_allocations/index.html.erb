@@ -1,52 +1,51 @@
-<p id="notice"><%= notice %></p>
-
+<p id="notice" style="margin:0; padding:0;"></p>
 
 <div style="text-align:center">
-<br></br>
-<h1>Site Facilitator Allocations</h1>
-<br>
+  <div class= "main-heading">
+    <h1>Site Facilitator Allocations</h1>
+  </div>
+  <br>
 
-<div class="container-fluid">
-  <div class="d-flex justify-content-evenly">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-evenly">
 
       <%= link_to 'New Site Allocation', new_site_facilitator_allocation_path ,class:"btn btn-primary", style: "width: 12rem; height: 2.5rem;" %>
+    </div>
+  </div>
+
+  <%# ------------------------------------------------------------------------------------------------------------------- %>
+
+  <div class="m-4" style="overflow-x:auto; margin:0;">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Hospital</th>
+          <th>Site Facilitator</th>
+          <th  scope="col"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @site_facilitator_allocations.each do |site_facilitator_allocation| %>
+        <tr>
+          <td><%= Hospital.where(id: site_facilitator_allocation.hospital_id).pluck(:hospital_name).first %></td>
+          <td><%= SiteFacilitator.where(id: site_facilitator_allocation.site_facilitator_id).pluck(:Site_Facilitator_Name).first%></td>
+
+          <td class="col-1">
+
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <%= link_to 'Show', site_facilitator_allocation, class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+              <%= link_to 'Edit', edit_site_facilitator_allocation_path(site_facilitator_allocation), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+              <%= link_to 'Delete', site_facilitator_allocation, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
+
+            </div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
   </div>
 </div>
-
-<%# ------------------------------------------------------------------------------------------------------------------- %>
-
-<div class="m-4">
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Hospital</th>
-      <th>Site facilitator</th>
-     <th  scope="col"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @site_facilitator_allocations.each do |site_facilitator_allocation| %>
-      <tr>
-        <td><%= site_facilitator_allocation.hospital_id %></td>
-        <td><%= site_facilitator_allocation.site_facilitator_id %></td>
-        
-        <td class="col-1">
-
-                <div class="btn-group" role="group" aria-label="Basic example">
-                <%= link_to 'Show', site_facilitator_allocation, class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
-                <%= link_to 'Edit', edit_site_facilitator_allocation_path(site_facilitator_allocation), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
-                <%= link_to 'Delete', site_facilitator_allocation, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
-
-              </div>
-            </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-</div>
-</div>
-

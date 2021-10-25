@@ -1,10 +1,17 @@
-<p id="notice"><%= notice %></p>
+<div id="notice" style="margin: 0; padding: 0;"></div>
 
 
 <div style="text-align:center">
-<br>
-<h1>Manage Students</h1>
 
+<div class="main-heading">
+  <h1>Manage Students</h1>
+</div>
+
+<br>
+
+  <%= link_to 'Add New Student', new_student_path, class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;" %>
+
+<div style="overflow-x:auto; margin:0;">
 <table class="table table-hover ">
   <thead>
     <tr>
@@ -12,13 +19,11 @@
       <th scope="col"><h6>First Name</h6></th>
       <th scope="col"><h6>Last Name</h6></th>
       <th scope="col"><h6>Course Codes</h6></th>
-      <th scope="col"><h6>Programme ID</h6></th>
+      <th scope="col"><h6>Programme Code</h6></th>
       <th colspan="3" scope="col"></th>
     </tr>
   </thead>
   <br>
-  <%= link_to 'Add New Student', new_student_path, class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;" %>
-<br></br>
   <tbody>
     <% @students.each do |student| %>
 
@@ -27,7 +32,7 @@
         <td class="col-2"><%= @users.find(student.user_id).user_FirstName %></td>
         <td class="col-2"><%= @users.find(student.user_id).user_LastName %></td>
         <td class="col-2"><%= student.courseCodes %></td>
-        <td class="col-2"><%= student.programme_id %></td>
+        <td class="col-2"><%= Programme.where(id: student.programme_id).pluck(:programme_code).first %></td>
         <td class="col-2">
 
         <div class="btn-group" role="group" aria-label="Basic example">
@@ -40,6 +45,7 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
 <br>
 

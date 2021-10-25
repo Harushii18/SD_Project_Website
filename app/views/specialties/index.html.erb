@@ -1,56 +1,58 @@
-<p hidden id="notice"><%= notice %></p>
+<p hidden id="notice" style="margin: 0; padding: 0;"><%= notice %></p>
 
 <div style="text-align:center">
-<br></br>
-<h1>Manage Specialties</h1>
-<br></br>
 
-<div class="d-flex justify-content-center">
+  <div class="main-heading">
+    <h1>Manage Specialties</h1>
+  </div>
+  <br></br>
+
+  <div class="d-flex justify-content-center">
 
     <button id="myButton" class="btn btn-primary" >Add new specialty </button>
-        <script type="text/javascript">
-            document.getElementById("myButton").onclick = function () {
-                location.href = "http://localhost:3000/specialties/new";
-            };
-        </script>
-</div>
+    <script type="text/javascript">
+      document.getElementById("myButton").onclick = function () {
+        location.href = "http://localhost:3000/specialties/new";
+      };
+    </script>
+  </div>
 
 
-<div class="m-4">
+  <div class="m-4" style="overflow-x:auto; margin:0;">
     <table class="table table-hover ">
       <thead>
         <tr>
-        <th scope="col"><h6>Specialty ID</h6></th>
+          <th scope="col"><h6>Specialty ID</h6></th>
           <th scope="col"><h6>Specialty Name</h6></th>
-         <th  scope="col"></th>
+          <th  scope="col"></th>
         </tr>
       </thead>
 
       <tbody>
         <% @specialties.each do |specialty| %>
-          <tr>
+        <tr>
           <td class="col-4"><%= specialty.id %></td>
           <td class="col-4"><%= specialty.SpecialtyName %></td>
 
-            <td class="col-1">
+          <td class="col-1">
 
-                <div class="btn-group" role="group" aria-label="Basic example">
-                <%= link_to 'Edit', edit_specialty_path(specialty), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
-                <%= link_to 'Delete', specialty, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <%= link_to 'Edit', edit_specialty_path(specialty), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+              <%= link_to 'Delete', specialty, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
 
 
-              </div>
-            </td>
-          </tr>
+            </div>
+          </td>
+        </tr>
         <% end %>
       </tbody>
     </table>
-</div>
+  </div>
 
-<br>
+  <br>
 
-<br>
+  <br>
 
 
-<br>
+  <br>
 </div>

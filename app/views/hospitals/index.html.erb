@@ -1,12 +1,14 @@
 <div style="text-align:center">
-<br></br>
-<h1>Manage Hospitals</h1>
+
+<div class="main-heading">
+  <h1>Manage Hospitals</h1>
+</div>
 
 <br>
 <div class="container-fluid">
  <div class="d-flex justify-content-evenly">
      <%= link_to 'Add New Hospital', new_hospital_path,class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;"%>
-     <%= link_to 'Hospital Assignments', hospital_assignments_path,class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;"%>
+     
  </div>
  <br>
 </div>
@@ -22,8 +24,7 @@
 
 
 
-
-
+<div style="overflow-x:auto; margin:0;">
 <table class="table table-hover ">
   <thead >
     <tr>
@@ -62,5 +63,6 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
 </div>

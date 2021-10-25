@@ -1,8 +1,9 @@
-<p id="notice"><%= notice %></p>
+<p id="notice" style="margin: 0; padding: 0;"><%= notice %></p>
 
 <div style="text-align:center">
-  <br></br>
-  <h1>Allocations</h1>
+  <div class="main-heading">
+  <h1>Hospital Allocations</h1>
+  </div>
   <br>
 
   <div class="container-fluid">
@@ -14,16 +15,16 @@
 
   <%# ------------------------------------------------------------------------------------------------------------------- %>
 
-  <div class="m-4">
+  <div class="m-4" style="overflow-x:auto; margin:0;">
   <table class="table table-hover">
     <thead>
       <tr>
         <th>Hospital</th>
         <th>Specialty</th>
-        <th>Available slots</th>
-        <th>Used slots</th>
-        <th>Start date</th>
-        <th>End date</th>
+        <th>Available Slots</th>
+        <th>Used Slots</th>
+        <th>Start Date</th>
+        <th>End Date</th>
         <th  scope="col"></th>
       </tr>
     </thead>
@@ -31,13 +32,13 @@
     <tbody>
       <% @allocations.each do |allocation| %>
         <tr>
-          <td><%= allocation.hospital_id %></td>
-          <td><%= allocation.specialty_id %></td>
+          <td><%= Hospital.where(id: allocation.hospital_id).pluck(:hospital_name).first %></td>
+          <td><%= Specialty.where(id: allocation.specialty_id).pluck(:SpecialtyName).first %></td>
           <td><%= allocation.available_slots %></td>
           <td><%= allocation.used_slots %></td>
           <td><%= allocation.start_date %></td>
           <td><%= allocation.end_date %></td>
-    
+
 
           <td class="col-1">
 
@@ -60,6 +61,3 @@
   <br>
   <br><br>
 </div>
-
-
-

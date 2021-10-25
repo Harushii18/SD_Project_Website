@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+  before_action :authenticate_admin!
   def index
     @hospitals = Hospital.all
     @specialties = Specialty.all
