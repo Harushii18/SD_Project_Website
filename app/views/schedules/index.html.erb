@@ -39,6 +39,7 @@
 
         </select>
 
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -206,8 +207,32 @@
   </div>
 </div>
 
-<!-- Some functions for the Drag and Drop Feature -->
+<!-- Group Hospital Assignments Modal -->
 <br>
+
+
+<!-- THIS IS TO POP US A MODAL VIEW FOR HOSPITAL ASSIGNMENTS FOR GROUP STUDENTS -->
+<div class="modal fade" id="GHA" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header  text-center">
+        <h3 class="modal-title w-100">Assign Students</h3>
+      </div>
+      <div class="modal-body">
+           <%= render 'hospitalAssignments' %>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
 <%# centers div %>
@@ -215,6 +240,12 @@
 
 
 <script>
+  //bool value to check if there is a group or not
+  this.IsGroup = <%=@value.present? %>
+
+
+
+
 
 /*Note: Here is a rough hierarchical structure of the classes:
 
@@ -305,6 +336,7 @@ Timeline-->Schedule
             }
 
           }
+
           if(unassignedHospital==true){
             window.alert("*Failed To Save Schedule*\n\n~ Ensure all schedules are assigned to clinical sites before saving. ~");
           }
@@ -890,21 +922,21 @@ if(isAssigned == false)
 
       //Once assigned, allow for modal box to appear
       ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-      ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //if the student id is -1 we need to bring up the groups assignment modal
+      if(that.studentID == -1){
+        ev.target.setAttribute("data-target","#GHA"); // setting the target to the modals id
+      }
+      else{
+        ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+      }
+     
       that.assigned = true;
       that.setToolTipContents();
-
-//     //var hospital = prompt("please enter hospital", "vic");
-
-//   //Added here
-//         var disName = document.createElement('p'); // Text within the div
-//         disName.innerHTML = String(that.specialtyName);
-//         disName.style.fontSize = "small";
-//         disName.style.color = 'white';
-//         that.div.appendChild(disName);
-// //Just Check
       that.setPseudoAssigned(true) ;
       that.setAssigned(true);
+
 
 
     }
@@ -1610,22 +1642,36 @@ if(isAssigned == false)
               StudentIDs.push(<%=g.student_id%>);
           <%end%>
           console.log(StudentIDs);
+
           //for the len of timeline
           for(var i = 0 ; i < this.timelines.length ; i ++ ){
 
             var currSchedule = this.timelines[i].getSchedules();
+            console.log(currSchedule);
             //for each schedule
             for(var j = 0 ; j < currSchedule.length ; j ++){
               //for each student
               for(var k = 0 ; k < StudentIDs.length ; k ++ ){
 
-                  var Id = StudentIDs[i];
+
+
+                  var Id = StudentIDs[k];
                   var weekNo = currSchedule[j].getWeekNo();
                   var specialtyID = currSchedule[j].getSpecialtyID();
                   var specialtyDuration = currSchedule[j].getSpecialtyDuration();
                   var hospitalID = currSchedule[j].getHospitalID();
 
-                  SaveRecord(Id,specialtyID,weekNo,specialtyDuration,hospitalID);
+                  $.post("/schedules/api",
+                  {
+                      apiid: "1",
+                      apikey: "1",
+                      email: "some@email.com"
+                  });
+
+                  // if(specialtyID != ""){
+                  //   SaveRecord(Id,specialtyID,weekNo,specialtyDuration,hospitalID);
+                  // }
+
               }
 
             }
@@ -1665,8 +1711,7 @@ if(isAssigned == false)
   //Create a new programme schedule for a specific programme / Group
   var programmeSchedule;
   var GroupsTimeline;
-  //bool value to check if there is a group or not
-  this.IsGroup = <%=@value.present? %>
+
 
   //the user didnt click on the group button
   if(IsGroup == false){
