@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  programme: one
-  group_name: MyString
+  id: 1
+  programme: 1
+  group_name: Group1
 
 two:
-  programme: two
-  group_name: MyString
+  id: 2
+  programme: 1
+  group_name: Group2

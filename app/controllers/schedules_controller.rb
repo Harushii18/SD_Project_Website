@@ -1,5 +1,6 @@
-class SchedulesController < ApplicationController
+ class SchedulesController < ApplicationController
   skip_forgery_protection
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_schedule, only: %i[ show edit update destroy ]
   before_action :set_search
 
@@ -54,6 +55,7 @@ class SchedulesController < ApplicationController
     # @Student_Groups = Student_groups.filter_by_group_id()
     #@students = @students.find()
     @schedules = Schedule.all
+    @hospitals = Hospital.all
 
     @rotations = Rotation.filter_by_programme_id(@current_programme_id)
 

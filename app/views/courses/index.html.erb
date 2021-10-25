@@ -1,7 +1,12 @@
-<p hidden id="notice"><%= notice %></p>
+<p hidden id="notice" style="margin: 0; padding: 0;"><%= notice %></p>
 <div style="text-align:center">
-<br></br>
+
+
+
+<div class="main-heading">
 <h1>Manage Courses</h1>
+</div>
+
 <br></br>
 
 
@@ -15,7 +20,7 @@
 
   <br>
 
-   
+
 
 
 
@@ -28,17 +33,19 @@
 
 <hr>
 
-<div class="row">
-<div class="row row-cols-1 row-cols-md-4 g-4">
+<div class="row parent">
+<div class="row row-cols-1 row-cols-md-4 g-4 child">
 <% @courses.each do |course| %>
 <div class="col">
   <div class="card border-primary mb-3" style="width: 80%;">
+
+      <div class="card-header">
       <h5>
         <p><%= course.CourseDescription %></p>
         <%= link_to 'Edit', edit_course_path(course), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
         <%= link_to 'Delete', course, method: :delete, data: { confirm: 'Delete this course?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
       </h5> <!-- CARD HEADER CLOSING TAG -->
-
+      </div>
       <ul class="list-group list-group-flush">
         <% @course_specialties.each do |course_specialty| %>
             <%if course.id == course_specialty.course_id%>     <!-- if course is the course in this row-->

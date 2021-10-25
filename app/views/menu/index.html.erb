@@ -1,201 +1,402 @@
 
+<style>
+  /* Adds a css effect when you hover over the menu's cards */
+
+  .card{
+    border-radius: 20px;
+    transition: 0.1s ease-in-out;
+  }
+
+  .card:hover{
+    transform: scale(1.15);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    cursor: pointer;
+    transition: 150ms;
+  }
+
+  .menu-section{
+    position: relative;
+  }
+
+  .section-heading{
+    position:relative;
+    width: 95%;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(200,201,202);
+    display:flex;
+    align-items:center;
+    margin: 20px auto;
+  }
+
+  .section-contents{
+    position:relative;
+    margin: 0 auto;
+
+  }
+</style>
+
+
 
 
 <!----------------------------------------------------------------------------------------------------->
 
-<div class="container-fluid" align = "center">
-    <div style="text-align:center" >
-        <br></br>
-        <h1>Menu</h1>
-        <br></br>
+<div id="displayScreen" class="container-fluid" align = "center">
+  <div style="text-align:center">
+    <div class="main-heading">
+      <h1>Menu</h1>
+    </div>
 
+    <div id="generalManagement-section" class="menu-section">
+      <div class= "section-heading">
+        <div class="section-contents">
+          <div style="position: relative; float:left;">
+            <!--<button id="btnToDashboard">prev</button>-->
+          </div>
 
+          <div style="position: relative; float:left; margin: 0px 10px 0px 10px;">
+            <h2>General Management</h2>
+          </div>
 
-        <div class="d-flex justify-content-evenly" align = "center">
+          <div style="position: relative; float:left;">
+            <!--<button id="btnToHospitals">next</button>-->
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-evenly" align = "center">
         <div class="row">
-
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class = "col">
-                <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard10"class="card-body">
-                <h5 class="card-title">Dashboard</h5>
-                <p class="card-text">View Overview</p>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-                    document.getElementById("myCard10").onclick = function () {
-                        location.href = "http://localhost:3000/dashboard";
-                    };
-        </script>
-        </div>
-
-        <div class = "col">
-        <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard"class="card-body">
-                <h5 class="card-title">Manage Users</h5>
-                <p class="card-text">Add, Edit and Delete Users.</p>
-            </div>
-        </div>
-        <script type="text/javascript">
-                    document.getElementById("myCard").onclick = function () {
-                        location.href = "http://localhost:3000/users";
-                    };
-        </script>
-
-        </div>
-
-
-        <!--------------------------------------------------------------------------------->
-        <div class = "col">
-                <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard6"class="card-body">
-                <h5 class="card-title">Manage Admins</h5>
-                <p class="card-text">Add and Edit Admins.</p>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-                    document.getElementById("myCard6").onclick = function () {
-                        location.href = "http://localhost:3000/home/index";
-                    };
-        </script>
-        </div>
-
-        <!--
-        <div class = "col">
-        <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard1"class="card-body">
-                <h5 class="card-title">Manage Groups</h5>
-                <p class="card-text">Add, Edit and Delete Groups.</p>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-                    document.getElementById("myCard1").onclick = function () {
-                        location.href = "http://localhost:3000/groups";
-                    };
-        </script>
-
-        </div>
-        -->
-        <!--------------------------------------------------------------------------------->
-
-        <div class = "col">
-                <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard5"class="card-body">
-                <h5 class="card-title">Manage Hospitals</h5>
-                <p class="card-text">Add, Edit and Delete Hospitals.</p>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-                    document.getElementById("myCard5").onclick = function () {
-                        location.href = "http://localhost:3000/hospitals";
-                    };
-        </script>
-        </div>
-
-        <!--------------------------------------------------------------------------------->
-
-
-        <div class = "col">
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
             <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-                <!--   <img class="card-img-top" src="app/assets/images/wits logo.png" alt="Card image cap"> -->
-            <div id="myCard2"class="card-body">
-                <h5 class="card-title">Manage Specialties</h5>
-                <p class="card-text">Add, Edit and Delete Specialties.</p>
-            </div>
+              <div id="adminCard"class="card-body">
+                <h5 class="card-title">Admins</h5>
+                <p class="card-text">
+                  Add a new Admin, Edit Account Details or Delete Account
+                </p>
+              </div>
             </div>
 
             <script type="text/javascript">
-                    document.getElementById("myCard2").onclick = function () {
-                        location.href = "http://localhost:3000/specialties";
-                    };
+              document.getElementById("adminCard").onclick = function () {
+                location.href = "http://localhost:3000/home/index";
+              };
             </script>
-        </div>
-                <!--------------------------------------------------------------------------------->
-
-
-                <!----------------------------------------------------------------------------------------->
-        <div class = "col">
-                <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard3"class="card-body">
-                <h5 class="card-title">Manage Programmes</h5>
-                <p class="card-text">Add, Edit and Delete Programmes.</p>
+          </div>
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="userCard"class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="card-text">Add, Edit or Delete Users</p>
+              </div>
             </div>
+
+            <script type="text/javascript">
+              document.getElementById("userCard").onclick = function () {
+                location.href = "http://localhost:3000/users";
+              };
+            </script>
+          </div>
+          <!--------------------------------------------------------------------------------->
+
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="studentCard"class="card-body">
+                <h5 class="card-title">Students</h5>
+                <p class="card-text">Add, Edit or Delete Students</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("studentCard").onclick = function () {
+                location.href = "http://localhost:3000/students";
+              };
+            </script>
+          </div>
+
+      <!--------------------------------------------------------------------------------->
+
+      <div class = "col">
+        <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+          <div id="groupsCard"class="card-body">
+            <h5 class="card-title">Groups</h5>
+            <p class="card-text">Create, Manage or Delete a Group of Students</p>
+          </div>
         </div>
 
         <script type="text/javascript">
-                    document.getElementById("myCard3").onclick = function () {
-                        location.href = "http://localhost:3000/programmes";
-                    };
-                </script>
-        </div>
-                <!--------------------------------------------------------------------------------->
-
-
-
-
-        <div class = "col">
-                <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard7"class="card-body">
-                <h5 class="card-title">Manage Courses</h5>
-                <p class="card-text">Add, Edit and Delete Courses.</p>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-                    document.getElementById("myCard7").onclick = function () {
-                        location.href = "http://localhost:3000/courses";
-                    };
+          document.getElementById("groupsCard").onclick = function () {
+            location.href = "http://localhost:3000/groups";
+          };
         </script>
-        </div>
-
-
-
-        <div class = "col">
-                <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard8"class="card-body">
-                <h5 class="card-title">Manage Rotations</h5>
-                <p class="card-text">Add, Edit and Delete Rotations.</p>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-                    document.getElementById("myCard8").onclick = function () {
-                        location.href = "http://localhost:3000/rotations";
-                    };
-        </script>
-        </div>
-
-
-        <div class = "col">
-                <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-            <div id="myCard9"class="card-body">
-                <h5 class="card-title">Student Dashboard</h5>
-                <p class="card-text">Manage Students' Schedules</p>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-                    document.getElementById("myCard9").onclick = function () {
-                        location.href = "http://localhost:3000/schedules";
-                    };
-        </script>
-        </div>
-
-
-
-
-        </div>
-
-
-        </div>
-
-        </br>
-        </br>
-        </br>
-        </div>
+      </div>
     </div>
+  </div>
+<!--------------------------------------------------------------------------------->
+
+
+      <div class="d-flex justify-content-evenly" align = "center">
+        <div class = "row">
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="programmeCard"class="card-body">
+                <h5 class="card-title">Programmes</h5>
+                <p class="card-text">Add, Edit and Delete Programmes</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("programmeCard").onclick = function () {
+                location.href = "http://localhost:3000/programmes";
+              };
+            </script>
+          </div>
+
+          <!--------------------------------------------------------------------------------->
+
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="courseCard"class="card-body">
+                <h5 class="card-title">Courses</h5>
+                <p class="card-text">Add, Edit and Delete Courses</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("courseCard").onclick = function () {
+                location.href = "http://localhost:3000/courses";
+              };
+            </script>
+          </div>
+
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <!--   <img class="card-img-top" src="app/assets/images/wits logo.png" alt="Card image cap"> -->
+              <div id="specialtyCard"class="card-body">
+                <h5 class="card-title">Specialties</h5>
+                <p class="card-text">Add, Edit and Delete Specialties</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("specialtyCard").onclick = function () {
+                location.href = "http://localhost:3000/specialties";
+              };
+            </script>
+          </div>
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3 mb-2" style="width: 18rem; height: 10rem;">
+              <div id="scheduleCard"class="card-body">
+                <h5 class="card-title">Schedules</h5>
+                <p class="card-text"> Manage Students' Schedules</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("scheduleCard").onclick = function () {
+                location.href = "http://localhost:3000/schedules";
+              };
+            </script>
+          </div>
+          <!--------------------------------------------------------------------------------->
+
+        </div>
+      </div>
+    </div>
+
+    <div id="hospitals-section" class="menu-section">
+      <!--Hospital Section-->
+      <div class= "section-heading">
+        <div class="section-contents">
+          <div style="position: relative; float:left;">
+            <!--<button id="btnToGeneral">prev</button>-->
+          </div>
+
+          <div style="position: relative; float:left; margin: 0px 10px 0px 10px;">
+            <h2>Manage Hospitals</h2>
+          </div>
+
+          <div style="position: relative; float:left;">
+            <!--<button id="btnToHospitals">next</button>-->
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-evenly" align = "center">
+        <div class = "row">
+
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="hospitalCard"class="card-body">
+                <h5 class="card-title">Hospitals</h5>
+                <p class="card-text">Add, Edit and Delete Hospitals</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("hospitalCard").onclick = function () {
+                location.href = "http://localhost:3000/hospitals";
+              };
+            </script>
+
+          </div>
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="hospitalAllocationCard"class="card-body">
+                <h5 class="card-title">Hospital Allocations</h5>
+                <p class="card-text">Manage Available Slots per Hospital</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("hospitalAllocationCard").onclick = function () {
+                location.href = "http://localhost:3000/allocations";
+              };
+            </script>
+
+          </div>
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="siteFacilitatorCard"class="card-body">
+                <h5 class="card-title">Site Facilitator</h5>
+                <p class="card-text">Add, Edit and Delete Site Facilitators</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("siteFacilitatorCard").onclick = function () {
+                location.href = "http://localhost:3000/site_facilitators";
+              };
+            </script>
+
+          </div>
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="siteFacilitatorAllocCard"class="card-body">
+                <h5 class="card-title">Site Facilitator Allocations</h5>
+                <p class="card-text">Allocate Site Facilitators to Hospitals</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("siteFacilitatorAllocCard").onclick = function () {
+                location.href = "http://localhost:3000/site_facilitator_allocations";
+              };
+            </script>
+
+          </div>
+          <!--------------------------------------------------------------------------------->
+
+        </div>
+      </div>
+    </div>
+
+
+    <!--Dashboard Section-->
+    <div id="dashboards-section" class="menu-section">
+        <div class= "section-heading">
+          <div class="section-contents">
+            <div style="position: relative; float:left;">
+              <!--<button id="btnToHospitals">prev</button>-->
+            </div>
+
+            <div style="position: relative; float:left; margin: 0px 10px 0px 10px;">
+              <h2>Dashboards</h2>
+            </div>
+
+            <div style="position: relative; float:left;">
+              <!--<button id="btnToGeneral">next</button>-->
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="d-flex justify-content-evenly" align = "center">
+        <div class = "row">
+          <!--------------------------------------------------------------------------------->
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="programmeDashboardCard"class="card-body">
+                <h5 class="card-title">Programme Dashboard</h5>
+                <p class="card-text">Summarised view of Courses and Specialties per Programme</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("programmeDashboardCard").onclick = function () {
+                location.href = "http://localhost:3000/course_dashboard/index";
+              };
+            </script>
+
+          </div>
+          <!--------------------------------------------------------------------------------->
+
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="hospitalDashboard"class="card-body">
+                <h5 class="card-title">Hospital Dashboard</h5>
+                <p class="card-text">Summarised view of Hospitals</p>
+              </div>
+            </div>
+
+            <script type="text/javascript">
+              document.getElementById("hospitalDashboard").onclick = function () {
+                location.href = "http://localhost:3000/dashboard";
+              };
+            </script>
+
+          </div>
+          <!--------------------------------------------------------------------------------->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      var displayScreen = document.getElementById("displayScreen");
+
+      //To Hospitals Button
+      document.getElementById("btnToDashboard").onclick= function(ev){
+        displayScreen.innerHTML = "";
+        var generalManagement = document.getElementById("dashboards-section");
+        //displayScreen.appendChild(generalManagement);
+
+
+      };
+
+      //To Hospitals Button
+      document.getElementById("btnToGeneral").onclick = function(ev){
+        displayScreen.innerHTML = "";
+        var generalManagement = document.getElementById("generalManagement-section");
+      //displayScreen.appendChild(generalManagement);
+
+      };
+
+      //To Hospitals Button
+      document.getElementById("btnToHospitals").onclick = function(ev){
+        displayScreen.innerHTML = "";
+        var generalManagement = document.getElementById("hospitals-section");
+        //displayScreen.appendChild(generalManagement);
+
+      };
+  </script>
+
+
+  <!--------------------------------------------------------------------------------->
+
 </div>
+</div>
+</div>
+</div>
+
+
+</br>
+</br>

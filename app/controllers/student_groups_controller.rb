@@ -3,6 +3,7 @@ class StudentGroupsController < ApplicationController
 
 # GET /student_groups or /student_groups.json
 def index
+
   @student_groups = StudentGroup.all
 end
 
@@ -25,6 +26,7 @@ end
 
 # POST /student_groups or /student_groups.json
 def create
+
   @student_group = StudentGroup.new(student_group_params)
 
   respond_to do |format|

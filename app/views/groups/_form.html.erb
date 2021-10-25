@@ -11,10 +11,9 @@
     </div>
   <% end %>
 
+
   <div class="form-group">
-
       <%= form.select :programme_id, Programme.all.map{|p| [p.programme_code, p.id]},{:prompt => "Select A Programme"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
-
   </div>
 
   <div class="form-group">

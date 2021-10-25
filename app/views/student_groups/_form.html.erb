@@ -10,6 +10,7 @@
       </ul>
     </div>
   <% end %>
+
   <br>
   <br>
 <div style="text-align: center;">
@@ -19,8 +20,8 @@
         <%= form.select :student_id, @Students.map{|s| [s.user.user_FirstName, s.id]},{:prompt => "Select A Student"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
       <%else%>
           No Students in This Programme
-    <%end%>
 
+    <%end%>
   </div>
 
   <div class="field">

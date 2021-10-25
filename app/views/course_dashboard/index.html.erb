@@ -8,123 +8,27 @@ function ChangeText(strId) {
     }
 }
 </script>
-<%# =============================================================================== %>
- 
- </br>
- <div class="row">
-     
-        <div class="w-25" >
-        
-            <div class="card border-info " style="height: 100%">
-            <div class="card-body">
-                <h5 class="card-title">Infographics</h5>
-                <p class="card-text">Number of Specialties in all Courses</p>
-                
 
-                <%# -------------------------------------------------------------------------- %>
-                <%# returns number of unique specialties  %>
-                <%@totSpecialties=CourseSpecialty.distinct.count(:specialty_id)%> 
-                <%# returns unique specialty id's %>
-                <%@totSpecialtiesNames= CourseSpecialty.distinct.pluck(:specialty_id)%>
-                <%# Client.distinct.pluck(:name) %>
 
-                <%# creating array of labels and data %>
-                <%# will store labels %>
-                <% @arrThing= Array.new(@totSpecialties,"")%> 
 
-                <%# will store data %>
-                <% @arrNum= Array.new(@totSpecialties,0)%>
-                
-                
-               <%# countid to keep track of index of arrays %>
-                <% @countid=0%>   
 
-                <%# updating arrThing->:Labels %>
-                <%@totSpecialtiesNames.each do |item|%>
-                <%@arrThing[@countid]=Specialty.where(:id => item).pluck(:SpecialtyName).first%>
-                <% @countid=@countid+1%>
-               
-                <%end%>
-                
+ <div class= "main-heading">
+   <h1>Programme Dashboard</h1>
+ </div>
 
-                <%# updating arrNum array->data %>
-                <% @course_specialties.each do |item| %>
-                    <% @countid=0%> 
-                        <%@totSpecialtiesNames.each do |i|%>
-                            <%if item.specialty_id==i%>
-                                <%@arrNum[@countid]= @arrNum[@countid]+1%>
-                            <%end%>
-                            <% @countid=@countid+1%>
-                        <%end%>
-                <%end%>
+ <br>
 
-                <%# -------------------------------------------------------------------------- %>
-                <%# java script to create pie chart  %>
-                <canvas id="myChart" width="150" height="200"></canvas>
-                <script>
-                        //randomly generates colours 
-                        var randomColorGenerator = function () { 
-                            return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
-                        };
+ <div class="row flex-row-reverse flex-row"> <!--Reverses inner divs-->
 
-                        //array that stores random colours
-                        const cols = [];
 
-                        //passes ruby arrays to java script 
-                        var LabelArray= <%=@arrThing.to_json.html_safe %>;
-                        var DataArray= <%=@arrNum.to_json.html_safe %>;
-                        
-                        //stores length of data array
-                        let len= DataArray.length;
 
-                        //populates data array 
-                        for (let i=0;i<len;i++){
-                            cols.push(randomColorGenerator());
-                        }
 
-                        //creating pie chart 
-                        var ctx = document.getElementById('myChart');
-                        
-                        var myChart = new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: LabelArray,
-                            datasets: [{
-                            label: 'Number of specialties',
-                            data: DataArray,
-                            backgroundColor: cols,
-                            borderWidth:0
-                           
-                            }]
-                        },
-                        // options: {
-                        //     scales: {
-                        //     yAxes: [{
-                        //         ticks: {
-                        //         beginAtZero: true
-                        //         }
-                        //     }]
-                        //     }
-                        // }
-                        });
-                        </script>
-                        <%# -------------------------------------------------------------------------- %>
-
-            </div>
-            </div>
-            </div>
-        
-   
-        
          <div class="w-75">
-        
-            <div class="card h-100">
-            
+
+            <div class="card border-info h-100">
+
             <div class="card-body" id="cardBody">
-           <!-- Programme Code
-            
-            <%= collection_select(:course_dashboard, :programme_id, Programme.all, :id, :programme_code, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
-           -->
+
             <!-- dropdown for programmes-->
             <form action="/courseDashboard">
             <label> <h5>Select Programme Code</h5> </label>
@@ -133,8 +37,8 @@ function ChangeText(strId) {
 
             </select>
             </form>
-           
-           <!-- Populate dropdown or hospital select with hospitals-->
+
+           <!-- Populate dropdown or hospital select with hospitals???-->
             <% @programmes.each do |programme| %>
             <script >
                 select = document.getElementById('programme_select')
@@ -151,32 +55,50 @@ function ChangeText(strId) {
                 <%# The contents here will be dynamically instantiated via JS %>
             </div>
 
-<%# EXPERIMENTING=============================================== %>
+<script>
+var ProgrammeNow=0;
+</script>
 <script>
   var displayCourses = function(programme_ID) {
+
+
+
+
+
+
+
+
+
+
       //remove all previously made buttons on click
       $("#divCourses").children().remove();
 
-    
+
+
+
     var CCount=0;
     //loop through programmes
     <%@programmes_courses.each do |programme_course| %>
        if (programme_ID == "<%= programme_course.programme_id%>") {
+
+
            CCount+=1;
-             
+
                 <% @dtId=0%>
                 <% @courses.each do |course| %>
-                    
-                   
+
+
                     if ("<%=course.id%>" == "<%= programme_course.course_id%>"){
-                        
+
+
+
                          <% @dtId=@dtId+1%>
 
                         //div to contain button + course name
                         var divCourse = document.createElement("div");
 
-                       
-                        //create button 
+
+                        //create button
                         var button = document.createElement("button");
                         button.innerHTML="+";
                         button.id="<%=@dtId.to_s%>";
@@ -198,11 +120,12 @@ function ChangeText(strId) {
                             $("<%="#collapseExample"+@dtId.to_s%>").collapse('toggle')
                         }
 
-                        
+
 
                         //add course text next to button
-                        var newP = document.createElement("p"); 
-	                    var textNode = document.createTextNode("<%= course.CourseDescription %>"); 
+                        var newP = document.createElement("p");
+	                    var textNode = document.createTextNode("<%= course.CourseDescription %>");
+
                         newP.style.display="inline-block";
 
                         //TODO: This should become a scalable size depending on screen later
@@ -212,21 +135,19 @@ function ChangeText(strId) {
                          //add button and course name to div
                         divCourse.appendChild(button);
                         divCourse.appendChild(newP);
-                       
+
                         var divOuter = document.createElement("div");
                         divOuter.className="collapse";
                         divOuter.id="<%="collapseExample"+@dtId.to_s%>";
                         divOuter.style.marginBottom="15px";
                         divCourse.appendChild(divOuter);
 
-                        
                         //extra div for styling
                         var divOuter1= document.createElement("div");
                         divOuter1.className="card card-body";
                         divOuter.appendChild(divOuter1);
-
                     if  ("<%=CourseSpecialty.where(:course_id => course.id).count%>"== "0"){
-                        
+
                         divOuter1.innerHTML="There are no specialties assigned to this course.";
 
                         divOuter.appendChild(divOuter1);
@@ -240,7 +161,7 @@ function ChangeText(strId) {
                         if ("<%= CourseSpecialty.where(:course_id => course.id).count%>"== "1"){
                             divOuter1.innerHTML="There is "+"<%= CourseSpecialty.where(:course_id => course.id).count%>"+" assigned specialty to this course:";
                         }else{
-                            
+
                             divOuter1.innerHTML="There are "+"<%= CourseSpecialty.where(:course_id => course.id).count%>"+" assigned specialties to this course:";
                         }
                         divOuter.appendChild(divOuter1);
@@ -252,24 +173,24 @@ function ChangeText(strId) {
                                 var divInner=document.createElement("div");
                                 divInner.className="card card-body";
                                 divInner.innerHTML=count+". "+"<%=Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>";
-                                
-                                
+
+                                //console.log(<%=@testing%>);
+
+
                                 //add to outer div
                             divOuter1.appendChild(divInner);
-
                             }
                         <%end%>
                     }
-    
+
                         document.getElementById("divCourses").appendChild(divCourse);
-                     //   document.getElementById("divCourses").appendChild(divOuter);
 
                      }
-                <%end%>     
+                <%end%>
        }
     <%end%>
-   
-  
+
+
     //if there are no courses, state it
     if (CCount===0){
 
@@ -277,17 +198,194 @@ function ChangeText(strId) {
         divNoCourses.innerHTML="There are no courses in this programme.";
         document.getElementById("divCourses").appendChild(divNoCourses);
     }
-                
+
+    makeGraph(programme_ID,CCount); // call up function to make pie chart
+
+
   }; //end of function
 </script>
 
-<%# EXPERIMENTING=========================================== %>
+
 
 </div>
 <%# card body %>
 </div>
 <%# card border info %>
+
+
 </div>
 <%# w-25 %>
-</div> 
+
+<%#========================================PIE CHART CODE=======================================================================================  %>
+<div class="w-25" >
+<div class="card border-info " style="height: 100%">
+            <div class="card-body">
+                <h5 class="card-title">Infographics</h5>
+                <p class="card-text" id="InfoDisplay">Number of Specialties in this Programme</p>
+                <%# java script to create pie chart  %>
+                <canvas id="myChart" width="150" height="200"></canvas>
+<script>
+
+    var makeGraph= function(programme_ID,CCount){
+
+        if(CCount==0){
+
+            document.getElementById("InfoDisplay").innerHTML="There are no courses therefore no infographics to show";
+
+            nilLabels=[];
+            nilData=[];
+            var ctx = document.getElementById('myChart');
+
+                var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: nilLabels,
+                    datasets: [{
+                    label: 'Number of specialties',
+                    data: nilData,
+                    //backgroundColor: cols,
+                    borderWidth:0
+
+                    }]
+                },
+
+                });
+
+
+
+        }
+        else{
+
+                document.getElementById("InfoDisplay").innerHTML="Number of Specialties in this Programme";
+
+                const coursesArray = [];
+
+
+                //get the courses
+                <%@programmes_courses.each do |programme_course| %>
+
+                    if (programme_ID == "<%= programme_course.programme_id%>") {
+                            coursesArray.push("<%=programme_course.course_id%>");
+                    }
+
+                <%end%>
+
+                //get the specialties
+
+                const specialtyArr=[];
+                const specialtyArrOriginal=[];
+                var curr;
+                for (let i=0;i<coursesArray.length;i++){
+                    curr= coursesArray[i];
+
+                    <%@course_specialties.each do |course_spec|%>
+                        if(curr=="<%=course_spec.course_id%>"){
+                                if(specialtyArr.includes("<%=course_spec.specialty_id%>")==false){
+                                    specialtyArr.push("<%=course_spec.specialty_id%>");
+                                }
+
+                                specialtyArrOriginal.push("<%=course_spec.specialty_id%>");
+
+                        }
+                    <%end%>
+
+                }
+
+
+
+                //get specialty names=> labels
+
+                const specialtyArrLabels=[];
+                for (let i=0;i<specialtyArr.length;i++){
+                    curr=specialtyArr[i];
+                    <%@specialties.each do |spec|%>
+                        if(curr=="<%=spec.id%>"){
+                            specialtyArrLabels.push("<%=spec.SpecialtyName%>");
+
+                        }
+                    <%end%>
+
+                }
+
+                console.log("Specialty Names");
+                console.log(specialtyArrLabels);
+
+                //get specialty data
+
+                var n= specialtyArrLabels.length;
+                let specialtyArrData = new Array(n); for (let i=0; i<n; ++i) specialtyArrData[i] = 0;
+
+                for(let i=0;i<n;i++){
+                    curr= specialtyArr[i];
+                    for(let j=0;j<specialtyArrOriginal.length;j++){
+                        if(curr==specialtyArrOriginal[j]){
+                            specialtyArrData[i]=specialtyArrData[i]+1;
+
+                        }
+                    }
+                }
+
+                console.log("Specialty Data");
+                console.log(specialtyArrData);
+
+
+
+
+                        //randomly generates colours
+                        var randomColorGenerator = function () {
+                            return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
+                        };
+
+                        //array that stores random colours
+                        const cols = [];
+
+                        //populates colour array
+                        for (let i=0;i<n;i++){
+                            cols.push(randomColorGenerator());
+                        }
+
+                        //creating pie chart
+                        var ctx = document.getElementById('myChart');
+
+                        var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: specialtyArrLabels,
+                            datasets: [{
+                            label: 'Number of specialties',
+                            data: specialtyArrData,
+                            backgroundColor: cols,
+                            borderWidth:0
+
+                            }]
+                        },
+
+                        });
+
+                       // <%# -------------------------------------------------------------------------- %>
+
+
+
+        }//else
+
+
+
+    }
+</script>
+
+
+
+
+
+
+
+
+            </div>
+            </div>
+            </div>
+
+   <%# ====================END OF PIE CHART CODE=========================================================== %>
+
+
+</div>
 <%# row %>

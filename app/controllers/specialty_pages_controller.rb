@@ -1,4 +1,5 @@
 class SpecialtyPagesController < ApplicationController
+  before_action :authenticate_admin! #definition found in application_controller.rb
   before_action :set_specialty_page, only: %i[ show edit update destroy ]
 
   # GET /specialty_pages or /specialty_pages.json
