@@ -15,7 +15,7 @@
   <br>
 <div style="text-align: center;">
   <div class="field">
-    <%= form.label :student_id, value: "Student: " %>
+    <% form.label :student_id, value: "Student: " %>
     <%if @Students.present?%>
         <%= form.select :student_id, @Students.map{|s| [s.user.user_FirstName, s.id]},{:prompt => "Select A Student"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
       <%else%>
@@ -36,8 +36,9 @@
   <br>
 
   <div class="actions">
-    <%= form.submit class: "btn btn-primary"%>      <%# double check turbolink working incorrectly -> NO METHOD ERROR %>
-    <%= link_to 'Back', groups_path, class: "btn btn-success" %>
+    <%= form.submit class: "btn btn-primary", value: "Add Student"%>      <%# double check turbolink working incorrectly -> NO METHOD ERROR %>
+    <br>
+    <%= link_to 'Back', groups_path, class: "btn btn-success", style:"margin:5px" %>
   </div>
 </div>
 <% end %>
