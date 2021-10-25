@@ -58,7 +58,16 @@
 
         <!--GROUPS LINK -->
         <!--Re-add Group Nav-link when groups are merged with main-->
+        <li class="nav-item">
+          <!-- If we're at the Manage courses view, set this nav link to active -->
 
+          <% if controller_name == "groups"%>
+          <%= link_to 'Groups', groups_path, class:"nav-link active" %>
+          <!-- If we're at another view, set this to normal nav link -->
+          <% else %>
+          <%= link_to 'Groups', groups_path, class:"nav-link" %>
+          <% end %>
+        </li>
 
 
         <!--PROGRAMMES LINK -->

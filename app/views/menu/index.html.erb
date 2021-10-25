@@ -113,9 +113,26 @@
               };
             </script>
           </div>
-        </div>
-      </div>
+
       <!--------------------------------------------------------------------------------->
+
+      <div class = "col">
+        <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+          <div id="groupsCard"class="card-body">
+            <h5 class="card-title">Groups</h5>
+            <p class="card-text">Create, Manage or Delete a Group of Students</p>
+          </div>
+        </div>
+
+        <script type="text/javascript">
+          document.getElementById("groupsCard").onclick = function () {
+            location.href = "http://localhost:3000/groups";
+          };
+        </script>
+      </div>
+    </div>
+  </div>
+<!--------------------------------------------------------------------------------->
 
 
       <div class="d-flex justify-content-evenly" align = "center">
