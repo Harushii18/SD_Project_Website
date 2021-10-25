@@ -1,36 +1,10 @@
 <p hidden id="notice" ><%= notice %></p>
-<br>
-<div style="text-align:center">
 
-<h1>Manage Groups</h1>
+<div class="main-heading">
+  <h1>Manage Groups</h1>
+</div>
+
 <br></br>
-<!---Search bar-->
-
-<div class="container-fluid">
-  <div class="d-flex justify-content-evenly">
-      <%= link_to 'New Group', new_group_path, class:"btn btn-primary", style: "width: 12rem; height: 2.5rem;"  %>
-<span style="display:inline-block; width: 10px;"></span>
-      <%= link_to 'Group assignments',group_assignments_path,class:"btn btn-primary", style: "width: 12rem; height: 2.5rem;" %>
-  </div>
-</div>
-<br>
-<%= search_form_for @q do |f| %>
-<div class="d-flex flex-row">
-
- <%= f.search_field :id_eq ,class:"form-control mr-sm-2" ,placeholder:"Enter Group ID" %>
- <span style="display:inline-block; width: 10px;"></span>
- <%= f.submit class:"btn btn-outline-dark" %>
-<% end %>
-</div>
-<!-- ================-->
-</br>
-
-
-
-
-
-<h1 style = "text-align: center" >Manage Groups</h1>
-<br>
 
 <div style="text-align: center"> <!--Div for encapsulating buttons-->
 <%= link_to 'Create New Group', new_group_path, class:"btn btn-primary" %>
