@@ -16,9 +16,11 @@
       <%= form.select :programme_id, Programme.all.map{|p| [p.programme_code, p.id]},{:prompt => "Select A Programme"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
   </div>
 
+  <br>
+
   <div class="form-group">
-    <%= form.label :enter_group_name%>
-    <%= form.text_field :group_name, class:"form-control" %>
+    <% form.label :enter_group_name%>
+    <%= form.text_field :group_name, class:"form-control", placeholder:"Group Name" %>
   </div>
 
   <br>

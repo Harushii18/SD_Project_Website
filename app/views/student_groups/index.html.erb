@@ -18,14 +18,18 @@
       <tr>
         <td><%= student_group.student.user.user_FirstName %></td>
         <td><%= student_group.group.group_name %></td>
-        <td><%= link_to 'Show', student_group %></td>
-        <td><%= link_to 'Edit', edit_student_group_path(student_group) %></td>
-        <td><%= link_to 'Destroy', student_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+        <td class="col-3">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <%= link_to 'Show', student_group, class:"btn btn-outline-primary" %>
+            <%= link_to 'Edit', edit_student_group_path(student_group), class:"btn btn-outline-info" %>
+            <%= link_to 'Destroy', student_group, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger" %>
+          </div>
+        </td>
+
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'Add student to group', new_student_group_path, class:"btn btn-primary btn-lg" %>
