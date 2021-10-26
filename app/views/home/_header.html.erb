@@ -195,9 +195,12 @@
           <!-- If we're at the Manage courses view, set this nav link to active -->
 
           <% if controller_name == "schedules"%>
+          <!-- <a class="nav-link active" href="<%= schedules_path %>">Schedules</a> -->
           <%= link_to 'Schedules', schedules_path, class:"nav-link active" %>
+          
           <!-- If we're at another view, set this to normal nav link -->
           <% else %>
+          <!-- <a class="nav-link" href="<%= schedules_path %>" data-turbolinks="false">Schedules</a> -->
           <%= link_to 'Schedules', schedules_path, class:"nav-link" %>
           <% end %>
         </li>
