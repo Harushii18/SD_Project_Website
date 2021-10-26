@@ -303,7 +303,7 @@ Timeline-->Schedule
           var summaryOfAddedSchedules = "~ To save changes to the database, click the button at the top of the screen.\n\n*Added Changes for ["+that.studentName+"]\n\n";
           var scheduleCounter = 0;
           for(var i=0; i<52;i++){
-            if((that.timeBlocks[i].getAssigned()=="true") && (that.timeBlocks[i].getSaved()== "false") ){
+            if((that.timeBlocks[i].getAssigned()=="true") && (that.timeBlocks[i].getSaved()== "false") && (that.timeBlocks[i].getPendingSave() =="false")){
               scheduleCounter++;
 
               console.log("Create a new schedule in the timeline");
@@ -333,6 +333,7 @@ Timeline-->Schedule
               summaryOfAddedSchedules = summaryOfAddedSchedules+ scheduleInformation;
 
               that.schedules.push(newSchedule);
+              that.timeBlocks[i].setPendingSave("true");
             }
 
           }
@@ -657,6 +658,7 @@ Timeline-->Schedule
       this.studentID = studentID;
       this.hospitalID = 0;
       this.saved = "false";
+      this.pendingSave = "false";
       this.specialtiesArr=specialties;
       this.div = document.createElement('div');
       this.assigned_hosp = document.createElement('p');
@@ -1219,6 +1221,11 @@ if(isAssigned == false)
       return this.specialtyID;
     }
 
+    getPendingSave()
+    {
+      return this.pendingSave;
+    }
+
     getSaved()
     {
       return this.saved;
@@ -1248,6 +1255,11 @@ if(isAssigned == false)
     setAssigned(value){
       this.assigned = value;
       this.div.setAttribute("assigned",value);
+    }
+
+    setPendingSave(value)
+    {
+      this.pendingSave = value;
     }
 
     setSaved(value){
