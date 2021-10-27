@@ -15,7 +15,7 @@ class SchedulesTest < ApplicationSystemTestCase
     click_on "New Schedule"
 
     fill_in "Hospital", with: @schedule.hospital_id
-    fill_in "Rotation", with: @schedule.rotation_id
+   # fill_in "Rotation", with: @schedule.rotation_id
     fill_in "Specialty", with: @schedule.specialty_id
     fill_in "Student", with: @schedule.student_id
     click_on "Create Schedule"
@@ -29,7 +29,7 @@ class SchedulesTest < ApplicationSystemTestCase
     click_on "Edit", match: :first
 
     fill_in "Hospital", with: @schedule.hospital_id
-    fill_in "Rotation", with: @schedule.rotation_id
+    #fill_in "Rotation", with: @schedule.rotation_id
     fill_in "Specialty", with: @schedule.specialty_id
     fill_in "Student", with: @schedule.student_id
     click_on "Update Schedule"

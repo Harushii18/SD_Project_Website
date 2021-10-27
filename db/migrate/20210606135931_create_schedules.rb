@@ -4,7 +4,6 @@ class CreateSchedules < ActiveRecord::Migration[6.1]
       t.references :student, null: false, foreign_key: true
       t.references :specialty, null: false, foreign_key: true
       t.references :hospital, null: false, foreign_key: true
-      t.references :rotation, null: false, foreign_key: true
 
       t.timestamps
     end

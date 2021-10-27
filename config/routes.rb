@@ -8,18 +8,13 @@ Rails.application.routes.draw do
   resources :site_facilitators
   resources :allocations
   get 'dashboard/index'
-  resources :rotations do
-    collection { post :upload}#route for uploading and saving file( beta)
-    collection { post :import}#route for csv importer
 
-  end
   resources :schedules do
     collection { post :delete_with_student_id} #route to controller function for deleting schedules of a specific student id
 
     #get :delete_with_student_id, on: :collection
   end
   resources :students
-  resources :hospital_assignments
   resources :course_specialties
   resources :courses
 
@@ -28,9 +23,7 @@ Rails.application.routes.draw do
   resources :programmes
   resources :dashboard
 
-    resources :blocks
-    resources :specialty_pages
-    resources :specialties
+        resources :specialties
     resources :hospitals
     resources :users do
         collection { post :import} # route for importing from csv

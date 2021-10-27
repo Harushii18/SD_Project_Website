@@ -57,9 +57,6 @@
     @schedules = Schedule.all
     @hospitals = Hospital.all
 
-    @rotations = Rotation.filter_by_programme_id(@current_programme_id)
-
-    @numRotations = @rotations.length()
   end
 
   def set_search
@@ -127,23 +124,7 @@
     end
   end
 
-def create_schedule
 
-if (params[:specialty_id]!='' && params[:hospital_id]!='')
-if Schedule.exists?(student_id: params[:student_id], rotation_id: params[:rotation_id])
-Schedule.update_with_form_data(params[:student_id], params[:rotation_id], params[:specialty_id], params[:hospital_id])
-else
-Schedule.create_with_form_data(params[:student_id], params[:rotation_id], params[:specialty_id], params[:hospital_id])
-end
-end
-
-end
-
-def update_schedule
-if (params[:specialty_id]!='' && params[:hospital_id]!='')
-Schedule.update_with_form_data(params[:student_id], params[:rotation_id], params[:specialty_id], params[:hospital_id])
-end
-end
 
 
 

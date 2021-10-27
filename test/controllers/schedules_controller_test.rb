@@ -37,7 +37,7 @@ class SchedulesControllerTest < ActionDispatch::IntegrationTest
   end
 
  # test "should update schedule" do
- #   patch schedule_url(@schedule), params: { schedule: { hospital_id: 1, rotation_id: 1, specialty_id: 1, student_id: 1 } }
+ #   patch schedule_url(@schedule), params: { schedule: { hospital_id: 1, specialty_id: 1, student_id: 1 } }
  #   assert_redirected_to schedule_url(@schedule)
  # end
 
