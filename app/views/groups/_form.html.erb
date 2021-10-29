@@ -10,26 +10,23 @@
       </ul>
     </div>
   <% end %>
-  <!------>
-  <div class="field form-inline">
 
-</br>
-  <div class="field">
-     <%= form.label :specialty_id %>
-     <%= collection_select(:group, :specialty_id, Specialty.all, :id, :SpecialtyName, {}, { :multiple => false} ) %>
-</div>
-</br>
-<div class="field">
-     <%= form.label :block_id %>
-     <%= collection_select(:group, :block_id, Block.all, :id, :BlockStartDate, {}, { :multiple => false} ) %>
 
+  <div class="form-group">
+      <%= form.select :programme_id, Programme.all.map{|p| [p.programme_code, p.id]},{:prompt => "Select A Programme"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
   </div>
 
-  <br/>
+  <br>
+
+  <div class="form-group">
+    <% form.label :enter_group_name%>
+    <%= form.text_field :group_name, class:"form-control", placeholder:"Group Name" %>
+  </div>
+
+  <br>
+
   <div class="actions">
-    <%= form.submit class:"btn btn-secondary" %>
+    <%= form.submit class:"btn btn-success" %> |
+    <%= link_to 'Back', groups_path, class:"btn btn-outline-primary"%>
   </div>
-  <!------->
-  </div>
-
 <% end %>

@@ -1,86 +1,59 @@
 <p hidden id="notice" ><%= notice %></p>
-<br>
-<div style="text-align:center">
 
-<h1>Manage Groups</h1>
+
+<div class="main-heading">
+  <h1>Manage Groups</h1>
+</div>
+
 <br></br>
-<!---Search bar-->
-
-<div class="container-fluid">
-  <div class="d-flex justify-content-evenly">
-      <%= link_to 'New Group', new_group_path, class:"btn btn-primary", style: "width: 12rem; height: 2.5rem;"  %>
-<span style="display:inline-block; width: 10px;"></span>
-      <%= link_to 'Group assignments',group_assignments_path,class:"btn btn-primary", style: "width: 12rem; height: 2.5rem;" %>
-  </div>
-</div>
-<br>
-<%= search_form_for @q do |f| %>
-<div class="d-flex flex-row">
-
- <%= f.search_field :id_eq ,class:"form-control mr-sm-2" ,placeholder:"Enter Group ID" %>
- <span style="display:inline-block; width: 10px;"></span>
- <%= f.submit class:"btn btn-outline-dark" %>
-<% end %>
-</div>
-<!-- ================-->
-</br>
 
 
-
-
+<div style="text-align: center"> <!--Div for encapsulating buttons-->
+  <%= link_to 'Create New Group', new_group_path, class:"btn btn-primary" %> |
+  <%= link_to 'Student Assignments', student_groups_path, class:"btn btn-primary" %>
+</div> <!--End of div-->
 
 <br>
 
-<!---#################################################################-->
-<div class="m-4">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-        <th scope="col"><h6>Group ID</h6></th>
-          <th scope="col"><h6>Specialty</h6></th>
-          <th scope="col"><h6>Start Date</h6></th>
-          <th scope="col"><h6>End Date</h6></th>
-         <th  scope="col"></th>
-        </tr>
-      </thead>
+<br>
 
-      <tbody>
-        <% @groups.each do |group| %>
-
-
-          <tr>
-          <td class="col-3"><%= group.id %></td>
-          <td class="col-3"><%=  Specialty.find(group.specialty_id).SpecialtyName %></td>
-          <td class="col-3"><%=  Block.find(group.block_id).BlockStartDate %></td>
-          <td class="col-3"><%=  Block.find(group.block_id).BlockEndDate %></td>
-
-
-
-
-            <td class="col-2">
-             <%= link_to 'Assign Students', new_group_assignment_path(:group_id => group.id), class:"btn btn-outline-dark"  %>
-             <p></p>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                <%= link_to 'Show', group, class:"btn btn-outline-primary",style: "width: 5rem; height: 2.5rem;" %>
-
-                <%= link_to 'Edit', edit_group_path(group), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
-                <%= link_to 'Delete', group, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
-
-
-              </div>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<div style="text-align: center;">
+    <form action="/groups">
+    <label> <h5>Filter By Programme Code:</h5> </label>
+      <br>
+      <select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
+      <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
+      </select>
+    </form>
 </div>
 
 
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col"><h6>Group Name</h6></th>
+      <th scope = "col"><h6>Programme</h6></th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @Groups.each do |group| %>
+      <tr>
+        <td><%= group.group_name %></td>
+        <td><%= group.programme.programme_code %></td>
+        <td class="col-3">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <%= link_to 'Show', group, class:"btn btn-outline-primary" %>
+              <%= link_to 'Edit', edit_group_path(group), class:"btn btn-outline-info" %>
+              <%= link_to 'Destroy', group_path(group), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger" %>
+              <%= link_to 'Assign Student', new_student_group_path(:group_id => group.id , :programme_id =>group.programme_id), class:"btn btn-outline-success" %>
+            </div>
+        </td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <br>
-
-<br>
-
-
-<br>
-</div>

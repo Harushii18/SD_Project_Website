@@ -2,13 +2,21 @@ class GroupsController < ApplicationController
   before_action :authenticate_admin!
   before_action :set_group, only: %i[ show edit update destroy ]
 
+
   # GET /groups or /groups.json
   def index
 
-    #search code
-    @q = Group.ransack(params[:q])
-    @groups = @q.result
-    #@groups = Group.all
+    @programmes = Programme.all
+    @FirstRec = Programme.first;
+    @current_programme_id = @FirstRec.id;
+    # @Groups = Group.where(programme_id: @current_programme_id);
+    @Groups = Group.all; #buggy -> doesnt update on first click (so filter on reload)
+
+    if (params[:programme_id])
+      @current_programme_id =  params[:programme_id];
+      @Groups = Group.where(programme_id: @current_programme_id);
+    end
+
 
   end
 
@@ -16,9 +24,14 @@ class GroupsController < ApplicationController
   def show
   end
 
+  def _form
+    @programmes = Programme.all
+  end
+
   # GET /groups/new
   def new
     @group = Group.new
+    @programmes = Programme.all
   end
 
   # GET /groups/1/edit
@@ -70,8 +83,6 @@ class GroupsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def group_params
-
-      params.require(:group).permit(:specialty_id, :block_id)
-
+      params.require(:group).permit(:programme_id, :group_name)
     end
 end

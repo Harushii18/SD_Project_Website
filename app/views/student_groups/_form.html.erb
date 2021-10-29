@@ -1,0 +1,44 @@
+<%= form_with(model: student_group) do |form| %>
+  <% if student_group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(student_group.errors.count, "error") %> prohibited this student_group from being saved:</h2>
+
+      <ul>
+        <% student_group.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <br>
+  <br>
+<div style="text-align: center;">
+  <div class="field">
+    <% form.label :student_id, value: "Student: " %>
+    <%if @Students.present?%>
+        <%= form.select :student_id, @Students.map{|s| [s.user.user_FirstName, s.id]},{:prompt => "Select A Student"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
+      <%else%>
+          No Students in This Programme
+
+    <%end%>
+  </div>
+
+  <div class="field">
+    <% form.label :group_id %>
+
+    <%if @Groups.present?%>
+      <%= form.hidden_field :group_id, :value => @Groups.first.id %>
+    <%end%>
+
+  </div>
+
+  <br>
+
+  <div class="actions">
+    <%= form.submit class: "btn btn-primary", value: "Add Student"%>      <%# double check turbolink working incorrectly -> NO METHOD ERROR %>
+    <br>
+    <%= link_to 'Back', groups_path, class: "btn btn-success", style:"margin:5px" %>
+  </div>
+</div>
+<% end %>

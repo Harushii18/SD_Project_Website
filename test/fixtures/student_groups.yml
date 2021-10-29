@@ -1,11 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  id: 1
-  programme: 1
-  group_name: Group1
+  student_id: 1
+  group_id: 1
 
 two:
-  id: 2
-  programme: 1
-  group_name: Group2
+  student_id: 2
+  group_id: 1

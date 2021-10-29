@@ -1,0 +1,14 @@
+<br/>
+<div class="form_card">
+  <div class="card-body">
+  <h1 style="text-align: center">Assigning Student To</h1>
+
+
+  <h1 style="text-align: center">
+    <%if @Groups.present?%>
+    <%=@Groups.first.group_name%></h1>
+    <%end%>
+    
+    <%= render 'form', student_group: @student_group %>
+    </div>
+</div>
