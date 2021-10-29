@@ -1805,14 +1805,47 @@ if(isAssigned == false)
 
   }
 
+  //delete button click event for dynamically instantiated divs
+  function removeElementFromArray(e){
+    const parentID=e.target.parentNode.id;
+    const detailsArr = e.target.parentNode.id.split("#");
+    //remove element from array
+    console.log(programmeSchedule.timelines);
+    for(var i =0; i<programmeSchedule.timelines.length; i++){
+            var currSchedule = programmeSchedule.timelines[i].getSchedules();
+            //For each schedule in a timeline
+            for(var j =0; j<currSchedule.length;j++){
+              console.log(currSchedule[j].getStudentID()===parseInt(detailsArr[1]));
+              console.log(currSchedule[j].getSpecialtyID()," ",detailsArr[2]);
+              if (currSchedule[j].getStudentID()===parseInt(detailsArr[1]) &&  currSchedule[j].getSpecialtyID()===detailsArr[2] ){
+                  //remove schedule from the array
+                  currSchedule.splice(j,1);
+                  
+                  break;
+              }
+            }
+    }
+
+    if ( document.getElementById("div"+detailsArr[1]).childElementCount>=3) {
+       //remove div from student details
+        e.target.parentNode.remove(document.getElementById("#"+parentID));
+    }else{
+
+      //if there aren't any contents in the modal box anymore
+      console.log($("#modalContent").children().length);
+      if ( $("#modalContent").children().length==1){
+        e.target.parentNode.parentNode.parentNode.innerHTML="There are currently no pending changes.";
+      }
+      //remove the entire Div containing name of student too
+      e.target.parentNode.parentNode.remove();
+    }
+
+  }
+
 
   function loadModalInfo(){
     //remove previous info
      $("#modalContent").children().remove();
-    //TODO: Add animation to it later
-
-
-
 
      //modal's contents
      var divOuter=document.getElementById("modalContent");
@@ -1852,8 +1885,31 @@ if(isAssigned == false)
               if (document.getElementById("div"+studentID)!=null){
                 var tmpDiv=document.getElementById("div"+studentID);
                 var divInner2=document.createElement("div");
-                divInner2.className="card card-body my-1 border border-secondary ";
-                divInner2.innerHTML="Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+"\t|\t Hospital: "+hospName;
+                divInner2.className="row mx-2 card-header my-1 text-left border border-secondary rounded";
+                var txt2=document.createElement("P");
+                txt2.innerHTML=("Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+"\t|\t Hospital: "+hospName);
+                txt2.style.cssFloat="left";
+                txt2.className="col-md-11 float-left my-auto ";
+            
+                
+                //DELETE BUTTON
+                
+                var btnDel=document.createElement("button");
+                btnDel.innerHTML = '<i class="bi bi-trash"></i>';
+                btnDel.style.cssFloat = "right";
+                btnDel.className="col-md-1 btn btn-sm btn-danger float-right ";
+
+                divInner2.id="divy"+"#"+studentID+"#"+specialtyID;
+
+                //when delete button clicked
+                btnDel.onclick=function(e){
+                  removeElementFromArray(e);
+                }
+                
+                divInner2.appendChild(txt2);
+                divInner2.appendChild(btnDel);
+                
+
                 tmpDiv.appendChild(divInner2);
               }else{
 
@@ -1863,13 +1919,30 @@ if(isAssigned == false)
                 divOuter1.className="card card-body my-1 border border-primary rounded-0";
                 divOuter1.id="div"+studentID;
                 //when we make it clickable we can do the ffg
-                // divOuter.style.cursor="pointer";
-                // divOuter1.id="card"+j;
 
                 divOuter1.innerHTML="<b>"+studName.toUpperCase()+"</b>";
                 var divInner=document.createElement("div");
-                divInner.className="card card-body my-1 border border-secondary ";
-                divInner.innerHTML="Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+" \t|\t Hospital: "+hospName;
+                divInner.id="divy"+"#"+studentID+"#"+specialtyID;
+                divInner.className="row mx-2 card-header my-1 text-left border border-secondary rounded";
+                var txt1=document.createElement("P");
+                txt1.innerHTML=("Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+" \t|\t Hospital: "+hospName);
+                // divInner.innerHTML="Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+" \t|\t Hospital: "+hospName;
+                // txt1.style.cssFloat="left";
+                txt1.className="col-md-11 float-left my-auto";
+
+                //DELETE BUTTON
+                var btnDel1=document.createElement("button");
+                // btnDel1.style.cssFloat = "right";
+                btnDel1.innerHTML = '<i class="bi bi-trash"></i> ';
+                btnDel1.className="col-md-1 btn btn-sm btn-danger float-right ";
+
+                //when delete button clicked
+                btnDel1.onclick=function(e){
+                  removeElementFromArray(e);
+                }
+                
+                divInner.appendChild(txt1);
+                divInner.appendChild(btnDel1);
                 divOuter1.appendChild(divInner);
                 divOuter.appendChild(divOuter1);
               }
