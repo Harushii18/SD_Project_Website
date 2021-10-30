@@ -4,7 +4,7 @@ Website to facilitate administrator functions
 
 ## Build-Test Status
 
-[![Build Status](https://app.travis-ci.com/Harushii18/SD_Project_Website.svg?branch=main)](https://app.travis-ci.com/Harushii18/SD_Project_Website.svg?branch=main) [![Coverage Status](https://coveralls.io/repos/github/RXRider1451/SD_Project_Website/badge.svg?branch=main)](https://coveralls.io/github/RXRider1451/SD_Project_Website?branch=main)
+[![Build Status](https://app.travis-ci.com/Harushii18/SD_Project_Website.svg?branch=main)](https://app.travis-ci.com/Harushii18/SD_Project_Website) [![Coverage Status](https://coveralls.io/repos/github/RXRider1451/SD_Project_Website/badge.svg?branch=main)](https://coveralls.io/github/RXRider1451/SD_Project_Website?branch=main)
 
 Note: The Badge hasn't updated yet. The coverage percentage should read 88%.
 
