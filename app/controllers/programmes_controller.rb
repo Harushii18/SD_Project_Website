@@ -64,6 +64,15 @@ before_action :authenticate_admin! #kameron: definition found in application_con
 
   # DELETE /programmes/1 or /programmes/1.json
   def destroy
+    #START deletion of groups--------------------------------------------------------------------
+    #perform deletion of groups via the groups scaffold before deletion to server for the programme is called
+    @groups = Group.where({programme_id: [@programme.id]})
+
+    @groups.each do |group|
+      group.destroy
+    end
+    #END deletion of groups--------------------------------------------------------------------
+    
     @programme.destroy
     respond_to do |format|
       format.html { redirect_to programmes_url, notice: "Programme was successfully destroyed." }

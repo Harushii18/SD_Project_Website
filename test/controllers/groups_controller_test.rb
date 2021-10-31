@@ -3,6 +3,9 @@ require "test_helper"
 class GroupsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @group = groups(:one)
+    get '/admins/sign_in'
+    sign_in admins(:admin_001)
+    post admin_session_url
   end
 
   test "should get index" do
