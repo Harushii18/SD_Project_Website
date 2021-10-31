@@ -30,7 +30,7 @@ end
 def new
 
   @Groups = Group.where(id: params[:group_id]);
-  @Students = Student.where(programme_id: params[:programme_id]);
+ # @Students = Student.where(programme_id: params[:programme_id]);
   @student_group = StudentGroup.new
   # @programmes = Programme.all
 
@@ -86,6 +86,6 @@ private
 
   # Only allow a list of trusted parameters through.
   def student_group_params
-    params.require(:student_group).permit(:student_id, :group_id,:programme_id)
+    params.require(:student_group).permit(:student_id, :group_id)
   end
 end
