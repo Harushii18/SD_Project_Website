@@ -19,12 +19,15 @@
 
 
     @FirstRec = Programme.first;
-    @current_programme_id = @FirstRec.id;
+    if (@FirstRec != nil)
+
+      @current_programme_id = @FirstRec.id;
 
 
-    if (params[:programme_id])
-      @current_programme_id =  params[:programme_id];
+      if (params[:programme_id])
+        @current_programme_id =  params[:programme_id];
 
+      end
     end
     #to get the group ID
     @value;

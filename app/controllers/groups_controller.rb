@@ -8,15 +8,18 @@ class GroupsController < ApplicationController
 
     @programmes = Programme.all
     @FirstRec = Programme.first;
-    @current_programme_id = @FirstRec.id;
-    # @Groups = Group.where(programme_id: @current_programme_id);
     @Groups = Group.all; #buggy -> doesnt update on first click (so filter on reload)
+    if (@FirstRec != nil)
+      
+      @current_programme_id = @FirstRec.id;
+      # @Groups = Group.where(programme_id: @current_programme_id);
+    
 
-    if (params[:programme_id])
-      @current_programme_id =  params[:programme_id];
-      @Groups = Group.where(programme_id: @current_programme_id);
+      if (params[:programme_id])
+        @current_programme_id =  params[:programme_id];
+        @Groups = Group.where(programme_id: @current_programme_id);
+      end
     end
-
 
   end
 
