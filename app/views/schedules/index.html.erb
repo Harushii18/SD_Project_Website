@@ -271,10 +271,6 @@ Timeline-->Schedule
         this.initialiseSpecialties();
         this.initialiseTimeBlocks(this.specialties, studentID);
 
-
-
-
-
         //This button acts as an event so that the array of schedules can be poppulated
         this.btnSaveToChanges = document.createElement('button');
         this.btnSaveToChanges.innerHTML = "Save changes";
@@ -285,8 +281,6 @@ Timeline-->Schedule
         this.btnClearSchedule.innerHTML = "Clear Schedule";
         this.btnClearSchedule.setAttribute("class","btn btn-outline-danger");
         this.btnClearSchedule.setAttribute("style","border-radius: 100px; display: inline-block; text-align: center; padding: 10px; width: 150px;");
-
-
 
         //When Save to Changes is clicked, populate schedules with all current schedules in timeline - checks each timebox.
         var that = this;
@@ -1774,17 +1768,24 @@ if(isAssigned == false)
   }
 
   //delete button click event for dynamically instantiated divs
-  function removeElementFromArray(e){
-    const parentID=e.target.parentNode.id;
-    const detailsArr = e.target.parentNode.id.split("#");
+  function removeElementFromArray(e, weekNo, studentID, specName, specialtyID, specialtyDuration){
+ 
+
+    let parentID=e.target.parentNode.id;
+    let detailsArr = e.target.parentNode.id.split("#");
+
+     //if someone clicked on the icon instead of the btn
+    let checked=e.target.parentNode instanceof HTMLDivElement;
+    if (checked===false){
+      parentID=e.target.parentNode.parentNode.id;
+      detailsArr = e.target.parentNode.parentNode.id.split("#");
+    }
+
     //remove element from array
-    console.log(programmeSchedule.timelines);
     for(var i =0; i<programmeSchedule.timelines.length; i++){
             var currSchedule = programmeSchedule.timelines[i].getSchedules();
             //For each schedule in a timeline
             for(var j =0; j<currSchedule.length;j++){
-              console.log(currSchedule[j].getStudentID()===parseInt(detailsArr[1]));
-              console.log(currSchedule[j].getSpecialtyID()," ",detailsArr[2]);
               if (currSchedule[j].getStudentID()===parseInt(detailsArr[1]) &&  currSchedule[j].getSpecialtyID()===detailsArr[2] ){
                   //remove schedule from the array
                   currSchedule.splice(j,1);
@@ -1794,18 +1795,73 @@ if(isAssigned == false)
             }
     }
 
+    //set first div in specialty to false + remove hospital name 
+    var delBlock=programmeSchedule.getTimeBlock(weekNo, studentID);
+    delBlock.setAssigned(false);
+    delBlock.removeChildDiv();
+    delBlock.displayDate();
+    delBlock.setHospitalID("unassigned");
+
+
+    //remove colour from divs that were selected
+
+    let numDivSpan=weekNo;
+
+    for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
+    
+        let currDivID = studentID+"#"+i;
+        document.getElementById(currDivID).style.background= "#B8B8B8";
+
+        if (i==numDivSpan){
+          document.getElementById(currDivID).style.cursor="default";
+          //removes pop-up hospital modal
+           document.getElementById(currDivID).removeAttribute("data-toggle");
+        }
+        
+        //allow user to put specialty on block again
+        var tmpBlock=programmeSchedule.getTimeBlock(i, studentID);
+        tmpBlock.setPseudoAssigned(false);
+        tmpBlock.setSaved("false");
+        tmpBlock.setPendingSave("false");
+
+      }
+    
+    //return the specialty divs to their original state
+    var currentS=document.getElementById(studentID+"#"+specialtyID+"#"+specName);
+    //allow it to be dragged
+    document.getElementById(studentID+"#"+specialtyID+"#"+specName).draggable=true;
+    document.getElementById(studentID+"#"+specialtyID+"#"+specName).style.cursor="pointer";
+    document.getElementById(studentID+"#"+specialtyID+"#"+specName).style.opacity=1;
+    
+
     if ( document.getElementById("div"+detailsArr[1]).childElementCount>=3) {
        //remove div from student details
+      if (checked===false){
+        e.target.parentNode.parentNode.remove(document.getElementById("#"+parentID));
+      }else{
         e.target.parentNode.remove(document.getElementById("#"+parentID));
+      }
     }else{
 
       //if there aren't any contents in the modal box anymore
       console.log($("#modalContent").children().length);
       if ( $("#modalContent").children().length==1){
-        e.target.parentNode.parentNode.parentNode.innerHTML="There are currently no pending changes.";
+
+         //if someone clicked on the icon instead of the btn
+        if (checked===false){
+           e.target.parentNode.parentNode.parentNode.parentNode.innerHTML="There are currently no pending changes.";
+        }else{
+          e.target.parentNode.parentNode.parentNode.innerHTML="There are currently no pending changes.";
+        }
       }
-      //remove the entire Div containing name of student too
-      e.target.parentNode.parentNode.remove();
+
+      //if someone clicked on the icon instead of the btn
+      if (checked===false){
+       e.target.parentNode.parentNode.parentNode.remove();
+      }else{
+        //remove the entire Div containing name of student too
+        e.target.parentNode.parentNode.remove();
+      }
     }
 
   }
@@ -1839,11 +1895,11 @@ if(isAssigned == false)
             var currSchedule = programmeSchedule.timelines[i].getSchedules();
             //For each schedule in a timeline
             for(var j =0; j<currSchedule.length;j++){
-              var studentID = currSchedule[j].getStudentID();
-              var weekNo = currSchedule[j].getWeekNo();
-              var specialtyID = currSchedule[j].getSpecialtyID();
-              var specialtyDuration = currSchedule[j].getSpecialtyDuration();
-              var hospitalID = currSchedule[j].getHospitalID();
+              let studentID = currSchedule[j].getStudentID();
+              let weekNo = currSchedule[j].getWeekNo();
+              let specialtyID = currSchedule[j].getSpecialtyID();
+              let specialtyDuration = currSchedule[j].getSpecialtyDuration();
+              let hospitalID = currSchedule[j].getHospitalID();
 
               //get the details so that user cannot access ID
               let studName=obtainUserName(studentID);
@@ -1866,12 +1922,17 @@ if(isAssigned == false)
                 btnDel.innerHTML = '<i class="bi bi-trash"></i>';
                 btnDel.style.cssFloat = "right";
                 btnDel.className="col-md-1 btn btn-sm btn-danger float-right ";
+                btnDel.setAttribute("weekNo",weekNo);
+                btnDel.setAttribute("studentID",studentID);
+                btnDel.setAttribute("specName",specName);
+                btnDel.setAttribute("specialtyID",specialtyID);
+                btnDel.setAttribute("specialtyDuration",specialtyDuration);
 
                 divInner2.id="divy"+"#"+studentID+"#"+specialtyID;
 
                 //when delete button clicked
                 btnDel.onclick=function(e){
-                  removeElementFromArray(e);
+                  removeElementFromArray(e, this.getAttribute("weekNo"),  this.getAttribute("studentID"),this.getAttribute("specName"), this.getAttribute("specialtyID"),  this.getAttribute("specialtyDuration"));
                 }
 
                 divInner2.appendChild(txt2);
@@ -1903,10 +1964,16 @@ if(isAssigned == false)
                 // btnDel1.style.cssFloat = "right";
                 btnDel1.innerHTML = '<i class="bi bi-trash"></i> ';
                 btnDel1.className="col-md-1 btn btn-sm btn-danger float-right ";
+                btnDel1.setAttribute("weekNo",weekNo);
+                btnDel1.setAttribute("studentID",studentID);
+                btnDel1.setAttribute("specName",specName);
+                btnDel1.setAttribute("specialtyID",specialtyID);
+                btnDel1.setAttribute("specialtyDuration",specialtyDuration);
 
                 //when delete button clicked
                 btnDel1.onclick=function(e){
-                  removeElementFromArray(e);
+                  
+                   removeElementFromArray(e, this.getAttribute("weekNo"),  this.getAttribute("studentID"),this.getAttribute("specName"), this.getAttribute("specialtyID"),  this.getAttribute("specialtyDuration"));
                 }
 
                 divInner.appendChild(txt1);
@@ -1942,29 +2009,7 @@ if(isAssigned == false)
     var student_id = drop.getAttribute("studentID");
 
     var timeblock = programmeSchedule.getTimeBlock(week_no,student_id);
-
-    var timelines = programmeSchedule.timelines;
-    var size = timelines.length;
-
-    var timeline;
-    for (let i = 0 ; i < size; i++)
-    {
-      timeline = timelines[i];
-      if (timeline.studentID == student_id)
-        {
-          break;
-        }
-    }
-
-    var timeblock;
-    for (let i = 0 ; i < 52; i++)
-    {
-      timeblock = timeline.timeBlocks[i];
-      if (timeblock.weekNo == week_no)
-        {
-          break;
-        }
-    }
+    // timeblock.setPendingSave("false");
 
     //timeblock.removeChildDiv();
 
@@ -2018,11 +2063,6 @@ if(isAssigned == false)
 
 
   <!---------------------------------------------------------------------------------------------->
-
-
-
-
-
 
 <br>
 
