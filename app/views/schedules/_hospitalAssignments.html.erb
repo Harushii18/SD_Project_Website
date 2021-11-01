@@ -1,119 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-  </head>
+<head>
+  <meta charset="utf-8">
+</head>
 
 
-  <body>
+<body>
 
-    <h1 class='text-center'>This is A Scrollable Popup</h1>
+  <!--<h3 class='text-center'>Assign Students to Hospitals</h3>-->
 
-    <script type="text/javascript">
+  <script type="text/javascript">
 
-    </script>
+  </script>
 
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"><h6>Student Name</h6></th>
+        <th scope="col"><h6>Student Number</h6></th>
+        <th scope="col"><h6>Hospital Assignment</h6></th>
 
+      </tr>
 
+    </thead>
 
+    <tbody style="overflow: scroll;">
+      <% @Student_Groups.each do |g| %>
+      <tr>
+        <td class="col-2"><%=g.student.user.user_FirstName %> <%=g.student.user.user_LastName%></td>
+        <td class="col-2"><%= g.student.studentNumber %></td>
 
+        <td class="col-2">
 
+          <select name="hospital_drop" id="hospital_id"  class="btn btn-secondary dropdown-toggle">
+            <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
 
+          </select>
 
+        </td>
+      </tr>
 
-    The student ids in this group is
-    <br>
+      <%end%>
+    </tbody>
 
-    <% @Student_Groups.each do |g| %>
-      <%=g.student.user.user_FirstName%>
-      <br>
-    <%end%>
-
-
-
-
-
-    lets print some garbage
-    <br>
-    llllllllllllllld
-    <br>
-    data dsdsdsds
-    <br>
-    dsdsdsds
-    <br>
-    dsdsdsdssdsdsd
-    <br>
-    dsdsdsdssdsdsddsds
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+  </table>
 
 
-    dsdsdsdssdsdsd
-    dsdsdsdssds
 
 
-  </body>
+</body>
 
 
 

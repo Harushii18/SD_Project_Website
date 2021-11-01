@@ -11,6 +11,13 @@
     </div>
   <% end %>
 
+ <% unless url_for != student_groups_path %>
+  <div class="field">
+  <% form.label :programme_id, value: "Programme: " %>
+      <%= form.select :programme_id, Programme.all.map{|p| [p.programme_code, p.id]},{:prompt => "Select A Programme"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
+  </div>
+  <%end%>
+
   <br>
   <br>
 <div style="text-align: center;">
@@ -23,6 +30,7 @@
 
     <%end%>
   </div>
+
 
   <div class="field">
     <% form.label :group_id %>

@@ -2,10 +2,10 @@
 
 one:
   id: 1
-  programme: 1
+  programme_id: 1
   group_name: Group1
 
 two:
   id: 2
-  programme: 1
+  programme_id: 1
   group_name: Group2

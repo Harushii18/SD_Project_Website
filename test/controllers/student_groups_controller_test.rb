@@ -20,10 +20,10 @@ class StudentGroupsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create student_group" do
     assert_difference('StudentGroup.count') do
-      post student_groups_url, params: { student_group: { student_id: 3, group_id: 2 } }
+      post student_groups_url, params: { student_group: { student_id: 3, group_id: 2} }
     end
 
-    assert_redirected_to student_group_url(StudentGroup.last)
+    assert_redirected_to groups_url
   end
 
   test "should show student_group" do
