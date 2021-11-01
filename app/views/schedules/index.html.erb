@@ -1782,13 +1782,10 @@ if(isAssigned == false)
     }
 
     //remove element from array
-    console.log(programmeSchedule.timelines);
     for(var i =0; i<programmeSchedule.timelines.length; i++){
             var currSchedule = programmeSchedule.timelines[i].getSchedules();
             //For each schedule in a timeline
             for(var j =0; j<currSchedule.length;j++){
-              console.log(currSchedule[j].getStudentID()===parseInt(detailsArr[1]));
-              console.log(currSchedule[j].getSpecialtyID()," hey",detailsArr[2]);
               if (currSchedule[j].getStudentID()===parseInt(detailsArr[1]) &&  currSchedule[j].getSpecialtyID()===detailsArr[2] ){
                   //remove schedule from the array
                   currSchedule.splice(j,1);
@@ -1801,7 +1798,6 @@ if(isAssigned == false)
     //set first div in specialty to false + remove hospital name 
     var delBlock=programmeSchedule.getTimeBlock(weekNo, studentID);
     delBlock.setAssigned(false);
-    console.log(delBlock);
     delBlock.removeChildDiv();
     delBlock.displayDate();
     delBlock.setHospitalID("unassigned");
@@ -1832,8 +1828,6 @@ if(isAssigned == false)
     
     //return the specialty divs to their original state
     var currentS=document.getElementById(studentID+"#"+specialtyID+"#"+specName);
-    console.log(studentID+"#"+specialtyID+"#"+specName);
-    console.log("this",currentS);
     //allow it to be dragged
     document.getElementById(studentID+"#"+specialtyID+"#"+specName).draggable=true;
     document.getElementById(studentID+"#"+specialtyID+"#"+specName).style.cursor="pointer";
