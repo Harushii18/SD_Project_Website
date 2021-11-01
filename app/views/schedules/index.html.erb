@@ -22,8 +22,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">SELECT HOSPITAL</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-body">
@@ -54,13 +53,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">SCHEDULE GROUP</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <h5 class="modal-title" id="staticBackdropLabel">Schedule Group</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+
         </button>
       </div>
       <div class="modal-body">
-        <p> Select A Group To Schedule</p>
+        <p>Select a Group To Schedule</p>
 
 
         <!--Dropdown for Groups -->
@@ -1609,7 +1608,7 @@ if(isAssigned == false)
         initialiseTimelines(){
 
 
-            this.timelines.push(new Timeline(-1, this.GName+" Group",1));
+            this.timelines.push(new Timeline(-1, this.GName,1));
 
 
         }
