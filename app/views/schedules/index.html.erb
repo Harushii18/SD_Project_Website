@@ -212,17 +212,15 @@
 
 
 <!-- THIS IS TO POP US A MODAL VIEW FOR HOSPITAL ASSIGNMENTS FOR GROUP STUDENTS -->
-<div class="modal fade" id="GHA" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
+<div class="modal fade" id="GHA" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:75%; max-height: 75%; ">
+    <div class="modal-content" >
 
       <div class="modal-header  text-center">
-        <h3 class="modal-title w-100">Assign Students</h3>
+        <h3 class="modal-title w-100">Assign Students to Hospitals</h3>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" >
            <%= render 'hospitalAssignments' %>
-
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -310,7 +308,7 @@ Timeline-->Schedule
               var newSchedule = new Schedule();
               newSchedule.setWeekNo(that.timeBlocks[i].getWeekNo());
               newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
-              console.log("in btnSaveToChange: " + that.timeBlocks[i].getSpecialtyID());
+              //console.log("in btnSaveToChange: " + that.timeBlocks[i].getSpecialtyID());
               newSchedule.setStudentID(that.studentID);
               newSchedule.setSpecialtyDuration(that.timeBlocks[i].getSpecialtyDuration());
 
@@ -495,15 +493,6 @@ Timeline-->Schedule
 
       //Set the Hospital Name in the Time Block
       this.timeBlocks[weekNo-1].setHospitalName();
-
-
-
-      //Once assigned, allow for modal box to appear
-      //this.timeBlocks[weekNo-1].getDiv().setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-      //this.timeBlocks[weekNo-1].getDiv().setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-      //var hospital = prompt("please enter hospital", "vic");
-
-      //this.timeBlocks[weekNo-1].setAssigned(true);
       this.timeBlocks[weekNo-1].setPseudoAssigned(true);
       this.timeBlocks[weekNo-1].setToolTipContents();
     }
@@ -688,7 +677,7 @@ Timeline-->Schedule
       //this.initialiseEndDate();
       this.initialiseDivAttributes();
       this.displayDate();
-      this.initialiseAssignedHospAttributes();
+
 
     }
 
@@ -948,15 +937,12 @@ if(isAssigned == false)
       this.div.ondragover = function(ev){
 
         //change cursor to hand pointer after dragging specialty block onto div
-
-
-
         var isAssigned = that.getPseudoAssigned();
         if (isAssigned == "false")
           {
 
-        that.div.style.cursor="pointer";
-        ev.preventDefault();
+            that.div.style.cursor="pointer";
+            ev.preventDefault();
 
           }
 
@@ -1004,6 +990,7 @@ if(isAssigned == false)
 
       var that = this;
 
+      //Used to show the popup
       this.div.onmouseenter = function(ev){
         if(that.assigned==true){
           tooltip.style.display = "block";
@@ -1064,13 +1051,6 @@ if(isAssigned == false)
       //Move to end date
       var duration = parseInt(this.specialtyDuration.charAt(0));
       this.endDate.setDate(this.endDate.getDate()+(duration*7)); //Day just before the start of the next week
-    }
-
-    initialiseAssignedHospAttributes(){
-      //this.assigned_hosp.style.textAlign = "center"
-      //p.style.width = "100%";
-      //this.div.appendChild(document.createElement('br')); //put space first
-      //this.div.appendChild(this.assigned_hosp);
     }
 
     //Other Class Methods
@@ -1288,8 +1268,7 @@ if(isAssigned == false)
        this.saved = "false"
      }
 
-     setSaved(value)
-     {
+     setSaved(value){
        this.saved = value;
      }
 
@@ -1313,8 +1292,7 @@ if(isAssigned == false)
        this.specialtyDuration = specialtyDuration;
      }
 
-     getSaved()
-     {
+     getSaved(){
        return this.saved;
      }
 
@@ -1396,8 +1374,6 @@ if(isAssigned == false)
         //On dragstart function
         var that = this;
         this.div.ondragstart = function(ev){
-
-
           //Transfer div id
           ev.dataTransfer.setData("text", ev.target.id);
           //Transfer SpecialtyID
@@ -1408,16 +1384,10 @@ if(isAssigned == false)
 
           ev.dataTransfer.setData("specialtyDuration", that.specialtyDuration);
           ev.dataTransfer.setData("specialtyName", that.specialtyName);
-
-
         };
 
-        this.div.ondrag = function(ev){
-          console.log("dragging");
-          //ev.preventDefault();
-          //document.body.style.cursor = 'none';
 
-        };
+
 /*
         this.div.ondrop = function(ev){
           console.log("in specialty drop: " +this.getAttribute("specialtyID"));
@@ -1460,8 +1430,7 @@ if(isAssigned == false)
           this.populateSchedule();
         }
 
-        getTimeline(student_id)
-        {
+        getTimeline(student_id){
           var timelines = this.timelines;
           var size = timelines.length;
 
@@ -1480,8 +1449,7 @@ if(isAssigned == false)
 
         }
 
-        getTimeBlock(week_no,student_id)
-        {
+        getTimeBlock(week_no,student_id){
 
         var timeline = this.getTimeline(student_id);
         var size = timeline.timeBlocks.length;
@@ -1589,7 +1557,7 @@ if(isAssigned == false)
 
 
   class GroupSchedule{
-        constructor(parentObject , Name){
+        constructor(parentObject, Name){
           this.GroupSchedule = "i am the code";
           this.parentObject = parentObject;
           this.timelines = [];
@@ -1598,8 +1566,7 @@ if(isAssigned == false)
           this.populateSchedule();
         }
 
-        getTimeline(student_id)
-        {
+        getTimeline(student_id){
           var timelines = this.timelines;
           var size = timelines.length;
 
@@ -1618,8 +1585,7 @@ if(isAssigned == false)
 
         }
 
-        getTimeBlock(week_no,student_id)
-        {
+        getTimeBlock(week_no,student_id){
 
         var timeline = this.getTimeline(student_id);
         var size = timeline.timeBlocks.length;
@@ -1649,11 +1615,11 @@ if(isAssigned == false)
         }
 
         saveSchedule(){
-          var StudentIDs = [];
+          var studentIDs = [];
           <% @Student_Groups.each do |g| %>
-              StudentIDs.push(<%=g.student_id%>);
+              studentIDs.push(<%=g.student_id%>);
           <%end%>
-          console.log(StudentIDs);
+          console.log(studentIDs);
 
           //for the len of timeline
           for(var i = 0 ; i < this.timelines.length ; i ++ ){
@@ -1663,11 +1629,11 @@ if(isAssigned == false)
             //for each schedule
             for(var j = 0 ; j < currSchedule.length ; j ++){
               //for each student
-              for(var k = 0 ; k < StudentIDs.length ; k ++ ){
+              for(var k = 0 ; k < studentIDs.length ; k ++ ){
 
 
 
-                  var Id = StudentIDs[k];
+                  var Id = studentIDs[k];
                   var weekNo = currSchedule[j].getWeekNo();
                   var specialtyID = currSchedule[j].getSpecialtyID();
                   var specialtyDuration = currSchedule[j].getSpecialtyDuration();
@@ -1740,7 +1706,7 @@ if(isAssigned == false)
         console.log(GroupsTimeline.getTimeline(-1));
     }
     else{
-      console.log("Cannont ASS No Stu");
+      console.log("Cannont assign - No Students in Group");
     }
 
   }
@@ -1820,7 +1786,7 @@ if(isAssigned == false)
               if (currSchedule[j].getStudentID()===parseInt(detailsArr[1]) &&  currSchedule[j].getSpecialtyID()===detailsArr[2] ){
                   //remove schedule from the array
                   currSchedule.splice(j,1);
-                  
+
                   break;
               }
             }
@@ -1890,10 +1856,10 @@ if(isAssigned == false)
                 txt2.innerHTML=("Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+"\t|\t Hospital: "+hospName);
                 txt2.style.cssFloat="left";
                 txt2.className="col-md-11 float-left my-auto ";
-            
-                
+
+
                 //DELETE BUTTON
-                
+
                 var btnDel=document.createElement("button");
                 btnDel.innerHTML = '<i class="bi bi-trash"></i>';
                 btnDel.style.cssFloat = "right";
@@ -1905,10 +1871,10 @@ if(isAssigned == false)
                 btnDel.onclick=function(e){
                   removeElementFromArray(e);
                 }
-                
+
                 divInner2.appendChild(txt2);
                 divInner2.appendChild(btnDel);
-                
+
 
                 tmpDiv.appendChild(divInner2);
               }else{
@@ -1940,7 +1906,7 @@ if(isAssigned == false)
                 btnDel1.onclick=function(e){
                   removeElementFromArray(e);
                 }
-                
+
                 divInner.appendChild(txt1);
                 divInner.appendChild(btnDel1);
                 divOuter1.appendChild(divInner);
