@@ -1692,25 +1692,26 @@ if(isAssigned == false)
 
 
   //the user didnt click on the group button
-  if(IsGroup == false){
-    programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
-  }
-  //clicked! make a single timeline
-  else{
+  if ( <%= @FirstRec != nil %>){
+    if(IsGroup == false){
+      programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
+    }//clicked! make a single timeline
+    else{
     //if there is a group name then there are students in this group and we CAN schedule
     //else the group name is "" then there are no students assigned to this group and WE CANNOT schedule
-    if(this.GroupName != ""){
+      if(this.GroupName != ""){
         GroupsTimeline = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
 
 
         console.log(GroupsTimeline.getTimeline(-1));
+      }
+      else{
+        console.log("Cannot assign - No Students in Group");
+      }
     }
-    else{
-      console.log("Cannont assign - No Students in Group");
-    }
+
 
   }
-
 
 
   var chosen_hospital_id = 0;
@@ -1755,7 +1756,7 @@ if(isAssigned == false)
 
 //onclick function to save all the schedules to the database
   function makeChanges(){
-
+    if ( <%= @FirstRec != nil %>){
     //save the students schedules
     if(IsGroup == false){
       console.log("SAVING INDIVIDUALLY");
@@ -1768,6 +1769,7 @@ if(isAssigned == false)
       GroupsTimeline.saveSchedule();
       window.location.reload();
     }
+  }
 
   }
 
