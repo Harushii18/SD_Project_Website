@@ -1681,7 +1681,7 @@ class StudentAssignment{
           //Need to check if Student_Groups.first isn't nil
           //THIS IS WHERE THE SNIPPET OF CODE USED TO BE KAMERON
         
-          if (<%=@Student_Groups != nil%> )
+          if (<%=@Student_Groups.first != nil%> )
             {
               this.sampleStudentID = <%= @Student_Groups.first.student_id %>;
             }
