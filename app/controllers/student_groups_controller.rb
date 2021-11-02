@@ -30,7 +30,7 @@ end
 def new
 
   @Groups = Group.where(id: params[:group_id]);
- # @Students = Student.where(programme_id: params[:programme_id]);
+  @Students = Student.where(programme_id: params[:programme_id]);
   @student_group = StudentGroup.new
   # @programmes = Programme.all
 
