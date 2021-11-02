@@ -20,7 +20,7 @@ class AllocationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create allocation" do
     assert_difference('Allocation.count') do
-      post allocations_url, params: { allocation: {hospital_id: 1, specialty_id: 1, available_slots: 10, used_slots: 5, start_date: "2021-08-25", end_date: "2021-09-25" }}
+      post allocations_url, params: { allocation: {hospital_id: 1, specialty_id: 2, available_slots: 10, used_slots: 5, start_date: "2021-08-25", end_date: "2021-09-25" }}
     end
 
     assert_redirected_to allocation_url(Allocation.last)
@@ -37,7 +37,7 @@ class AllocationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update allocation" do
-    patch allocation_url(@allocation), params: { allocation: {specialty_id: 1, hospital_id: 1, available_slots: 10, used_slots: 5, start_date: "2021-08-25", end_date: "2021-09-25"  } }
+    patch allocation_url(@allocation), params: { allocation: {specialty_id: 2, hospital_id: 1, available_slots: 10, used_slots: 5, start_date: "2021-08-25", end_date: "2021-09-25"  } }
     assert_redirected_to allocation_url(@allocation)
   end
 
