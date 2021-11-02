@@ -1,13 +1,16 @@
-<p id="notice"><%= notice %></p>
+<p hidden id="notice"><%= notice %></p>
+<div class="form_card mt-2">
+  <div class="card-body">
+    <p>
+      <h5><strong>Course:</strong></h5>
+      <%= @course.CourseDescription %>
+      <br> </br>
+      <h5><strong>Course ID:</strong></h5>
+      <%= @course.id %>
+    </p>
 
-<p>
-  <strong>Course:</strong>
-  <%= @course.CourseDescription %>
-  <br>
-  <strong>Course ID:</strong>
-  <%= @course.id %>
-</p>
-
-<%= link_to 'Back', courses_path,class:"btn btn-outline-primary" %> 
+    <%= link_to 'Back', courses_path,class:"btn btn-outline-primary" %> 
+  </div>
+</div>
 
 <!--removed edit here not necessary>
