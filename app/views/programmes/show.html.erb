@@ -1,24 +1,29 @@
-<p id="notice"><%= notice %></p>
+<p hidden id="notice"><%= notice %></p>
+<div class="form_card mt-2">
+  <div class="card-body">
+    <p>
+      <strong>Programme code:</strong>
+      <%= @programme.programme_code %>
+      <hr></hr>
+      <strong>Associated Courses:</strong>
+      <br><br>
+      <ul class="list-group">
+        <% @programmecourses.each do |programmecourse| %>
 
-<p>
-  <strong>Programme code:</strong>
-  <%= @programme.programme_code %>
-  <hr></hr>
-  <strong>Associated Courses:</strong>
-  <br></br>
-  <% @programmecourses.each do |programmecourse| %>
+          <%if programmecourse.programme_id == @programme.id%>
+                <% @courses.each do |course| %>
+                  <%if course.id == programmecourse.course_id %>
+                    <li class="list-group-item"><%= course.CourseDescription %></li>
+                  <%end%>
 
-    <%if programmecourse.programme_id == @programme.id%>
-          <% @courses.each do |course| %>
-            <%if course.id == programmecourse.course_id %>
-              <%= course.CourseDescription %>
-            <%end%>
-
+                <%end%>
           <%end%>
-<%end%>
-    <%end%>
+        <%end%>
+      </ul>
+    </p>
 
-</p>
 
-<%= link_to 'Edit', edit_programme_path(@programme) %> |
-<%= link_to 'Back', programmes_path %>
+    <%= link_to 'Edit', edit_programme_path(@programme), class:"btn btn-outline-primary" %> |
+    <%= link_to 'Back', programmes_path, class:"btn btn-outline-primary" %>
+  </div>
+</div>

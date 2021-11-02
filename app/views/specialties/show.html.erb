@@ -1,5 +1,5 @@
-<br/>
-<p id="notice"><%= notice %></p>
+
+<p hidden id="notice"><%= notice %></p>
 
 
 <br/>
@@ -9,8 +9,8 @@
     <p class="lead"><%= @specialty.id %></p>
     <p class="lead"><b>Specialty Name:</b></p>
     <p class="lead"><%= @specialty.SpecialtyName %></p>
-    <%= link_to 'Edit', edit_specialty_path(@specialty), class:"btn btn-outline-dark"%>
-    <%= link_to 'Back', specialties_path, class:"btn btn-outline-dark" %>
+    <%= link_to 'Edit', edit_specialty_path(@specialty), class:"btn btn-outline-primary"%>
+    <%= link_to 'Back', specialties_path, class:"btn btn-outline-primary" %>
 
   </div>
 </div>
