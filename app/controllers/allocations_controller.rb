@@ -23,7 +23,11 @@ class AllocationsController < ApplicationController
   # POST /allocations or /allocations.json
   def create
     @allocation = Allocation.new(allocation_params)
-    if ( @allocation[:start_date] < @allocation[:end_date] && @allocation[:available_slots] >= @allocation[:used_slots] && @allocation[:available_slots]>0 && @allocation[:used_slots]>=0) #checks if the allocation dates make sense
+
+    # checks that the specialty && hospital combination isn't currently in the db
+    @check=Allocation.where(specialty_id:  @allocation[:specialty_id], hospital_id:  @allocation[:hospital_id]).any? 
+    
+    if (@check==false && @allocation[:start_date] < @allocation[:end_date] && @allocation[:available_slots] >= @allocation[:used_slots] && @allocation[:available_slots]>0 && @allocation[:used_slots]>=0) #checks if the allocation dates make sense
       respond_to do |format|
         if @allocation.save
           format.html { redirect_to @allocation, notice: "Allocation was successfully created." }

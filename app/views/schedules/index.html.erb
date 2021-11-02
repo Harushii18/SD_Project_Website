@@ -267,6 +267,11 @@ Timeline-->Schedule
         this.hospitals = [];
         this.timeBlocks = [];
 
+        this.type = "unknown";
+
+        //For Groups ONLY
+        this.studentIdList = [];
+
         this.schedules = [];
         this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
         this.initialiseSpecialties();
@@ -384,8 +389,17 @@ Timeline-->Schedule
 
         this.btnClearSchedule.onclick = function(ev){
           //Does an ajax Post request to the delete_with_student_id function in the schedules controller with params that.studentID
+          if(IsGroup){
+            for(var i = 0; i<that.studentIdList.length;i++){
+              $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentIdList[i]}), statusCode: {204: function() { } } });
+            }
+            //window.location.reload();
 
-          $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
+          }else{
+            $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
+
+           }
+
 
         };
 
@@ -401,9 +415,21 @@ Timeline-->Schedule
     initialiseTimeBlocks(specialties,studentID){
       for(var i =0; i<52; i++){
         var timeBlock = new TimeBlock(i+1, studentID, specialties);
-
+        //timeBlock.setType(this.type);
+        //console.log("Timeblock has type: " + timeBlock.type+"\n");
         this.timeBlocks.push(timeBlock);
       }
+    }
+
+    addToStudentIdList(studentID){
+      this.studentIdList.push(studentID);
+    }
+
+    setType(type){
+      for(var i = 0; i<52; i++){
+          this.timeBlocks[i].setType(type);
+      }
+
     }
 
     //TODO: Fetch Specialty Name and Duration
@@ -692,6 +718,8 @@ Timeline-->Schedule
       this.div.setAttribute("weekNo",this.weekNo);
       this.div.setAttribute("studentID", this.studentID);
 
+      this.type = "unknown";
+
       //makes each div's id the week number as well for easy retrieval and colouring
       //this.div.id=this.weekNo;
 
@@ -716,6 +744,10 @@ Timeline-->Schedule
       this.displayDate();
 
 
+    }
+
+    setType(type){
+      this.type = type;
     }
 
     setToolTipContents(){
@@ -839,9 +871,11 @@ Timeline-->Schedule
 //--------------------------------------
         ev.preventDefault();
         var timeline;
+        console.log("STUDENT ID IS: "+that.studentID);
+        console.log("TYPE IS: "+that.type);
 
-        if(that.studentID == -1){
-          timeline  = GroupsTimeline.getTimeline();
+        if(that.type == "group"){
+          timeline  = groupSchedule.getTimeline();
           console.log("We've dropped onto a groups timeline.");
         }
         else{
@@ -954,7 +988,7 @@ if(isAssigned == false)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       //if the student id is -1 we need to bring up the groups assignment modal
-      if(that.studentID == -1){
+      if(that.type == "group"){
         ev.target.setAttribute("data-target","#GHA"); // setting the target to the modals id
       }
       else{
@@ -970,13 +1004,13 @@ if(isAssigned == false)
 
     }
 
-    if(that.studentID == -1){
-      GroupsTimeline.setSpecialtyID(that.specialtyID);
-      GroupsTimeline.setWeekNo(that.weekNo);
-      GroupsTimeline.setSpecialtyDuration(that.specialtyDuration);
+    if(that.type == "group"){
+      groupSchedule.setSpecialtyID(that.specialtyID);
+      groupSchedule.setWeekNo(that.weekNo);
+      groupSchedule.setSpecialtyDuration(that.specialtyDuration);
       console.log("We've dropped onto a groups timeline.");
-      console.log("Groups Timeline has this information:\nSpecialty ID: "+GroupsTimeline.getSpecialtyID()
-                  + "\nWeek Number: " + GroupsTimeline.getWeekNo()+ "\nSpecialtyDuration: "+GroupsTimeline.getSpecialtyDuration());
+      console.log("Groups Timeline has this information:\nSpecialty ID: "+groupSchedule.getSpecialtyID()
+                  + "\nWeek Number: " + groupSchedule.getWeekNo()+ "\nSpecialtyDuration: "+groupSchedule.getSpecialtyDuration());
     }
 
       };
@@ -1100,6 +1134,8 @@ if(isAssigned == false)
       var duration = parseInt(this.specialtyDuration.charAt(0));
       this.endDate.setDate(this.endDate.getDate()+(duration*7)); //Day just before the start of the next week
     }
+
+
 
     //Other Class Methods
 
@@ -1529,6 +1565,7 @@ if(isAssigned == false)
                 }
             <%end%>
             this.timelines.push(new Timeline(<%=student.id%>, student_name, <%=student.studentNumber%>));
+            this.timelines[this.timelines.length-1].setType("student");
 
           <% end %>
         }
@@ -1640,6 +1677,22 @@ class StudentAssignment{
           this.groupName = groupName;
           this.weekNo;
           this.specialtyDuration;
+
+          //Need to check if Student_Groups.first isn't nil
+          //THIS IS WHERE THE SNIPPET OF CODE USED TO BE KAMERON
+
+          <% if @Student_Groups.first != nil %>
+              this.sampleStudentID = <%= @Student_Groups.first.student.id %>;
+          <% else %>  
+              this.sampleStudentID = -1;
+          <%end%>
+
+
+          //this.sampleStudentId needs to be the id of the first student in that group
+          //this.sampleStudentID = -1;
+
+
+
           this.initialiseTimelines();
           this.populateSchedule();
         }
@@ -1717,7 +1770,13 @@ class StudentAssignment{
 
         //Create a number of timelines for each student in the programme
         initialiseTimelines(){
-            this.timeline = new Timeline(-1, this.groupName,1);
+            this.timeline = new Timeline(this.sampleStudentID, this.groupName,"<br>");
+            this.timeline.setType("group");
+            <% @Student_Groups.each do |g| %>
+              console.log("Adding Student ID: " + <%=raw(g.student.id)%>);
+              this.timeline.addToStudentIdList(<%=raw(g.student.id)%>);
+            <%end%>
+
         }
 
         saveSchedule(){
@@ -1737,6 +1796,10 @@ class StudentAssignment{
 
           this.parentObject.appendChild(table);
 
+          if(this.sampleStudentID!=-1){
+            this.timeline.initialiseSchedules();
+          }
+
         }
 
   }
@@ -1747,7 +1810,7 @@ class StudentAssignment{
 
   //Create a new programme schedule for a specific programme / Group
   var programmeSchedule;
-  var GroupsTimeline;
+  var groupSchedule;
 
 
   //the user didnt click on the group button
@@ -1759,10 +1822,9 @@ class StudentAssignment{
     //if there is a group name then there are students in this group and we CAN schedule
     //else the group name is "" then there are no students assigned to this group and WE CANNOT schedule
       if(this.GroupName != ""){
-        GroupsTimeline = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
+        groupSchedule = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
 
-
-        console.log(GroupsTimeline.getTimeline());
+        console.log(groupSchedule.getTimeline());
       }
       else{
         console.log("Cannot assign - No Students in Group");
@@ -1815,8 +1877,10 @@ class StudentAssignment{
 
 //onclick function to save all the schedules to the database
   function makeChanges(){
+
     if ( <%= @FirstRec != nil %>){
     //save the students schedules
+
     if(IsGroup == false){
       console.log("SAVING INDIVIDUALLY");
       programmeSchedule.saveSchedule();
@@ -1825,8 +1889,8 @@ class StudentAssignment{
     //save the groups schedules
     else{
       console.log("SAVING GROUP");
-      GroupsTimeline.saveSchedule();
-      window.location.reload();
+      groupSchedule.saveSchedule();
+      //window.location.reload();
     }
   }
 
