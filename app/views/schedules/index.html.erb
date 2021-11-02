@@ -841,7 +841,7 @@ Timeline-->Schedule
         var timeline;
 
         if(that.studentID == -1){
-          timeline  = GroupsTimeline.getTimeline();
+          timeline  = groupSchedule.getTimeline();
           console.log("We've dropped onto a groups timeline.");
         }
         else{
@@ -971,12 +971,12 @@ if(isAssigned == false)
     }
 
     if(that.studentID == -1){
-      GroupsTimeline.setSpecialtyID(that.specialtyID);
-      GroupsTimeline.setWeekNo(that.weekNo);
-      GroupsTimeline.setSpecialtyDuration(that.specialtyDuration);
+      groupSchedule.setSpecialtyID(that.specialtyID);
+      groupSchedule.setWeekNo(that.weekNo);
+      groupSchedule.setSpecialtyDuration(that.specialtyDuration);
       console.log("We've dropped onto a groups timeline.");
-      console.log("Groups Timeline has this information:\nSpecialty ID: "+GroupsTimeline.getSpecialtyID()
-                  + "\nWeek Number: " + GroupsTimeline.getWeekNo()+ "\nSpecialtyDuration: "+GroupsTimeline.getSpecialtyDuration());
+      console.log("Groups Timeline has this information:\nSpecialty ID: "+groupSchedule.getSpecialtyID()
+                  + "\nWeek Number: " + groupSchedule.getWeekNo()+ "\nSpecialtyDuration: "+groupSchedule.getSpecialtyDuration());
     }
 
       };
@@ -1717,7 +1717,7 @@ class StudentAssignment{
 
         //Create a number of timelines for each student in the programme
         initialiseTimelines(){
-            this.timeline = new Timeline(-1, this.groupName,1);
+            this.timeline = new Timeline(-1, this.groupName,"<br>");
         }
 
         saveSchedule(){
@@ -1747,7 +1747,7 @@ class StudentAssignment{
 
   //Create a new programme schedule for a specific programme / Group
   var programmeSchedule;
-  var GroupsTimeline;
+  var groupSchedule;
 
 
   //the user didnt click on the group button
@@ -1759,10 +1759,9 @@ class StudentAssignment{
     //if there is a group name then there are students in this group and we CAN schedule
     //else the group name is "" then there are no students assigned to this group and WE CANNOT schedule
       if(this.GroupName != ""){
-        GroupsTimeline = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
+        groupSchedule = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
 
-
-        console.log(GroupsTimeline.getTimeline());
+        console.log(groupSchedule.getTimeline());
       }
       else{
         console.log("Cannot assign - No Students in Group");
@@ -1825,7 +1824,7 @@ class StudentAssignment{
     //save the groups schedules
     else{
       console.log("SAVING GROUP");
-      GroupsTimeline.saveSchedule();
+      groupSchedule.saveSchedule();
       window.location.reload();
     }
   }
