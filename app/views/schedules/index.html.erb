@@ -269,6 +269,9 @@ Timeline-->Schedule
 
         this.type = "unknown";
 
+        //For Groups ONLY
+        this.studentIdList = [];
+
         this.schedules = [];
         this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
         this.initialiseSpecialties();
@@ -386,8 +389,17 @@ Timeline-->Schedule
 
         this.btnClearSchedule.onclick = function(ev){
           //Does an ajax Post request to the delete_with_student_id function in the schedules controller with params that.studentID
+          if(IsGroup){
+            for(var i = 0; i<that.studentIdList.length;i++){
+              $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentIdList[i]}), statusCode: {204: function() { } } });
+            }
+            //window.location.reload();
 
-          $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
+          }else{
+            $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
+
+           }
+
 
         };
 
@@ -409,9 +421,13 @@ Timeline-->Schedule
       }
     }
 
+    addToStudentIdList(studentID){
+      this.studentIdList.push(studentID);
+    }
+
     setType(type){
       for(var i = 0; i<52; i++){
-          this.timeBlocks[i].setType("group");
+          this.timeBlocks[i].setType(type);
       }
 
     }
@@ -1661,12 +1677,13 @@ class StudentAssignment{
           this.groupName = groupName;
           this.weekNo;
           this.specialtyDuration;
-          if(<%= @Student_Groups!=nil %>){
-            this.sampleStudentID = <%=@Student_Groups.first.student.id%>;
-          }
-          else{
-            this.sampleStudentID = -1;
-          }
+
+          //Need to check if Student_Groups.first isn't nil
+          //THIS IS WHERE THE SNIPPET OF CODE USED TO BE KAMERON
+          //this.sampleStudentId needs to be the id of the first student in that group
+          this.sampleStudentID = -1;
+
+
 
           this.initialiseTimelines();
           this.populateSchedule();
@@ -1747,6 +1764,11 @@ class StudentAssignment{
         initialiseTimelines(){
             this.timeline = new Timeline(this.sampleStudentID, this.groupName,"<br>");
             this.timeline.setType("group");
+            <% @Student_Groups.each do |g| %>
+              console.log("Adding Student ID: " + <%=raw(g.student.id)%>);
+              this.timeline.addToStudentIdList(<%=raw(g.student.id)%>);
+            <%end%>
+
         }
 
         saveSchedule(){
@@ -1858,7 +1880,7 @@ class StudentAssignment{
     else{
       console.log("SAVING GROUP");
       groupSchedule.saveSchedule();
-      window.location.reload();
+      //window.location.reload();
     }
   }
 
