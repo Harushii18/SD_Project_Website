@@ -13,11 +13,11 @@
 
   </script>
 
-  <table class="table table-hover">
+  <table id="studentsInGroup" class="table table-hover">
     <thead>
       <tr>
-        <th scope="col"><h6>Student Name</h6></th>
         <th scope="col"><h6>Student Number</h6></th>
+        <th scope="col"><h6>Student Name</h6></th>
         <th scope="col"><h6>Hospital Assignment</h6></th>
 
       </tr>
@@ -26,16 +26,17 @@
 
     <tbody style="overflow: scroll;">
       <% @Student_Groups.each do |g| %>
-      <tr>
-        <td class="col-2"><%=g.student.user.user_FirstName %> <%=g.student.user.user_LastName%></td>
-        <td class="col-2"><%= g.student.studentNumber %></td>
 
+      <tr>
+        <td class="col-2"><%= g.student.studentNumber %></td>
+        <td class="col-2"><%=g.student.user.user_FirstName %> <%=g.student.user.user_LastName%></td>
         <td class="col-2">
 
-          <select name="hospital_drop" id="hospital_id"  class="btn btn-secondary dropdown-toggle">
+          <select name="hospital_drop" id="groupsHospitalSelect"  class="btn btn-secondary dropdown-toggle" onchange="saveAssignment(<%= raw(g.student.id) %>,this.options[this.selectedIndex].value); ">
             <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
-
           </select>
+
+
 
         </td>
       </tr>
@@ -45,11 +46,34 @@
 
   </table>
 
-
-
-
 </body>
 
+<script>
+  function saveAssignment(studentID, hospitalID){
+
+
+    console.log("\n\nStudentID is: " + studentID+"\nHospitalID is: "+hospitalID);
+
+
+    for(var i = 0; i<studentAssignments.length; i++){
+      console.log("Testing "+ studentAssignments[i].getStudentID()+" with "+studentID);
+      if(studentAssignments[i].getStudentID()==studentID){
+        studentAssignments.splice(i,1);
+        console.log("Removed a Student Hospital Assignment");
+        break;
+      }
+    }
+
+
+    studentAssignments.push(new StudentAssignment());
+    studentAssignments[studentAssignments.length-1].setStudentID(studentID);
+    studentAssignments[studentAssignments.length-1].setHospitalID(hospitalID);
+    console.log("Hospital ID id: "+ studentAssignments[i].getHospitalID());
+    console.log("Pushed to array");
+    console.log("Array is: "+studentAssignments);
+
+  }
+</script>
 
 
 
