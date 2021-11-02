@@ -1680,15 +1680,12 @@ class StudentAssignment{
 
           //Need to check if Student_Groups.first isn't nil
           //THIS IS WHERE THE SNIPPET OF CODE USED TO BE KAMERON
-        
-          if (<%=@Student_Groups.first != nil%> )
-            {
-              this.sampleStudentID = <%= @Student_Groups.first.student_id %>;
-            }
-          else
-            {
+
+          <% if @Student_Groups.first != nil %>
+              this.sampleStudentID = <%= @Student_Groups.first.student.id %>;
+          <% else %>  
               this.sampleStudentID = -1;
-            }
+          <%end%>
 
 
           //this.sampleStudentId needs to be the id of the first student in that group
