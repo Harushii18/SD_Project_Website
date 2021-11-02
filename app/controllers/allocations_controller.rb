@@ -26,7 +26,7 @@ class AllocationsController < ApplicationController
 
     # checks that the specialty && hospital combination isn't currently in the db
     @check=Allocation.where(specialty_id:  @allocation[:specialty_id], hospital_id:  @allocation[:hospital_id]).any? 
-    
+
     if (@check==false && @allocation[:start_date] < @allocation[:end_date] && @allocation[:available_slots] >= @allocation[:used_slots] && @allocation[:available_slots]>0 && @allocation[:used_slots]>=0) #checks if the allocation dates make sense
       respond_to do |format|
         if @allocation.save
@@ -55,7 +55,10 @@ class AllocationsController < ApplicationController
   # PATCH/PUT /allocations/1 or /allocations/1.json
   def update
     @tempall = Allocation.new(allocation_params)
-    if ( @tempall[:start_date] < @tempall[:end_date] && @tempall[:available_slots] >= @tempall[:used_slots] && @tempall[:available_slots]>0 && @tempall[:used_slots]>=0) #checks if the block dates make sense
+    # checks that the specialty && hospital combination isn't currently in the db
+    @check=Allocation.where(specialty_id:  @tempall[:specialty_id], hospital_id:  @tempall[:hospital_id]).any? 
+
+    if (@check==false && @tempall[:start_date] < @tempall[:end_date] && @tempall[:available_slots] >= @tempall[:used_slots] && @tempall[:available_slots]>0 && @tempall[:used_slots]>=0) #checks if the block dates make sense
       respond_to do |format|
         if @allocation.update(allocation_params)
           format.html { redirect_to @allocation, notice: "Allocation was successfully updated." }
