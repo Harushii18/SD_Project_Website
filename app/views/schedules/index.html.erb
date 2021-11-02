@@ -267,6 +267,8 @@ Timeline-->Schedule
         this.hospitals = [];
         this.timeBlocks = [];
 
+        this.type = "unknown";
+
         this.schedules = [];
         this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
         this.initialiseSpecialties();
@@ -401,9 +403,17 @@ Timeline-->Schedule
     initialiseTimeBlocks(specialties,studentID){
       for(var i =0; i<52; i++){
         var timeBlock = new TimeBlock(i+1, studentID, specialties);
-
+        //timeBlock.setType(this.type);
+        //console.log("Timeblock has type: " + timeBlock.type+"\n");
         this.timeBlocks.push(timeBlock);
       }
+    }
+
+    setType(type){
+      for(var i = 0; i<52; i++){
+          this.timeBlocks[i].setType("group");
+      }
+
     }
 
     //TODO: Fetch Specialty Name and Duration
@@ -692,6 +702,8 @@ Timeline-->Schedule
       this.div.setAttribute("weekNo",this.weekNo);
       this.div.setAttribute("studentID", this.studentID);
 
+      this.type = "unknown";
+
       //makes each div's id the week number as well for easy retrieval and colouring
       //this.div.id=this.weekNo;
 
@@ -716,6 +728,10 @@ Timeline-->Schedule
       this.displayDate();
 
 
+    }
+
+    setType(type){
+      this.type = type;
     }
 
     setToolTipContents(){
@@ -839,8 +855,10 @@ Timeline-->Schedule
 //--------------------------------------
         ev.preventDefault();
         var timeline;
+        console.log("STUDENT ID IS: "+that.studentID);
+        console.log("TYPE IS: "+that.type);
 
-        if(that.studentID == -1){
+        if(that.type == "group"){
           timeline  = groupSchedule.getTimeline();
           console.log("We've dropped onto a groups timeline.");
         }
@@ -954,7 +972,7 @@ if(isAssigned == false)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       //if the student id is -1 we need to bring up the groups assignment modal
-      if(that.studentID == -1){
+      if(that.type == "group"){
         ev.target.setAttribute("data-target","#GHA"); // setting the target to the modals id
       }
       else{
@@ -970,7 +988,7 @@ if(isAssigned == false)
 
     }
 
-    if(that.studentID == -1){
+    if(that.type == "group"){
       groupSchedule.setSpecialtyID(that.specialtyID);
       groupSchedule.setWeekNo(that.weekNo);
       groupSchedule.setSpecialtyDuration(that.specialtyDuration);
@@ -1100,6 +1118,8 @@ if(isAssigned == false)
       var duration = parseInt(this.specialtyDuration.charAt(0));
       this.endDate.setDate(this.endDate.getDate()+(duration*7)); //Day just before the start of the next week
     }
+
+
 
     //Other Class Methods
 
@@ -1529,6 +1549,7 @@ if(isAssigned == false)
                 }
             <%end%>
             this.timelines.push(new Timeline(<%=student.id%>, student_name, <%=student.studentNumber%>));
+            this.timelines[this.timelines.length-1].setType("student");
 
           <% end %>
         }
@@ -1640,6 +1661,13 @@ class StudentAssignment{
           this.groupName = groupName;
           this.weekNo;
           this.specialtyDuration;
+          if(<%= @Student_Groups!=nil %>){
+            this.sampleStudentID = <%=@Student_Groups.first.student.id%>;
+          }
+          else{
+            this.sampleStudentID = -1;
+          }
+
           this.initialiseTimelines();
           this.populateSchedule();
         }
@@ -1717,7 +1745,8 @@ class StudentAssignment{
 
         //Create a number of timelines for each student in the programme
         initialiseTimelines(){
-            this.timeline = new Timeline(-1, this.groupName,"<br>");
+            this.timeline = new Timeline(this.sampleStudentID, this.groupName,"<br>");
+            this.timeline.setType("group");
         }
 
         saveSchedule(){
@@ -1736,6 +1765,10 @@ class StudentAssignment{
             table.appendChild(br); //Front-end
 
           this.parentObject.appendChild(table);
+
+          if(this.sampleStudentID!=-1){
+            this.timeline.initialiseSchedules();
+          }
 
         }
 
