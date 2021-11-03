@@ -78,7 +78,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" onclick = "this.form.submit()" data-dismiss="modal">Confirm</button>
+        <button type="button" class="btn btn-primary" onclick = "this.form.submit();" data-dismiss="modal">Confirm</button>
 
       </div>
       </form>
@@ -173,21 +173,28 @@
 
 
 
+<div id="groupsScheduleControl" style="display:none;">
+  <%= link_to 'Back', schedules_path, class:"btn btn-primary", id:"btnBack"%>
+</div>
 
+<div id="normalScheduleControl">
+  <form action="/schedules">
+  <label id="lblSelectProgrammeCode"> <h5>Select Programme Code</h5> </label>
+  <br>
+  <select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
+  <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
+  </select>
 
-
-<form action="/schedules">
-<label> <h5>Select Programme Code</h5> </label>
+  </form>
 <br>
-<select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
-<%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
-</select>
 
-</form>
-<br>
-<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#groupModal">Schedule Groups</button>
+<button id="btnScheduleGroups" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#groupModal">Schedule Groups</button>
+
 <br></br>
-<button type="button" class="btn btn-primary" data-toggle="modal" onclick="loadModalInfo()" data-target="#outerDiv">Update Database with Changes</button>
+
+<button id="btnUpdateDatabase" type="button" class="btn btn-primary" data-toggle="modal" onclick="loadModalInfo()" data-target="#outerDiv">Update Database with Changes</button>
+
+</div>
 
 <div id="outerDiv" class="modal fade"   tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-scrollable modal-xl"  role="document">
@@ -247,6 +254,10 @@
   //bool value to check if there is a group or not
   this.IsGroup = <%=@value.present? %>
 
+if(IsGroup){
+  document.getElementById('normalScheduleControl').style.display='none';
+  document.getElementById('groupsScheduleControl').style.display='inline';
+}
 
 
 
@@ -2188,6 +2199,11 @@ class StudentAssignment{
     week_no: weekNo,
     specialty_duration: specialtyDuration
     });
+
+    //Update Allocations
+
+
+
   }
 
  </script>
