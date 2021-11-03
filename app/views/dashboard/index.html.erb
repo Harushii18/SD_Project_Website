@@ -22,7 +22,7 @@
 select = document.getElementById('hospital_select')
 option = document.createElement( 'option' );
 option.value = 0;
-option.text = "--none--";  // first option in drop down to instruct the user to select hospital
+option.text = "-- Select Hospital --";  // first option in drop down to instruct the user to select hospital
 select.add( option );
 <% @hospitals.each do |hospital| %>
      option = document.createElement( 'option' );
@@ -62,7 +62,7 @@ select.add( option );
 <form action="/dashboard" style="display:none" id="select_specialty">
 <label> <h5>Select Specialty</h5> </label>
 <br>
-<select name="specialty_id" id = "specialty_select" class="btn btn-primary dropdown-toggle" 
+<select name="specialty_id" id = "specialty_select" class="btn btn-primary dropdown-toggle"
   onchange = "filter_students(this.options[this.selectedIndex].value)">
 </select>
 </form>
@@ -81,7 +81,7 @@ document.getElementById('specialty_select').add(option);
 <!-- function to display hospital summary on card ; pass hospital ID from hospital dropdown-->
 <script>
   var showSummary = function(hospital_ID) {
-    
+
     // get reference to table which shows allocated students
           var table = document.getElementById('students_table');
           var rowCount = table.rows.length;
@@ -96,10 +96,10 @@ document.getElementById('specialty_select').add(option);
             specialty_select = document.getElementById('specialty_select')     //get dropdown
 
           //clear specialties drop down of all current items except the first item ("show all")
-              while (specialty_select.options.length > 1) {                
+              while (specialty_select.options.length > 1) {
                   specialty_select.remove(specialty_select.options.length-1);
               }
-      /////////////////////////////////////////////////////////////////////////////////////////////////////  
+      /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // if user clicks on "--none--" do nothing
     if(hospital_ID == 0){
@@ -122,16 +122,16 @@ document.getElementById('specialty_select').add(option);
                   document.getElementById('hosp_site_facilitator').innerHTML = "Site Facilitator: " + "<%= @site_facilitator.Site_Facilitator_Name%>";
               <%end%>
           <%end%>
-          
+
             //<!--Find the students that are at this specific hospital-->
           <% @schedules.each do |schedule| %>
-              <%if schedule.hospital_id == hospital.id%>             
+              <%if schedule.hospital_id == hospital.id%>
 
                     // add new row and three column cells on that row
                   var row = table.insertRow(table.rows.length);
                   var cell1 = row.insertCell(0);
                   var cell2 = row.insertCell(1);
-                  var cell3 = row.insertCell(2);                   
+                  var cell3 = row.insertCell(2);
                     /////////////////////////////////////////////////
 
                   //<!--Get the student's name from the user table and insert student details in cells created-->
@@ -144,14 +144,14 @@ document.getElementById('specialty_select').add(option);
               <%end%>
           <%end%>
             //////////////////////////////////////////////////////////////
-          
+
           // set the total and used slots(paces at hospital) to empty string to clear out previous values
           document.getElementById("hosp_capacity").innerHTML = "";
           document.getElementById("hosp_available_slots").innerHTML = "";
           ////////////////////////////////////////////////////////////////////////////////////////////////
 
-          
-         <% @allocations.each do |allocation| %>  
+
+         <% @allocations.each do |allocation| %>
             <%if allocation.hospital_id == hospital.id%> //basically check all allocations for currently selected hospital//
                 // find the capacity and used slots from allocation records when you find desired allocation
                 document.getElementById("hosp_capacity").innerHTML = "Total Capacity: " + "<%= allocation.available_slots%>"
@@ -196,12 +196,12 @@ document.getElementById('specialty_select').add(option);
 
     <% @schedules.each do |schedule| %>
           // if user selected "Show All" then show all students currently at that hospital
-          if(hospital_id == "<%=schedule.hospital_id%>" && specialty_id == 0){  
+          if(hospital_id == "<%=schedule.hospital_id%>" && specialty_id == 0){
               // add new row and three column cells on that row
                   var row = table.insertRow(table.rows.length);
                   var cell1 = row.insertCell(0);
                   var cell2 = row.insertCell(1);
-                  var cell3 = row.insertCell(2);                   
+                  var cell3 = row.insertCell(2);
                     /////////////////////////////////////////////////
 
                   //<!--Get the student's name from the user table and insert student details in cells created-->
@@ -209,7 +209,7 @@ document.getElementById('specialty_select').add(option);
                   //student_arr.insert(student)
                   cell1.innerHTML = "<%= schedule.student_id%>"
                   cell2.innerHTML = "<%= student.user_FirstName %>"
-                  cell3.innerHTML = "<%= student.user_LastName %>" 
+                  cell3.innerHTML = "<%= student.user_LastName %>"
                   /////////////////////////////////////////////////////////////////////////////////////////////////
           }
           // else check for students taking a particular specialty (currently selected specialty from dropdown)
@@ -218,7 +218,7 @@ document.getElementById('specialty_select').add(option);
                     var row = table.insertRow(table.rows.length);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);                   
+                    var cell3 = row.insertCell(2);
                       /////////////////////////////////////////////////
 
                     //<!--Get the student's name from the user table and insert student details in cells created-->
@@ -230,7 +230,7 @@ document.getElementById('specialty_select').add(option);
                     /////////////////////////////////////////////////////////////////////////////////////////////////
           }
     <%end%>
-  } 
+  }
 </script>
 <!-- ///////////////END OF FILTER STUDENTS FUNCTION /////////-->
 
