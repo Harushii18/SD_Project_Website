@@ -59,6 +59,7 @@
     #@students = @students.find()
     @schedules = Schedule.all
     @hospitals = Hospital.all
+    @hospital_allocations = Allocation.all
 
   end
 
