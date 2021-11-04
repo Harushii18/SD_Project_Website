@@ -1648,7 +1648,7 @@
               this.timeline = new Timeline(this.sampleStudentID, this.groupName,"<br>");
               this.timeline.setType("group");
               <% @Student_Groups.each do |g| %>
-                //Adding Student ID:  <%=raw(g.student.id)
+                //Adding Student ID:  <%=raw(g.student.id)%>
                 this.timeline.addToStudentIdList(<%=raw(g.student.id)%>);
               <%end%>
 
