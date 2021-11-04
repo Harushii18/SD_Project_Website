@@ -24,7 +24,7 @@
   <div class="field">
     <% form.label :student_id, value: "Student: " %>
     <%if @Students.present?%>
-        <%= form.select :student_id, @Students.map{|s| [s.user.user_FirstName, s.id]},{:prompt => "Select A Student"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
+        <%= form.select :student_id, @Students.map{|s| [raw("" +String(s.studentNumber) +": "+s.user.user_FirstName+" "+s.user.user_LastName), s.id]},{:prompt => "Select A Student"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
       <%else%>
           No Students in This Programme
 
