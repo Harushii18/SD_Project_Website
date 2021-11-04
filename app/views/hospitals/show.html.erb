@@ -1,48 +1,40 @@
-
 <%= stylesheet_link_tag "hospital" %>
 <style>
   .lbl{
     color: #1757A6;
   }
-
 </style>
-
-    <%# commented out because image wasn't loading %>
-    <%# <div class="text-center">
-          <img src="https://holy.trinity.joburg/wp-content/uploads/2017/11/Wits-University-logo.jpg" class="rounded" alt="University Of The Witwatersrand Logo" style="width: 150px">
-    </div> %>
 
 <div id="hospital">
   <h1><b><%=@hospital.hospital_name%> Hospital</b></h1>
 </div>
 
-
 <div class="card-body">
-<div class="text-center">
-      <p class="lead">
-        <br>
-      </p>
-      <hr class="my-4">
-<p>
-  <strong class="lbl">Hospital Name:</strong>
-  <%= @hospital.hospital_name %>
-</p>
-
-<p>
-  <strong class="lbl">Location:</strong>
-  <%= @hospital.hospital_location %>
-</p>
-
-<p>
-  <strong class="lbl">Contact Number:</strong>
-  <%= @hospital.hospital_contactNo %>
-</p>
+  <div class="text-center">
+    <p class="lead">
       <br>
+    </p>
+    <hr class="my-4">
+    <p>
+      <strong class="lbl">Hospital Name:</strong>
+      <%= @hospital.hospital_name %>
+    </p>
 
-      <p class="lead">
-      	<%= link_to 'Back', hospitals_path,class: "btn btn-secondary" %> |
-        <%= link_to 'Edit', edit_hospital_path(@hospital), class: "btn btn-primary" %>
-      </p>
+    <p>
+      <strong class="lbl">Location:</strong>
+      <%= @hospital.hospital_location %>
+    </p>
+
+    <p>
+      <strong class="lbl">Contact Number:</strong>
+      <%= @hospital.hospital_contactNo %>
+    </p>
+    <br>
+
+    <p class="lead">
+      <%= link_to 'Back', hospitals_path,class: "btn btn-secondary" %> |
+      <%= link_to 'Edit', edit_hospital_path(@hospital), class: "btn btn-primary" %>
+    </p>
 
   </div>
 </div>

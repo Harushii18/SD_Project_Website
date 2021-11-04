@@ -66,7 +66,6 @@ class LoginController < Devise::SessionsController
 
     def all_signed_out?
       users = Devise.mappings.keys.map { |s| warden.user(scope: s, run_callbacks: false) }
-
       users.all?(&:blank?)
     end
 

@@ -18,8 +18,6 @@ class UsersController < ApplicationController
     @q=User.ransack(params[:q])
   end
 
-
-
   # GET /users/1 or /users/1.json
   def show
   end

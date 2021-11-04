@@ -1,4 +1,6 @@
-<p hidden id="notice"><%= notice %></p>
+<p hidden id="notice">
+  <%= notice %>
+</p>
 
 <div class="main-heading">
   <h1>Group of Students</h1>
@@ -7,7 +9,6 @@
 <div style="text-align: center">
   <%= link_to 'Back', groups_path, class:"btn btn-primary"%>
 </div>
-
 
 <div class="main-heading">
   <h2 style="margin-top: -40px ">Currently Viewing: <%=@Groups.first.group_name%></h2>
@@ -20,33 +21,27 @@
       <th>Student Number</th>
       <th>First Name</th>
       <th>Last Name</th>
-
       <th colspan="3"></th>
     </tr>
   </thead>
 
-
   <tbody>
     <% @student_groups.each do |student_group| %>
-    <script>console.log("COMPARING: "+<%=student_group.group_id%> +" WITH "+<%=@Groups.first.id%>);</script>
-    <% if student_group.group_id == @Groups.first.id%>
+      <script>console.log("COMPARING: "+<%=student_group.group_id%> +" WITH "+<%=@Groups.first.id%>);</script>
+      <% if student_group.group_id == @Groups.first.id%>
 
-      <tr>
-        <td><%= student_group.student.studentNumber%></td>
-        <td><%= student_group.student.user.user_FirstName%></td>
-        <td><%= student_group.student.user.user_LastName%></td>
-
-
-
-        <td class="col-2">
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <%= link_to 'Show', student_group, class:"btn btn-outline-primary" %>
-            <%= link_to 'Edit', edit_student_group_path(student_group), class:"btn btn-outline-info" %>
-            <%= link_to 'Remove Student', student_group_path(student_group), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger" %>
-          </div>
-        </td>
-
-      </tr>
+        <tr>
+          <td><%= student_group.student.studentNumber%></td>
+          <td><%= student_group.student.user.user_FirstName%></td>
+          <td><%= student_group.student.user.user_LastName%></td>
+          <td class="col-2">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <%= link_to 'Show', student_group, class:"btn btn-outline-primary" %>
+              <%= link_to 'Edit', edit_student_group_path(student_group), class:"btn btn-outline-info" %>
+              <%= link_to 'Remove Student', student_group_path(student_group), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger" %>
+            </div>
+          </td>
+        </tr>
       <%end%>
     <% end %>
   </tbody>

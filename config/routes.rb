@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-
-
   resources :student_groups
   resources :groups
   get 'course_dashboard/index'
@@ -12,8 +10,6 @@ Rails.application.routes.draw do
   resources :schedules do
     collection { post :delete_with_student_id} #route to controller function for deleting schedules of a specific student id
     collection { post :delete_with_schedule_id}
-    #get :delete_with_student_id, on: :collection
-    #get :delete_with_schedule_id, on: :collection
   end
   resources :students
   resources :course_specialties
@@ -23,31 +19,25 @@ Rails.application.routes.draw do
   resources :programme_courses
   resources :programmes
   resources :dashboard
+  resources :specialties
+  resources :hospitals
+  resources :users do
+      collection { post :import} # route for importing from csv
+  end
 
-        resources :specialties
-    resources :hospitals
-    resources :users do
-        collection { post :import} # route for importing from csv
-    end
-
-    get 'menu/index'
-    get 'home/index'
-    get 'student_dashboard/index'
+  get 'menu/index'
+  get 'home/index'
+  get 'student_dashboard/index'
   #==================================
 
-
-  #PLEASE AUTHENTICATE!
-  #TODO: AUTHENTICATION
   get '/programmes', to: "programmes#index"
   get '/specialties', to: "blocks#index"
   get '/dashboard', to: 'dashboard#index'
-  #get 'specialty_pages/index'
   get 'add_specialty/index'
   get "/blocks",to: "blocks#index"
 
-    devise_for :admins,
-      controllers: {:registrations => "registrations"} #, :sessions => "sessions"} #That will tell devise to use your custom registrations controller
-
+  devise_for :admins,
+    controllers: {:registrations => "registrations"} #, :sessions => "sessions"} #That will tell devise to use your custom registrations controller
 
   #Setting up a custom route to that action:-----------------------------------------------------------------------------
   as :admin do

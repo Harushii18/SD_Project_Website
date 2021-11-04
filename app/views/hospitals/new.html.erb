@@ -1,21 +1,11 @@
-<!--<%= stylesheet_link_tag "hospital" %>
-
-<div class="text-center">
-  <img src="https://holy.trinity.joburg/wp-content/uploads/2017/11/Wits-University-logo.jpg" class="rounded" alt="University Of The Witwatersrand Logo" style="width: 150px">
-</div>
-
-<div id="hospital">
-	<h1><b>New Hospital</b></h1>
-</div>
--->
 <br></br>
 <div class="form_card">
   <div class="card-body">
-      <h1>New Hospital</h1>
-      </br>
-        <%= render 'form', hospital: @hospital,class: "text-center" %>
-        </br>
-        <%= link_to 'Back', hospitals_path, class: "btn btn-outline-dark" %>
-        </br>
-      </div>
+    <h1>New Hospital</h1>
+    </br>
+    <%= render 'form', hospital: @hospital,class: "text-center" %>
+    </br>
+    <%= link_to 'Back', hospitals_path, class: "btn btn-outline-dark" %>
+    </br>
   </div>
+</div>

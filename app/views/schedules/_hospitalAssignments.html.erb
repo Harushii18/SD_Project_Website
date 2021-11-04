@@ -1,164 +1,143 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<head>
-  <meta charset="utf-8">
-</head>
+  <head>
+    <meta charset="utf-8">
+  </head>
+
+  <body>
+    <script type="text/javascript">
+
+    </script>
+    <div>
+
+      <h3 style="font-family: FF Tisa">Hospital Availabilities</h3>
+
+      <!-- PLEASE ADD THE DROPDOWN FILTER HERE TO FILTER THE HOSPITAL AVAILABILITIES TABLE -->
+
+      <table class="table table-hover" >
+        <thead>
+          <tr>
+            <th scope="col"><h6>Hospital Name</h6></th>
+            <th scope="col"><h6>Specialaty</h6></th>
+            <th scope="col"><h6>Available Slots</h6></th>
+            <th scope="col"><h6>Time Period</h6></th>
+          </tr>
+        </thead>
+
+        <tbody id="hospitalAvailabilities" style="overflow: scroll;">
+          <script>
+            var hospitalAllocationTable = document.getElementById("hospitalAvailabilities");
+              <% @hospital_allocations.each do |allocation| %>
+
+                var row = document.createElement('tr');
+
+                var hospitalName = document.createElement('td');
+                hospitalName.setAttribute("class","col-2");
+                hospitalName.innerHTML = "<%=allocation.hospital.hospital_name %>";
+                row.appendChild(hospitalName);
+
+                var specialtyName = document.createElement('td');
+                specialtyName.setAttribute("class","col-2");
+                specialtyName.innerHTML = <%=raw(Specialty.where(id: allocation.specialty_id).pluck(:SpecialtyName))%>;
+                row.appendChild(specialtyName);
+
+                var availableSlots = document.createElement('td');
+                availableSlots.setAttribute("class","col-2");
+                var slotsLeft = <%=allocation.available_slots %> - <%=allocation.used_slots %>
+                availableSlots.innerHTML = slotsLeft;
+                if(slotsLeft>0){
+                  availableSlots.setAttribute("style","color: green;");
+                }
+                else{
+                  availableSlots.setAttribute("style","color: red;");
+                }
+                row.appendChild(availableSlots);
+
+                var timePeriod = document.createElement('td');
+                timePeriod.setAttribute("class","col-2");
+                timePeriod.innerHTML = "[<%=allocation.start_date %>] - [<%=allocation.end_date %>]";
+                row.appendChild(timePeriod);
+
+                hospitalAllocationTable.appendChild(row);
+
+              <%end%>
+          </script>
+        </tbody>
+      </table>
+
+      <br>
+
+      <h3 style="font-family: FF Tisa">Students</h3>
+      <table  class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col"><h6>Student Number</h6></th>
+            <th scope="col"><h6>Student Name</h6></th>
+            <th scope="col"><h6>Hospital Assignment</h6></th>
+          </tr>
+
+        </thead>
+
+        <tbody id="studentsInGroup" style="overflow: scroll;">
+          <script>
+            var mainTable = document.getElementById("studentsInGroup");
+            <% @Student_Groups.each do |g| %>
+              var row = document.createElement("tr");
+
+              var studentNumber = document.createElement('td');
+              studentNumber.setAttribute("class","col-2");
+              studentNumber.innerHTML = "<%=g.student.studentNumber %>";
+              row.appendChild(studentNumber);
 
 
-<body>
-
-  <!--<h3 class='text-center'>Assign Students to Hospitals</h3>-->
-
-  <script type="text/javascript">
-
-  </script>
-<div>
-
-  <h3 style="font-family: FF Tisa">Hospital Availabilities</h3>
-
-  <!-- PLEASE ADD THE DROPDOWN FILTER HERE TO FILTER THE HOSPITAL AVAILABILITIES TABLE -->
-
-  <table class="table table-hover" >
-    <thead>
-      <tr>
-        <th scope="col"><h6>Hospital Name</h6></th>
-        <th scope="col"><h6>Specialaty</h6></th>
-        <th scope="col"><h6>Available Slots</h6></th>
-        <th scope="col"><h6>Time Period</h6></th>
-      </tr>
-
-    </thead>
-
-    <tbody id="hospitalAvailabilities" style="overflow: scroll;">
-
-      <script>
-        var hospitalAllocationTable = document.getElementById("hospitalAvailabilities");
-          <% @hospital_allocations.each do |allocation| %>
-
-            var row = document.createElement('tr');
-
-            var hospitalName = document.createElement('td');
-            hospitalName.setAttribute("class","col-2");
-            hospitalName.innerHTML = "<%=allocation.hospital.hospital_name %>";
-            row.appendChild(hospitalName);
-
-            var specialtyName = document.createElement('td');
-            specialtyName.setAttribute("class","col-2");
-            specialtyName.innerHTML = <%=raw(Specialty.where(id: allocation.specialty_id).pluck(:SpecialtyName))%>;
-            row.appendChild(specialtyName);
-
-            var availableSlots = document.createElement('td');
-            availableSlots.setAttribute("class","col-2");
-            var slotsLeft = <%=allocation.available_slots %> - <%=allocation.used_slots %>
-            availableSlots.innerHTML = slotsLeft;
-            if(slotsLeft>0){
-              availableSlots.setAttribute("style","color: green;");
-            }
-            else{
-              availableSlots.setAttribute("style","color: red;");
-             }
-            row.appendChild(availableSlots);
-
-            var timePeriod = document.createElement('td');
-            timePeriod.setAttribute("class","col-2");
-            timePeriod.innerHTML = "[<%=allocation.start_date %>] - [<%=allocation.end_date %>]";
-            row.appendChild(timePeriod);
-
-            hospitalAllocationTable.appendChild(row);
-
-          <%end%>
-      </script>
-    </tbody>
-  </table>
-
-<br>
-
-<h3 style="font-family: FF Tisa">Students</h3>
-  <table  class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col"><h6>Student Number</h6></th>
-        <th scope="col"><h6>Student Name</h6></th>
-        <th scope="col"><h6>Hospital Assignment</h6></th>
-
-      </tr>
-
-    </thead>
-
-    <tbody id="studentsInGroup" style="overflow: scroll;">
-
-      <script>
-        var mainTable = document.getElementById("studentsInGroup");
-          <% @Student_Groups.each do |g| %>
-            var row = document.createElement("tr");
-
-            var studentNumber = document.createElement('td');
-            studentNumber.setAttribute("class","col-2");
-            studentNumber.innerHTML = "<%=g.student.studentNumber %>";
-            row.appendChild(studentNumber);
+              var studentName = document.createElement('td');
+              studentName.setAttribute("class","col-2");
+              studentName.innerHTML = "<%=g.student.user.user_FirstName %> <%=g.student.user.user_LastName%>";
+              row.appendChild(studentName);
 
 
-            var studentName = document.createElement('td');
-            studentName.setAttribute("class","col-2");
-            studentName.innerHTML = "<%=g.student.user.user_FirstName %> <%=g.student.user.user_LastName%>";
-            row.appendChild(studentName);
+              var hospitalSelectCol = document.createElement('td');
+              hospitalSelectCol.setAttribute("class","col-2");
+
+              var hospitalSelect = document.createElement('select');
+              hospitalSelect.setAttribute("class","form-select btn btn-outline-dark");
 
 
-            var hospitalSelectCol = document.createElement('td');
-            hospitalSelectCol.setAttribute("class","col-2");
+              var option = document.createElement( 'option' );
+              option.value = 0;
+              option.text = "-- Select Hospital --";  // first option in drop down to instruct the user to select hospital
+              hospitalSelect.add( option );
 
-            var hospitalSelect = document.createElement('select');
-            hospitalSelect.setAttribute("class","form-select btn btn-outline-dark");
+              <% @hospitals.each do |hospital| %>
+                  option = document.createElement( 'option' );
+                  option.value = <%= hospital.id %>
+                  option.text = "<%= hospital.hospital_name %>";
+                  hospitalSelect.add( option );
+              <%end%>
+              hospitalSelect.setAttribute("onchange","saveAssignment(<%= raw(g.student.id) %>,this.options[this.selectedIndex].value);");
+              hospitalSelectCol.appendChild(hospitalSelect);
+              row.appendChild(hospitalSelectCol);
+              mainTable.appendChild(row);
 
-
-            var option = document.createElement( 'option' );
-            option.value = 0;
-            option.text = "-- Select Hospital --";  // first option in drop down to instruct the user to select hospital
-            hospitalSelect.add( option );
-
-            <% @hospitals.each do |hospital| %>
-                 option = document.createElement( 'option' );
-                 option.value = <%= hospital.id %>
-                 option.text = "<%= hospital.hospital_name %>";
-                 hospitalSelect.add( option );
             <%end%>
-            hospitalSelect.setAttribute("onchange","saveAssignment(<%= raw(g.student.id) %>,this.options[this.selectedIndex].value);");
-            hospitalSelectCol.appendChild(hospitalSelect);
-            row.appendChild(hospitalSelectCol);
-            mainTable.appendChild(row);
+          </script>
+        </tbody>
+      </table>
+    </div>
+  </body>
 
-          <%end%>
-      </script>
-    </tbody>
-
-  </table>
-</div>
-</body>
-
-<script>
-  function saveAssignment(studentID, hospitalID){
-
-    console.log("\n\nStudentID is: " + studentID+"\nHospitalID is: "+hospitalID);
-    for(var i = 0; i<studentAssignments.length; i++){
-      console.log("Testing "+ studentAssignments[i].getStudentID()+" with "+studentID);
-      if(studentAssignments[i].getStudentID()==studentID){
-        studentAssignments.splice(i,1);
-        console.log("Removed a Student Hospital Assignment");
-        break;
+  <script>
+    function saveAssignment(studentID, hospitalID){
+      for(var i = 0; i<studentAssignments.length; i++){
+        if(studentAssignments[i].getStudentID()==studentID){
+          studentAssignments.splice(i,1);
+          break;
+        }
       }
+      studentAssignments.push(new StudentAssignment());
+      studentAssignments[studentAssignments.length-1].setStudentID(studentID);
+      studentAssignments[studentAssignments.length-1].setHospitalID(hospitalID);
     }
-
-
-    studentAssignments.push(new StudentAssignment());
-    studentAssignments[studentAssignments.length-1].setStudentID(studentID);
-    studentAssignments[studentAssignments.length-1].setHospitalID(hospitalID);
-    console.log("Hospital ID id: "+ studentAssignments[i].getHospitalID());
-    console.log("Pushed to array");
-    console.log("Array is: "+studentAssignments);
-
-  }
-</script>
-
-
+  </script>
 
 </html>

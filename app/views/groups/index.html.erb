@@ -1,5 +1,6 @@
-<p hidden id="notice" ><%= notice %></p>
-
+<p hidden id="notice" >
+  <%= notice %>
+</p>
 
 <div class="main-heading">
   <h1>Manage Groups</h1>
@@ -7,13 +8,11 @@
 
 <br></br>
 
-
 <div style="text-align: center"> <!--Div for encapsulating buttons-->
   <%= link_to 'Create New Group', new_group_path, class:"btn btn-primary" %>
 </div> <!--End of div-->
 
 <br>
-
 <br>
 
 <div style="text-align: center;">
@@ -26,7 +25,6 @@
     </form>
 </div>
 
-
 <table class="table table-hover">
   <thead>
     <tr>
@@ -34,7 +32,6 @@
       <th scope = "col"><h6>Programme Code</h6></th>
       <th scope = "col"><h6>Student Controls</h6></th>
       <th scope = "col"><h6>Group Controls</h6> </th>
-
     </tr>
   </thead>
 
@@ -58,9 +55,6 @@
 
             </div>
         </td>
-
-
-
       </tr>
     <% end %>
   </tbody>

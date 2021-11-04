@@ -13,22 +13,16 @@
     @courseSpecialties=CourseSpecialty.all
     @programmCourses=ProgrammeCourse.all
     @all_users = User.all
-
     @specialties = Specialty.all
-    puts("look here")
-
 
     @FirstRec = Programme.first;
     if (@FirstRec != nil)
-
       @current_programme_id = @FirstRec.id;
-
-
       if (params[:programme_id])
         @current_programme_id =  params[:programme_id];
-
       end
     end
+
     #to get the group ID
     @value;
     #The Recs in Student_groups based on @value
@@ -36,27 +30,17 @@
     #if the user clicks on groups modal box
     if(params[:Group_id])
       @value = params[:Group_id];
-
     end
 
     @Student_Groups = StudentGroup.where(group_id: @value);
-
-
     @programme_courses = ProgrammeCourse.where(programme_id: @current_programme_id).select([:course_id])
-
     @course_specialties = CourseSpecialty.where(course_id: @programme_courses).select([:specialty_id])
-
-
-
     @specialties = Specialty.where(id: @course_specialties)
-
-
     @students = Student.filter_by_programme_id(@current_programme_id);
-    #Get the Groups Ass with Prog
+
+    #Get the Groups Assignment with Prog
     @Groups = Group.where(programme_id: @current_programme_id);
 
-    # @Student_Groups = Student_groups.filter_by_group_id()
-    #@students = @students.find()
     @schedules = Schedule.all
     @hospitals = Hospital.all
     @hospital_allocations = Allocation.all
@@ -88,11 +72,8 @@
     if(!Schedule.exists?(student_id:params[:student_id],specialty_id:params[:specialty_id],hospital_id:params[:hospital_id],week_no:params[:week_no],specialty_duration:params[:specialty_duration]))
       respond_to do |format|
         if @schedule.save
-          puts("kameron---------------------------Saved")
-          # format.html { redirect_to @schedule, notice: "Schedule was successfully created." }
           format.json { render :show, status: :created, location: @schedule }
         else
-          puts("kameron::::in schedules controller failed to save")
           format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @schedule.errors, status: :unprocessable_entity }
         end
@@ -115,12 +96,10 @@
   end
 
   def delete_with_student_id
-    #puts("In /schedules/delete_with_student_id,  params[:student_id] is : " +params[:student_id])
     Schedule.delete_with_student_id( params[:student_id] ) #calls delete_with_student_id in model schedule.rb
   end
 
   def delete_with_schedule_id
-    #puts("In /schedules/delete_with_student_id,  params[:student_id] is : " +params[:student_id])
     Schedule.delete_with_schedule_id( params[:schedule_id] ) #calls delete_with_student_id in model schedule.rb
   end
 
@@ -134,10 +113,6 @@
       format.json { head :no_content }
     end
   end
-
-
-
-
 
   private
   # Use callbacks to share common setup or constraints between actions.

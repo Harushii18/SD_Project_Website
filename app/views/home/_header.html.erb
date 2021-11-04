@@ -19,8 +19,6 @@
           <% end %>
         </li>
 
-
-
         <!--ADMINS LINK -->
         <li class="nav-item">
           <% if controller_name == "home"%>
@@ -55,7 +53,6 @@
           <% end %>
         </li>
 
-
         <!--GROUPS LINK -->
         <!--Re-add Group Nav-link when groups are merged with main-->
         <li class="nav-item">
@@ -69,11 +66,9 @@
           <% end %>
         </li>
 
-
         <!--PROGRAMMES LINK -->
         <li class="nav-item">
           <!-- If we're at the Manage Programmes view, set this nav link to active -->
-
           <% if controller_name == "programmes"%>
           <%= link_to 'Programmes', programmes_path, class:"nav-link active" %>
           <!-- If we're at another view, set this to normal nav link -->
@@ -85,7 +80,6 @@
         <!-- COURSES LINK -->
         <li class="nav-item">
           <!-- If we're at the Manage courses view, set this nav link to active -->
-
           <% if controller_name == "courses"%>
           <%= link_to 'Courses', courses_path, class:"nav-link active" %>
           <!-- If we're at another view, set this to normal nav link -->
@@ -145,8 +139,6 @@
             <%= link_to 'Site Facilitators', site_facilitators_path, class:"dropdown-item" %>
             <% end %>
 
-
-
             <% if controller_name == "site_facilitator_allocations"%>
             <%= link_to 'Site Facilitator Allocations', site_facilitator_allocations_path, class:"nav-link active dropdown-item" %>
             <!-- If we're at another view, set this to normal nav link -->
@@ -161,7 +153,6 @@
 
         <!--DASHBOARDS DROPDOWN===========================================================-->
         <li class="nav-item dropdown">
-
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Dashboards
           </a>
@@ -185,8 +176,6 @@
             <% else %>
             <%= link_to 'Hospital Dashboard', dashboard_index_path, class:"dropdown-item" %>
             <% end %>
-
-
           </div>
         </li>
         <!--END OF DASHBOARDS DROPDOWN========================================================-->
@@ -204,15 +193,10 @@
           <%# link_to 'Schedules', schedules_path, class:"nav-link" %>
           <% end %>
         </li>
-
-
       </ul>
 
       <!-- Sign Out Button -->
       <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete, class:"btn btn-danger", style:"margin-left: auto" %>
-
-
-
     </div>
   </div>
 

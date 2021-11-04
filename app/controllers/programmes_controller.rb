@@ -1,13 +1,11 @@
 class ProgrammesController < ApplicationController
-#<<<<<<< programmes
+
 before_action :authenticate_admin! #kameron: definition found in application_controller.rb
   before_action :set_programme, only: %i[ show edit update destroy ]
   before_action :set_search
 
   # GET /programmes or /programmes.json
-#=======
 
-#>>>>>>> main
   def index
     @programmes = @q.result
     @programmecourses = ProgrammeCourse.all

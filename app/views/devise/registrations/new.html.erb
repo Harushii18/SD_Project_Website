@@ -1,57 +1,59 @@
-
 <script>
-/*Function to check for state of check box and change the type of password fields. If the type of the field is password, the text is hidden*/
-function showPassword(){
-  var txtPassword = document.getElementById("txtPassword");
-  var txtPasswordConfirm = document.getElementById("txtPasswordConfirm");
-  var chkShowPassword = document.getElementById("chkShowPassword");
-  if(chkShowPassword.checked){
-    txtPassword.type = "text";
-    txtPasswordConfirm.type = "text";
+  /*Function to check for state of check box and change the type of password fields. If the type of the field is password, the text is hidden*/
+  function showPassword(){
+    var txtPassword = document.getElementById("txtPassword");
+    var txtPasswordConfirm = document.getElementById("txtPasswordConfirm");
+    var chkShowPassword = document.getElementById("chkShowPassword");
+    if(chkShowPassword.checked){
+      txtPassword.type = "text";
+      txtPasswordConfirm.type = "text";
+    }
+    else{
+      txtPassword.type = "password";
+      txtPasswordConfirm.type = "password";
+    }
   }
-  else{
-    txtPassword.type = "password";
-    txtPasswordConfirm.type = "password";
-  }
-}
 </script>
 
 
 <div style="text-align:center">
   <br></br>
-<h1>Registration</h1>
-<hr>
-<p>Please enter new admin details below.</p>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+  <h1>Registration</h1>
+  <hr>
+  <p>Please enter new admin details below.</p>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-<p></p>
-  <div class="password_field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password", id: "txtPassword" %>
-  </div>
-<p></p>
-  <div class="password_field", >
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", id: "txtPasswordConfirm" %>
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <p></p>
+
+    <div class="password_field">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %><br />
+      <%= f.password_field :password, autocomplete: "new-password", id: "txtPassword" %>
+    </div>
+    
+    <p></p>
+
+    <div class="password_field", >
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", id: "txtPasswordConfirm" %>
+      <br></br>
+      <input type="checkbox" name="show" value="Yes", id="chkShowPassword", onclick = "showPassword()"> Show password</input>
+    </div>
+
     <br></br>
-    <input type="checkbox" name="show" value="Yes", id="chkShowPassword", onclick = "showPassword()"> Show password</input>
-  </div>
+    <div class="actions">
+      <%= f.submit "Register new Admin", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 
-
-
-<br></br>
-  <div class="actions">
-    <%= f.submit "Register new Admin", class: "btn btn-primary" %>
-  </div>
-<% end %>
-<%= link_to "Back", :back, class: "nav-link" %>
-<%= render "devise/shared/links" %>
+  <%= link_to "Back", :back, class: "nav-link" %>
+  <%= render "devise/shared/links" %>
 </div>
