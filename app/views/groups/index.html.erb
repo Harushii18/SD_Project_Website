@@ -18,7 +18,7 @@
 
 <div style="text-align: center;">
     <form action="/groups">
-    <label> <h5>Filter By Programme Code:</h5> </label>
+    <label> <h5>Filter By Programme Code</h5> </label>
       <br>
       <select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
       <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
