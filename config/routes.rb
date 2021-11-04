@@ -11,8 +11,9 @@ Rails.application.routes.draw do
 
   resources :schedules do
     collection { post :delete_with_student_id} #route to controller function for deleting schedules of a specific student id
-
+    collection { post :delete_with_schedule_id}
     #get :delete_with_student_id, on: :collection
+    #get :delete_with_schedule_id, on: :collection
   end
   resources :students
   resources :course_specialties

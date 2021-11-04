@@ -119,6 +119,13 @@
     Schedule.delete_with_student_id( params[:student_id] ) #calls delete_with_student_id in model schedule.rb
   end
 
+  def delete_with_schedule_id
+    #puts("In /schedules/delete_with_student_id,  params[:student_id] is : " +params[:student_id])
+    Schedule.delete_with_schedule_id( params[:schedule_id] ) #calls delete_with_student_id in model schedule.rb
+  end
+
+
+
   # DELETE /schedules/1 or /schedules/1.json
   def destroy
     @schedule.destroy

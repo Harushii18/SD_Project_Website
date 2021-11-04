@@ -102,6 +102,7 @@
     background-color: white;
     filter: grayscale(0%);
     //opacity: 90%;
+    z-index: 100;
 
     background: rgba(255, 255, 255, 0.97);
 
@@ -289,7 +290,7 @@ Timeline-->Schedule
         this.studentIdList = [];
 
         this.schedules = [];
-      
+
         this.colour_pallette = ["#04b8a9", "#b80453", "#2E86C1", "#EC6C13", "#E9B10E", "#B619BD", "indigo"];
         this.initialiseSpecialties();
         this.initialiseTimeBlocks(this.specialties, studentID);
@@ -467,7 +468,7 @@ Timeline-->Schedule
 
     //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
     initialiseSchedules(){
-
+      console.log("INTIALSING SCHEDULES\n\n");
       <% @schedules.each do |schedule| %>
         if(<%=schedule.student_id%>==this.studentID){
           //console.log("StudentID is: "+this.studentID);
@@ -479,6 +480,9 @@ Timeline-->Schedule
           currentSchedule.setWeekNo(week_no);
           currentSchedule.setHospitalID(<%=schedule.hospital_id%>);
           currentSchedule.setSpecialtyID(<%=schedule.specialty_id%>);
+          currentSchedule.setScheduleID(<%=schedule.id%>);
+          console.log("INITIALISED SCHEDULE ID: "+currentSchedule.getScheduleID());
+
 
           //ensure that we cannot drag that specialty since it is already there:
           //hide the specialty so it is not re-selected-> disable that specialty div
@@ -515,13 +519,16 @@ Timeline-->Schedule
       var timeBlock = this.timeBlocks[weekNo-1];
       timeBlock.setAssigned(true); //This needs to be here for the main timeblock in the schedule to be set to true
 
+      //Retrieve Schedule ID
+      var scheduleID = schedule.getScheduleID();
+      this.timeBlocks[weekNo-1].setScheduleID(scheduleID);
+
       //Retrieve Specialty ID
       var specialtyID = schedule.getSpecialtyID();
       console.log("Specialty ID is: " + specialtyID);
 
       //Retrieve Hospital ID
       var hospitalID = schedule.getHospitalID();
-
       this.timeBlocks[weekNo-1].setHospitalID(hospitalID);
 
       //Retrieve Specialty Duration
@@ -748,6 +755,7 @@ Timeline-->Schedule
       this.specialtyID = "";
       this.specialtyName = "";
       this.specialtyDuration = "";
+      this.scheduleID = "";
 
       //Using
       this.startDate = new Date();
@@ -759,8 +767,6 @@ Timeline-->Schedule
       //this.initialiseEndDate();
       this.initialiseDivAttributes();
       this.displayDate();
-
-
     }
 
     setType(type){
@@ -776,6 +782,53 @@ Timeline-->Schedule
       var field_hospital_name = "Hospital Name:<br>" + this.hospitalName;
       */
       this.tooltipContents = ["Week Number",this.weekNo,"Start Date",this.returnLongFormattedDate(this.startDate),"End Date",this.returnLongFormattedDate(this.endDate),"Specialty Name", this.specialtyName,"Hospital Name", this.hospitalName];
+
+    }
+
+    setScheduleID(scheduleID){
+      this.scheduleID = scheduleID;
+
+      var btnDeleteSchedule = document.createElement('button');
+      //var btnDeleteSchedule = document.createElement('button');
+
+      //btnDeleteSchedule.style.width="200px";
+      //btnDeleteSchedule.style.innerHTML = "Delete Schedule";
+      btnDeleteSchedule.style.zIndex = "1";
+      btnDeleteSchedule.classList.add("btn");
+      btnDeleteSchedule.classList.add("btn-close");
+
+
+      //btnDeleteSchedule.style.display = "block";
+      btnDeleteSchedule.style.position = "relative";
+
+      btnDeleteSchedule.style.marginTop = "-80px";
+      btnDeleteSchedule.style.width = "auto";
+      btnDeleteSchedule.style.aspectRatio="1";
+
+      btnDeleteSchedule.style.textAlign = "center"
+
+      btnDeleteSchedule.style.borderRadius= "50%";
+      btnDeleteSchedule.style.background = "#FFFFFF";
+      btnDeleteSchedule.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+      //temp.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+      //btnDeleteSchedule.innerHTML="X";
+      var that = this;
+      btnDeleteSchedule.onclick = function(ev){
+
+        var deleteConfirmation = confirm("Are you sure you want to delete this scheudle?");
+        if(deleteConfirmation == true){
+          //Delete with schedule id
+          $.ajax({url: "/schedules/delete_with_schedule_id", type: "POST" , data: jQuery.param({ schedule_id: that.scheduleID}), statusCode: {204: function() {window.location.reload();} } });
+        }
+        else{
+          btnDeleteSchedule.blur(); //Removes focus from button
+        }
+
+      };
+
+
+      //temp.appendChild(btnDeleteSchedule);
+      this.div.appendChild(btnDeleteSchedule);
 
     }
 
@@ -1367,6 +1420,7 @@ if(isAssigned == false)
        this.hospitalID = "";
        this.specialtyDuration = "";
        this.saved = "false"
+       this.scheduleID = "";
      }
 
      setSaved(value){
@@ -1375,6 +1429,14 @@ if(isAssigned == false)
 
      setStudentID(studentID){
        this.studentID = studentID;
+     }
+
+     setScheduleID(scheduleID){
+       this.scheduleID = scheduleID;
+     }
+
+     getScheduleID(){
+       return this.scheduleID;
      }
 
      setWeekNo(weekNo){
