@@ -1,10 +1,7 @@
-
-
 <%= form_with(model: course_specialty) do |form| %>
   <% if course_specialty.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(course_specialty.errors.count, "error") %> prohibited this course_specialty from being saved:</h2>
-
       <ul>
         <% course_specialty.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -17,17 +14,23 @@
     <p hidden><%= form.label :course_id  %></p>
     <p hidden><%= form.number_field :course_id, value: @course_id  %></p>
   </div>
-</br>
+
+  </br>
+
   <div class="field">
     <%= form.label :specialty_id, value: "Specialty: " %>
     <%= collection_select(:course_specialty, :specialty_id, Specialty.all, :id, :SpecialtyName, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
   </div>
+
   </br>
+
   <div class="field">
     <%= form.label :weeks, value: "Weeks: "%>
     <%= form.number_field :weeks, type: "number",min: 0,style:"border-radius: 5px; width:100px; border-width:1px;"  %>
   </div>
-</br>
+
+  </br>
+
   <div class="actions">
     <%= form.submit class:"btn btn-secondary"%>
   </div>

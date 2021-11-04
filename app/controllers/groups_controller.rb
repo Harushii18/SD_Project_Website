@@ -2,7 +2,6 @@ class GroupsController < ApplicationController
   before_action :authenticate_admin!
   before_action :set_group, only: %i[ show edit update destroy ]
 
-
   # GET /groups or /groups.json
   def index
 
@@ -12,9 +11,6 @@ class GroupsController < ApplicationController
     if (@FirstRec != nil)
       
       @current_programme_id = @FirstRec.id;
-      # @Groups = Group.where(programme_id: @current_programme_id);
-    
-
       if (params[:programme_id])
         @current_programme_id =  params[:programme_id];
         @Groups = Group.where(programme_id: @current_programme_id);

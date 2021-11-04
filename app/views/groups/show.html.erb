@@ -2,24 +2,21 @@
   <img src="https://www.wits.ac.za/media/wits-university/news-and-events/images/logos-and-icons/WITS-logo-full-colour-600x300.png" class="img-fluid" alt="University Of The Witwatersrand Logo">
 </div>
 
-
 <div class = "card" style="text-align: center; background-color:#eaeaea">
-<br>
-
-<p>
+  <br>
+  <p>
     <strong>Programme:</strong>
     <%= @group.programme_id %>
-    </p>
+  </p>
 
-    <p>
+  <p>
     <strong>Group name:</strong>
     <%= @group.group_name %>
-</p>
+  </p>
   <div>
     <%= link_to 'Edit', edit_group_path(@group), class:"btn btn-outline-primary" %> |
     <%# no method error %>
     <%= link_to 'Back', groups_path, class:"btn btn-success" %>
   </div>
   <br>
-
 </div>

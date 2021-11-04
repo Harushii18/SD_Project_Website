@@ -2,7 +2,6 @@
   <% if hospital.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(hospital.errors.count, "error") %> prohibited this hospital from being saved:</h2>
-
       <ul>
         <% hospital.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -14,15 +13,15 @@
   <div class="field form-group col-sm-3 text-center">
     <%= form.text_field :hospital_name, class:"form-control", placeholder:"Hospital Name"  %>
   </div>
-</br>
+  </br>
   <div class="field form-group col-sm-3 text-center">
     <%= form.text_field :hospital_location, class:"form-control", placeholder:"Hospital Location"  %>
   </div>
-</br>
+  </br>
   <div class="field form-group col-sm-3 text-center">
     <%= form.text_field :hospital_contactNo, class:"form-control", placeholder: "Contact Number"  %>
   </div>
-</br>
+  </br>
   <div class="actions col-sm-3 text-center">
     <%= form.submit class: "btn btn-secondary" %>
   </div>

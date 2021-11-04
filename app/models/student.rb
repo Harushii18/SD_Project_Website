@@ -3,7 +3,5 @@ class Student < ApplicationRecord
     belongs_to :user
     belongs_to :programme
     has_one :student_group, :dependent => :delete
-
     has_many :schedules, :dependent => :delete_all 
-
 end

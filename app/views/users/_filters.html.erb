@@ -1,35 +1,25 @@
-
-
-	<!---Search bar-->
-	</br>
+<!---Search bar-->
+</br>
 <%= search_form_for @q do |f| %>
-<div class="d-flex flex-row">
+	<div class="d-flex flex-row">
+		<script>
+			//Function to clear the search field
+			function emptySearch(){
+					var searchField = document.getElementById("searchField");
+					searchField.value = "";
+				}
+		</script>
+		<%= f.search_field :user_FirstName_or_user_LastName_or_user_ContactNo_cont ,class:"form-control mr-sm-2" ,placeholder:"Search", id:"searchField" %>
+		<span style="display:inline-block; width: 10px;"></span>
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<!--Submit the form with an empty search field-->
+			<%= f.submit 'Clear', class: "btn btn-outline-dark", style: "width: 5rem; height: 2.5rem;", onclick: "emptySearch()"%>
+			<span style="display:inline-block; width: 0px;"></span>
+			<!-- Search Button -->
+			<%= f.submit class:"btn btn-outline-dark", style: "width: 5rem; height: 2.5rem;" %>
+		</div>
 
-<script>
-	//Function to clear the search field
-	function emptySearch(){
-			var searchField = document.getElementById("searchField");
-			searchField.value = "";
-		}
-</script>
-
-
- <%= f.search_field :user_FirstName_or_user_LastName_or_user_ContactNo_cont ,class:"form-control mr-sm-2" ,placeholder:"Search", id:"searchField" %>
- <!-- idk how to make this look nicer
- <%= f.select :user_Type_cont, options_for_select( [["All",""],"Admin","Student","Registrar","Consultant"]),{:prompt=>"Sort By"},{class: "form-control mr-sm-2 "}%>
--->
-
-<span style="display:inline-block; width: 10px;"></span>
-  <div class="btn-group" role="group" aria-label="Basic example">
-		<!--Submit the form with an empty search field-->
-		<%= f.submit 'Clear', class: "btn btn-outline-dark", style: "width: 5rem; height: 2.5rem;", onclick: "emptySearch()"%>
-<span style="display:inline-block; width: 0px;"></span>
-
-		<!-- Search Button -->
- 		<%= f.submit class:"btn btn-outline-dark", style: "width: 5rem; height: 2.5rem;" %>
-</div>
-
-
+	</div>
 <% end %>
-</div>
+
 <!-- ================-->

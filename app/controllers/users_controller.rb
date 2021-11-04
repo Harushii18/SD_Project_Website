@@ -10,15 +10,12 @@ class UsersController < ApplicationController
   def index
    # @students = Student.all
     @users = @q.result
-    
   end
 
 
   def set_search
     @q=User.ransack(params[:q])
   end
-
-
 
   # GET /users/1 or /users/1.json
   def show
@@ -85,6 +82,4 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:email, :user_FirstName, :user_LastName, :password, :user_ContactNo, :user_Type)
     end
-
-
 end

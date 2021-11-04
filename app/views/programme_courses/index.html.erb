@@ -1,35 +1,30 @@
-<p hidden id="notice"><%= notice %></p>
+<p hidden id="notice">
+  <%= notice %>
+</p>
+
 <br></br>
+
 <div class="card">
   <div class="card-body">
     <h1>Programme-Courses Assignments</h1>
     </br>
-
-<table>
-  <thead>
-    <tr>
-      <th>Programme ID</th>
-      <th>Course ID</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @programme_courses.each do |programme_course| %>
-      <tr>
-        <td><%= programme_course.programme_id %></td>
-        <td><%= programme_course.course_id %></td>
-      <!--  <td><%= link_to 'Show', programme_course %></td>
-        <td><%= link_to 'Edit', edit_programme_course_path(programme_course) %></td>
-        <td><%= link_to 'Destroy', programme_course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      -->
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<!--<%= link_to 'New Programme Course', new_programme_course_path %>-->
-</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Programme ID</th>
+          <th>Course ID</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @programme_courses.each do |programme_course| %>
+          <tr>
+            <td><%= programme_course.programme_id %></td>
+            <td><%= programme_course.course_id %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br>
+  </div>
 </div>

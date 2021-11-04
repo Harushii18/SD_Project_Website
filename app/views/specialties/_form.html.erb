@@ -2,7 +2,6 @@
   <% if specialty.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(specialty.errors.count, "error") %> prohibited this specialty from being saved:</h2>
-
       <ul>
         <% specialty.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -12,8 +11,6 @@
   <% end %>
 
   <div class="field form-inline">
-
-
     <br/>
     <%= form.text_field :SpecialtyName, class:"form-control" ,id:"Spec",placeholder:"Specialty Name", style: "width:300px;" %>
   </div>
@@ -22,6 +19,5 @@
   <div class="actions">
     <%= form.submit class:"btn btn-secondary" %>
   </div>
-
 
 <% end %>

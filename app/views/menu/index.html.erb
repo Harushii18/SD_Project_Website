@@ -1,7 +1,5 @@
-
 <style>
   /* Adds a css effect when you hover over the menu's cards */
-
   .card{
     border-radius: 20px;
     transition: 0.1s ease-in-out;
@@ -36,8 +34,6 @@
 </style>
 
 
-
-
 <!----------------------------------------------------------------------------------------------------->
 
 <div id="displayScreen" class="container-fluid" align = "center">
@@ -50,7 +46,6 @@
       <div class= "section-heading">
         <div class="section-contents">
           <div style="position: relative; float:left;">
-            <!--<button id="btnToDashboard">prev</button>-->
           </div>
 
           <div style="position: relative; float:left; margin: 0px 10px 0px 10px;">
@@ -60,8 +55,8 @@
           <div style="position: relative; float:left;">
             <!--<button id="btnToHospitals">next</button>-->
           </div>
-        </div>
-      </div>
+        </div><%#  section contents %>
+      </div><%#  section heading %>
 
       <div class="d-flex justify-content-evenly" align = "center">
         <div class="row">
@@ -116,22 +111,22 @@
 
       <!--------------------------------------------------------------------------------->
 
-      <div class = "col">
-        <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-          <div id="groupsCard"class="card-body">
-            <h5 class="card-title">Groups</h5>
-            <p class="card-text">Create, Manage or Delete a Group of Students</p>
-          </div>
-        </div>
+          <div class = "col">
+            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+              <div id="groupsCard"class="card-body">
+                <h5 class="card-title">Groups</h5>
+                <p class="card-text">Create, Manage or Delete a Group of Students</p>
+              </div>
+            </div>
 
-        <script type="text/javascript">
-          document.getElementById("groupsCard").onclick = function () {
-            location.href = "http://localhost:3000/groups";
-          };
-        </script>
-      </div>
-    </div>
-  </div>
+            <script type="text/javascript">
+              document.getElementById("groupsCard").onclick = function () {
+                location.href = "http://localhost:3000/groups";
+              };
+            </script>
+          </div>
+        </div> <%# class=row %>
+      </div><%#  flex justify  %>
 <!--------------------------------------------------------------------------------->
 
 
@@ -203,9 +198,9 @@
           </div>
           <!--------------------------------------------------------------------------------->
 
-        </div>
-      </div>
-    </div>
+        </div><%# class=row %>
+      </div><%# flex justify %>
+    </div><%#  general management section %>
 
     <div id="hospitals-section" class="menu-section">
       <!--Hospital Section-->
@@ -222,12 +217,11 @@
           <div style="position: relative; float:left;">
             <!--<button id="btnToHospitals">next</button>-->
           </div>
-        </div>
-      </div>
+        </div><%#  section contents %>
+      </div><%# section heading %>
 
       <div class="d-flex justify-content-evenly" align = "center">
         <div class = "row">
-
           <!--------------------------------------------------------------------------------->
           <div class = "col">
             <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
@@ -294,109 +288,96 @@
           </div>
           <!--------------------------------------------------------------------------------->
 
-        </div>
-      </div>
-    </div>
+        </div><%# class=row %>
+      </div><%# justify content %>
+    </div><%# hospitals section %>
 
 
     <!--Dashboard Section-->
     <div id="dashboards-section" class="menu-section">
-        <div class= "section-heading">
-          <div class="section-contents">
-            <div style="position: relative; float:left;">
-              <!--<button id="btnToHospitals">prev</button>-->
-            </div>
+      <div class= "section-heading">
+        <div class="section-contents">
+          <div style="position: relative; float:left;">
+            <!--<button id="btnToHospitals">prev</button>-->
+          </div>
 
-            <div style="position: relative; float:left; margin: 0px 10px 0px 10px;">
-              <h2>Dashboards</h2>
-            </div>
+          <div style="position: relative; float:left; margin: 0px 10px 0px 10px;">
+            <h2>Dashboards</h2>
+          </div>
 
-            <div style="position: relative; float:left;">
-              <!--<button id="btnToGeneral">next</button>-->
-            </div>
+          <div style="position: relative; float:left;">
+            <!--<button id="btnToGeneral">next</button>-->
           </div>
         </div>
-
       </div>
-      <div class="d-flex justify-content-evenly" align = "center">
-        <div class = "row">
-          <!--------------------------------------------------------------------------------->
-          <div class = "col">
-            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-              <div id="programmeDashboardCard"class="card-body">
-                <h5 class="card-title">Programme Dashboard</h5>
-                <p class="card-text">Summarised view of Courses and Specialties per Programme</p>
-              </div>
+    </div> <%# dashboards section %>
+
+    <div class="d-flex justify-content-evenly" align = "center">
+      <div class = "row">
+        <!--------------------------------------------------------------------------------->
+        <div class = "col">
+          <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+            <div id="programmeDashboardCard"class="card-body">
+              <h5 class="card-title">Programme Dashboard</h5>
+              <p class="card-text">Summarised view of Courses and Specialties per Programme</p>
             </div>
-
-            <script type="text/javascript">
-              document.getElementById("programmeDashboardCard").onclick = function () {
-                location.href = "http://localhost:3000/course_dashboard/index";
-              };
-            </script>
-
           </div>
-          <!--------------------------------------------------------------------------------->
 
-          <div class = "col">
-            <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
-              <div id="hospitalDashboard"class="card-body">
-                <h5 class="card-title">Hospital Dashboard</h5>
-                <p class="card-text">Summarised view of Hospitals</p>
-              </div>
-            </div>
-
-            <script type="text/javascript">
-              document.getElementById("hospitalDashboard").onclick = function () {
-                location.href = "http://localhost:3000/dashboard";
-              };
-            </script>
-
-          </div>
-          <!--------------------------------------------------------------------------------->
+          <script type="text/javascript">
+            document.getElementById("programmeDashboardCard").onclick = function () {
+              location.href = "http://localhost:3000/course_dashboard/index";
+            };
+          </script>
 
         </div>
-      </div>
-    </div>
-  </div>
+        <!--------------------------------------------------------------------------------->
 
-  <script>
-      var displayScreen = document.getElementById("displayScreen");
+        <div class = "col">
+          <div class="card border-info mb-3" style="width: 18rem; height: 10rem;">
+            <div id="hospitalDashboard"class="card-body">
+              <h5 class="card-title">Hospital Dashboard</h5>
+              <p class="card-text">Summarised view of Hospitals</p>
+            </div>
+          </div>
 
-      //To Hospitals Button
-      document.getElementById("btnToDashboard").onclick= function(ev){
-        displayScreen.innerHTML = "";
-        var generalManagement = document.getElementById("dashboards-section");
-        //displayScreen.appendChild(generalManagement);
+          <script type="text/javascript">
+            document.getElementById("hospitalDashboard").onclick = function () {
+              location.href = "http://localhost:3000/dashboard";
+            };
+          </script>
 
+        </div>
+        <!--------------------------------------------------------------------------------->
 
-      };
+      </div><%# class=row %>
+    </div><%#  justify content %>
+  </div><%# text align center %>
+</div><%# display screen %>
 
-      //To Hospitals Button
-      document.getElementById("btnToGeneral").onclick = function(ev){
-        displayScreen.innerHTML = "";
-        var generalManagement = document.getElementById("generalManagement-section");
-      //displayScreen.appendChild(generalManagement);
+<script>
+    var displayScreen = document.getElementById("displayScreen");
 
-      };
+    //To Hospitals Button
+    document.getElementById("btnToDashboard").onclick= function(ev){
+      displayScreen.innerHTML = "";
+      var generalManagement = document.getElementById("dashboards-section");
+    };
 
-      //To Hospitals Button
-      document.getElementById("btnToHospitals").onclick = function(ev){
-        displayScreen.innerHTML = "";
-        var generalManagement = document.getElementById("hospitals-section");
-        //displayScreen.appendChild(generalManagement);
+    //To Hospitals Button
+    document.getElementById("btnToGeneral").onclick = function(ev){
+      displayScreen.innerHTML = "";
+      var generalManagement = document.getElementById("generalManagement-section");
+    };
 
-      };
-  </script>
+    //To Hospitals Button
+    document.getElementById("btnToHospitals").onclick = function(ev){
+      displayScreen.innerHTML = "";
+      var generalManagement = document.getElementById("hospitals-section");
+    };
+</script>
 
 
   <!--------------------------------------------------------------------------------->
-
-</div>
-</div>
-</div>
-</div>
-
 
 </br>
 </br>

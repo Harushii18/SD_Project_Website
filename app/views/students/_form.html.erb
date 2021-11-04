@@ -2,7 +2,6 @@
   <% if student.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(student.errors.count, "error") %> prohibited this student from being saved:</h2>
-
       <ul>
         <% student.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -14,29 +13,26 @@
   <div class="field">
     <%= form.label :user_id, value: "User Name: " %>
     <%= collection_select(:student, :user_id, User.all, :id, :user_FirstName, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
-
-</br>
-    <%# form.label :user_id %>
-    <%# form.number_field :user_id%>
+    </br>
   </div>
-</br>
+  </br>
   <div class="field">
     <!--<%= form.label :studentNumber %>-->
     <%= form.number_field :studentNumber, class:"form-control", placeholder:"Student Number"%>
   </div>
-</br>
+  </br>
   <div class="field">
     <!--<%= form.label :courseCodes %>--->
     <%= form.text_field :courseCodes, class:"form-control", placeholder:"Course Codes"  %>
   </div>
-</br>
+  </br>
   <div class="field">
     <%= form.label :programme_id, value: "Programme Code: "  %>
     <select name="student[programme_id]" id="student_programme_id" class="btn btn-outline-dark dropdown-toggle">
       <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code') %>
     </select>
   </div>
-</br>
+  </br>
   <div class="actions">
     <%= form.submit class: "btn btn-secondary" %>
   </div>

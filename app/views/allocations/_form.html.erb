@@ -10,7 +10,8 @@
       </ul>
     </div>
   <% end %>
-<br>
+  <br>
+
   <label for="hos_id">Hospital:</label>
     <%= collection_select(:allocation, :hospital_id, Hospital.all, :id, :hospital_name, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
     </br>
@@ -18,32 +19,28 @@
 
   <label for="specialty_id">Specialty:</label>
     <%= collection_select(:allocation, :specialty_id, Specialty.all, :id, :SpecialtyName, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
-
     </br>
     </br>
 
-    <label for="available_slots">Available Slots:</label>
+  <label for="available_slots">Available Slots:</label>
     <%= form.number_field :available_slots ,class:"form-control" , id:"available_slots", placeholder: "Available Slots" %>
-
     </br>
 
-    <label for="used_slots">Used Slots:</label>
+  <label for="used_slots">Used Slots:</label>
     <%= form.number_field :used_slots ,class:"form-control" , id:"used_slots", placeholder: "Used Slots" %>
-
     </br>
 
-
-    <label for="Start">Start Date:</label>
-     <br>
+  <label for="Start">Start Date:</label>
+    <br>
     <%= form.date_field :start_date, class:"form-control" ,id:"Start",placeholder:"Start Date" %>
-<br>
-    <label for="End">End Date:</label>
-     </br>
+    <br>
+
+  <label for="End">End Date:</label>
+    </br>
     <%= form.date_field :end_date, class:"form-control" ,id:"End",placeholder:"End Date" %>
+    <br>
 
-  <br>
-
- <div class="actions">
+  <div class="actions">
     <%= form.submit class: "btn btn-secondary" %>
   </div>
   <br>
