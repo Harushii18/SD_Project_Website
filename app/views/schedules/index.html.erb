@@ -407,16 +407,22 @@ Timeline-->Schedule
 
         this.btnClearSchedule.onclick = function(ev){
           //Does an ajax Post request to the delete_with_student_id function in the schedules controller with params that.studentID
-          if(IsGroup){
-            for(var i = 0; i<that.studentIdList.length;i++){
-              $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentIdList[i]}), statusCode: {204: function() { } } });
-            }
-            //window.location.reload();
+          var deleteConfirmation = confirm("Are you sure you want to clear the list of schedules on this timeline?");
+          if(deleteConfirmation==true){
+            if(IsGroup){
+              for(var i = 0; i<that.studentIdList.length;i++){
+                $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentIdList[i]}), statusCode: {204: function() {window.location.reload();} } });
+              }
+              //window.location.reload();
 
-          }else{
-            $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
+            }else{
+              $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
 
-           }
+             }
+          }
+
+
+
 
 
         };
@@ -1994,7 +2000,7 @@ class StudentAssignment{
     else{
       console.log("SAVING GROUP");
       groupSchedule.saveSchedule();
-      //window.location.reload();
+      window.location.reload();
     }
   }
 
