@@ -10,7 +10,6 @@ class UsersController < ApplicationController
   def index
    # @students = Student.all
     @users = @q.result
-    
   end
 
 
@@ -83,6 +82,4 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:email, :user_FirstName, :user_LastName, :password, :user_ContactNo, :user_Type)
     end
-
-
 end
