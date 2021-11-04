@@ -1,68 +1,50 @@
 <div style="text-align:center">
 
-<div class="main-heading">
-  <h1>Manage Hospitals</h1>
-</div>
+  <div class="main-heading">
+    <h1>Manage Hospitals</h1>
+  </div>
 
-<br>
-<div class="container-fluid">
- <div class="d-flex justify-content-evenly">
-     <%= link_to 'Add New Hospital', new_hospital_path,class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;"%>
-     
- </div>
- <br>
-</div>
+  <br>
+  <div class="container-fluid">
+    <div class="d-flex justify-content-evenly">
+        <%= link_to 'Add New Hospital', new_hospital_path,class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;"%>
+    </div>
+    <br>
+  </div>
 
-<% unless url_for != hospitals_path %>
-
+  <% unless url_for != hospitals_path %>
     <%=render "hospitals/filters"%>
+  <br>
+  <% end %>
 
- <br>
-<% end %>
+  <div style="overflow-x:auto; margin:0;">
+    <table class="table table-hover ">
+      <thead>
+        <tr>
+          <th scope="col"><h6>Hospital Name</h6></th>
+          <th scope="col"><h6>Hospital Location</h6></th>
+          <th scope="col"><h6>Contact Number</h6></th>
+          <th  scope="col"></th>
+        </tr>
+      </thead>
 
-
-
-
-
-<div style="overflow-x:auto; margin:0;">
-<table class="table table-hover ">
-  <thead >
-    <tr>
-      <th scope="col"><h6>Hospital Name</h6></th>
-      <th scope="col"><h6>Hospital Location</h6></th>
-      <th scope="col"><h6>Contact Number</h6></th>
-      <th  scope="col"></th>
-
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @hospitals.each do |hospital| %>
-
-
-
-      <tr>
-        <td class="col-4"><%= hospital.hospital_name %></td>
-        <td class="col-4"><%= hospital.hospital_location%></td>
-        <td class="col-4"><%= hospital.hospital_contactNo %></td>
-
-
-        <td class="col-4">
-
-                <div class="btn-group" role="group" aria-label="Basic example">
-
+      <tbody>
+        <% @hospitals.each do |hospital| %>
+          <tr>
+            <td class="col-4"><%= hospital.hospital_name %></td>
+            <td class="col-4"><%= hospital.hospital_location%></td>
+            <td class="col-4"><%= hospital.hospital_contactNo %></td>
+            <td class="col-4">
+              <div class="btn-group" role="group" aria-label="Basic example">
                 <%= link_to 'Show', hospital, class: "btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
                 <%= link_to 'Edit', edit_hospital_path(hospital), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
                 <%= link_to 'Delete', hospital, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
-
-
               </div>
             </td>
-
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-</div>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
 </div>

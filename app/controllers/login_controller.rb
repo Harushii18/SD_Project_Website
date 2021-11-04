@@ -59,14 +59,12 @@ class LoginController < Devise::SessionsController
     def verify_signed_out_user
       if all_signed_out?
         set_flash_message! :notice, :already_signed_out
-
         respond_to_on_destroy
       end
     end
 
     def all_signed_out?
       users = Devise.mappings.keys.map { |s| warden.user(scope: s, run_callbacks: false) }
-
       users.all?(&:blank?)
     end
 

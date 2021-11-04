@@ -1,5 +1,6 @@
-<p hidden id="notice" ><%= notice %></p>
-
+<p hidden id="notice" >
+  <%= notice %>
+</p>
 
 <div class="main-heading">
   <h1>Manage Groups</h1>
@@ -7,19 +8,16 @@
 
 <br></br>
 
-
 <div style="text-align: center"> <!--Div for encapsulating buttons-->
-  <%= link_to 'Create New Group', new_group_path, class:"btn btn-primary" %> |
-  <%= link_to 'Student Assignments', student_groups_path, class:"btn btn-primary" %>
+  <%= link_to 'Create New Group', new_group_path, class:"btn btn-primary" %>
 </div> <!--End of div-->
 
 <br>
-
 <br>
 
 <div style="text-align: center;">
     <form action="/groups">
-    <label> <h5>Filter By Programme Code:</h5> </label>
+    <label> <h5>Filter By Programme Code</h5> </label>
       <br>
       <select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
       <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
@@ -27,13 +25,13 @@
     </form>
 </div>
 
-
 <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col"><h6>Group Name</h6></th>
-      <th scope = "col"><h6>Programme</h6></th>
-      <th colspan="4"></th>
+      <th scope = "col"><h6>Programme Code</h6></th>
+      <th scope = "col"><h6>Student Controls</h6></th>
+      <th scope = "col"><h6>Group Controls</h6> </th>
     </tr>
   </thead>
 
@@ -42,15 +40,21 @@
       <tr>
         <td><%= group.group_name %></td>
         <td><%= group.programme.programme_code %></td>
-        <td class="col-3">
+        <td class="col-2">
             <div class="btn-group" role="group" aria-label="Basic example">
-              <%= link_to 'Show', group, class:"btn btn-outline-primary" %>
-              <%= link_to 'Edit', edit_group_path(group), class:"btn btn-outline-info" %>
-              <%= link_to 'Destroy', group_path(group), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger" %>
+              <%= link_to 'Manage Students', student_groups_path(:group_id => group.id), class:"btn btn-outline-primary" %>
               <%= link_to 'Assign Student', new_student_group_path(:group_id => group.id , :programme_id =>group.programme_id), class:"btn btn-outline-success" %>
             </div>
         </td>
 
+        <td class="col-2">
+            <div class="btn-group" role="group" aria-label="Basic example">
+
+              <%= link_to 'Edit Group Details', edit_group_path(group), class:"btn btn-outline-primary" %>
+              <%= link_to 'Delete Group', group_path(group), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger" %>
+
+            </div>
+        </td>
       </tr>
     <% end %>
   </tbody>

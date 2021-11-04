@@ -3,1915 +3,1779 @@
 <!-- Div to display alerts when studnets are assigned -->
 <div id="showAssign" class="alert alert-success" role="alert"></div>
 
-<script>
-  var alertBox = document.getElementById("showAssign");
-  alertBox.style.display = "none";
+  <script>
+    var alertBox = document.getElementById("showAssign");
+    alertBox.style.display = "none";
 
-  var studentAssignments = [];
-</script>
+    //USED FOR GROUPS IN hospitalAssignments partial
+    var studentAssignments = [];
+    var specialtyToAssign;
+  </script>
 
-<div id="sizingDiv" style="text-align:center">
+  <div id="sizingDiv" style="text-align:center">
+    <div class= "main-heading">
+      <h1>Manage Schedules</h1>
+    </div>
 
-<div class= "main-heading">
-  <h1>Manage Schedules</h1>
-</div>
+    <br>
 
-<br>
+    <!-- Vertically centered modal For Hospital Assignments -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">SELECT HOSPITAL</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <em>Assign Student To A Hospital Below:</em>
 
-<!-- Vertically centered modal For Hospital Assignments -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">SELECT HOSPITAL</h5>
-        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-        </button>
-      </div>
-      <div class="modal-body">
-        <em>Assign Student To A Hospital Below:</em>
+            <br>
+            <br>
 
-        <br>
-        <br>
+            <!--Dropdown for hospitals -->
+            <select name="hospital_drop" id="hospital_id"  class="btn btn-secondary dropdown-toggle">
+              <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
+            </select>
 
-        <!--Dropdown for hospitals -->
-
-        <select name="hospital_drop" id="hospital_id"  class="btn btn-secondary dropdown-toggle">
-        <%= options = options_from_collection_for_select(Hospital.all, 'id', 'hospital_name') %>
-
-        </select>
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" onclick="assignHospital()" data-dismiss="modal">Confirm</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick="assignHospital()" data-dismiss="modal">Confirm</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Vertically centered modal For Group Scheduling -->
-<div class="modal fade" id="groupModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Schedule Group</h5>
-        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+    <!-- Vertically centered modal For Group Scheduling -->
+    <div class="modal fade" id="groupModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Schedule Group</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="/schedules">
+            <div class="modal-body">
+              <p>Select a Group To Schedule</p>
 
-        </button>
+              <!--Dropdown for Groups -->
+
+              <select name="Group_id" id="Group_id"  class="btn btn-secondary dropdown-toggle">
+                <%= options = options_from_collection_for_select(@Groups, 'id', :group_name) %>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" onclick = "this.form.submit();" data-dismiss="modal">Confirm</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="modal-body">
-        <p>Select a Group To Schedule</p>
+    </div>
 
 
-        <!--Dropdown for Groups -->
-        <form action="/schedules">
-        <select name="Group_id" id="Group_id"  class="btn btn-secondary dropdown-toggle">
+    <br>
 
-          <%= options = options_from_collection_for_select(@Groups, 'id', :group_name) %>
+    <style>
+      #timeBlockPopUp{
+        padding: 20px;
+        position: absolute;
+        height: auto;
+        min-width: 100px;
+        width: auto;
+        transition: 0s;
+        transform: translate(-50%,-50%);
+        pointer-events: none;
+        background-color: white;
+        filter: grayscale(0%);
+        //opacity: 90%;
+        z-index: 100;
 
-        </select>
+        background: rgba(255, 255, 255, 0.97);
+      }
 
+      .heading{
+        color:black;
+        text-shadow: 1px 1px 0px #d3d3d3;
+      }
+
+      .field_heading{
+
+        color:black;
+      }
+
+      .field_info{
+
+        color:black;
+      }
+
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        border-radius: 20px; /* 5px rounded corners */
+
+      }
+
+    </style>
+
+
+    <!-- I used this to keep the popup div somewhere -->
+    <div id="timeBlockPopUp" class="card"></div>
+    <script>
+      var timeBlockPopUp = document.getElementById('timeBlockPopUp');
+      timeBlockPopUp.style.display = "none";
+      document.addEventListener('mousemove',function(ev){
+          var x = ev.pageX;
+          var y = ev.pageY;
+          timeBlockPopUp.style.left = x+"px";
+          timeBlockPopUp.style.top = y-250+"px";
+      });
+    </script>
+
+    <div class="container-fluid">
+      <div class="d-flex justify-content-evenly">
 
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" onclick = "this.form.submit()" data-dismiss="modal">Confirm</button>
+    </div>
 
-      </div>
+    <!-- Add search forms for OWN model -->
+    <!-- unless statement takes out search bar when editing,creating,etc-->
+    <% unless url_for != users_path %>
+    <!--Makes the seach field neater however cant find a way to pull search field to  right of navbar -->
+      <form class="form-inline my-2 my-lg-0">
+          <%=render "users/filters"%>
       </form>
+    <% end %>
+    <!--ADD Below check users controller and -filters.html.erb for eg -->
+
+
+
+    <div id="groupsScheduleControl" style="display:none;">
+      <%= link_to 'Back', schedules_path, class:"btn btn-primary", id:"btnBack"%>
     </div>
-  </div>
-</div>
 
+    <div id="normalScheduleControl">
+      <form action="/schedules">
+        <label id="lblSelectProgrammeCode"> <h5>Select Programme Code</h5> </label>
+        <br>
+        <select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
+          <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
+        </select>
+      </form>
+      <br>
 
-<br>
+      <button id="btnScheduleGroups" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#groupModal">Schedule Groups</button>
 
-<style>
-  #timeBlockPopUp{
-    padding: 20px;
-    position: absolute;
-    height: auto;
-    min-width: 100px;
-    width: auto;
-    transition: 0s;
-    transform: translate(-50%,-50%);
-    pointer-events: none;
-    background-color: white;
-    filter: grayscale(0%);
-    //opacity: 90%;
+      <br></br>
 
-    background: rgba(255, 255, 255, 0.97);
-
-
-  }
-
-  .heading{
-    color:black;
-    text-shadow: 1px 1px 0px #d3d3d3;
-   }
-
-   .field_heading{
-
-     color:black;
-    }
-
-   .field_info{
-
-      color:black;
-    }
-
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 20px; /* 5px rounded corners */
-
-  }
-
-
-  }
-</style>
-
-
-<!-- I used this to keep the popup div somewhere -->
-<div id="timeBlockPopUp" class="card"></div>
-<script>
-  var timeBlockPopUp = document.getElementById('timeBlockPopUp');
-  timeBlockPopUp.style.display = "none";
-  document.addEventListener('mousemove',function(ev){
-      var x = ev.pageX;
-      var y = ev.pageY;
-      timeBlockPopUp.style.left = x+"px";
-      timeBlockPopUp.style.top = y-250+"px";
-  });
-
-
-
-</script>
-
-
-
-
-
-<div class="container-fluid">
-    <div class="d-flex justify-content-evenly">
+      <button id="btnUpdateDatabase" type="button" class="btn btn-primary" data-toggle="modal" onclick="loadModalInfo()" data-target="#outerDiv">Update Database with Changes</button>
 
     </div>
-</div>
 
-<!-- Add search forms for OWN model -->
-<!-- unless statement takes out search bar when editing,creating,etc-->
-<% unless url_for != users_path %>
-<!--Makes the seach field neater however cant find a way to pull search field to  right of navbar -->
-  <form class="form-inline my-2 my-lg-0">
-      <%=render "users/filters"%>
-  </form>
-<% end %>
-<!--ADD Below check users controller and -filters.html.erb for eg -->
-
-
-
-
-
-
-<form action="/schedules">
-<label> <h5>Select Programme Code</h5> </label>
-<br>
-<select name="programme_id" id="programme_id" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
-<%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code',@current_programme_id) %>
-</select>
-
-</form>
-<br>
-<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#groupModal">Schedule Groups</button>
-<br></br>
-<button type="button" class="btn btn-primary" data-toggle="modal" onclick="loadModalInfo()" data-target="#outerDiv">Update Database with Changes</button>
-
-<div id="outerDiv" class="modal fade"   tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-scrollable modal-xl"  role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Pending Changes:</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="modalContent" class="modal-body">
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="makeChanges()" >Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    <div id="outerDiv" class="modal fade"   tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-scrollable modal-xl"  role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Pending Changes:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="modalContent" class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="makeChanges()" >Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Group Hospital Assignments Modal -->
-<br>
+    <!-- Group Hospital Assignments Modal -->
+    <br>
 
+    <!-- THIS IS TO POP US A MODAL VIEW FOR HOSPITAL ASSIGNMENTS FOR GROUP STUDENTS -->
+    <div class="modal fade" id="GHA" aria-hidden="true" >
+      <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:75%; max-height: 75%; ">
+        <div class="modal-content" style="padding:1%;">
 
-<!-- THIS IS TO POP US A MODAL VIEW FOR HOSPITAL ASSIGNMENTS FOR GROUP STUDENTS -->
-<div class="modal fade" id="GHA" aria-hidden="true" >
-  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:75%; max-height: 75%; ">
-    <div class="modal-content" >
-
-      <div class="modal-header  text-center">
-        <h3 class="modal-title w-100">Assign Students to Hospitals</h3>
-      </div>
-      <div class="modal-body" >
-        <%= render 'hospitalAssignments' %>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick = "makeChanges()">Save changes</button>
+          <div class="modal-header  text-center">
+            <h2 class="modal-title w-100" style="font-size:300%;">Assign Students to Hospitals</h2>
+          </div>
+          <div class="modal-body" >
+            <%= render 'hospitalAssignments' %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick = "makeChanges()">Save changes</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
+    <%# centers div %>
+    <div class="mt-4 d-flex justify-content-center" id="schedule_window" style="padding:10px">
 
-
-
-<%# centers div %>
-<div class="mt-4 d-flex justify-content-center" id="schedule_window" style="padding:10px">
-
-
-<script>
-  //bool value to check if there is a group or not
-  this.IsGroup = <%=@value.present? %>
-
-
-
-
-
-/*Note: Here is a rough hierarchical structure of the classes:
-
-(-->: uses)
-
-ProgrammeSchedule-->Timeline
-Timeline-->TimeBlock
-Timeline-->SpecialtyBlock
-Timeline-->Schedule
-
-*/
-
-
-  class Timeline{
-    constructor(studentID, studentName, studentNumber){
-        this.studentID = studentID;
-        this.studentName = studentName;
-        this.studentNumber = studentNumber;
-        this.specialties = [];
-        this.hospitals = [];
-        this.timeBlocks = [];
-
-        this.type = "unknown";
-
-        //For Groups ONLY
-        this.studentIdList = [];
-
-        this.schedules = [];
-        this.colour_pallette = ["#04b8a9", "#b80453", "#f9f60d", "#0df915", "#fdd64d", "#b4dbdd", "indigo"];
-        this.initialiseSpecialties();
-        this.initialiseTimeBlocks(this.specialties, studentID);
-
-        //This button acts as an event so that the array of schedules can be poppulated
-        this.btnSaveToChanges = document.createElement('button');
-        this.btnSaveToChanges.innerHTML = "Save changes";
-        this.btnSaveToChanges.setAttribute("class","btn btn-success");
-        this.btnSaveToChanges.setAttribute("style","border-radius: 100px; display: inline-block; text-align: center; padding: 10px; width: 150px;");
-
-        this.btnClearSchedule = document.createElement('button');
-        this.btnClearSchedule.innerHTML = "Clear Schedule";
-        this.btnClearSchedule.setAttribute("class","btn btn-outline-danger");
-        this.btnClearSchedule.setAttribute("style","border-radius: 100px; display: inline-block; text-align: center; padding: 10px; width: 150px;");
-
+      <script>
+        //bool value to check if there is a group or not
+        this.IsGroup = <%=@value.present? %>
 
         if(IsGroup){
-          console.log("");
-          this.schedules = [];
-
-          //Boolean to show if there's unassigned hospitals
-          var unassignedHospital = false;
-
-          //Var for list of current schedules in the timeline
-          var summaryOfAddedSchedules = "~ To save changes to the database, click the button at the top of the screen.\n\n*Added Changes for ["+this.studentName+"]\n\n";
-          var scheduleCounter = 0;
-          for(var i=0; i<52;i++){
-            if((this.timeBlocks[i].getAssigned()=="true") && (this.timeBlocks[i].getSaved()== "false") && (this.timeBlocks[i].getPendingSave() =="false")){
-              scheduleCounter++;
-
-              console.log("Create a new schedule in the timeline");
-              var newSchedule = new Schedule();
-              newSchedule.setWeekNo(this.timeBlocks[i].getWeekNo());
-              newSchedule.setSpecialtyID(this.timeBlocks[i].getSpecialtyID());
-              //console.log("in btnSaveToChange: " + that.timeBlocks[i].getSpecialtyID());
-              newSchedule.setStudentID(this.studentID);
-              newSchedule.setSpecialtyDuration(this.timeBlocks[i].getSpecialtyDuration());
-
-              var scheduleInformation = scheduleCounter + ". \n"
-                                        + "Duration: " + this.timeBlocks[i].getSpecialtyDuration()+" weeks\n"
-                                        + "Start Date: " + this.timeBlocks[i].getStartDate()+"\n"
-                                        + "End Date: " + this.timeBlocks[i].getEndDate()+"\n"
-                                        + "Clinical Site: " + this.timeBlocks[i].getHospitalName()+"\n"
-                                        + "Specialty: " + this.timeBlocks[i].getSpecialtyName()+"\n\n";
-
-              summaryOfAddedSchedules = summaryOfAddedSchedules+ scheduleInformation;
-
-              this.schedules.push(newSchedule);
-              this.timeBlocks[i].setPendingSave("true");
-            }
-
-          }
-
-
+          document.getElementById('normalScheduleControl').style.display='none';
+          document.getElementById('groupsScheduleControl').style.display='inline';
         }
 
 
-        //When Save to Changes is clicked, populate schedules with all current schedules in timeline - checks each timebox.
-        var that = this;
-        this.btnSaveToChanges.onclick = function(ev){
 
-          this.schedules = [];
 
-          //Boolean to show if there's unassigned hospitals
-          var unassignedHospital = false;
+      /*Note: Here is a rough hierarchical structure of the classes:
 
-          //Var for list of current schedules in the timeline
-          var summaryOfAddedSchedules = "~ To save changes to the database, click the button at the top of the screen.\n\n*Added Changes for ["+that.studentName+"]\n\n";
-          var scheduleCounter = 0;
-          for(var i=0; i<52;i++){
-            if((that.timeBlocks[i].getAssigned()=="true") && (that.timeBlocks[i].getSaved()== "false") && (that.timeBlocks[i].getPendingSave() =="false")){
-              scheduleCounter++;
+      (-->: uses)
 
-              console.log("Create a new schedule in the timeline");
-              var newSchedule = new Schedule();
-              newSchedule.setWeekNo(that.timeBlocks[i].getWeekNo());
-              newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
-              //console.log("in btnSaveToChange: " + that.timeBlocks[i].getSpecialtyID());
-              newSchedule.setStudentID(that.studentID);
-              newSchedule.setSpecialtyDuration(that.timeBlocks[i].getSpecialtyDuration());
+      ProgrammeSchedule-->Timeline
+      Timeline-->TimeBlock
+      Timeline-->SpecialtyBlock
+      Timeline-->Schedule
 
-              //TODO: Set Hospital ID
-              newSchedule.setHospitalID(that.timeBlocks[i].getHospitalID());
-
-
-              if(that.timeBlocks[i].getHospitalName()=="unassigned"){
-                unassignedHospital = true;
-                break;
-              }
-
-              var scheduleInformation = scheduleCounter + ". \n"
-                                        + "Duration: " + that.timeBlocks[i].getSpecialtyDuration()+" weeks\n"
-                                        + "Start Date: " + that.timeBlocks[i].getStartDate()+"\n"
-                                        + "End Date: " + that.timeBlocks[i].getEndDate()+"\n"
-                                        + "Clinical Site: " + that.timeBlocks[i].getHospitalName()+"\n"
-                                        + "Specialty: " + that.timeBlocks[i].getSpecialtyName()+"\n\n";
-
-              summaryOfAddedSchedules = summaryOfAddedSchedules+ scheduleInformation;
-
-              that.schedules.push(newSchedule);
-              that.timeBlocks[i].setPendingSave("true");
-            }
-
-          }
-
-          if(unassignedHospital==true){
-            window.alert("*Failed To Save Schedule*\n\n~ Ensure all schedules are assigned to clinical sites before saving. ~");
-          }
-          else{
-            window.confirm(summaryOfAddedSchedules);
-           }
-
-        };
-
-        this.btnClearSchedule.onclick = function(ev){
-          //Does an ajax Post request to the delete_with_student_id function in the schedules controller with params that.studentID
-          if(IsGroup){
-            for(var i = 0; i<that.studentIdList.length;i++){
-              $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentIdList[i]}), statusCode: {204: function() { } } });
-            }
-            //window.location.reload();
-
-          }else{
-            $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
-
-           }
-
-
-        };
-
-
-
-        //   $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
-
-        // };
-    }
-
-
-    //Initialisation Methods
-    initialiseTimeBlocks(specialties,studentID){
-      for(var i =0; i<52; i++){
-        var timeBlock = new TimeBlock(i+1, studentID, specialties);
-        //timeBlock.setType(this.type);
-        //console.log("Timeblock has type: " + timeBlock.type+"\n");
-        this.timeBlocks.push(timeBlock);
-      }
-    }
-
-    addToStudentIdList(studentID){
-      this.studentIdList.push(studentID);
-    }
-
-    setType(type){
-      for(var i = 0; i<52; i++){
-          this.timeBlocks[i].setType(type);
-      }
-
-    }
-
-    //TODO: Fetch Specialty Name and Duration
-    initialiseSpecialties(){
-      var index = 0;
-      <% @specialties.each do |specialty| %>
-        var color = this.colour_pallette[index];
-
-        var progsId=<%=@current_programme_id%>;
-        var weeks=<%=CourseSpecialty.where(course_id: @programme_courses).where( specialty_id: specialty).pluck(:weeks)%>
-        var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, "<%= specialty.SpecialtyName %>", weeks, this.studentID, color);
-        this.specialties.push(specialtyBlock);
-        index = index + 1;
-      <%end%>
-
-
-    }
-
-    //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
-    initialiseSchedules(){
-
-      <% @schedules.each do |schedule| %>
-        if(<%=schedule.student_id%>==this.studentID){
-          //console.log("StudentID is: "+this.studentID);
-
-          var currentSchedule = new Schedule();
-
-          //console.log("Week No:"  + <%=schedule.week_no%>);
-          var week_no = <%=Schedule.where(id: schedule.id).pluck(:week_no)%>;
-          currentSchedule.setWeekNo(week_no);
-          currentSchedule.setHospitalID(<%=schedule.hospital_id%>);
-          currentSchedule.setSpecialtyID(<%=schedule.specialty_id%>);
-
-          //ensure that we cannot drag that specialty since it is already there:
-          //hide the specialty so it is not re-selected-> disable that specialty div
-          var specialtyName =  <%=raw(Specialty.where(id: schedule.specialty_id).pluck(:specialtyName))%>;
-          var currSp=document.getElementById(<%=schedule.student_id%>+"#"+<%=schedule.specialty_id%>+"#"+specialtyName);
-          //change div's property
-          currSp.style.cursor="not-allowed";
-          currSp.style.opacity=0.3;
-          //don't allow it to be dragged
-          currSp.draggable=false;
-
-
-
-          var specialtyDuration = <%=  raw(Schedule.where(id: schedule.id).pluck(:specialty_duration))%>;
-          currentSchedule.setSpecialtyDuration(specialtyDuration);
-          //currentSchedule.setSaved("true");
-          console.log("current schedule saved: " +currentSchedule.getSaved());
-
-          this.showScheduleOnTimeline(currentSchedule);
-
-        }
-      <% end %>
-    }
-
-    //Class Methods
-    //Show the schedule object on the timeline
-    showScheduleOnTimeline(schedule){
-      console.log("Showing New Schedule on Timeline");
-      console.log("Student ID: " + this.studentID);
-
-      var weekNo = schedule.getWeekNo();
-
-
-      var timeBlock = this.timeBlocks[weekNo-1];
-      timeBlock.setAssigned(true); //This needs to be here for the main timeblock in the schedule to be set to true
-
-      //Retrieve Specialty ID
-      var specialtyID = schedule.getSpecialtyID();
-      console.log("Specialty ID is: " + specialtyID);
-
-      //Retrieve Hospital ID
-      var hospitalID = schedule.getHospitalID();
-
-      this.timeBlocks[weekNo-1].setHospitalID(hospitalID);
-
-      //Retrieve Specialty Duration
-      var specialtyDuration = schedule.getSpecialtyDuration();
-      console.log("Specialty Duration is: "+ specialtyDuration);
-      this.timeBlocks[weekNo-1].setSpecialtyDuration(specialtyDuration+"");
-
-      //Set the end date
-      this.timeBlocks[weekNo-1].setEndDate();
-
-      //Retrieve timeblox div id
-      var data = this.timeBlocks[weekNo-1].getDivID();
-
-      //Overlapping
-      for(var i = weekNo-1; i<weekNo-1+parseInt(specialtyDuration);i++){
-        this.timeBlocks[i].setPseudoAssigned(true);
-        this.timeBlocks[i].setSaved("true");
-      }
-
-      console.log("Div's id is: "+data);
-      //Put specialty div in timebox div
-      //ev.target.appendChild(document.getElementById(data));
-      this.timeBlocks[weekNo-1].getDiv().style.background = document.getElementById(data).style.background;
-     // ev.target.innerHTML = document.getElementById(data).innerHTML;
-
-      //colours divs according to specialty duration
-      let numDivSpan = this.timeBlocks[weekNo-1].getDiv().getAttribute("weekNo");
-      let colorVal, specialtyN;
-      for (let i=0;i<this.specialties.length;i++){
-        //ensure that div is colour of specialty it is assigned to
-        if (this.specialties[i].specialtyID==specialtyID){
-          colorVal=this.specialties[i].color;
-          specialtyN=this.specialties[i].getSpecialtyName();
-          this.timeBlocks[weekNo-1].setSpecialtyName(specialtyN); //Set specialtyName in TimeBlock
-          break;
-        }
-      }
-
-
-    //change colours of amount of divs of specialty duration
-      for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
-        //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
-        var currDivID = this.studentID+"#"+i;
-
-
-        document.getElementById(currDivID).style.background= colorVal;
-
-      }
-
-      //Set the Hospital Name in the Time Block
-      this.timeBlocks[weekNo-1].setHospitalName();
-      this.timeBlocks[weekNo-1].setPseudoAssigned(true);
-      this.timeBlocks[weekNo-1].setToolTipContents();
-    }
-
-    //Remove Schedule for a weekNo
-    removeSchedule(weekNo){
-      for(var i = 0; i< this.schedules.length; i++){
-        if(this.schedules[i].getWeekNo()==weekNo){
-          this.schedules.splice(i,1);
-        }
-      }
-    }
-
-    displayTimeline(){
-
-      var timeLineDiv = document.createElement('div');
-      //timeLineDiv.setAttribute("border","border:1px solid gray");
-      timeLineDiv.style.borderRadius= "25px";
-      timeLineDiv.style.boxShadow = "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)";
-      timeLineDiv.style.padding = "10px";
-      //timeLineDiv.style.backgroundColor = "green";
-
-      //Main Table
-      var table = document.createElement('table');
-
-      //Header Div
-      var headerDiv = document.createElement('div');
-      headerDiv.setAttribute("style","margin-top:20px; margin-bottom:0px;");
-
-      //Button to update Schedule
-      var buttonDiv = document.createElement('div');
-      buttonDiv.setAttribute("style","margin-left: auto; margin-right: 10px; margin-top: 5px; float: right;");
-      buttonDiv.appendChild(this.btnSaveToChanges);
-      headerDiv.appendChild(buttonDiv);
-
-      //Button to clear Schedule
-      var buttonDiv = document.createElement('div');
-      buttonDiv.setAttribute("style","margin-left: 10px; margin-right: auto; margin-top: 5px; float: left;");
-      buttonDiv.appendChild(this.btnClearSchedule);
-      headerDiv.appendChild(buttonDiv);
-
-      //Add student information
-      var studentInfoDiv = document.createElement('div');
-      studentInfoDiv.setAttribute("style","display: inline-block; margin-left: 0px;");
-      var studentInformation = [this.studentName, this.studentNumber];
-
-      var tempTable = document.createElement('table');
-      for(var i = 0 ;i<studentInformation.length;i++){
-        var tr = document.createElement('tr');
-        var h5 = document.createElement('h5');
-        h5.innerHTML = studentInformation[i];
-        var td = document.createElement('td');
-        td.appendChild(h5);
-        tr.appendChild(td);
-        tempTable.appendChild(tr);
-      }
-      studentInfoDiv.appendChild(tempTable);
-      headerDiv.appendChild(studentInfoDiv);
-      var tr = document.createElement('tr');
-      tr.appendChild(headerDiv);
-      table.appendChild(tr);
-
-      var tr = document.createElement('tr');
-      var specialtyDiv = document.createElement('div');
-      specialtyDiv.setAttribute("style","border-radius: 25px; border: 2px dotted gray; display: inline-block; padding: 15px; float: left;");
-      //Add Specialties for students
-      for(var i = 0; i<this.specialties.length;i++ ){
-        specialtyDiv.appendChild(this.specialties[i].getDiv());
-      }
-      tr.appendChild(specialtyDiv);
-      table.appendChild(tr);
-
-      //Spacing
-      var br = document.createElement('br');
-      table.appendChild(br);
-      //Spacing
-
-      //Visual timeline
-      //52 divs - Timeblocks
-
-      var tr = document.createElement('tr');
-      for(var i = 0; i<52; i++){
-        //var p = document.createElement('p');
-        var td = document.createElement('td');
-        td.style.padding ="0px"; //No spacing between timeBoxes
-        td.appendChild(this.timeBlocks[i].getDiv());
-        tr.appendChild(td);
-      }
-
-/*
-      var tr = document.createElement('tr');
-      for(var i = 0; i<52; i++){
-        var p = document.createElement('p');
-        var td = document.createElement('td');
-        td.style.padding ="0px"; //No spacing between timeBoxes
-        td.appendChild(this.timeBlocks[i].getDiv());
-        tr.appendChild(td);
-      }
       */
 
-      //Container for 52 Timeblocks
-      var container = document.createElement('div');
-      container.appendChild(tr);
-      container.appendChild(document.createElement('br'));
-      container.style.height = "50%";
-      //was 1800px before. Now it is 95 percent of the viewport
-      container.style.width="95vw";
-      container.style.overflow = 'overlay';
-      container.style.alignItems = 'center';
-      var tr = document.createElement('tr');
-      tr.appendChild(container);
-      table.appendChild(tr);
 
-      //Spacing
-      var br = document.createElement('br');
-      table.appendChild(br);
-      //Spacing
-
-
-
-      //Spacing
-      var br = document.createElement('br');
-      table.appendChild(br);
-      //Spacing
-
-
-      timeLineDiv.appendChild(table);
-
-
-
-
-      return timeLineDiv; //Return row which corresponds to a student's timeline
-
-    }
-
-    //Getter & Setter Methods
-    //Return array of schedules
-    getSchedules(){
-      return this.schedules;
-    }
-
-
-
-
-  }
-
-  class TimeBlock {
-    constructor(weekNo,studentID, specialties){
-
-
-      this.weekNo = weekNo;
-      this.studentID = studentID;
-      this.hospitalID = 0;
-      this.saved = "false";
-      this.pendingSave = "false";
-      this.specialtiesArr=specialties;
-      this.div = document.createElement('div');
-      this.assigned_hosp = document.createElement('p');
-
-      this.div.setAttribute("weekNo",this.weekNo);
-      this.div.setAttribute("studentID", this.studentID);
-
-      this.type = "unknown";
-
-      //makes each div's id the week number as well for easy retrieval and colouring
-      //this.div.id=this.weekNo;
-
-      this.hospitalName = "unassigned";
-
-
-      this.setAssigned(false);
-      this.setPseudoAssigned(false);
-      this.specialtyID = "";
-      this.specialtyName = "";
-      this.specialtyDuration = "";
-
-      //Using
-      this.startDate = new Date();
-      this.endDate = new Date();
-
-      this.tooltipContents = [];
-
-      this.initialiseStartDate();
-      //this.initialiseEndDate();
-      this.initialiseDivAttributes();
-      this.displayDate();
-
-
-    }
-
-    setType(type){
-      this.type = type;
-    }
-
-    setToolTipContents(){
-      /*
-      var field_weekNo = "Week Number:<br>" + this.weekNo;
-      var field_start_date = "Start Date:<br>" + this.returnLongFormattedDate(this.startDate);
-      var field_end_date ="End Date:<br>" + this.returnLongFormattedDate(this.endDate);
-      var field_specialty_name ="Specialty Name:<br>" + this.specialtyName;
-      var field_hospital_name = "Hospital Name:<br>" + this.hospitalName;
-      */
-      this.tooltipContents = ["Week Number",this.weekNo,"Start Date",this.returnLongFormattedDate(this.startDate),"End Date",this.returnLongFormattedDate(this.endDate),"Specialty Name", this.specialtyName,"Hospital Name", this.hospitalName];
-
-    }
-
-    returnFormattedDate(dateObject){
-      var month = dateObject.getMonth()+1;
-      var day = dateObject.getDate();
-      if(month<10){
-        month = "0" + month;
-      }
-      if(day<10){
-        day = "0" + day;
-      }
-
-      return day + "-" + month + "-" + dateObject.getFullYear();
-
-
-    }
-
-    returnLongFormattedDate(dateObject){
-      var month = dateObject.getMonth()+1;
-      var date = dateObject.getDate();
-      var year = dateObject.getFullYear();
-      switch(month){
-        case 1:
-          month = "Jan";
-          break;
-
-        case 2:
-          month = "Feb";
-          break;
-
-        case 3:
-          month = "Mar";
-          break;
-
-        case 4:
-          month = "Apr";
-          break;
-
-        case 5:
-          month = "May";
-          break;
-
-        case 6:
-          month = "Jun";
-          break;
-
-        case 7:
-          month = "Jul";
-          break;
-
-        case 8:
-          month = "Aug";
-          break;
-
-        case 9:
-          month = "Sep";
-          break;
-
-        case 10:
-          month = "Oct";
-          break;
-
-        case 11:
-          month = "Nov";
-          break;
-
-        case 12:
-          month = "Dec";
-          break;
-
-      }
-
-      return date +" "+month+" "+year;
-
-
-    }
-
-    //initialistaion Methods
-    initialiseDivAttributes(){
-
-      //var tooltipContents = document.createElement('p');
-      this.div.style.height = '120px';
-      this.div.style.padding = '10px';
-      this.div.style.display = 'flex';
-      this.div.style.border = "1px solid #aaaaaa";
-      this.div.style.alignItems = 'center';
-      //this.div.style.position = 'absolute';
-      this.div.style.width = '150px'; //120
-      this.div.setAttribute("id",this.studentID+"#"+this.weekNo);
-      this.div.style.justifyContent = 'center';
-      this.div.style.overflowWrap = 'break-word'; //Just to try and
-      this.div.style.wordWrap = 'break-word'; // force the content of the div to fit
-      this.div.style.hyphens = 'auto';// within the box
-      this.div.style.backgroundColor = "#B8B8B8";
-      this.div.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
-      this.div.style.marginBottom = "5px";
-      if(this.weekNo==1){
-        this.div.style.borderRadius = "15px 0 0 15px";
-      }
-      if(this.weekNo==52){
-        this.div.style.borderRadius = "0 15px 15px 0";
-      }
-
-      //this.div.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);;
-
-      var that = this;
-      //On Drop Function
-      this.div.ondrop = function(ev){
-//--------------------------------------
-        ev.preventDefault();
-        var timeline;
-        console.log("STUDENT ID IS: "+that.studentID);
-        console.log("TYPE IS: "+that.type);
-
-        if(that.type == "group"){
-          timeline  = groupSchedule.getTimeline();
-          console.log("We've dropped onto a groups timeline.");
-        }
-        else{
-          timeline  = programmeSchedule.getTimeline( that.studentID);
-        }
-
-
-
-
-        var specialtyDuration = parseInt(ev.dataTransfer.getData("specialtyDuration"));
-        console.log("duration in ondrop timeblock: " +specialtyDuration);
-        var isAssigned = false;
-        var weekNo = that.weekNo;
-
-        for (let i = weekNo ; i < (weekNo + specialtyDuration) ; i++)
-        {
-
-          if (timeline.timeBlocks[i-1].getPseudoAssigned() == "true")
-            {
-              isAssigned = true;
-            }
-        }
-
-        if(isAssigned == false)
-          {
-            console.log("can drop");
-          }
-        else
-          {
-            console.log("cannot drop");
-          }
-
-//------------------------------
-
-if(isAssigned == false)
-  {
-
-      ev.preventDefault();
-
-      that.showHospitalPrompt();
-
-
-      //Retrieve Specialty ID
-      var specialtyID = ev.dataTransfer.getData("specialtyID");
-
-      that.specialtyID = specialtyID;
-      that.findSpecialtyName();
-
-
-
-      //Retrieve Specialty Duration
-      var specialtyDuration = ev.dataTransfer.getData("specialtyDuration");
-
-      that.specialtyDuration = specialtyDuration;
-      //console.log("Retrieved Specialty Duration: "+that.specialtyDuration);
-      that.setEndDate();
-
-      //hide the specialty so it is not re-selected-> disable that specialty div
-      var specialtyName = ev.dataTransfer.getData("specialtyName");
-      that.specialtyName = specialtyName;
-      var currSp=document.getElementById(that.studentID+"#"+that.specialtyID+"#"+that.specialtyName);
-
-      //change div's property
-      currSp.style.cursor="not-allowed";
-      currSp.style.opacity=0.3;
-      //don't allow it to be dragged
-      currSp.draggable=false;
-
-
-      //Retrieve timebox div id
-      var data = ev.dataTransfer.getData("text");
-
-
-      //Put specialty div in timebox div
-      ev.target.style.background = document.getElementById(data).style.background;
-
-      //colours divs according to specialty duration
-      let numDivSpan=that.div.getAttribute("weekNo");
-      let colorVal;//, specialtyN;
-      for (let i=0;i<that.specialtiesArr.length;i++){
-        //ensure that div is colour of specialty it is assigned to
-        if (that.specialtiesArr[i].specialtyID==that.specialtyID){
-          colorVal=that.specialtiesArr[i].color;
-          break;
-        }
-
-      }
-
-
-    //change colours of amount of divs of specialty duration
-      for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
-        //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
-        var currDivID = that.studentID+"#"+i;
-
-
-        var currDiv = document.getElementById(currDivID);
-        currDiv.style.background = colorVal;
-        currDiv.setAttribute("pseudo_assigned",true);
-
-        //document.getElementById(i).ondrop(ev);
-
-
-        //CHANGE TEXT OF DIV- currently buggy as when text is changed, div moves downwards
-         document.getElementById(currDivID).style.wordBreak="break-all";
-        // document.getElementById(i).innerHTML=specialtyN;
-      }
-
-      //Once assigned, allow for modal box to appear
-      ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      //if the student id is -1 we need to bring up the groups assignment modal
-      if(that.type == "group"){
-        ev.target.setAttribute("data-target","#GHA"); // setting the target to the modals id
-      }
-      else{
-        ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-      }
-
-      that.assigned = true;
-      that.setToolTipContents();
-      that.setPseudoAssigned(true) ;
-      that.setAssigned(true);
-
-
-
-    }
-
-    if(that.type == "group"){
-      groupSchedule.setSpecialtyID(that.specialtyID);
-      groupSchedule.setWeekNo(that.weekNo);
-      groupSchedule.setSpecialtyDuration(that.specialtyDuration);
-      console.log("We've dropped onto a groups timeline.");
-      console.log("Groups Timeline has this information:\nSpecialty ID: "+groupSchedule.getSpecialtyID()
-                  + "\nWeek Number: " + groupSchedule.getWeekNo()+ "\nSpecialtyDuration: "+groupSchedule.getSpecialtyDuration());
-    }
-
-      };
-
-      //DragOver function
-      this.div.ondragover = function(ev){
-
-        //change cursor to hand pointer after dragging specialty block onto div
-        var isAssigned = that.getPseudoAssigned();
-        if (isAssigned == "false")
-          {
-
-            that.div.style.cursor="pointer";
-            ev.preventDefault();
-
-          }
-
-
-      };
-
-      //These are extra functions to try and fix the modal box not appearing after moving specialty div around
-      //OnDragLeave function
-      this.div.ondragleave = function(ev){
-        //Hide Modal Box
-        ev.target.setAttribute("data-toggle",""); // defining the click to bring up the modal box
-        ev.target.setAttribute("data-target",""); // setting the target to the modals id
-
-      };
-      //OnDragEnter Function
-      this.div.ondragenter = function(ev){
-        //Show Modal Box
-        ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
-        ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
-        ev.target.setAttribute("student","studentValue");
-
-
-      };
-
-      //Not sure why we need this but we do need it for things to work. Fix this later.
-      this.div.onclick = function(ev){
-        if (that.getPseudoAssigned())
-          {
-            that.div.style.cursor="pointer";
-            //This code runs for a TimeBlock when a SpecialtyBlock is dropped onto it
-            var drop = document.getElementById('hospital_id');
-
-            drop.setAttribute("weekNo",this.getAttribute("weekNo"));
-            drop.setAttribute("studentID", this.getAttribute("studentID"));
-
-            drop.setAttribute("timeBlock", this.getAttribute("timeBlock"));
-
-            drop.setAttribute("specialtyID", ev.target.getAttribute("specialtyID"));
-
-        }
-      }
-
-      var tooltip = document.getElementById('timeBlockPopUp');
-      tooltip.style.display = "none";
-
-      var that = this;
-
-      //Used to show the popup
-      this.div.onmouseenter = function(ev){
-        if(that.assigned==true){
-          tooltip.style.display = "block";
-          var tooltipContents = document.createElement('p');
-
-          var heading = document.createElement('h4');
-          heading.classList.add('heading');
-          heading.innerHTML = "Schedule Information<br><br>";
-          tooltipContents.appendChild(heading);
-
-          for(var i = 0; i<that.tooltipContents.length;i++){
-
-
-
-            //Field Information
-            if(i%2==0){
-              var field = document.createElement('h6');
-              field.classList.add('field_heading');
-              field.style.margin = "0px";
-            }
-            //Field Headings
-            else{
-              var field = document.createElement('p');
-              field.classList.add('field_info');
-             }
-
-
-            field.innerHTML = that.tooltipContents[i];
-            tooltipContents.appendChild(field);
-          }
-
-          tooltip.appendChild(tooltipContents);
-        }
-      }
-
-      this.div.onmouseleave = function(ev){
-        document.body.style.cursor = "default";
-        if(that.assigned==true){
-          //document.body.style.cursor = "default";
-          tooltip.innerHTML = "";
-          tooltip.style.display = "none";
-        }
-      }
-
-
-    }
-
-    initialiseStartDate(){
-      this.startDate.setMonth(0);
-      this.startDate.setDate(1+(7*(this.weekNo-1)));
-    }
-
-    setEndDate(){
-      //Start at start date
-      this.endDate.setMonth(0);
-      this.endDate.setDate(1+(7*(this.weekNo-1)));
-
-      //Move to end date
-      var duration = parseInt(this.specialtyDuration.charAt(0));
-      this.endDate.setDate(this.endDate.getDate()+(duration*7)); //Day just before the start of the next week
-    }
-
-
-
-    //Other Class Methods
-
-    displayDate(){
-      var temp = document.createElement('div');
-      var p = document.createElement('p');
-
-
-      p.setAttribute('id','start_date');
-      temp.style.textAlign = "center"
-      temp.style.width = "100%";
-      temp.style.borderRadius= "25px";
-      temp.style.background = "#FFFFFF";
-      temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
-      //temp.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-      p.style.color = "black";
-
-      p.innerHTML =  this.returnFormattedDate(this.startDate);
-
-      temp.appendChild(p);
-      this.div.appendChild(temp);
-      //this.div.appendChild(document.createElement('br'));
-    }
-
-    removeChildDiv(){
-      console.log("TRYING TO REMOVE CHILD");
-      this.div.firstChild.remove();
-      console.log("CHILD REMOVED\n");
-    }
-
-    showHospitalPrompt(){
-
-      this.removeChildDiv();
-
-      var temp = document.createElement('div');
-      var p = document.createElement('p');
-
-
-      p.setAttribute('id','hospital_prompt');
-      temp.style.textAlign = "center"
-      temp.style.width = "100%";
-      temp.style.borderRadius= "25px";
-      temp.style.background = "#FFFFFF";
-      temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
-      //temp.style.margin = "5px";
-      p.style.color = "black";
-      p.style.marginTop = "20px";
-      p.innerHTML =  "Click to choose a hospital";
-
-      temp.appendChild(p);
-      this.div.appendChild(temp);
-      //this.div.appendChild(document.createElement('br'));
-    }
-
-
-
-    setHospitalName(){
-      <% @hospitals.each do |hospital| %>
-        if(<%=hospital.id%> == this.hospitalID){
-          this.hospitalName = <%=raw(Hospital.where(id: hospital.id).pluck(:hospital_name))%>;
-          console.log("FOUND HOSPITAL NAME TO BE: "+this.hospitalName);
-        }
-      <%end%>
-    }
-
-    findSpecialtyName(){
-      <% @specialties.each do |specialty| %>
-        if(<%=specialty.id%> == this.specialtyID){
-          this.specialtyName = <%=raw(Specialty.where(id: specialty.id).pluck(:SpecialtyName))%>;
-        }
-      <%end%>
-    }
-
-    showHospitalName(){
-      var hospitalName = "unassigned";
-      this.removeChildDiv();
-
-      <% @hospitals.each do |hospital| %>
-        if(<%=hospital.id%> == this.hospitalID){
-          hospitalName = <%=raw(Hospital.where(id: hospital.id).pluck(:hospital_name))%>;
-        }
-      <%end%>
-
-
-      //Create a div with the hospital name
-      var temp = document.createElement('div');
-      var p = document.createElement('p');
-
-      p.setAttribute('id','start_date');
-      temp.style.textAlign = "center"
-      temp.style.width = "100%";
-      temp.style.borderRadius= "25px";
-      temp.style.background = "#FFFFFF";
-      temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
-
-      p.style.color = "black";
-      p.style.marginTop = "20px";
-      p.innerHTML =  hospitalName;
-
-      temp.appendChild(p);
-      this.div.appendChild(temp);
-
-      this.hospitalName = hospitalName;
-
-    }
-
-
-
-    //Getter and Setter Methods
-    getStartDate(){
-      return this.returnLongFormattedDate(this.startDate);
-    }
-
-    getEndDate(){
-      return this.returnLongFormattedDate(this.endDate);
-    }
-
-    getHospitalName(){
-      return this.hospitalName;
-    }
-
-    getSpecialtyName(){
-      return this.specialtyName;
-    }
-
-    getDivID(){
-      return this.div.id;
-    }
-
-    getHospitalID(){
-      return this.hospitalID;
-    }
-
-    getSpecialtyDuration(){
-      return this.specialtyDuration;
-    }
-
-    getWeekNo(){
-      return this.weekNo;
-    }
-
-    getDiv(){
-      return this.div;
-    }
-
-    getSpecialtyID(){
-      return this.specialtyID;
-    }
-
-    getPendingSave()
-    {
-      return this.pendingSave;
-    }
-
-    getSaved()
-    {
-      return this.saved;
-    }
-
-    getPseudoAssigned()
-    {
-      return this.div.getAttribute("pseudo_assigned");
-    }
-
-    getAssigned(){
-      return this.div.getAttribute("assigned");
-    }
-
-    setSpecialtyID(specialtyID){
-      this.specialtyID = specialtyID;
-    }
-
-    setSpecialtyName(specialtyName){
-      this.specialtyName = specialtyName;
-    }
-
-    setSpecialtyDuration(specialtyDuration){
-      this.specialtyDuration = specialtyDuration;
-    }
-
-    setAssigned(value){
-      this.assigned = value;
-      this.div.setAttribute("assigned",value);
-    }
-
-    setPendingSave(value)
-    {
-      this.pendingSave = value;
-    }
-
-    setSaved(value){
-    this.saved = value;
-    }
-
-    setPseudoAssigned(value){
-      this.div.setAttribute("pseudo_assigned",value);
-    }
-
-    setHospitalID(hospitalID){
-      this.hospitalID = hospitalID;
-    }
-
-
-
-   }
-
-  class Schedule{
-     constructor(){
-       this.studentID = "";
-       this.weekNo = "";
-       this.specialtyID = "";
-       this.hospitalID = "";
-       this.specialtyDuration = "";
-       this.saved = "false"
-     }
-
-     setSaved(value){
-       this.saved = value;
-     }
-
-     setStudentID(studentID){
-       this.studentID = studentID;
-     }
-
-     setWeekNo(weekNo){
-       this.weekNo = weekNo;
-     }
-
-     setSpecialtyID(specialtyID){
-       this.specialtyID = specialtyID;
-     }
-
-     setHospitalID(hospitalID){
-       this.hospitalID = hospitalID;
-     }
-
-     setSpecialtyDuration(specialtyDuration){
-       this.specialtyDuration = specialtyDuration;
-     }
-
-     getSaved(){
-       return this.saved;
-     }
-
-     getSpecialtyDuration(){
-       return this.specialtyDuration;
-     }
-
-     getWeekNo(){
-       return this.weekNo;
-     }
-
-     getStudentID(){
-       return this.studentID;
-     }
-
-     getSpecialtyID(){
-       return this.specialtyID;
-     }
-
-     getHospitalID(){
-       return this.hospitalID;
-     }
-
-
-
-    }
-
-  class SpecialtyBlock{
-      constructor(specialtyID,specialtyName,specialtyDuration,studentID,color){
-        this.div = document.createElement('div');
-        this.specialtyID = specialtyID;
-        this.div.setAttribute("specialtyID", specialtyID);
-        this.specialtyName = specialtyName;
-        this.specialtyDuration = specialtyDuration;
-        this.specialtyID=specialtyID;
-        this.color = color;
-        //For div ID
-        this.studentID = studentID;
-        this.div.setAttribute("id",this.studentID+"#"+this.specialtyID+"#"+this.specialtyName);
-
-        this.initialiseDivAttributes();
-      }
-
-      initialiseDivAttributes(){
-        //Set div attributes
-        var nameDiv = document.createElement('div');
-        nameDiv.style.alignItems = 'center';
-        nameDiv.style.justifyContent = 'center';
-        nameDiv.style.margin = "auto auto";
-        var temp = document.createElement('p');
-        temp.style.textAlign = "center";
-        temp.style.alignItems = "center";
-        temp.style.textShadow =  "1px 1px 1px #000000";
-
-        //temp.width = "wrap-text";
-        temp.innerHTML = this.specialtyName;
-        nameDiv.appendChild(temp);
-
-        this.div.appendChild(nameDiv);
-        //this.div.innerHTML = this.specialtyName;
-        this.div.style.textAlign = 'center';
-        //this.div.style.width = "100px";
-        this.div.style.width = (100*this.specialtyDuration) +'px';
-
-        this.div.style.height = '30px';
-        this.div.style.display = 'flex';
-        this.div.style.border = "1px solid #aaaaaa";
-        this.div.style.alignItems = 'center';
-        this.div.style.background = this.color;
-        this.div.style.color = "white"
-        this.div.style.borderRadius= "10px";
-        this.div.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
-        this.div.style.marginBottom = "5px";
-
-        //change cursor
-        this.div.style.cursor="pointer";
-
-        this.div.setAttribute("draggable","true");
-        //On dragstart function
-        var that = this;
-        this.div.ondragstart = function(ev){
-          //Transfer div id
-          ev.dataTransfer.setData("text", ev.target.id);
-          //Transfer SpecialtyID
-
-          ev.dataTransfer.setData("specialtyID", that.specialtyID);
-
-          //Transfer Specialty Duration
-
-          ev.dataTransfer.setData("specialtyDuration", that.specialtyDuration);
-          ev.dataTransfer.setData("specialtyName", that.specialtyName);
-        };
-
-
-
-/*
-        this.div.ondrop = function(ev){
-          console.log("in specialty drop: " +this.getAttribute("specialtyID"));
-
-
-          //don't allow specialty to drop
-
-          ev.target.setAttribute("specialtyID",this.getAttribute("specialtyID"));
-
-
-
-          //allow specialty to drop if it isn't in the divs already
-
-        };
-*/
-
-
-      }
-
-      getSpecialtyName(){
-        return this.specialtyName;
-      }
-
-      getSpecialtyDuration(){
-        return this.specialtyDuration;
-      }
-
-      getDiv(){
-        return this.div;
-      }
-
-     }
-
-  class ProgrammeSchedule{
-        constructor(parentObject){
-          this.programmeCode = "i am the code";
-          this.parentObject = parentObject;
-          this.timelines =[];
-          this.initialiseTimelines();
-          this.populateSchedule();
-        }
-
-        getTimeline(student_id){
-          var timelines = this.timelines;
-          var size = timelines.length;
-
-          var timeline;
-          for (let i = 0 ; i < size; i++)
-          {
-            timeline = timelines[i];
-            if (timeline.studentID == student_id)
-              {
-                break;
-              }
-          }
-
-          return timeline;
-
-
-        }
-
-        getTimeBlock(week_no,student_id){
-
-        var timeline = this.getTimeline(student_id);
-        var size = timeline.timeBlocks.length;
-
-          var timeblock;
-          for (let i = 0 ; i < size; i++)
-          {
-            timeblock = timeline.timeBlocks[i];
-            if (timeblock.weekNo == week_no)
-              {
-                break;
-              }
-          }
-
-          return timeblock;
-
-        }
-
-
-        //Create a number of timelines for each student in the programme
-        initialiseTimelines(){
-
-          <% @students.each do |student| %>
-            var student_user_id = "<%=student.user_id%>";
-            var student_name = "student";                     //default name incase of errors
-            <% @all_users.each do |user| %>                 // search for user
-                if(student_user_id == <%=user.id%>){
-                    student_name = "<%=user.user_LastName%>" +", "+ "<%=user.user_FirstName%>";
+        class Timeline{
+          constructor(studentID, studentName, studentNumber){
+            this.studentID = studentID;
+            this.studentName = studentName;
+            this.studentNumber = studentNumber;
+            this.specialties = [];
+            this.hospitals = [];
+            this.timeBlocks = [];
+
+            this.type = "unknown";
+
+            //For Groups ONLY
+            this.studentIdList = [];
+
+            this.schedules = [];
+
+            this.colour_pallette = ["#04b8a9", "#b80453", "#2E86C1", "#EC6C13", "#E9B10E", "#B619BD", "indigo"];
+            this.initialiseSpecialties();
+            this.initialiseTimeBlocks(this.specialties, studentID);
+
+            //This button acts as an event so that the array of schedules can be poppulated
+            this.btnSaveToChanges = document.createElement('button');
+            this.btnSaveToChanges.innerHTML = "Save changes";
+            this.btnSaveToChanges.setAttribute("class","btn btn-success");
+            this.btnSaveToChanges.setAttribute("style","border-radius: 100px; display: inline-block; text-align: center; padding: 10px; width: 150px;");
+
+            this.btnClearSchedule = document.createElement('button');
+            this.btnClearSchedule.innerHTML = "Clear Schedule";
+            this.btnClearSchedule.setAttribute("class","btn btn-outline-danger");
+            this.btnClearSchedule.setAttribute("style","border-radius: 100px; display: inline-block; text-align: center; padding: 10px; width: 150px;");
+
+
+            if(IsGroup){
+              this.schedules = [];
+
+              //Boolean to show if there's unassigned hospitals
+              var unassignedHospital = false;
+
+              //Var for list of current schedules in the timeline
+              var summaryOfAddedSchedules = "~ To save changes to the database, click the button at the top of the screen.\n\n*Added Changes for ["+this.studentName+"]\n\n";
+              var scheduleCounter = 0;
+              for(var i=0; i<52;i++){
+                if((this.timeBlocks[i].getAssigned()=="true") && (this.timeBlocks[i].getSaved()== "false") && (this.timeBlocks[i].getPendingSave() =="false")){
+                  scheduleCounter++;
+                  //Create a new schedule in the timeline
+                  var newSchedule = new Schedule();
+                  newSchedule.setWeekNo(this.timeBlocks[i].getWeekNo());
+                  newSchedule.setSpecialtyID(this.timeBlocks[i].getSpecialtyID());
+                  newSchedule.setStudentID(this.studentID);
+                  newSchedule.setSpecialtyDuration(this.timeBlocks[i].getSpecialtyDuration());
+
+                  var scheduleInformation = scheduleCounter + ". \n"
+                                            + "Duration: " + this.timeBlocks[i].getSpecialtyDuration()+" weeks\n"
+                                            + "Start Date: " + this.timeBlocks[i].getStartDate()+"\n"
+                                            + "End Date: " + this.timeBlocks[i].getEndDate()+"\n"
+                                            + "Clinical Site: " + this.timeBlocks[i].getHospitalName()+"\n"
+                                            + "Specialty: " + this.timeBlocks[i].getSpecialtyName()+"\n\n";
+
+                  summaryOfAddedSchedules = summaryOfAddedSchedules+ scheduleInformation;
+
+                  this.schedules.push(newSchedule);
+                  this.timeBlocks[i].setPendingSave("true");
                 }
+
+              }
+
+
+            }
+
+
+            //When Save to Changes is clicked, populate schedules with all current schedules in timeline - checks each timebox.
+            var that = this;
+            this.btnSaveToChanges.onclick = function(ev){
+
+              this.schedules = [];
+
+              //Boolean to show if there's unassigned hospitals
+              var unassignedHospital = false;
+
+              //Var for list of current schedules in the timeline
+              var summaryOfAddedSchedules = "~ To save changes to the database, click the button at the top of the screen.\n\n*Added Changes for ["+that.studentName+"]\n\n";
+              var scheduleCounter = 0;
+              for(var i=0; i<52;i++){
+                if((that.timeBlocks[i].getAssigned()=="true") && (that.timeBlocks[i].getSaved()== "false") && (that.timeBlocks[i].getPendingSave() =="false")){
+                  scheduleCounter++;
+                  //Create a new schedule in the timeline"
+                  var newSchedule = new Schedule();
+                  newSchedule.setWeekNo(that.timeBlocks[i].getWeekNo());
+                  newSchedule.setSpecialtyID(that.timeBlocks[i].getSpecialtyID());
+                  newSchedule.setStudentID(that.studentID);
+                  newSchedule.setSpecialtyDuration(that.timeBlocks[i].getSpecialtyDuration());
+
+                  //TODO: Set Hospital ID
+                  newSchedule.setHospitalID(that.timeBlocks[i].getHospitalID());
+
+
+                  if(that.timeBlocks[i].getHospitalName()=="unassigned"){
+                    unassignedHospital = true;
+                    break;
+                  }
+
+                  var scheduleInformation = scheduleCounter + ". \n"
+                                            + "Duration: " + that.timeBlocks[i].getSpecialtyDuration()+" weeks\n"
+                                            + "Start Date: " + that.timeBlocks[i].getStartDate()+"\n"
+                                            + "End Date: " + that.timeBlocks[i].getEndDate()+"\n"
+                                            + "Clinical Site: " + that.timeBlocks[i].getHospitalName()+"\n"
+                                            + "Specialty: " + that.timeBlocks[i].getSpecialtyName()+"\n\n";
+
+                  summaryOfAddedSchedules = summaryOfAddedSchedules+ scheduleInformation;
+
+                  that.schedules.push(newSchedule);
+                  that.timeBlocks[i].setPendingSave("true");
+                }
+
+              }
+
+              if(unassignedHospital==true){
+                window.alert("*Failed To Save Schedule*\n\n~ Ensure all schedules are assigned to clinical sites before saving. ~");
+              }
+              else{
+                window.confirm(summaryOfAddedSchedules);
+              }
+
+            }; //end of btn save to changes
+
+            this.btnClearSchedule.onclick = function(ev){
+              //Does an ajax Post request to the delete_with_student_id function in the schedules controller with params that.studentID
+              var deleteConfirmation = confirm("Are you sure you want to clear the list of schedules on this timeline?");
+              if(deleteConfirmation==true){
+                if(IsGroup){
+                  for(var i = 0; i<that.studentIdList.length;i++){
+                    $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: that.studentIdList[i]}), statusCode: {204: function() {window.location.reload();} } });
+                  }
+                }else{
+                  $.ajax({url: "/schedules/delete_with_student_id", type: "POST" , data: jQuery.param({ student_id: studentID}), statusCode: {204: function() {window.location.reload();} } });
+                }
+              }
+            }; //end of btnclear schedule
+
+          } //END OF CONSTRUCTOR
+
+          //Initialisation Methods
+          initialiseTimeBlocks(specialties,studentID){
+            for(var i =0; i<52; i++){
+              var timeBlock = new TimeBlock(i+1, studentID, specialties);
+              //Timeblock has type timeBlock.type
+              this.timeBlocks.push(timeBlock);
+            }
+          }
+
+          addToStudentIdList(studentID){
+            this.studentIdList.push(studentID);
+          }
+
+          setType(type){
+            for(var i = 0; i<52; i++){
+                this.timeBlocks[i].setType(type);
+            }
+          }
+
+          //TODO: Fetch Specialty Name and Duration
+          initialiseSpecialties(){
+            var index = 0;
+            <% @specialties.each do |specialty| %>
+              var color = this.colour_pallette[index];
+              var progsId=<%=@current_programme_id%>;
+              var weeks=<%=CourseSpecialty.where(course_id: @programme_courses).where( specialty_id: specialty).pluck(:weeks)%>
+              var specialtyBlock = new SpecialtyBlock(<%= specialty.id %>, "<%= specialty.SpecialtyName %>", weeks, this.studentID, color);
+              this.specialties.push(specialtyBlock);
+              index = index + 1;
             <%end%>
-            this.timelines.push(new Timeline(<%=student.id%>, student_name, <%=student.studentNumber%>));
-            this.timelines[this.timelines.length-1].setType("student");
+          }
 
-          <% end %>
+          //TODO: Populate schedule array with any existing schedules, for that student, found in the database.
+          initialiseSchedules(){
+            <% @schedules.each do |schedule| %>
+              if(<%=schedule.student_id%>==this.studentID){
+                //StudentID is: this.studentID
+                var currentSchedule = new Schedule();
+                //Week No is  <%=schedule.week_no%>
+                var week_no = <%=Schedule.where(id: schedule.id).pluck(:week_no)%>;
+                currentSchedule.setWeekNo(week_no);
+                currentSchedule.setHospitalID(<%=schedule.hospital_id%>);
+                currentSchedule.setSpecialtyID(<%=schedule.specialty_id%>);
+                currentSchedule.setScheduleID(<%=schedule.id%>);
+                //INITIALISED SCHEDULE ID: currentSchedule.getScheduleID()
+
+                //ensure that we cannot drag that specialty since it is already there:
+                //hide the specialty so it is not re-selected-> disable that specialty div
+                var specialtyName =  <%=raw(Specialty.where(id: schedule.specialty_id).pluck(:specialtyName))%>;
+                var currSp=document.getElementById(<%=schedule.student_id%>+"#"+<%=schedule.specialty_id%>+"#"+specialtyName);
+                //change div's property
+                currSp.style.cursor="not-allowed";
+                currSp.style.opacity=0.3;
+                //don't allow it to be dragged
+                currSp.draggable=false;
+
+                var specialtyDuration = <%=  raw(Schedule.where(id: schedule.id).pluck(:specialty_duration))%>;
+                currentSchedule.setSpecialtyDuration(specialtyDuration);
+
+                this.showScheduleOnTimeline(currentSchedule);
+              }
+            <% end %>
+          }
+
+          //Class Methods
+          //Show the schedule object on the timeline
+          showScheduleOnTimeline(schedule){
+            var weekNo = schedule.getWeekNo();
+            var timeBlock = this.timeBlocks[weekNo-1];
+            timeBlock.setAssigned(true); //This needs to be here for the main timeblock in the schedule to be set to true
+
+            //Retrieve Schedule ID
+            var scheduleID = schedule.getScheduleID();
+            this.timeBlocks[weekNo-1].setScheduleID(scheduleID);
+
+            //Retrieve Specialty ID
+            var specialtyID = schedule.getSpecialtyID();
+
+            //Retrieve Hospital ID
+            var hospitalID = schedule.getHospitalID();
+            this.timeBlocks[weekNo-1].setHospitalID(hospitalID);
+
+            //Retrieve Specialty Duration
+            var specialtyDuration = schedule.getSpecialtyDuration();
+            this.timeBlocks[weekNo-1].setSpecialtyDuration(specialtyDuration+"");
+
+            //Set the end date
+            this.timeBlocks[weekNo-1].setEndDate();
+
+            //Retrieve timeblox div id
+            var data = this.timeBlocks[weekNo-1].getDivID();
+
+            //Overlapping
+            for(var i = weekNo-1; i<weekNo-1+parseInt(specialtyDuration);i++){
+              this.timeBlocks[i].setPseudoAssigned(true);
+              this.timeBlocks[i].setSaved("true");
+            }
+
+            //Put specialty div in timebox div
+            this.timeBlocks[weekNo-1].getDiv().style.background = document.getElementById(data).style.background;
+
+            //colours divs according to specialty duration
+            let numDivSpan = this.timeBlocks[weekNo-1].getDiv().getAttribute("weekNo");
+            let colorVal, specialtyN;
+            for (let i=0;i<this.specialties.length;i++){
+              //ensure that div is colour of specialty it is assigned to
+              if (this.specialties[i].specialtyID==specialtyID){
+                colorVal=this.specialties[i].color;
+                specialtyN=this.specialties[i].getSpecialtyName();
+                this.timeBlocks[weekNo-1].setSpecialtyName(specialtyN); //Set specialtyName in TimeBlock
+                break;
+              }
+            }
+
+
+            //change colours of amount of divs of specialty duration
+            for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
+              var currDivID = this.studentID+"#"+i;
+              document.getElementById(currDivID).style.background= colorVal;
+            }
+
+            //Set the Hospital Name in the Time Block
+            this.timeBlocks[weekNo-1].setHospitalName();
+            this.timeBlocks[weekNo-1].setPseudoAssigned(true);
+            this.timeBlocks[weekNo-1].setToolTipContents();
+          }//end of show schedule
+
+          //Remove Schedule for a weekNo
+          removeSchedule(weekNo){
+            for(var i = 0; i< this.schedules.length; i++){
+              if(this.schedules[i].getWeekNo()==weekNo){
+                this.schedules.splice(i,1);
+              }
+            }
+          }
+
+          displayTimeline(){
+            var timeLineDiv = document.createElement('div');
+            timeLineDiv.style.borderRadius= "25px";
+            timeLineDiv.style.boxShadow = "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)";
+            timeLineDiv.style.padding = "10px";
+          
+            //Main Table
+            var table = document.createElement('table');
+
+            //Header Div
+            var headerDiv = document.createElement('div');
+            headerDiv.setAttribute("style","margin-top:20px; margin-bottom:0px;");
+
+            //Button to update Schedule
+            var buttonDiv = document.createElement('div');
+            buttonDiv.setAttribute("style","margin-left: auto; margin-right: 10px; margin-top: 5px; float: right;");
+            buttonDiv.appendChild(this.btnSaveToChanges);
+            headerDiv.appendChild(buttonDiv);
+
+            //Button to clear Schedule
+            var buttonDiv = document.createElement('div');
+            buttonDiv.setAttribute("style","margin-left: 10px; margin-right: auto; margin-top: 5px; float: left;");
+            buttonDiv.appendChild(this.btnClearSchedule);
+            headerDiv.appendChild(buttonDiv);
+
+            //Add student information
+            var studentInfoDiv = document.createElement('div');
+            studentInfoDiv.setAttribute("style","display: inline-block; margin-left: 0px;");
+            var studentInformation = [this.studentName, this.studentNumber];
+
+            var tempTable = document.createElement('table');
+            for(var i = 0 ;i<studentInformation.length;i++){
+              var tr = document.createElement('tr');
+              var h5 = document.createElement('h5');
+              h5.innerHTML = studentInformation[i];
+              var td = document.createElement('td');
+              td.appendChild(h5);
+              tr.appendChild(td);
+              tempTable.appendChild(tr);
+            }
+            studentInfoDiv.appendChild(tempTable);
+            headerDiv.appendChild(studentInfoDiv);
+            var tr = document.createElement('tr');
+            tr.appendChild(headerDiv);
+            table.appendChild(tr);
+
+            var tr = document.createElement('tr');
+            var specialtyDiv = document.createElement('div');
+            specialtyDiv.setAttribute("style","border-radius: 25px; border: 2px dotted gray; display: inline-block; padding: 15px; float: left;");
+            //Add Specialties for students
+            for(var i = 0; i<this.specialties.length;i++ ){
+              specialtyDiv.appendChild(this.specialties[i].getDiv());
+            }
+            tr.appendChild(specialtyDiv);
+            table.appendChild(tr);
+
+            //Spacing
+            var br = document.createElement('br');
+            table.appendChild(br);
+            //Spacing
+
+            //Visual timeline
+            //52 divs - Timeblocks
+
+            var tr = document.createElement('tr');
+            for(var i = 0; i<52; i++){
+              //var p = document.createElement('p');
+              var td = document.createElement('td');
+              td.style.padding ="0px"; //No spacing between timeBoxes
+              td.appendChild(this.timeBlocks[i].getDiv());
+              tr.appendChild(td);
+            }
+
+            //Container for 52 Timeblocks
+            var container = document.createElement('div');
+            container.appendChild(tr);
+            container.appendChild(document.createElement('br'));
+            container.style.height = "50%";
+            //was 1800px before. Now it is 95 percent of the viewport
+            container.style.width="95vw";
+            container.style.overflow = 'overlay';
+            container.style.alignItems = 'center';
+            var tr = document.createElement('tr');
+            tr.appendChild(container);
+            table.appendChild(tr);
+
+            //Spacing
+            var br = document.createElement('br');
+            table.appendChild(br);
+            //Spacing
+
+            //Spacing
+            var br = document.createElement('br');
+            table.appendChild(br);
+            //Spacing
+
+            timeLineDiv.appendChild(table);
+            return timeLineDiv; //Return row which corresponds to a student's timeline
+
+          }//end of display timeline
+
+          //Getter & Setter Methods
+          //Return array of schedules
+          getSchedules(){
+            return this.schedules;
+          }
+
+        }//END OF TIMELINE CLASS
+
+        //==============================================================================
+        //TIMEBLOCK CLASS
+        //==============================================================================
+
+        class TimeBlock {
+          constructor(weekNo,studentID, specialties){
+            this.weekNo = weekNo;
+            this.studentID = studentID;
+            this.hospitalID = 0;
+            this.saved = "false";
+            this.pendingSave = "false";
+            this.specialtiesArr=specialties;
+            this.div = document.createElement('div');
+            this.assigned_hosp = document.createElement('p');
+
+            this.div.setAttribute("weekNo",this.weekNo);
+            this.div.setAttribute("studentID", this.studentID);
+
+            this.type = "unknown";
+            this.hospitalName = "unassigned";
+            this.setAssigned(false);
+            this.setPseudoAssigned(false);
+            this.specialtyID = "";
+            this.specialtyName = "";
+            this.specialtyDuration = "";
+            this.scheduleID = "";
+
+            //Using
+            this.startDate = new Date();
+            this.endDate = new Date();
+
+            this.tooltipContents = [];
+
+            this.initialiseStartDate();
+            this.initialiseDivAttributes();
+            this.displayDate();
+          }
+
+          setType(type){
+            this.type = type;
+          }
+
+          setToolTipContents(){
+            this.tooltipContents = ["Week Number",this.weekNo,"Start Date",this.returnLongFormattedDate(this.startDate),"End Date",this.returnLongFormattedDate(this.endDate),"Specialty Name", this.specialtyName,"Hospital Name", this.hospitalName];
+          }
+
+          setScheduleID(scheduleID){
+            this.scheduleID = scheduleID;
+
+            var btnDeleteSchedule = document.createElement('i');
+            btnDeleteSchedule.style.zIndex = "1";
+            btnDeleteSchedule.classList.add("btn");
+            btnDeleteSchedule.classList.add("btn-danger");
+            btnDeleteSchedule.style.position = "relative";
+            btnDeleteSchedule.style.padding = "2.5px";
+            btnDeleteSchedule.style.paddingBottom = "5px";
+            btnDeleteSchedule.style.marginTop = "-70px";
+            btnDeleteSchedule.style.color = "white";
+            btnDeleteSchedule.style.width = "auto";
+            btnDeleteSchedule.style.aspectRatio="1";
+            btnDeleteSchedule.style.textAlign = "center";
+            btnDeleteSchedule.style.alignItems = "center";
+            btnDeleteSchedule.style.borderRadius= "20px";
+            btnDeleteSchedule.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+            btnDeleteSchedule.innerHTML= '<i class="bi-trash-fill w3-tiny"></i>';
+            var that = this;
+
+            btnDeleteSchedule.onclick = function(ev){
+              var deleteConfirmation = confirm("Are you sure you want to delete this schedule?");
+              if(deleteConfirmation == true){
+                //Delete with schedule id
+                $.ajax({url: "/schedules/delete_with_schedule_id", type: "POST" , data: jQuery.param({ schedule_id: that.scheduleID}), statusCode: {204: function() {window.location.reload();} } });
+              }
+              else{
+                btnDeleteSchedule.blur(); //Removes focus from button
+              }
+            }; //end of deleteschedule
+
+            this.div.appendChild(btnDeleteSchedule);
+
+          }//end of set schedule
+
+          returnFormattedDate(dateObject){
+            var month = dateObject.getMonth()+1;
+            var day = dateObject.getDate();
+            if(month<10){
+              month = "0" + month;
+            }
+            if(day<10){
+              day = "0" + day;
+            }
+            return day + "-" + month + "-" + dateObject.getFullYear();
+          }
+
+          returnLongFormattedDate(dateObject){
+            var month = dateObject.getMonth()+1;
+            var date = dateObject.getDate();
+            var year = dateObject.getFullYear();
+            switch(month){
+              case 1:
+                month = "Jan";
+                break;
+
+              case 2:
+                month = "Feb";
+                break;
+
+              case 3:
+                month = "Mar";
+                break;
+
+              case 4:
+                month = "Apr";
+                break;
+
+              case 5:
+                month = "May";
+                break;
+
+              case 6:
+                month = "Jun";
+                break;
+
+              case 7:
+                month = "Jul";
+                break;
+
+              case 8:
+                month = "Aug";
+                break;
+
+              case 9:
+                month = "Sep";
+                break;
+
+              case 10:
+                month = "Oct";
+                break;
+
+              case 11:
+                month = "Nov";
+                break;
+
+              case 12:
+                month = "Dec";
+                break;
+
+            }
+
+            return date +" "+month+" "+year;
+
+
+          }//end of return long formatted date
+
+          //initialistaion Methods
+          initialiseDivAttributes(){
+            this.div.style.height = '120px';
+            this.div.style.padding = '10px';
+            this.div.style.display = 'flex';
+            this.div.style.border = "1px solid #aaaaaa";
+            this.div.style.alignItems = 'center';
+            this.div.style.width = '150px'; //120
+            this.div.setAttribute("id",this.studentID+"#"+this.weekNo);
+            this.div.style.justifyContent = 'center';
+            this.div.style.overflowWrap = 'break-word'; //Just to try and
+            this.div.style.wordWrap = 'break-word'; // force the content of the div to fit
+            this.div.style.hyphens = 'auto';// within the box
+            this.div.style.backgroundColor = "#B8B8B8";
+            this.div.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+            this.div.style.marginBottom = "5px";
+            if(this.weekNo==1){
+              this.div.style.borderRadius = "15px 0 0 15px";
+            }
+            if(this.weekNo==52){
+              this.div.style.borderRadius = "0 15px 15px 0";
+            }
+            var that = this;
+            //On Drop Function
+            this.div.ondrop = function(ev){
+              //--------------------------------------
+              ev.preventDefault();
+              var timeline;
+              // STUDENT ID IS: that.studentID);
+              // TYPE IS: that.type
+
+              if(that.type == "group"){
+                timeline  = groupSchedule.getTimeline();
+                //We've dropped onto a groups timeline
+              }
+              else{
+                timeline  = programmeSchedule.getTimeline( that.studentID);
+              }
+
+              var specialtyDuration = parseInt(ev.dataTransfer.getData("specialtyDuration"));
+              //duration in ondrop timeblock: specialtyDuration
+              var isAssigned = false;
+              var weekNo = that.weekNo;
+
+              for (let i = weekNo ; i < (weekNo + specialtyDuration) ; i++)
+              {
+
+                if (timeline.timeBlocks[i-1].getPseudoAssigned() == "true")
+                  {
+                    isAssigned = true;
+                    //if isAssigned is false, we can drop. If true then we cannot drop
+                  }
+              }
+
+              //------------------------------
+
+              if(isAssigned == false)
+              {
+
+                ev.preventDefault();
+
+                that.showHospitalPrompt();
+
+
+                //Retrieve Specialty ID
+                var specialtyID = ev.dataTransfer.getData("specialtyID");
+
+                that.specialtyID = specialtyID;
+                that.findSpecialtyName();
+                specialtyToAssign=that.specialtyID;
+
+
+                //Retrieve Specialty Duration
+                var specialtyDuration = ev.dataTransfer.getData("specialtyDuration");
+
+                that.specialtyDuration = specialtyDuration;
+                //Retrieved Specialty Duration: that.specialtyDuration
+                that.setEndDate();
+
+                //hide the specialty so it is not re-selected-> disable that specialty div
+                var specialtyName = ev.dataTransfer.getData("specialtyName");
+                that.specialtyName = specialtyName;
+                var currSp=document.getElementById(that.studentID+"#"+that.specialtyID+"#"+that.specialtyName);
+
+                //change div's property
+                currSp.style.cursor="not-allowed";
+                currSp.style.opacity=0.3;
+                //don't allow it to be dragged
+                currSp.draggable=false;
+
+                //Retrieve timebox div id
+                var data = ev.dataTransfer.getData("text");
+
+
+                //Put specialty div in timebox div
+                ev.target.style.background = document.getElementById(data).style.background;
+
+                //colours divs according to specialty duration
+                let numDivSpan=that.div.getAttribute("weekNo");
+                let colorVal;//, specialtyN;
+                for (let i=0;i<that.specialtiesArr.length;i++){
+                  //ensure that div is colour of specialty it is assigned to
+                  if (that.specialtiesArr[i].specialtyID==that.specialtyID){
+                    colorVal=that.specialtiesArr[i].color;
+                    break;
+                  }
+
+                }
+
+
+                //change colours of amount of divs of specialty duration
+                for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
+                  //TODO: CAN CHANGE OTHER ATTRIBUTES OF THE OTHER DIVS- CHANGE ITS SPECIALTY ID ETC ETC
+                  var currDivID = that.studentID+"#"+i;
+                  var currDiv = document.getElementById(currDivID);
+                  currDiv.style.background = colorVal;
+                  currDiv.setAttribute("pseudo_assigned",true);
+
+                  //CHANGE TEXT OF DIV- currently buggy as when text is changed, div moves downwards
+                  document.getElementById(currDivID).style.wordBreak="break-all";
+                }
+
+                //Once assigned, allow for modal box to appear
+                ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //if the student id is -1 we need to bring up the groups assignment modal
+                if(that.type == "group"){
+                  ev.target.setAttribute("data-target","#GHA"); // setting the target to the modals id
+                }
+                else{
+                  ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+                }
+
+                that.assigned = true;
+                that.setToolTipContents();
+                that.setPseudoAssigned(true) ;
+                that.setAssigned(true);
+
+
+
+              }//end of if is assigned=false
+
+              if(that.type == "group"){
+                groupSchedule.setSpecialtyID(that.specialtyID);
+                groupSchedule.setWeekNo(that.weekNo);
+                groupSchedule.setSpecialtyDuration(that.specialtyDuration);
+                //We've dropped onto a groups timeline.
+                //Groups Timeline has this information:Specialty ID: groupSchedule.getSpecialtyID()
+                // Week Number: groupSchedule.getWeekNo() and SpecialtyDuration: groupSchedule.getSpecialtyDuration()
+              }
+
+            }; //END OF THIS.DIVONDROP FUNCTION
+
+            //DragOver function
+            this.div.ondragover = function(ev){
+              //change cursor to hand pointer after dragging specialty block onto div
+              var isAssigned = that.getPseudoAssigned();
+              if (isAssigned == "false")
+                {
+                  that.div.style.cursor="pointer";
+                  ev.preventDefault();
+                }
+            };
+
+            //These are extra functions to try and fix the modal box not appearing after moving specialty div around
+            //OnDragLeave function
+            this.div.ondragleave = function(ev){
+              //Hide Modal Box
+              ev.target.setAttribute("data-toggle",""); // defining the click to bring up the modal box
+              ev.target.setAttribute("data-target",""); // setting the target to the modals id
+            };
+            //OnDragEnter Function
+            this.div.ondragenter = function(ev){
+              //Show Modal Box
+              ev.target.setAttribute("data-toggle","modal"); // defining the click to bring up the modal box
+              ev.target.setAttribute("data-target","#staticBackdrop"); // setting the target to the modals id
+              ev.target.setAttribute("student","studentValue");
+            };
+
+            //Not sure why we need this but we do need it for things to work. Fix this later.
+            this.div.onclick = function(ev){
+              if (that.getPseudoAssigned())
+              {
+                that.div.style.cursor="pointer";
+                //This code runs for a TimeBlock when a SpecialtyBlock is dropped onto it
+                var drop = document.getElementById('hospital_id');
+                drop.setAttribute("weekNo",this.getAttribute("weekNo"));
+                drop.setAttribute("studentID", this.getAttribute("studentID"));
+                drop.setAttribute("timeBlock", this.getAttribute("timeBlock"));
+                drop.setAttribute("specialtyID", ev.target.getAttribute("specialtyID"));
+
+              }
+            }
+
+            var tooltip = document.getElementById('timeBlockPopUp');
+            tooltip.style.display = "none";
+
+            var that = this;
+
+            //Used to show the popup
+            this.div.onmouseenter = function(ev){
+              if(that.assigned==true){
+                tooltip.style.display = "block";
+                var tooltipContents = document.createElement('p');
+
+                var heading = document.createElement('h4');
+                heading.classList.add('heading');
+                heading.innerHTML = "Schedule Information<br><br>";
+                tooltipContents.appendChild(heading);
+
+                for(var i = 0; i<that.tooltipContents.length;i++){
+                  //Field Information
+                  if(i%2==0){
+                    var field = document.createElement('h6');
+                    field.classList.add('field_heading');
+                    field.style.margin = "0px";
+                  }
+                  //Field Headings
+                  else{
+                    var field = document.createElement('p');
+                    field.classList.add('field_info');
+                  }
+                  field.innerHTML = that.tooltipContents[i];
+                  tooltipContents.appendChild(field);
+                }
+
+                tooltip.appendChild(tooltipContents);
+              }
+            } //END OF THIS.DIV.MOUSE ENTER FUNCTION
+
+            this.div.onmouseleave = function(ev){
+              document.body.style.cursor = "default";
+              if(that.assigned==true){
+                tooltip.innerHTML = "";
+                tooltip.style.display = "none";
+              }
+            }
+
+
+          }
+
+          initialiseStartDate(){
+            this.startDate.setMonth(0);
+            this.startDate.setDate(1+(7*(this.weekNo-1)));
+          }
+
+          setEndDate(){
+            //Start at start date
+            this.endDate.setMonth(0);
+            this.endDate.setDate(1+(7*(this.weekNo-1)));
+            //Move to end date
+            var duration = parseInt(this.specialtyDuration.charAt(0));
+            this.endDate.setDate(this.endDate.getDate()+(duration*7)); //Day just before the start of the next week
+          }
+
+
+
+          //Other Class Methods
+
+          displayDate(){
+            var temp = document.createElement('div');
+            var p = document.createElement('p');
+
+            p.setAttribute('id','start_date');
+            temp.style.textAlign = "center"
+            temp.style.width = "100%";
+            temp.style.borderRadius= "25px";
+            temp.style.background = "#FFFFFF";
+            temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+            p.style.color = "black";
+
+            p.innerHTML =  this.returnFormattedDate(this.startDate);
+            temp.appendChild(p);
+            this.div.appendChild(temp);
+          }
+
+          removeChildDiv(){
+            this.div.firstChild.remove();
+          }
+
+          showHospitalPrompt(){
+
+            this.removeChildDiv();
+
+            var temp = document.createElement('div');
+            var p = document.createElement('p');
+            p.setAttribute('id','hospital_prompt');
+            temp.style.textAlign = "center"
+            temp.style.width = "100%";
+            temp.style.borderRadius= "25px";
+            temp.style.background = "#FFFFFF";
+            temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+            p.style.color = "black";
+            p.style.marginTop = "20px";
+            p.innerHTML =  "Click to choose a hospital";
+
+            temp.appendChild(p);
+            this.div.appendChild(temp);
+          }
+          setHospitalName(){
+            <% @hospitals.each do |hospital| %>
+              if(<%=hospital.id%> == this.hospitalID){
+                this.hospitalName = <%=raw(Hospital.where(id: hospital.id).pluck(:hospital_name))%>;
+              }
+            <%end%>
+          }
+
+          findSpecialtyName(){
+            <% @specialties.each do |specialty| %>
+              if(<%=specialty.id%> == this.specialtyID){
+                this.specialtyName = <%=raw(Specialty.where(id: specialty.id).pluck(:SpecialtyName))%>;
+              }
+            <%end%>
+          }
+
+          showHospitalName(){
+            var hospitalName = "unassigned";
+            this.removeChildDiv();
+
+            <% @hospitals.each do |hospital| %>
+              if(<%=hospital.id%> == this.hospitalID){
+                hospitalName = <%=raw(Hospital.where(id: hospital.id).pluck(:hospital_name))%>;
+              }
+            <%end%>
+
+
+            //Create a div with the hospital name
+            var temp = document.createElement('div');
+            var p = document.createElement('p');
+
+            p.setAttribute('id','start_date');
+            temp.style.textAlign = "center"
+            temp.style.width = "100%";
+            temp.style.borderRadius= "25px";
+            temp.style.background = "#FFFFFF";
+            temp.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+
+            p.style.color = "black";
+            p.style.marginTop = "20px";
+            p.innerHTML =  hospitalName;
+
+            temp.appendChild(p);
+            this.div.appendChild(temp);
+
+            this.hospitalName = hospitalName;
+
+          }
+
+          //Getter and Setter Methods
+          getStartDate(){
+            return this.returnLongFormattedDate(this.startDate);
+          }
+
+          getEndDate(){
+            return this.returnLongFormattedDate(this.endDate);
+          }
+
+          getHospitalName(){
+            return this.hospitalName;
+          }
+
+          getSpecialtyName(){
+            return this.specialtyName;
+          }
+
+          getDivID(){
+            return this.div.id;
+          }
+
+          getHospitalID(){
+            return this.hospitalID;
+          }
+
+          getSpecialtyDuration(){
+            return this.specialtyDuration;
+          }
+
+          getWeekNo(){
+            return this.weekNo;
+          }
+
+          getDiv(){
+            return this.div;
+          }
+
+          getSpecialtyID(){
+            return this.specialtyID;
+          }
+
+          getPendingSave()
+          {
+            return this.pendingSave;
+          }
+
+          getSaved()
+          {
+            return this.saved;
+          }
+
+          getPseudoAssigned()
+          {
+            return this.div.getAttribute("pseudo_assigned");
+          }
+
+          getAssigned(){
+            return this.div.getAttribute("assigned");
+          }
+
+          setSpecialtyID(specialtyID){
+            this.specialtyID = specialtyID;
+          }
+
+          setSpecialtyName(specialtyName){
+            this.specialtyName = specialtyName;
+          }
+
+          setSpecialtyDuration(specialtyDuration){
+            this.specialtyDuration = specialtyDuration;
+          }
+
+          setAssigned(value){
+            this.assigned = value;
+            this.div.setAttribute("assigned",value);
+          }
+
+          setPendingSave(value)
+          {
+            this.pendingSave = value;
+          }
+
+          setSaved(value){
+          this.saved = value;
+          }
+
+          setPseudoAssigned(value){
+            this.div.setAttribute("pseudo_assigned",value);
+          }
+
+          setHospitalID(hospitalID){
+            this.hospitalID = hospitalID;
+          }
+
+
+
+        }//END OF TIMEBLOCK CLASS
+        //================================================================
+        //SCHEDULE CLASS
+        //================================================================
+        
+        class Schedule{
+          constructor(){
+            this.studentID = "";
+            this.weekNo = "";
+            this.specialtyID = "";
+            this.hospitalID = "";
+            this.specialtyDuration = "";
+            this.saved = "false"
+            this.scheduleID = "";
+          }
+
+          setSaved(value){
+            this.saved = value;
+          }
+
+          setStudentID(studentID){
+            this.studentID = studentID;
+          }
+
+          setScheduleID(scheduleID){
+            this.scheduleID = scheduleID;
+          }
+
+          getScheduleID(){
+            return this.scheduleID;
+          }
+
+          setWeekNo(weekNo){
+            this.weekNo = weekNo;
+          }
+
+          setSpecialtyID(specialtyID){
+            this.specialtyID = specialtyID;
+          }
+
+          setHospitalID(hospitalID){
+            this.hospitalID = hospitalID;
+          }
+
+          setSpecialtyDuration(specialtyDuration){
+            this.specialtyDuration = specialtyDuration;
+          }
+
+          getSaved(){
+            return this.saved;
+          }
+
+          getSpecialtyDuration(){
+            return this.specialtyDuration;
+          }
+
+          getWeekNo(){
+            return this.weekNo;
+          }
+
+          getStudentID(){
+            return this.studentID;
+          }
+
+          getSpecialtyID(){
+            return this.specialtyID;
+          }
+
+          getHospitalID(){
+            return this.hospitalID;
+          }
         }
+        //END OF SCHEDULE CLASS
 
-        saveSchedule(){
+        //=============================================
+        //SPECIALTY BLOCK
+        //=============================================
 
-          //For each timeline
-          for(var i =0; i<this.timelines.length; i++){
+        class SpecialtyBlock{
+          constructor(specialtyID,specialtyName,specialtyDuration,studentID,color){
+            this.div = document.createElement('div');
+            this.specialtyID = specialtyID;
+            this.div.setAttribute("specialtyID", specialtyID);
+            this.specialtyName = specialtyName;
+            this.specialtyDuration = specialtyDuration;
+            this.specialtyID=specialtyID;
+            this.color = color;
+            //For div ID
+            this.studentID = studentID;
+            this.div.setAttribute("id",this.studentID+"#"+this.specialtyID+"#"+this.specialtyName);
 
-            var currSchedule = this.timelines[i].getSchedules();
-            console.log("Number of schedules for timeline: "+currSchedule.length);
-            //For each schedule in a timeline
-            for(var j =0; j<currSchedule.length;j++){
-              console.log("Check schedule no: "+j);
-              console.log("get saved of current schedule " +currSchedule[j].getSaved() );
-              if (currSchedule[j].getSaved() == "false")
+            this.initialiseDivAttributes();
+          }
+
+          initialiseDivAttributes(){
+            //Set div attributes
+            var nameDiv = document.createElement('div');
+            nameDiv.style.alignItems = 'center';
+            nameDiv.style.justifyContent = 'center';
+            nameDiv.style.margin = "auto auto";
+            var temp = document.createElement('p');
+            temp.style.textAlign = "center";
+            temp.style.alignItems = "center";
+            temp.style.textShadow =  "1px 1px 1px #000000";
+
+            //temp.width = "wrap-text";
+            temp.innerHTML = this.specialtyName;
+            nameDiv.appendChild(temp);
+
+            this.div.appendChild(nameDiv);
+            this.div.style.textAlign = 'center';
+            this.div.style.width = (100*this.specialtyDuration) +'px';
+            this.div.style.height = '30px';
+            this.div.style.display = 'flex';
+            this.div.style.border = "1px solid #aaaaaa";
+            this.div.style.alignItems = 'center';
+            this.div.style.background = this.color;
+            this.div.style.color = "white"
+            this.div.style.borderRadius= "10px";
+            this.div.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)";
+            this.div.style.marginBottom = "5px";
+
+            //change cursor
+            this.div.style.cursor="pointer";
+
+            this.div.setAttribute("draggable","true");
+            //On dragstart function
+            var that = this;
+            this.div.ondragstart = function(ev){
+              //Transfer div id
+              ev.dataTransfer.setData("text", ev.target.id);
+              //Transfer SpecialtyID
+              ev.dataTransfer.setData("specialtyID", that.specialtyID);
+              //Transfer Specialty Duration
+
+              ev.dataTransfer.setData("specialtyDuration", that.specialtyDuration);
+              ev.dataTransfer.setData("specialtyName", that.specialtyName);
+            };
+
+          }
+
+          getSpecialtyName(){
+            return this.specialtyName;
+          }
+
+          getSpecialtyDuration(){
+            return this.specialtyDuration;
+          }
+
+          getDiv(){
+            return this.div;
+          }
+
+        }//END OF SPECIALTY BLOCK
+
+        //==========================================================
+        //PROGRAMME SCHEDULE
+        //==========================================================
+
+        class ProgrammeSchedule{
+          constructor(parentObject){
+            this.programmeCode = "i am the code";
+            this.parentObject = parentObject;
+            this.timelines =[];
+            this.initialiseTimelines();
+            this.populateSchedule();
+          }
+
+          getTimeline(student_id){
+            var timelines = this.timelines;
+            var size = timelines.length;
+
+            var timeline;
+            for (let i = 0 ; i < size; i++)
+            {
+              timeline = timelines[i];
+              if (timeline.studentID == student_id)
+                {
+                  break;
+                }
+            }
+
+            return timeline;
+
+
+          }
+
+          getTimeBlock(week_no,student_id){
+
+            var timeline = this.getTimeline(student_id);
+            var size = timeline.timeBlocks.length;
+
+            var timeblock;
+            for (let i = 0 ; i < size; i++)
+            {
+              timeblock = timeline.timeBlocks[i];
+              if (timeblock.weekNo == week_no)
+                {
+                  break;
+                }
+            }
+
+            return timeblock;
+
+          }
+
+
+          //Create a number of timelines for each student in the programme
+          initialiseTimelines(){
+            <% @students.each do |student| %>
+              var student_user_id = "<%=student.user_id%>";
+              var student_name = "student";                     //default name incase of errors
+              <% @all_users.each do |user| %>                 // search for user
+                  if(student_user_id == <%=user.id%>){
+                      student_name = "<%=user.user_LastName%>" +", "+ "<%=user.user_FirstName%>";
+                  }
+              <%end%>
+              this.timelines.push(new Timeline(<%=student.id%>, student_name, <%=student.studentNumber%>));
+              this.timelines[this.timelines.length-1].setType("student");
+
+            <% end %>
+          }
+
+          saveSchedule(){
+
+            //For each timeline
+            for(var i =0; i<this.timelines.length; i++){
+
+              var currSchedule = this.timelines[i].getSchedules();
+              //Number of schedules for timeline: currSchedule.length
+              //For each schedule in a timeline
+              for(var j =0; j<currSchedule.length;j++){
+                //Check schedule no: j
+                //get saved of current schedule: currSchedule[j].getSaved()
+                if (currSchedule[j].getSaved() == "false")
                 {
                   var studentID = currSchedule[j].getStudentID();
                   var weekNo = currSchedule[j].getWeekNo();
                   var specialtyID = currSchedule[j].getSpecialtyID();
                   var specialtyDuration = currSchedule[j].getSpecialtyDuration();
                   var hospitalID = currSchedule[j].getHospitalID();
-                  console.log("Saving new Schedule to database");
-                  console.log("Student ID to save: " +studentID);
-                  console.log("Week No to save: " +weekNo);
-                  console.log("Specialty ID to save: " +specialtyID);
-                  console.log("Specialty Duration to save: " +specialtyDuration);
-                  console.log("Hospital ID to save: " +hospitalID);
-                  console.log("");
-                  //console.log("Schedule information is: "+studentID+" "+weekNo+" "+specialtyID+" "+specialtyDuration+" "+hospitalID);
+                  // Saving new Schedule to database
+                  // Student ID to save: studentID
+                  // Week No to save: weekNo
+                  // Specialty ID to save: specialtyID
+                  // Specialty Duration to save: specialtyDuration
+                  // Hospital ID to save: hospitalID
+              
                   //TODO: Save this schedule to the Database
                   //calls function to do an ajax req
                   //still need to update parameters and fix Db table
-                  //console.log(hospitalID);
                   SaveRecord(studentID,specialtyID,weekNo,specialtyDuration,hospitalID);
                 }
 
-            }
-          }
-        }
-
-        //Populate Schedule with existing schedules from the database
-        populateSchedule(){
-
-          var table = document.createElement('table');
-          for(var i = 0; i<this.timelines.length; i++){
-            var br = document.createElement('br'); //Front-end
-            table.appendChild(br); //Front-end
-
-            var tr = this.timelines[i].displayTimeline();
-
-            table.appendChild(tr);
-
-            table.appendChild(br); //Front-end
-          }
-          //timeLineDiv.appendChild(table);
-          this.parentObject.appendChild(table);
-
-          for(var i = 0; i<this.timelines.length; i++){
-            this.timelines[i].initialiseSchedules();
-
-          }
-
-        }
-
-  }
-
-  //DO NOT CHANGE
-  this.GroupName = "";
-  <% if(@Student_Groups.present? == true)%>
-    this.GroupName = "<%= @Student_Groups.first.group.group_name %>"
-  <% end %>
-
-
-//Used for Scheduling Groups
-class StudentAssignment{
-    contructor(){
-
-      this.studentID;
-      this.hospitalID;
-    }
-
-    getStudentID(){
-      return this.studentID;
-    }
-
-    getHospitalID(){
-      return this.hospitalID;
-    }
-
-    setStudentID(studentID){
-      this.studentID = studentID;
-    }
-
-    setHospitalID(hospitalID){
-      this.hospitalID = hospitalID;
-    }
-
-
- }
-
-
-  class GroupSchedule{
-        constructor(parentObject, groupName){
-          this.studentAssignments = [];
-          this.specialtyID;
-          this.parentObject = parentObject;
-          this.timeline;
-          this.groupName = groupName;
-          this.weekNo;
-          this.specialtyDuration;
-
-          //Need to check if Student_Groups.first isn't nil
-          //THIS IS WHERE THE SNIPPET OF CODE USED TO BE KAMERON
-
-          <% if @Student_Groups.first != nil %>
-              this.sampleStudentID = <%= @Student_Groups.first.student.id %>;
-          <% else %>  
-              this.sampleStudentID = -1;
-          <%end%>
-
-
-          //this.sampleStudentId needs to be the id of the first student in that group
-          //this.sampleStudentID = -1;
-
-
-
-          this.initialiseTimelines();
-          this.populateSchedule();
-        }
-
-        setSpecialtyID(specialtyID){
-          this.specialtyID = specialtyID;
-        }
-
-        getSpecialtyID(){
-          return this.specialtyID;
-        }
-
-        getTimeline(){
-          return this.timeline;
-        }
-
-        getWeekNo(){
-          return this.weekNo;
-        }
-
-        setWeekNo(weekNo){
-          this.weekNo = weekNo;
-        }
-
-        getSpecialtyID(){
-          return this.specialtyID;
-        }
-
-        setSpecialtyID(specialtyID){
-          this.specialtyID = specialtyID;
-        }
-
-        getSpecialtyDuration(){
-          return this.specialtyDuration;
-        }
-
-        setSpecialtyDuration(specialtyDuration){
-          this.specialtyDuration = specialtyDuration;
-        }
-
-        getTimeBlock(week_no,student_id){
-
-        var size = this.timeline.timeBlocks.length;
-
-          var timeblock;
-          for (let i = 0 ; i < size; i++)
-          {
-            timeblock = this.timeline.timeBlocks[i];
-            if (timeblock.weekNo == week_no)
-              {
-                break;
               }
+            }
           }
 
-          return timeblock;
+          //Populate Schedule with existing schedules from the database
+          populateSchedule(){
 
-        }
+            var table = document.createElement('table');
+            for(var i = 0; i<this.timelines.length; i++){
+              var br = document.createElement('br'); //Front-end
+              table.appendChild(br); //Front-end
 
-        getStudentAssignments(){
-          return this.studentAssignments;
-        }
+              var tr = this.timelines[i].displayTimeline();
 
-        addStudentAssignment(newStudentAssignment){
-          this.studentAssignments.push(newStudentAssignment);
-        }
+              table.appendChild(tr);
 
-        removeStudentAssignment(studentID){
-          for(var i = 0; i<this.studentAssignments.length;i++){
-            if(this.studentAssignments[i].getStudentID()==studentID){
-              this.studentAssignments.splice(i,1);
+              table.appendChild(br); //Front-end
+            }
+            //timeLineDiv.appendChild(table);
+            this.parentObject.appendChild(table);
+
+            for(var i = 0; i<this.timelines.length; i++){
+              this.timelines[i].initialiseSchedules();
+
             }
 
           }
+
+        } //END OF PROGRAMME SCHEDULE
+
+        //=====================================================================
+
+        //DO NOT CHANGE
+        this.GroupName = "";
+        <% if(@Student_Groups.present? == true)%>
+          this.GroupName = "<%= @Student_Groups.first.group.group_name %>"
+        <% end %>
+
+        //==================================================================
+        //STUDENT ASSIGNMENT
+        //==================================================================
+
+        //Used for Scheduling Groups
+        class StudentAssignment{
+          contructor(){
+
+            this.studentID;
+            this.hospitalID;
+          }
+
+          getStudentID(){
+            return this.studentID;
+          }
+
+          getHospitalID(){
+            return this.hospitalID;
+          }
+
+          setStudentID(studentID){
+            this.studentID = studentID;
+          }
+
+          setHospitalID(hospitalID){
+            this.hospitalID = hospitalID;
+          }
         }
 
-        //Create a number of timelines for each student in the programme
-        initialiseTimelines(){
-            this.timeline = new Timeline(this.sampleStudentID, this.groupName,"<br>");
-            this.timeline.setType("group");
-            <% @Student_Groups.each do |g| %>
-              console.log("Adding Student ID: " + <%=raw(g.student.id)%>);
-              this.timeline.addToStudentIdList(<%=raw(g.student.id)%>);
+        //====================================================
+        //GROUP SCHEDULE
+        //====================================================
+
+        class GroupSchedule{
+          constructor(parentObject, groupName){
+            this.studentAssignments = [];
+            this.specialtyID;
+            this.parentObject = parentObject;
+            this.timeline;
+            this.groupName = groupName;
+            this.weekNo;
+            this.specialtyDuration;
+
+            //Need to check if Student_Groups.first isn't nil
+            //THIS IS WHERE THE SNIPPET OF CODE USED TO BE KAMERON
+
+            <% if @Student_Groups.first != nil %>
+                this.sampleStudentID = <%= @Student_Groups.first.student.id %>;
+            <% else %>
+                this.sampleStudentID = -1;
             <%end%>
 
-        }
-
-        saveSchedule(){
-          for(var i = 0; i<studentAssignments.length; i++){
-            SaveRecord(studentAssignments[i].getStudentID(),this.specialtyID,this.weekNo,this.specialtyDuration,studentAssignments[i].hospitalID);
+            this.initialiseTimelines();
+            this.populateSchedule();
           }
 
-        }
+          setSpecialtyID(specialtyID){
+            this.specialtyID = specialtyID;
+          }
 
-        populateSchedule(){
-          var table = document.createElement('table');
+          getSpecialtyID(){
+            return this.specialtyID;
+          }
+
+          getTimeline(){
+            return this.timeline;
+          }
+
+          getWeekNo(){
+            return this.weekNo;
+          }
+
+          setWeekNo(weekNo){
+            this.weekNo = weekNo;
+          }
+
+          getSpecialtyID(){
+            return this.specialtyID;
+          }
+
+          setSpecialtyID(specialtyID){
+            this.specialtyID = specialtyID;
+          }
+
+          getSpecialtyDuration(){
+            return this.specialtyDuration;
+          }
+
+          setSpecialtyDuration(specialtyDuration){
+            this.specialtyDuration = specialtyDuration;
+          }
+
+          getTimeBlock(week_no,student_id){
+
+            var size = this.timeline.timeBlocks.length;
+
+            var timeblock;
+            for (let i = 0 ; i < size; i++)
+            {
+              timeblock = this.timeline.timeBlocks[i];
+              if (timeblock.weekNo == week_no)
+                {
+                  break;
+                }
+            }
+            return timeblock;
+          }
+
+          getStudentAssignments(){
+            return this.studentAssignments;
+          }
+
+          addStudentAssignment(newStudentAssignment){
+            this.studentAssignments.push(newStudentAssignment);
+          }
+
+          removeStudentAssignment(studentID){
+            for(var i = 0; i<this.studentAssignments.length;i++){
+              if(this.studentAssignments[i].getStudentID()==studentID){
+                this.studentAssignments.splice(i,1);
+              }
+
+            }
+          }
+
+          //Create a number of timelines for each student in the programme
+          initialiseTimelines(){
+              this.timeline = new Timeline(this.sampleStudentID, this.groupName,"<br>");
+              this.timeline.setType("group");
+              <% @Student_Groups.each do |g| %>
+                //Adding Student ID:  <%=raw(g.student.id)
+                this.timeline.addToStudentIdList(<%=raw(g.student.id)%>);
+              <%end%>
+
+          }
+
+          saveSchedule(){
+            for(var i = 0; i<studentAssignments.length; i++){
+              SaveRecord(studentAssignments[i].getStudentID(),this.specialtyID,this.weekNo,this.specialtyDuration,studentAssignments[i].hospitalID);
+            }
+
+          }
+
+          populateSchedule(){
+            var table = document.createElement('table');
             var br = document.createElement('br'); //Front-end
             table.appendChild(br); //Front-end
             var tr = this.timeline.displayTimeline();
             table.appendChild(tr);
             table.appendChild(br); //Front-end
 
-          this.parentObject.appendChild(table);
+            this.parentObject.appendChild(table);
 
-          if(this.sampleStudentID!=-1){
-            this.timeline.initialiseSchedules();
+            if(this.sampleStudentID!=-1){
+              this.timeline.initialiseSchedules();
+            }
+
+          }
+
+        }//END OF GROUP SCHEDULE CLASS
+
+        //===============================================================
+
+        //Create a new programme schedule for a specific programme / Group
+        var programmeSchedule;
+        var groupSchedule;
+
+        //the user didnt click on the group button
+        if ( <%= @FirstRec != nil %>){
+          if(IsGroup == false){
+            programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
+          }//clicked! make a single timeline
+          else{
+          //if there is a group name then there are students in this group and we CAN schedule
+          //else the group name is "" then there are no students assigned to this group and WE CANNOT schedule
+            if(this.GroupName != ""){
+              groupSchedule = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
+              //group's timeline is: groupSchedule.getTimeline()
+            }
+            else{
+              console.log("Cannot assign - No Students in Group");
+            }
+          }
+        } //end of if statement
+
+        var chosen_hospital_id = 0;
+
+        function obtainUserName(studentID){
+          var fName, lName;
+          <%@students.each do |student|%>
+              if (studentID=="<%=student.id%>"){
+
+                var fName= "<%= User.where(:id => student.user_id).pluck(:user_FirstName).first%>";
+                var lName= "<%= User.where(:id => student.user_id).pluck(:user_LastName).first%>";
+                return fName+" "+lName;
+
+              }
+          <%end%>
+
+          return;
+        }
+
+        function obtainSpecialtyName(specId){
+          <%@specialties.each do |specialty|%>
+              if (specId=="<%=specialty.id%>"){
+
+                return "<%=specialty.SpecialtyName%>";
+              }
+          <%end%>
+
+          return;
+        }
+
+        function obtainHospitalName(hospId){
+          <%@hospitals.each do |hospital|%>
+              if (hospId=="<%=hospital.id%>"){
+
+                return "<%=hospital.hospital_name%>";
+              }
+          <%end%>
+
+          return;
+        }
+
+      //onclick function to save all the schedules to the database
+        function makeChanges(){
+
+          if ( <%= @FirstRec != nil %>){
+          //save the students schedules
+            if(IsGroup == false){
+              //SAVING INDIVIDUALLY
+              programmeSchedule.saveSchedule();
+              window.location.reload();
+            }
+            //save the groups schedules
+            else{
+              //SAVING GROUP
+              groupSchedule.saveSchedule();
+              window.location.reload();
+            }
           }
 
         }
 
-  }
+        //delete button click event for dynamically instantiated divs
+        function removeElementFromArray(e, weekNo, studentID, specName, specialtyID, specialtyDuration){
+          let parentID=e.target.parentNode.id;
+          let detailsArr = e.target.parentNode.id.split("#");
 
+          //if someone clicked on the icon instead of the btn
+          let checked=e.target.parentNode instanceof HTMLDivElement;
+          if (checked===false){
+            parentID=e.target.parentNode.parentNode.id;
+            detailsArr = e.target.parentNode.parentNode.id.split("#");
+          }
 
-
-
-
-  //Create a new programme schedule for a specific programme / Group
-  var programmeSchedule;
-  var groupSchedule;
-
-
-  //the user didnt click on the group button
-  if ( <%= @FirstRec != nil %>){
-    if(IsGroup == false){
-      programmeSchedule = new ProgrammeSchedule(document.getElementById('schedule_window'));
-    }//clicked! make a single timeline
-    else{
-    //if there is a group name then there are students in this group and we CAN schedule
-    //else the group name is "" then there are no students assigned to this group and WE CANNOT schedule
-      if(this.GroupName != ""){
-        groupSchedule = new GroupSchedule(document.getElementById('schedule_window') , this.GroupName);
-
-        console.log(groupSchedule.getTimeline());
-      }
-      else{
-        console.log("Cannot assign - No Students in Group");
-      }
-    }
-
-
-  }
-
-
-  var chosen_hospital_id = 0;
-
-
-  function obtainUserName(studentID){
-    var fName, lName;
-     <%@students.each do |student|%>
-            if (studentID=="<%=student.id%>"){
-
-              var fName= "<%= User.where(:id => student.user_id).pluck(:user_FirstName).first%>";
-              var lName= "<%= User.where(:id => student.user_id).pluck(:user_LastName).first%>";
-              return fName+" "+lName;
-
-            }
-    <%end%>
-
-    return;
-  }
-
-  function obtainSpecialtyName(specId){
-     <%@specialties.each do |specialty|%>
-            if (specId=="<%=specialty.id%>"){
-
-              return "<%=specialty.SpecialtyName%>";
-            }
-    <%end%>
-
-    return;
-  }
-
-  function obtainHospitalName(hospId){
-     <%@hospitals.each do |hospital|%>
-            if (hospId=="<%=hospital.id%>"){
-
-              return "<%=hospital.hospital_name%>";
-            }
-    <%end%>
-
-    return;
-  }
-
-//onclick function to save all the schedules to the database
-  function makeChanges(){
-
-    if ( <%= @FirstRec != nil %>){
-    //save the students schedules
-
-    if(IsGroup == false){
-      console.log("SAVING INDIVIDUALLY");
-      programmeSchedule.saveSchedule();
-      window.location.reload();
-    }
-    //save the groups schedules
-    else{
-      console.log("SAVING GROUP");
-      groupSchedule.saveSchedule();
-      //window.location.reload();
-    }
-  }
-
-  }
-
-  //delete button click event for dynamically instantiated divs
-  function removeElementFromArray(e, weekNo, studentID, specName, specialtyID, specialtyDuration){
-
-
-    let parentID=e.target.parentNode.id;
-    let detailsArr = e.target.parentNode.id.split("#");
-
-     //if someone clicked on the icon instead of the btn
-    let checked=e.target.parentNode instanceof HTMLDivElement;
-    if (checked===false){
-      parentID=e.target.parentNode.parentNode.id;
-      detailsArr = e.target.parentNode.parentNode.id.split("#");
-    }
-
-    //remove element from array
-    for(var i =0; i<programmeSchedule.timelines.length; i++){
+          //remove element from array
+          for(var i =0; i<programmeSchedule.timelines.length; i++){
             var currSchedule = programmeSchedule.timelines[i].getSchedules();
             //For each schedule in a timeline
             for(var j =0; j<currSchedule.length;j++){
@@ -1922,278 +1786,241 @@ class StudentAssignment{
                   break;
               }
             }
-    }
+          }
 
-    //set first div in specialty to false + remove hospital name
-    var delBlock=programmeSchedule.getTimeBlock(weekNo, studentID);
-    delBlock.setAssigned(false);
-    delBlock.removeChildDiv();
-    delBlock.displayDate();
-    delBlock.setHospitalID("unassigned");
-
-
-    //remove colour from divs that were selected
-
-    let numDivSpan=weekNo;
-
-    for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
-
-        let currDivID = studentID+"#"+i;
-        document.getElementById(currDivID).style.background= "#B8B8B8";
-
-        if (i==numDivSpan){
-          document.getElementById(currDivID).style.cursor="default";
-          //removes pop-up hospital modal
-           document.getElementById(currDivID).removeAttribute("data-toggle");
-        }
-
-        //allow user to put specialty on block again
-        var tmpBlock=programmeSchedule.getTimeBlock(i, studentID);
-        tmpBlock.setPseudoAssigned(false);
-        tmpBlock.setSaved("false");
-        tmpBlock.setPendingSave("false");
-
-      }
-
-    //return the specialty divs to their original state
-    var currentS=document.getElementById(studentID+"#"+specialtyID+"#"+specName);
-    //allow it to be dragged
-    document.getElementById(studentID+"#"+specialtyID+"#"+specName).draggable=true;
-    document.getElementById(studentID+"#"+specialtyID+"#"+specName).style.cursor="pointer";
-    document.getElementById(studentID+"#"+specialtyID+"#"+specName).style.opacity=1;
+          //set first div in specialty to false + remove hospital name
+          var delBlock=programmeSchedule.getTimeBlock(weekNo, studentID);
+          delBlock.setAssigned(false);
+          delBlock.removeChildDiv();
+          delBlock.displayDate();
+          delBlock.setHospitalID("unassigned");
 
 
-    if ( document.getElementById("div"+detailsArr[1]).childElementCount>=3) {
-       //remove div from student details
-      if (checked===false){
-        e.target.parentNode.parentNode.remove(document.getElementById("#"+parentID));
-      }else{
-        e.target.parentNode.remove(document.getElementById("#"+parentID));
-      }
-    }else{
+          //remove colour from divs that were selected
+          let numDivSpan=weekNo;
 
-      //if there aren't any contents in the modal box anymore
-      console.log($("#modalContent").children().length);
-      if ( $("#modalContent").children().length==1){
+          for (let i =  numDivSpan; i < parseInt(numDivSpan)+parseInt(specialtyDuration); i++) {
 
-         //if someone clicked on the icon instead of the btn
-        if (checked===false){
-           e.target.parentNode.parentNode.parentNode.parentNode.innerHTML="There are currently no pending changes.";
-        }else{
-          e.target.parentNode.parentNode.parentNode.innerHTML="There are currently no pending changes.";
-        }
-      }
-
-      //if someone clicked on the icon instead of the btn
-      if (checked===false){
-       e.target.parentNode.parentNode.parentNode.remove();
-      }else{
-        //remove the entire Div containing name of student too
-        e.target.parentNode.parentNode.remove();
-      }
-    }
-
-  }
-
-
-  function loadModalInfo(){
-    //remove previous info
-     $("#modalContent").children().remove();
-
-     //modal's contents
-     var divOuter=document.getElementById("modalContent");
-      let count=0;
-        for(var i =0; i<programmeSchedule.timelines.length; i++){
-            var currSchedule = programmeSchedule.timelines[i].getSchedules();
-            //For each schedule in a timeline
-            if (currSchedule.length>0){
-              count=1;
-              break;
-            }
-        }
-
-    //if there were no saved changes
-     if (count===0){
-      divOuter.innerHTML="There are currently no pending changes.";
-
-     }else{
-      divOuter.innerHTML="";
-
-       //display schedule info
-        for(var i =0; i<programmeSchedule.timelines.length; i++){
-            var currSchedule = programmeSchedule.timelines[i].getSchedules();
-            //For each schedule in a timeline
-            for(var j =0; j<currSchedule.length;j++){
-              let studentID = currSchedule[j].getStudentID();
-              let weekNo = currSchedule[j].getWeekNo();
-              let specialtyID = currSchedule[j].getSpecialtyID();
-              let specialtyDuration = currSchedule[j].getSpecialtyDuration();
-              let hospitalID = currSchedule[j].getHospitalID();
-
-              //get the details so that user cannot access ID
-              let studName=obtainUserName(studentID);
-              let specName=obtainSpecialtyName(specialtyID);
-              let hospName= obtainHospitalName(hospitalID);
-
-              if (document.getElementById("div"+studentID)!=null){
-                var tmpDiv=document.getElementById("div"+studentID);
-                var divInner2=document.createElement("div");
-                divInner2.className="row mx-2 card-header my-1 text-left border border-secondary rounded";
-                var txt2=document.createElement("P");
-                txt2.innerHTML=("Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+"\t|\t Hospital: "+hospName);
-                txt2.style.cssFloat="left";
-                txt2.className="col-md-11 float-left my-auto ";
-
-
-                //DELETE BUTTON
-
-                var btnDel=document.createElement("button");
-                btnDel.innerHTML = '<i class="bi bi-trash"></i>';
-                btnDel.style.cssFloat = "right";
-                btnDel.className="col-md-1 btn btn-sm btn-danger float-right ";
-                btnDel.setAttribute("weekNo",weekNo);
-                btnDel.setAttribute("studentID",studentID);
-                btnDel.setAttribute("specName",specName);
-                btnDel.setAttribute("specialtyID",specialtyID);
-                btnDel.setAttribute("specialtyDuration",specialtyDuration);
-
-                divInner2.id="divy"+"#"+studentID+"#"+specialtyID;
-
-                //when delete button clicked
-                btnDel.onclick=function(e){
-                  removeElementFromArray(e, this.getAttribute("weekNo"),  this.getAttribute("studentID"),this.getAttribute("specName"), this.getAttribute("specialtyID"),  this.getAttribute("specialtyDuration"));
-                }
-
-                divInner2.appendChild(txt2);
-                divInner2.appendChild(btnDel);
-
-
-                tmpDiv.appendChild(divInner2);
-              }else{
-
-              //extra div for styling
-                var divOuter1= document.createElement("div");
-
-                divOuter1.className="card card-body my-1 border border-primary rounded-0";
-                divOuter1.id="div"+studentID;
-                //when we make it clickable we can do the ffg
-
-                divOuter1.innerHTML="<b>"+studName.toUpperCase()+"</b>";
-                var divInner=document.createElement("div");
-                divInner.id="divy"+"#"+studentID+"#"+specialtyID;
-                divInner.className="row mx-2 card-header my-1 text-left border border-secondary rounded";
-                var txt1=document.createElement("P");
-                txt1.innerHTML=("Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+" \t|\t Hospital: "+hospName);
-                // divInner.innerHTML="Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+" \t|\t Hospital: "+hospName;
-                // txt1.style.cssFloat="left";
-                txt1.className="col-md-11 float-left my-auto";
-
-                //DELETE BUTTON
-                var btnDel1=document.createElement("button");
-                // btnDel1.style.cssFloat = "right";
-                btnDel1.innerHTML = '<i class="bi bi-trash"></i> ';
-                btnDel1.className="col-md-1 btn btn-sm btn-danger float-right ";
-                btnDel1.setAttribute("weekNo",weekNo);
-                btnDel1.setAttribute("studentID",studentID);
-                btnDel1.setAttribute("specName",specName);
-                btnDel1.setAttribute("specialtyID",specialtyID);
-                btnDel1.setAttribute("specialtyDuration",specialtyDuration);
-
-                //when delete button clicked
-                btnDel1.onclick=function(e){
-
-                   removeElementFromArray(e, this.getAttribute("weekNo"),  this.getAttribute("studentID"),this.getAttribute("specName"), this.getAttribute("specialtyID"),  this.getAttribute("specialtyDuration"));
-                }
-
-                divInner.appendChild(txt1);
-                divInner.appendChild(btnDel1);
-                divOuter1.appendChild(divInner);
-                divOuter.appendChild(divOuter1);
+              let currDivID = studentID+"#"+i;
+              document.getElementById(currDivID).style.background= "#B8B8B8";
+              if (i==numDivSpan){
+                document.getElementById(currDivID).style.cursor="default";
+                //removes pop-up hospital modal
+                document.getElementById(currDivID).removeAttribute("data-toggle");
               }
+              //allow user to put specialty on block again
+              var tmpBlock=programmeSchedule.getTimeBlock(i, studentID);
+              tmpBlock.setPseudoAssigned(false);
+              tmpBlock.setSaved("false");
+              tmpBlock.setPendingSave("false");
+
+            }
+
+          //return the specialty divs to their original state
+          var currentS=document.getElementById(studentID+"#"+specialtyID+"#"+specName);
+          //allow it to be dragged
+          document.getElementById(studentID+"#"+specialtyID+"#"+specName).draggable=true;
+          document.getElementById(studentID+"#"+specialtyID+"#"+specName).style.cursor="pointer";
+          document.getElementById(studentID+"#"+specialtyID+"#"+specName).style.opacity=1;
+
+
+          if ( document.getElementById("div"+detailsArr[1]).childElementCount>=3) {
+            //remove div from student details
+            if (checked===false){
+              e.target.parentNode.parentNode.remove(document.getElementById("#"+parentID));
+            }else{
+              e.target.parentNode.remove(document.getElementById("#"+parentID));
+            }
+          }else{
+
+            //if there aren't any contents in the modal box anymore
+            if ( $("#modalContent").children().length==1){
+              //if someone clicked on the icon instead of the btn
+              if (checked===false){
+                e.target.parentNode.parentNode.parentNode.parentNode.innerHTML="There are currently no pending changes.";
+              }else{
+                e.target.parentNode.parentNode.parentNode.innerHTML="There are currently no pending changes.";
+              }
+            }
+
+            //if someone clicked on the icon instead of the btn
+            if (checked===false){
+            e.target.parentNode.parentNode.parentNode.remove();
+            }else{
+              //remove the entire Div containing name of student too
+              e.target.parentNode.parentNode.remove();
+            }
           }
         }
 
-     }
-     //add new changes info
-  }
-  //onclick function to assign student to hospital
-  function assignHospital(){
+
+        function loadModalInfo(){
+          //remove previous info
+          $("#modalContent").children().remove();
+
+          //modal's contents
+          var divOuter=document.getElementById("modalContent");
+            let count=0;
+              for(var i =0; i<programmeSchedule.timelines.length; i++){
+                  var currSchedule = programmeSchedule.timelines[i].getSchedules();
+                  //For each schedule in a timeline
+                  if (currSchedule.length>0){
+                    count=1;
+                    break;
+                  }
+              }
+          //if there were no saved changes
+          if (count===0){
+            divOuter.innerHTML="There are currently no pending changes.";
+          }else{
+            divOuter.innerHTML="";
+            //display schedule info
+            for(var i =0; i<programmeSchedule.timelines.length; i++){
+              var currSchedule = programmeSchedule.timelines[i].getSchedules();
+              //For each schedule in a timeline
+              for(var j =0; j<currSchedule.length;j++){
+                let studentID = currSchedule[j].getStudentID();
+                let weekNo = currSchedule[j].getWeekNo();
+                let specialtyID = currSchedule[j].getSpecialtyID();
+                let specialtyDuration = currSchedule[j].getSpecialtyDuration();
+                let hospitalID = currSchedule[j].getHospitalID();
+
+                //get the details so that user cannot access ID
+                let studName=obtainUserName(studentID);
+                let specName=obtainSpecialtyName(specialtyID);
+                let hospName= obtainHospitalName(hospitalID);
+
+                if (document.getElementById("div"+studentID)!=null){
+                  var tmpDiv=document.getElementById("div"+studentID);
+                  var divInner2=document.createElement("div");
+                  divInner2.className="row mx-2 card-header my-1 text-left border border-secondary rounded";
+                  var txt2=document.createElement("P");
+                  txt2.innerHTML=("Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+"\t|\t Hospital: "+hospName);
+                  txt2.style.cssFloat="left";
+                  txt2.className="col-md-11 float-left my-auto ";
+
+                  //DELETE BUTTON
+
+                  var btnDel=document.createElement("button");
+                  btnDel.innerHTML = '<i class="bi bi-trash"></i>';
+                  btnDel.style.cssFloat = "right";
+                  btnDel.className="col-md-1 btn btn-sm btn-danger float-right ";
+                  btnDel.setAttribute("weekNo",weekNo);
+                  btnDel.setAttribute("studentID",studentID);
+                  btnDel.setAttribute("specName",specName);
+                  btnDel.setAttribute("specialtyID",specialtyID);
+                  btnDel.setAttribute("specialtyDuration",specialtyDuration);
+
+                  divInner2.id="divy"+"#"+studentID+"#"+specialtyID;
+
+                  //when delete button clicked
+                  btnDel.onclick=function(e){
+                    removeElementFromArray(e, this.getAttribute("weekNo"),  this.getAttribute("studentID"),this.getAttribute("specName"), this.getAttribute("specialtyID"),  this.getAttribute("specialtyDuration"));
+                  }
+
+                  divInner2.appendChild(txt2);
+                  divInner2.appendChild(btnDel);
 
 
-    var drop = document.getElementById('hospital_id');
-    var hospitalName = drop.options[drop.selectedIndex].text;
+                  tmpDiv.appendChild(divInner2);
+                }else{
 
-    var alertBox = document.getElementById('showAssign');
-    alertBox.style.display = "block";
-    alertBox.innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
+                  //extra div for styling
+                  var divOuter1= document.createElement("div");
 
-    //Wait 5 seconds then remove the alert box
-    setTimeout(function () {
-      alertBox.style.display = "none";
-    }, 5000);
+                  divOuter1.className="card card-body my-1 border border-primary rounded-0";
+                  divOuter1.id="div"+studentID;
+                  //when we make it clickable we can do the ffg
 
-    var hospital_id = drop.options[drop.selectedIndex].value;
-    chosen_hospital_id = hospital_id;
-    var week_no = drop.getAttribute("weekNo");
-    var student_id = drop.getAttribute("studentID");
+                  divOuter1.innerHTML="<b>"+studName.toUpperCase()+"</b>";
+                  var divInner=document.createElement("div");
+                  divInner.id="divy"+"#"+studentID+"#"+specialtyID;
+                  divInner.className="row mx-2 card-header my-1 text-left border border-secondary rounded";
+                  var txt1=document.createElement("P");
+                  txt1.innerHTML=("Week: "+weekNo+" \t|\t Duration: "+specialtyDuration+" weeks \t|\t Specialty: "+specName+" \t|\t Hospital: "+hospName);
+                  txt1.className="col-md-11 float-left my-auto";
 
-    var timeblock = programmeSchedule.getTimeBlock(week_no,student_id);
-    // timeblock.setPendingSave("false");
+                  //DELETE BUTTON
+                  var btnDel1=document.createElement("button");
+                  btnDel1.innerHTML = '<i class="bi bi-trash"></i> ';
+                  btnDel1.className="col-md-1 btn btn-sm btn-danger float-right ";
+                  btnDel1.setAttribute("weekNo",weekNo);
+                  btnDel1.setAttribute("studentID",studentID);
+                  btnDel1.setAttribute("specName",specName);
+                  btnDel1.setAttribute("specialtyID",specialtyID);
+                  btnDel1.setAttribute("specialtyDuration",specialtyDuration);
 
-    //timeblock.removeChildDiv();
+                  //when delete button clicked
+                  btnDel1.onclick=function(e){
+                    removeElementFromArray(e, this.getAttribute("weekNo"),  this.getAttribute("studentID"),this.getAttribute("specName"), this.getAttribute("specialtyID"),  this.getAttribute("specialtyDuration"));
+                  }
 
-    //timeblock.hospitalID = hospital_id;
-    timeblock.setHospitalID(hospital_id);
+                  divInner.appendChild(txt1);
+                  divInner.appendChild(btnDel1);
+                  divOuter1.appendChild(divInner);
+                  divOuter.appendChild(divOuter1);
+                }
+              }
+            }//for loop
+          }//if statement
+          //add new changes info
+        }//end of loadModalInfo function
 
-    //timeblock.findHospitalName();
-    //timeblock.assigned_hosp.innerHTML = hospitalName;
+        //onclick function to assign student to hospital
+        function assignHospital(){
+          var drop = document.getElementById('hospital_id');
+          var hospitalName = drop.options[drop.selectedIndex].text;
+          var alertBox = document.getElementById('showAssign');
+          alertBox.style.display = "block";
+          alertBox.innerHTML = "Student successfully assigned to " + hospitalName + "!"; //Changing the content of the Div to display assigned student
 
-    //to add hospital name to extra timeblocks according to specailty duration
-    specialty_duration = timeblock.specialtyDuration;
+          //Wait 5 seconds then remove the alert box
+          setTimeout(function () {
+            alertBox.style.display = "none";
+          }, 5000);
 
+          var hospital_id = drop.options[drop.selectedIndex].value;
+          chosen_hospital_id = hospital_id;
+          var week_no = drop.getAttribute("weekNo");
+          var student_id = drop.getAttribute("studentID");
+          var timeblock = programmeSchedule.getTimeBlock(week_no,student_id);
+          timeblock.setHospitalID(hospital_id);
 
-    timeblock.showHospitalName();
-    timeblock.setToolTipContents(); // Need to set tooltip contents because the hospitalID was updated
+          //to add hospital name to extra timeblocks according to specailty duration
+          specialty_duration = timeblock.specialtyDuration;
+          timeblock.showHospitalName();
+          timeblock.setToolTipContents(); // Need to set tooltip contents because the hospitalID was updated
+          // Hospital ID is: drop.options[drop.selectedIndex].value) 
+          // weekNo is: drop.getAttribute("weekNo")
+          // studentid is:  drop.getAttribute("studentID")
+          // in hos assign: timeblock.hospitalID
+        }
 
-    //this.div.appendChild(document.createElement('br'));
+      // function to retrieve group ID in order to schedule group
+      /////////////////////////////////////////////////////////////////////////////////Here///////////////////////////
 
-    //timeblock.div.innerHTML = hospitalName;
+        //need to change the params for rotation to weekno and add specialtyduration
+        function SaveRecord(studentID,specialtyID,weekNo,specialtyDuration, hospitalID){
+        //TODO:if this ends up reloading page, also ensure that specialties that are present in the schedule cannot be readded
+          //specialtyID in SaveRecord: specialtyID
+          $.post("/schedules",
+          {
+          student_id: studentID,
+          specialty_id: specialtyID,
+          hospital_id: hospitalID,
+          week_no: weekNo,
+          specialty_duration: specialtyDuration
+          });
 
+          //Update Allocations
+        }
 
-    console.log("Hospital ID is: " +drop.options[drop.selectedIndex].value); //HospitalID
-    console.log("weekNo is: " +drop.getAttribute("weekNo"));
-    console.log("studentid is: " + drop.getAttribute("studentID"));
-    console.log("in hos assign: " + timeblock.hospitalID);
+      </script>
+      <!---------------------------------------------------------------------------------------------->
 
-  }
+    <br>
 
-// function to retrieve group ID in order to schedule group
-/////////////////////////////////////////////////////////////////////////////////Here///////////////////////////
-
-  //need to change the params for rotation to weekno and add specialtyduration
-  function SaveRecord(studentID,specialtyID,weekNo,specialtyDuration, hospitalID){
-
-  //TODO:if this ends up reloading page, also ensure that specialties that are present in the schedule cannot be readded
-  console.log("specialtyID in SaveRecord: " +specialtyID);
-    $.post("/schedules",
-    {
-    student_id: studentID,
-    specialty_id: specialtyID,
-    hospital_id: hospitalID,
-    week_no: weekNo,
-    specialty_duration: specialtyDuration
-    });
-  }
-
- </script>
-
-
-
-  <!---------------------------------------------------------------------------------------------->
-
-<br>
-
-<br>
-<br>
-</div>
+    <br>
+    <br>
+  </div> 
 </div>

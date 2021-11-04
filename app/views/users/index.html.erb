@@ -1,62 +1,51 @@
-
-
-
 <div style="text-align:center">
+  <div class="main-heading">
+    <h1>Manage Users</h1>
+  </div>
 
+  <br>
+  <script>
+    //Show/Hide "Import from CSV" div -->
+    function toggleShow() {
+      var x = document.getElementById("csvUsers");
+      var btnShowDiv = document.getElementById("btnShowCSVdiv");
 
-
-<div class="main-heading">
-  <h1>Manage Users</h1>
-</div>
-
-<br>
-
-
-
-
-<script>
-  //Show/Hide "Import from CSV" div -->
-  function toggleShow() {
-    var x = document.getElementById("csvUsers");
-    var btnShowDiv = document.getElementById("btnShowCSVdiv");
-
-    if (x.style.display == "none") {
-      x.style.display = "block";
-      btnShowDiv.className = "btn btn-outline-primary";
-    } else {
-      x.style.display = "none";
-      btnShowDiv.className = "btn btn-primary";
-    }
-  }
-
-//Toggle Import Button
-  function toggleButton(){
-    var uploadBox = document.getElementById("uploadBox");
-    var x = document.getElementById("btnImport");
-    if(uploadBox.value == ""){
-      x.disabled = true;
-    }
-    else{
-      x.disabled = false;
+      if (x.style.display == "none") {
+        x.style.display = "block";
+        btnShowDiv.className = "btn btn-outline-primary";
+      } else {
+        x.style.display = "none";
+        btnShowDiv.className = "btn btn-primary";
+      }
     }
 
-  }
+  //Toggle Import Button
+    function toggleButton(){
+      var uploadBox = document.getElementById("uploadBox");
+      var x = document.getElementById("btnImport");
+      if(uploadBox.value == ""){
+        x.disabled = true;
+      }
+      else{
+        x.disabled = false;
+      }
 
-</script>
+    }
+
+  </script>
 
 
 
 
-<%= link_to 'Add New User', new_user_path, class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;"%>
-<br></br>
+  <%= link_to 'Add New User', new_user_path, class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;"%>
+  <br></br>
 
-<!-- Button to show/hide Import from CSV Card -->
-<button class = "btn btn-primary", style = "width: 12rem; height: 2.5rem;", onclick = "toggleShow()", id = "btnShowCSVdiv">Import Users from CSV</button>
-<br></br>
+  <!-- Button to show/hide Import from CSV Card -->
+  <button class = "btn btn-primary", style = "width: 12rem; height: 2.5rem;", onclick = "toggleShow()", id = "btnShowCSVdiv">Import Users from CSV</button>
+  <br></br>
 
-<div class="container-fluid", id = "csvUsers" >
+  <div class="container-fluid", id = "csvUsers" >
     <div class="d-flex justify-content-evenly">
-
       <!-- Initialy hide the import from CSV Card -->
       <script type="text/javascript">
         var x = document.getElementById("csvUsers");
@@ -67,15 +56,12 @@
         }
       </script>
 
+      <!--<button type="button" class="btn btn-outline-dark">Remove From CSV</button>-->
 
-
-        <!--<button type="button" class="btn btn-outline-dark">Remove From CSV</button>-->
-
-        <div class = "form_card"> <!-- this is for adding from csv -->
-          <div class="card-heading"><strong><i>Upload the CSV File and Select Import</i></strong></div>
+      <div class = "form_card"> <!-- this is for adding from csv -->
+        <div class="card-heading"><strong><i>Upload the CSV File and Select Import</i></strong></div>
           <div class="card-body"></div>
-          <%= form_tag import_users_path, multipart: true, onclick: "toggleButton()" do %>
-
+            <%= form_tag import_users_path, multipart: true, onclick: "toggleButton()" do %>
               <%= file_field_tag :file, id: "uploadBox"%>
 
               <%= submit_tag "Import", class: "btn btn-primary", style: "width: 12rem; height: 2.5rem;", id: "btnImport" %>
@@ -86,86 +72,63 @@
                 x.disabled = true;
               </script>
 
-          <% end %>
+            <% end %>
+          </div>
         </div>
-
-        </div>
-
+      </div>
     </div>
-</div>
 
-<!-- Add search forms for OWN model -->
-<!-- unless statement takes out search bar when editing,creating,etc-->
-<% unless url_for != users_path %>
-<!--Makes the seach field neater however cant find a way to pull search field to  right of navbar -->
-  <form class="form-inline my-2 my-lg-0">
-      <%=render "users/filters"%>
-  </form>
-<% end %>
-<!--ADD Below check users controller and -filters.html.erb for eg -->
+    <!-- Add search forms for OWN model -->
+    <!-- unless statement takes out search bar when editing,creating,etc-->
+    <% unless url_for != users_path %>
+    <!--Makes the seach field neater however cant find a way to pull search field to  right of navbar -->
+      <form class="form-inline my-2 my-lg-0">
+          <%=render "users/filters"%>
+      </form>
+    <% end %>
+    <!--ADD Below check users controller and -filters.html.erb for eg -->
 
+    <div class="m-4" style="overflow-x:auto; margin:0;">
 
-
-
-
-
-<div class="m-4" style="overflow-x:auto; margin:0;">
-
-<table class="table table-hover ">
-
-
-  <!----------------------------------------->
-  <thead>
-        <tr>
-          <th scope="col"><h6>User ID</h6></th>
-          <th scope="col"><h6>Email</h6></th>
-          <th scope="col"><h6>Name</h6></th>
-          <th scope="col"><h6>Surname</h6></th>
-          <th scope="col"><h6>Contact Number</h6></th>
-          <th scope="col"><h6>Type</h6></th>
-         <th  scope="col"></th>
-        </tr>
-      </thead>
-
-  <!---------------------------------------------------------------------------------------------->
-
-  <tbody>
-
-        <% @users.each do |user| %>
-
+      <table class="table table-hover ">
+        <!----------------------------------------->
+        <thead>
           <tr>
-          <td class="col-1"><%= user.id %></td>
-          <td class="col-3"><%= user.email %></td>
-          <td class="col-2"><%= user.user_FirstName %></td>
-          <td class="col-2"><%= user.user_LastName %></td>
-          <td class="col-2"><%= user.user_ContactNo %></td>
-          <td class="col-2"><%= user.user_Type %></td>
-            <td class="col-2">
-
-                <div class="btn-group" role="group" aria-label="Basic example">
-
-
-                <%= link_to 'Edit', edit_user_path(user), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
-                <%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
-
-
-              </div>
-            </td>
+            <th scope="col"><h6>User ID</h6></th>
+            <th scope="col"><h6>Email</h6></th>
+            <th scope="col"><h6>Name</h6></th>
+            <th scope="col"><h6>Surname</h6></th>
+            <th scope="col"><h6>Contact Number</h6></th>
+            <th scope="col"><h6>Type</h6></th>
+            <th  scope="col"></th>
           </tr>
-        <% end %>
-      </tbody>
+        </thead>
+          <!---------------------------------------------------------------------------------------------->
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td class="col-1"><%= user.id %></td>
+              <td class="col-3"><%= user.email %></td>
+              <td class="col-2"><%= user.user_FirstName %></td>
+              <td class="col-2"><%= user.user_LastName %></td>
+              <td class="col-2"><%= user.user_ContactNo %></td>
+              <td class="col-2"><%= user.user_Type %></td>
+              <td class="col-2">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <%= link_to 'Edit', edit_user_path(user), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                  <%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
   <!---------------------------------------------------------------------------------------------->
+      </table>
+    </div>
 
+    <br>
+    <br>
+    <br>
 
-
-</table>
+  </div>
 </div>
-
-<br>
-
-
-
-
-
-<br>
-<br>

@@ -1,14 +1,15 @@
-<p id="notice" style="margin: 0; padding: 0;"><%= notice %></p>
+<p id="notice" style="margin: 0; padding: 0;">
+  <%= notice %>
+</p>
 
 <div style="text-align:center">
   <div class="main-heading">
-  <h1>Hospital Allocations</h1>
+    <h1>Hospital Allocations</h1>
   </div>
   <br>
 
   <div class="container-fluid">
     <div class="d-flex justify-content-evenly">
-
         <%= link_to 'New Allocation', new_allocation_path,class:"btn btn-primary", style: "width: 12rem; height: 2.5rem;" %>
     </div>
   </div>
@@ -16,48 +17,47 @@
   <%# ------------------------------------------------------------------------------------------------------------------- %>
 
   <div class="m-4" style="overflow-x:auto; margin:0;">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Hospital</th>
-        <th>Specialty</th>
-        <th>Available Slots</th>
-        <th>Used Slots</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th  scope="col"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @allocations.each do |allocation| %>
+    <table class="table table-hover">
+      <thead>
         <tr>
-          <td><%= Hospital.where(id: allocation.hospital_id).pluck(:hospital_name).first %></td>
-          <td><%= Specialty.where(id: allocation.specialty_id).pluck(:SpecialtyName).first %></td>
-          <td><%= allocation.available_slots %></td>
-          <td><%= allocation.used_slots %></td>
-          <td><%= allocation.start_date %></td>
-          <td><%= allocation.end_date %></td>
-
-
-          <td class="col-1">
-
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                  <%= link_to 'Show', allocation, class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
-                  <%= link_to 'Edit',  edit_allocation_path(allocation), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
-                  <%= link_to 'Delete', allocation, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
-
-
-                </div>
-              </td>
+          <th>Hospital</th>
+          <th>Specialty</th>
+          <th>Available Slots</th>
+          <th>Used Slots</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th  scope="col"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        <% @allocations.each do |allocation| %>
+          <tr>
+            <td><%= Hospital.where(id: allocation.hospital_id).pluck(:hospital_name).first %></td>
+            <td><%= Specialty.where(id: allocation.specialty_id).pluck(:SpecialtyName).first %></td>
+            <td><%= allocation.available_slots %></td>
+            <td><%= allocation.used_slots %></td>
+            <td><%= allocation.start_date %></td>
+            <td><%= allocation.end_date %></td>
+            <td class="col-1">
+
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <%= link_to 'Show', allocation, class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                <%= link_to 'Edit',  edit_allocation_path(allocation), class:"btn btn-outline-primary", style: "width: 5rem; height: 2.5rem;" %>
+                <%= link_to 'Delete', allocation, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger", style: "width: 5rem; height: 2.5rem;" %>
+              </div>
+
+            </td>
+            
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 
   <br>
   <br>
   <br>
-  <br><br>
+  <br>
+  <br>
 </div>

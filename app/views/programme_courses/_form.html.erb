@@ -2,7 +2,6 @@
   <% if programme_course.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(programme_course.errors.count, "error") %> prohibited this programme_course from being saved:</h2>
-
       <ul>
         <% programme_course.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,29 +10,21 @@
     </div>
   <% end %>
 
-
-
-
-
-
-
   <div class="field">
-
     <p hidden><%= form.label :programme_id  %></p>
     <p hidden><%= form.number_field :programme_id, value: @programme_code  %></p>
-
   </div>
 
-
   <div class="field">
-
-
     <%= form.label :course_id, value: "Course: " %>
     <%= collection_select(:programme_course, :course_id, Course.all, :id, :CourseDescription, {}, { :multiple => false, :class => "btn btn-outline-dark dropdown-toggle"} ) %>
 
   </div>
-<br></br>
+
+  <br></br>
+
   <div class="actions">
     <%= form.submit "Add Course", class:"btn btn-secondary"%>
   </div>
+
 <% end %>

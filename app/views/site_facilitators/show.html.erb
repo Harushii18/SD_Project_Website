@@ -1,24 +1,14 @@
 <br>
 <div class="card "  >
-  <div class="card-body">
-    <p class="lead"><b>Site facilitator name:</b></p>
+    <div class="card-body">
+        <p class="lead"><b>Site facilitator name:</b></p>
         <p class="lead"> <%= @site_facilitator.Site_Facilitator_Name %></p>
-
-
-
-
-    <p class="lead"><b>Site facilitator contactno:</b></p>
+        <p class="lead"><b>Site facilitator contact no:</b></p>
         <p class="lead"> <%= @site_facilitator.Site_Facilitator_ContactNo  %></p>
-    <p>
-
-    <p class="lead"><b>Site facilitator email:</b></p>
+        <p class="lead"><b>Site facilitator email:</b></p>
         <p class="lead"> <%= @site_facilitator.Site_Facilitator_Email %></p>
-    <p>
 
-
-
-
-    <%= link_to 'Edit', edit_site_facilitator_path(@site_facilitator), class:"btn btn-outline-dark"%> 
+        <%= link_to 'Edit', edit_site_facilitator_path(@site_facilitator), class:"btn btn-outline-dark"%> 
         <%= link_to 'Back', site_facilitators_path, class:"btn btn-outline-dark" %>
-</div>
+    </div>
 </div>

@@ -1,86 +1,94 @@
 <script>
-/*Function to check for state of check box and change the type of password fields. If the type of the field is password, the text is hidden*/
-function showPassword(){
-  var txtPassword = document.getElementById("txtPassword");
-  var txtPasswordConfirm = document.getElementById("txtPasswordConfirm");
-  var chkShowPassword = document.getElementById("chkShowPassword");
-  var chkShowCurrentPassword = document.getElementById("chkShowCurrentPassword");
-  if(chkShowPassword.checked){
-    txtPassword.type = "text";
-    txtPasswordConfirm.type = "text";
+  /*Function to check for state of check box and change the type of password fields. If the type of the field is password, the text is hidden*/
+  function showPassword(){
+    var txtPassword = document.getElementById("txtPassword");
+    var txtPasswordConfirm = document.getElementById("txtPasswordConfirm");
+    var chkShowPassword = document.getElementById("chkShowPassword");
+    var chkShowCurrentPassword = document.getElementById("chkShowCurrentPassword");
+    if(chkShowPassword.checked){
+      txtPassword.type = "text";
+      txtPasswordConfirm.type = "text";
+    }
+    else{
+      txtPassword.type = "password";
+      txtPasswordConfirm.type = "password";
+    }
   }
-  else{
-    txtPassword.type = "password";
-    txtPasswordConfirm.type = "password";
-  }
-}
 
-function showCurrentPassword(){
-  var chkShowCurrentPassword = document.getElementById("chkShowCurrentPassword");
-  var txtCurrentPassword = document.getElementById("txtCurrentPassword");
+  function showCurrentPassword(){
+    var chkShowCurrentPassword = document.getElementById("chkShowCurrentPassword");
+    var txtCurrentPassword = document.getElementById("txtCurrentPassword");
 
-  if(chkShowCurrentPassword.checked){
-    txtCurrentPassword.type = "text";
+    if(chkShowCurrentPassword.checked){
+      txtCurrentPassword.type = "text";
 
+    }
+    else{
+      txtCurrentPassword.type = "password";
+    }
   }
-  else{
-    txtCurrentPassword.type = "password";
-  }
-}
 
 </script>
 
 <div style="text-align:center">
   <br></br>
-<h1>Edit <%= resource_name.to_s.humanize %> Details</h1>
+  <h1>Edit <%= resource_name.to_s.humanize %> Details</h1>
 
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-<p></p>
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-<p></p>
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password", id: "txtPassword" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
+    <p></p>
+    
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
     <% end %>
-  </div>
-<p></p>
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", id: "txtPasswordConfirm" %>
-    <br>
-    <input type="checkbox" name="show" value="Yes", id="chkShowPassword", onclick = "showPassword()"> Show password</input>
-  </div>
-<p></p>
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password", id: "txtCurrentPassword" %>
-    <br>
-    <input type="checkbox" name="show" value="Yes", id="chkShowCurrentPassword", onclick = "showCurrentPassword()"> Show current password</input>
-  </div>
-<p></p>
-  <div class="actions">
-    <%= f.submit "Update", class: "btn btn-primary" %>
-  </div>
-<% end %>
-<%= link_to "Back", :back, class: "nav-link" %>
-<hr>
-<h3>Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-primary" %></p>
-<%= link_to "Back", :back, class: "nav-link" %>
+    <p></p>
 
+    <div class="field">
+      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+      <%= f.password_field :password, autocomplete: "new-password", id: "txtPassword" %>
+      <% if @minimum_password_length %>
+        <br />
+        <em><%= @minimum_password_length %> characters minimum</em>
+      <% end %>
+    </div>
+
+    <p></p>
+
+    <div class="field">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", id: "txtPasswordConfirm" %>
+      <br>
+      <input type="checkbox" name="show" value="Yes", id="chkShowPassword", onclick = "showPassword()"> Show password</input>
+    </div>
+
+    <p></p>
+    
+    <div class="field">
+      <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+      <%= f.password_field :current_password, autocomplete: "current-password", id: "txtCurrentPassword" %>
+      <br>
+      <input type="checkbox" name="show" value="Yes", id="chkShowCurrentPassword", onclick = "showCurrentPassword()"> Show current password</input>
+    </div>
+
+    <p></p>
+
+    <div class="actions">
+      <%= f.submit "Update", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <%= link_to "Back", :back, class: "nav-link" %>
+  <hr>
+  <h3>Cancel my account</h3>
+
+  <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-primary" %></p>
+  <%= link_to "Back", :back, class: "nav-link" %>
 
 </div>

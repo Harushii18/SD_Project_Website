@@ -4,7 +4,6 @@
     font-family: Lora, Quicksand, 'Trebuchet MS', sans-serif;
     text-align: center;
     line-height: 2px;
-    /*border:2px solid darkorange;*/
 }
 
 
@@ -12,14 +11,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*border:2px solid darkorange;*/
     font-size: 0.7cm;
     justify-content: center;
     margin-top: 5%;
 }
 
 .container form{
-    /*border:2px solid darkorange;*/
     width:20%
 }
 
@@ -63,7 +60,6 @@
 
 @media screen and (max-width: 580px) {    /* adapt to smaller screens*/
     .container form{
-        /*border:2px solid darkorange;*/
         width:80%
     }
     .container .sign-in_button{

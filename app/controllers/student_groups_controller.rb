@@ -7,19 +7,19 @@ def index
   @groups= Group.all
   @FirstRec = Programme.first;
   @current_programme_id = @FirstRec.id;
-
+  @Groups = Group.where(id: params[:group_id]);
   @student_groups = StudentGroup.all
+  
   if (params[:programme_id])
     @current_programme_id =  params[:programme_id];
     @fil= Group.where(programme_id: @current_programme_id);
     @student_groups = StudentGroup.where(group_id: @fil);
-
   end
-
 end
 
 # GET /student_groups/1 or /student_groups/1.json
 def show
+  @Groups = Group.where(id: params[:group_id]);
 end
 
 def _form
@@ -28,12 +28,9 @@ end
 
 # GET /student_groups/new
 def new
-
   @Groups = Group.where(id: params[:group_id]);
   @Students = Student.where(programme_id: params[:programme_id]);
   @student_group = StudentGroup.new
-  # @programmes = Programme.all
-
 end
 
 # GET /student_groups/1/edit

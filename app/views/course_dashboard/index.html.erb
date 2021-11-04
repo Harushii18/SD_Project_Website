@@ -9,9 +9,6 @@ function ChangeText(strId) {
 }
 </script>
 
-
-
-
  <div class= "main-heading">
    <h1>Programme Dashboard</h1>
  </div>
@@ -19,370 +16,314 @@ function ChangeText(strId) {
  <br>
 
  <div class="row flex-row-reverse flex-row"> <!--Reverses inner divs-->
+    <div class="w-75">
 
-
-
-
-         <div class="w-75">
-
-            <div class="card border-info h-100">
+        <div class="card border-info h-100">
 
             <div class="card-body" id="cardBody">
 
-            <!-- dropdown for programmes-->
-            <form action="/courseDashboard">
-            <label> <h5>Select Programme Code</h5> </label>
-            <br>
-            <select name="programme_id" id="programme_select" onchange="displayCourses(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
+                <!-- dropdown for programmes-->
+                <form action="/courseDashboard">
+                    <label> <h5>Select Programme Code</h5> </label>
+                    <br>
+                    <select name="programme_id" id="programme_select" onchange="displayCourses(this.options[this.selectedIndex].value)" class="btn btn-primary dropdown-toggle">
+                    </select>
+                </form>
 
-            </select>
-            </form>
-
-           <!-- Populate dropdown or hospital select with hospitals???-->
-            <% @programmes.each do |programme| %>
-            <script >
-                select = document.getElementById('programme_select')
-                option = document.createElement( 'option' );
-                option.value = <%= programme.id %>
-                option.text = "<%= programme.programme_code %>";
-                select.add( option );
-            </script>
-            <%end%>
-
-
-            <br>
-            <div id="divCourses">
-                <%# The contents here will be dynamically instantiated via JS %>
-            </div>
-
-<script>
-var ProgrammeNow=0;
-</script>
-<script>
-  var displayCourses = function(programme_ID) {
+                <!-- Populate dropdown or hospital select with hospitals???-->
+                <% @programmes.each do |programme| %>
+                <script >
+                    select = document.getElementById('programme_select')
+                    option = document.createElement( 'option' );
+                    option.value = <%= programme.id %>
+                    option.text = "<%= programme.programme_code %>";
+                    select.add( option );
+                </script>
+                <%end%>
 
 
+                <br>
+                <div id="divCourses">
+                    <%# The contents here will be dynamically instantiated via JS %>
+                </div>
+
+                <script>
+                var ProgrammeNow=0;
+                var displayCourses = function(programme_ID) {
+
+                    //remove all previously made buttons on click
+                    $("#divCourses").children().remove();
+
+                    var CCount=0;
+                    //loop through programmes
+                    <%@programmes_courses.each do |programme_course| %>
+                    if (programme_ID == "<%= programme_course.programme_id%>") {
+                        CCount+=1;
+
+                                <% @dtId=0%>
+                                <% @courses.each do |course| %>
+
+                                    if ("<%=course.id%>" == "<%= programme_course.course_id%>"){
+
+                                        <% @dtId=@dtId+1%>
+
+                                        //div to contain button + course name
+                                        var divCourse = document.createElement("div");
 
 
+                                        //create button
+                                        var button = document.createElement("button");
+                                        button.innerHTML="+";
+                                        button.id="<%=@dtId.to_s%>";
+
+                                        button.className="btn btn-primary";
+                                        $("<%="#"+@dtId.to_s%>").attr("data-toggle", "collapse");
+                                        $("<%="#"+@dtId.to_s%>").attr("data-target", "<%="#collapseExample"+@dtId.to_s%>" );
+                                        $("<%="#"+@dtId.to_s%>").attr("aria-expanded", "false");
+                                        $("<%="#"+@dtId.to_s%>").attr("aria-controls", "collapseExample");
+
+                                        button.onclick = function() { //changes + to - and vice versa on click
+                                        let strId="<%=@dtId.to_s%>";
+                                            if (document.getElementById(strId).innerHTML==="-"){
+                                                document.getElementById(strId).innerHTML = "+";
+                                            }else{
+                                                document.getElementById(strId).innerHTML = "-";
+                                            }
+
+                                            $("<%="#collapseExample"+@dtId.to_s%>").collapse('toggle')
+                                        }
+
+                                        //add course text next to button
+                                        var newP = document.createElement("p");
+                                        var textNode = document.createTextNode("<%= course.CourseDescription %>");
+
+                                        newP.style.display="inline-block";
+
+                                        //TODO: This should become a scalable size depending on screen later
+                                        newP.style.paddingLeft="5px";
+                                        newP.appendChild(textNode);
+
+                                        //add button and course name to div
+                                        divCourse.appendChild(button);
+                                        divCourse.appendChild(newP);
+
+                                        var divOuter = document.createElement("div");
+                                        divOuter.className="collapse";
+                                        divOuter.id="<%="collapseExample"+@dtId.to_s%>";
+                                        divOuter.style.marginBottom="15px";
+                                        divCourse.appendChild(divOuter);
+
+                                        //extra div for styling
+                                        var divOuter1= document.createElement("div");
+                                        divOuter1.className="card card-body";
+                                        divOuter.appendChild(divOuter1);
+                                    if  ("<%=CourseSpecialty.where(:course_id => course.id).count%>"== "0"){
+
+                                        divOuter1.innerHTML="There are no specialties assigned to this course.";
+
+                                        divOuter.appendChild(divOuter1);
+
+                                    }else{
+                                        //counter for just displaying purposes
+                                        var count=0;
+
+                                        // <%# Display how many specialties there are  %>
+                                        // <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
+                                        if ("<%= CourseSpecialty.where(:course_id => course.id).count%>"== "1"){
+                                            divOuter1.innerHTML="There is "+"<%= CourseSpecialty.where(:course_id => course.id).count%>"+" assigned specialty to this course:";
+                                        }else{
+
+                                            divOuter1.innerHTML="There are "+"<%= CourseSpecialty.where(:course_id => course.id).count%>"+" assigned specialties to this course:";
+                                        }
+                                        divOuter.appendChild(divOuter1);
+
+                                        //add to specialties to collapsible div
+                                        <% @course_specialties.each do |course_specialty| %>
+                                            if ("<%=course_specialty.course_id%>"== "<%=course.id%>"){
+                                                count+=1;
+                                                var divInner=document.createElement("div");
+                                                divInner.className="card card-body";
+                                                divInner.innerHTML=count+". "+"<%=Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>";
+
+                                                //add to outer div
+                                            divOuter1.appendChild(divInner);
+                                            }
+                                        <%end%>
+                                    }
+
+                                        document.getElementById("divCourses").appendChild(divCourse);
+
+                                    }
+                                <%end%>
+                    }
+                    <%end%>
 
 
+                    //if there are no courses, state it
+                    if (CCount===0){
 
-
-
-
-      //remove all previously made buttons on click
-      $("#divCourses").children().remove();
-
-
-
-
-    var CCount=0;
-    //loop through programmes
-    <%@programmes_courses.each do |programme_course| %>
-       if (programme_ID == "<%= programme_course.programme_id%>") {
-
-
-           CCount+=1;
-
-                <% @dtId=0%>
-                <% @courses.each do |course| %>
-
-
-                    if ("<%=course.id%>" == "<%= programme_course.course_id%>"){
-
-
-
-                         <% @dtId=@dtId+1%>
-
-                        //div to contain button + course name
-                        var divCourse = document.createElement("div");
-
-
-                        //create button
-                        var button = document.createElement("button");
-                        button.innerHTML="+";
-                        button.id="<%=@dtId.to_s%>";
-
-                        button.className="btn btn-primary";
-                        $("<%="#"+@dtId.to_s%>").attr("data-toggle", "collapse");
-                        $("<%="#"+@dtId.to_s%>").attr("data-target", "<%="#collapseExample"+@dtId.to_s%>" );
-                        $("<%="#"+@dtId.to_s%>").attr("aria-expanded", "false");
-                        $("<%="#"+@dtId.to_s%>").attr("aria-controls", "collapseExample");
-
-                        button.onclick = function() { //changes + to - and vice versa on click
-                           let strId="<%=@dtId.to_s%>";
-                            if (document.getElementById(strId).innerHTML==="-"){
-                                document.getElementById(strId).innerHTML = "+";
-                            }else{
-                                document.getElementById(strId).innerHTML = "-";
-                            }
-
-                            $("<%="#collapseExample"+@dtId.to_s%>").collapse('toggle')
-                        }
-
-
-
-                        //add course text next to button
-                        var newP = document.createElement("p");
-	                    var textNode = document.createTextNode("<%= course.CourseDescription %>");
-
-                        newP.style.display="inline-block";
-
-                        //TODO: This should become a scalable size depending on screen later
-                        newP.style.paddingLeft="5px";
-	                    newP.appendChild(textNode);
-
-                         //add button and course name to div
-                        divCourse.appendChild(button);
-                        divCourse.appendChild(newP);
-
-                        var divOuter = document.createElement("div");
-                        divOuter.className="collapse";
-                        divOuter.id="<%="collapseExample"+@dtId.to_s%>";
-                        divOuter.style.marginBottom="15px";
-                        divCourse.appendChild(divOuter);
-
-                        //extra div for styling
-                        var divOuter1= document.createElement("div");
-                        divOuter1.className="card card-body";
-                        divOuter.appendChild(divOuter1);
-                    if  ("<%=CourseSpecialty.where(:course_id => course.id).count%>"== "0"){
-
-                        divOuter1.innerHTML="There are no specialties assigned to this course.";
-
-                        divOuter.appendChild(divOuter1);
-
-                    }else{
-                        //counter for just displaying purposes
-                        var count=0;
-
-                            // <%# Display how many specialties there are  %>
-                        // <%# Just grammatical changes here for this if statement- if there is one specialty, state specialty rather than specialties: %>
-                        if ("<%= CourseSpecialty.where(:course_id => course.id).count%>"== "1"){
-                            divOuter1.innerHTML="There is "+"<%= CourseSpecialty.where(:course_id => course.id).count%>"+" assigned specialty to this course:";
-                        }else{
-
-                            divOuter1.innerHTML="There are "+"<%= CourseSpecialty.where(:course_id => course.id).count%>"+" assigned specialties to this course:";
-                        }
-                        divOuter.appendChild(divOuter1);
-
-                        //add to specialties to collapsible div
-                        <% @course_specialties.each do |course_specialty| %>
-                            if ("<%=course_specialty.course_id%>"== "<%=course.id%>"){
-                                count+=1;
-                                var divInner=document.createElement("div");
-                                divInner.className="card card-body";
-                                divInner.innerHTML=count+". "+"<%=Specialty.where(:id => course_specialty.specialty_id).pluck(:SpecialtyName).first%>";
-
-                                //console.log(<%=@testing%>);
-
-
-                                //add to outer div
-                            divOuter1.appendChild(divInner);
-                            }
-                        <%end%>
+                        var divNoCourses = document.createElement("div");
+                        divNoCourses.innerHTML="There are no courses in this programme.";
+                        document.getElementById("divCourses").appendChild(divNoCourses);
                     }
 
-                        document.getElementById("divCourses").appendChild(divCourse);
-
-                     }
-                <%end%>
-       }
-    <%end%>
+                    makeGraph(programme_ID,CCount); // call up function to make pie chart
 
 
-    //if there are no courses, state it
-    if (CCount===0){
-
-        var divNoCourses = document.createElement("div");
-        divNoCourses.innerHTML="There are no courses in this programme.";
-        document.getElementById("divCourses").appendChild(divNoCourses);
-    }
-
-    makeGraph(programme_ID,CCount); // call up function to make pie chart
-
-
-  }; //end of function
-</script>
+                }; //end of function
+                </script>
 
 
 
-</div>
-<%# card body %>
-</div>
-<%# card border info %>
+            </div>
+            <%# card body %>
+        </div>
+        <%# card border info %>
+    </div>
+    <%# w-75 %>
 
-
-</div>
-<%# w-25 %>
-
-<%#========================================PIE CHART CODE=======================================================================================  %>
-<div class="w-25" >
-<div class="card border-info " style="height: 100%">
+    <%#========================================PIE CHART CODE=======================================================================================  %>
+    <div class="w-25" >
+        <div class="card border-info " style="height: 100%">
             <div class="card-body">
                 <h5 class="card-title">Infographics</h5>
                 <p class="card-text" id="InfoDisplay">Number of Specialties in this Programme</p>
                 <%# java script to create pie chart  %>
                 <canvas id="myChart" width="150" height="200"></canvas>
-<script>
+                <script>
+                    var makeGraph= function(programme_ID,CCount){
 
-    var makeGraph= function(programme_ID,CCount){
+                        if(CCount==0){
 
-        if(CCount==0){
+                            document.getElementById("InfoDisplay").innerHTML="There are no courses therefore no infographics to show";
 
-            document.getElementById("InfoDisplay").innerHTML="There are no courses therefore no infographics to show";
+                            nilLabels=[];
+                            nilData=[];
+                            var ctx = document.getElementById('myChart');
 
-            nilLabels=[];
-            nilData=[];
-            var ctx = document.getElementById('myChart');
+                                var myChart = new Chart(ctx, {
+                                type: 'pie',
+                                data: {
+                                    labels: nilLabels,
+                                    datasets: [{
+                                    label: 'Number of specialties',
+                                    data: nilData,
+                                    //backgroundColor: cols,
+                                    borderWidth:0
 
-                var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: nilLabels,
-                    datasets: [{
-                    label: 'Number of specialties',
-                    data: nilData,
-                    //backgroundColor: cols,
-                    borderWidth:0
+                                    }]
+                                },
 
-                    }]
-                },
-
-                });
-
+                                });
 
 
-        }
-        else{
 
-                document.getElementById("InfoDisplay").innerHTML="Number of Specialties in this Programme";
+                        }
+                        else{
 
-                const coursesArray = [];
+                            document.getElementById("InfoDisplay").innerHTML="Number of Specialties in this Programme";
+
+                            const coursesArray = [];
 
 
-                //get the courses
-                <%@programmes_courses.each do |programme_course| %>
+                            //get the courses
+                            <%@programmes_courses.each do |programme_course| %>
 
-                    if (programme_ID == "<%= programme_course.programme_id%>") {
-                            coursesArray.push("<%=programme_course.course_id%>");
-                    }
-
-                <%end%>
-
-                //get the specialties
-
-                const specialtyArr=[];
-                const specialtyArrOriginal=[];
-                var curr;
-                for (let i=0;i<coursesArray.length;i++){
-                    curr= coursesArray[i];
-
-                    <%@course_specialties.each do |course_spec|%>
-                        if(curr=="<%=course_spec.course_id%>"){
-                                if(specialtyArr.includes("<%=course_spec.specialty_id%>")==false){
-                                    specialtyArr.push("<%=course_spec.specialty_id%>");
+                                if (programme_ID == "<%= programme_course.programme_id%>") {
+                                        coursesArray.push("<%=programme_course.course_id%>");
                                 }
 
-                                specialtyArrOriginal.push("<%=course_spec.specialty_id%>");
+                            <%end%>
 
-                        }
-                    <%end%>
+                            //get the specialties
 
-                }
+                            const specialtyArr=[];
+                            const specialtyArrOriginal=[];
+                            var curr;
+                            for (let i=0;i<coursesArray.length;i++){
+                                curr= coursesArray[i];
+
+                                <%@course_specialties.each do |course_spec|%>
+                                    if(curr=="<%=course_spec.course_id%>"){
+                                            if(specialtyArr.includes("<%=course_spec.specialty_id%>")==false){
+                                                specialtyArr.push("<%=course_spec.specialty_id%>");
+                                            }
+
+                                            specialtyArrOriginal.push("<%=course_spec.specialty_id%>");
+
+                                    }
+                                <%end%>
+
+                            }
+
+                            //get specialty names=> labels
+
+                            const specialtyArrLabels=[];
+                            for (let i=0;i<specialtyArr.length;i++){
+                                curr=specialtyArr[i];
+                                <%@specialties.each do |spec|%>
+                                    if(curr=="<%=spec.id%>"){
+                                        specialtyArrLabels.push("<%=spec.SpecialtyName%>");
+
+                                    }
+                                <%end%>
+
+                            }
 
 
+                            //get specialty data
 
-                //get specialty names=> labels
+                            var n= specialtyArrLabels.length;
+                            let specialtyArrData = new Array(n); for (let i=0; i<n; ++i) specialtyArrData[i] = 0;
 
-                const specialtyArrLabels=[];
-                for (let i=0;i<specialtyArr.length;i++){
-                    curr=specialtyArr[i];
-                    <%@specialties.each do |spec|%>
-                        if(curr=="<%=spec.id%>"){
-                            specialtyArrLabels.push("<%=spec.SpecialtyName%>");
+                            for(let i=0;i<n;i++){
+                                curr= specialtyArr[i];
+                                for(let j=0;j<specialtyArrOriginal.length;j++){
+                                    if(curr==specialtyArrOriginal[j]){
+                                        specialtyArrData[i]=specialtyArrData[i]+1;
 
-                        }
-                    <%end%>
+                                    }
+                                }
+                            }
 
-                }
+                            //randomly generates colours
+                            var randomColorGenerator = function () {
+                                return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
+                            };
 
-                console.log("Specialty Names");
-                console.log(specialtyArrLabels);
+                            //array that stores random colours
+                            const cols = [];
 
-                //get specialty data
+                            //populates colour array
+                            for (let i=0;i<n;i++){
+                                cols.push(randomColorGenerator());
+                            }
 
-                var n= specialtyArrLabels.length;
-                let specialtyArrData = new Array(n); for (let i=0; i<n; ++i) specialtyArrData[i] = 0;
+                            //creating pie chart
+                            var ctx = document.getElementById('myChart');
 
-                for(let i=0;i<n;i++){
-                    curr= specialtyArr[i];
-                    for(let j=0;j<specialtyArrOriginal.length;j++){
-                        if(curr==specialtyArrOriginal[j]){
-                            specialtyArrData[i]=specialtyArrData[i]+1;
+                            var myChart = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: specialtyArrLabels,
+                                datasets: [{
+                                label: 'Number of specialties',
+                                data: specialtyArrData,
+                                backgroundColor: cols,
+                                borderWidth:0
 
-                        }
+                                }]
+                            },
+
+                            });
+
+                        // <%# -------------------------------------------------------------------------- %>
+                        }//else
                     }
-                }
-
-                console.log("Specialty Data");
-                console.log(specialtyArrData);
-
-
-
-
-                        //randomly generates colours
-                        var randomColorGenerator = function () {
-                            return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
-                        };
-
-                        //array that stores random colours
-                        const cols = [];
-
-                        //populates colour array
-                        for (let i=0;i<n;i++){
-                            cols.push(randomColorGenerator());
-                        }
-
-                        //creating pie chart
-                        var ctx = document.getElementById('myChart');
-
-                        var myChart = new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: specialtyArrLabels,
-                            datasets: [{
-                            label: 'Number of specialties',
-                            data: specialtyArrData,
-                            backgroundColor: cols,
-                            borderWidth:0
-
-                            }]
-                        },
-
-                        });
-
-                       // <%# -------------------------------------------------------------------------- %>
-
-
-
-        }//else
-
-
-
-    }
-</script>
-
-
-
-
-
-
-
-
+                </script>
             </div>
-            </div>
-            </div>
+        </div>
+    </div>
 
    <%# ====================END OF PIE CHART CODE=========================================================== %>
 

@@ -11,42 +11,39 @@
     </div>
   <% end %>
 
- <% unless url_for != student_groups_path %>
-  <div class="field">
-  <% form.label :programme_id, value: "Programme: " %>
+  <% unless url_for != student_groups_path %>
+    <div class="field">
+      <% form.label :programme_id, value: "Programme: " %>
       <%= form.select :programme_id, Programme.all.map{|p| [p.programme_code, p.id]},{:prompt => "Select A Programme"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
-  </div>
+    </div>
   <%end%>
 
   <br>
   <br>
-<div style="text-align: center;">
-  <div class="field">
-    <% form.label :student_id, value: "Student: " %>
-    <%if @Students.present?%>
-        <%= form.select :student_id, @Students.map{|s| [s.user.user_FirstName, s.id]},{:prompt => "Select A Student"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
+  <div style="text-align: center;">
+    <div class="field">
+      <% form.label :student_id, value: "Student: " %>
+      <%if @Students.present?%>
+        <%= form.select :student_id, @Students.map{|s| [raw("" +s.user.user_FirstName+" "+s.user.user_LastName)+" ("+String(s.studentNumber)+")" , s.id]},{:prompt => "Select A Student"} ,{ class: "btn btn-outline-dark dropdown-toggle" }%>
       <%else%>
-          No Students in This Programme
+        No Students in This Programme
+      <%end%>
+    </div>
 
-    <%end%>
-  </div>
 
+    <div class="field">
+      <% form.label :group_id %>
+      <%if @Groups.present?%>
+        <%= form.hidden_field :group_id, :value => @Groups.first.id %>
+      <%end%>
+    </div>
 
-  <div class="field">
-    <% form.label :group_id %>
-
-    <%if @Groups.present?%>
-      <%= form.hidden_field :group_id, :value => @Groups.first.id %>
-    <%end%>
-
-  </div>
-
-  <br>
-
-  <div class="actions">
-    <%= form.submit class: "btn btn-primary", value: "Add Student"%>      <%# double check turbolink working incorrectly -> NO METHOD ERROR %>
     <br>
-    <%= link_to 'Back', groups_path, class: "btn btn-success", style:"margin:5px" %>
+
+    <div class="actions">
+      <%= form.submit class: "btn btn-primary", value: "Add Student"%>      <%# double check turbolink working incorrectly -> NO METHOD ERROR %>
+      <br>
+      <%= link_to 'Back', groups_path, class: "btn btn-success", style:"margin:5px" %>
+    </div>
   </div>
-</div>
 <% end %>
