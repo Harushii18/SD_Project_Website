@@ -6,7 +6,7 @@ Website to facilitate administrator functions
 
 [![Build Status](https://app.travis-ci.com/Harushii18/SD_Project_Website.svg?branch=main)](https://app.travis-ci.com/Harushii18/SD_Project_Website) [![Coverage Status](https://coveralls.io/repos/github/Harushii18/SD_Project_Website/badge.svg?branch=main)](https://coveralls.io/github/Harushii18/SD_Project_Website?branch=main)
 
-Note: The Badge hasn't updated yet. The coverage percentage should read 88%.
+Note: The Coverage Badge may not reflect the true coverage percentage due to a delayed synchronization with Coveralls. Please click the Coverage Badge to see the details directly on the Coveralls website.
 
 ## Developers
 
