@@ -9,7 +9,7 @@ class StudentGroupsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get student_groups_url
+    get student_groups_url(:group_id => 1)
     assert_response :success
   end
 
