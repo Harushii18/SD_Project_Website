@@ -26,12 +26,24 @@
     <%= form.text_field :courseCodes, class:"form-control", placeholder:"Course Codes"  %>
   </div>
   </br>
+
+  
   <div class="field">
+
     <%= form.label :programme_id, value: "Programme Code: "  %>
-    <select name="student[programme_id]" id="student_programme_id" class="btn btn-outline-dark dropdown-toggle">
-      <%= options = options_from_collection_for_select(Programme.all, 'id', 'programme_code') %>
-    </select>
+    <select name="user[user_Type]" id="user_user_Type" class="form-control">
+    <% if (@programmes != nil) %>
+    <% @programmes.each do |programme| %> 
+      <% if (programme.id == @currentProgramme) %>
+        <option value="<%= programme.id%>" selected><%= programme.programme_code%></option>
+      <% else %>
+        <option value="<%= programme.id%>"><%= programme.programme_code%></option>
+      <% end %>
+    <%end%>
+    <%end%>
+
   </div>
+  </br>
   </br>
   <div class="actions">
     <%= form.submit class: "btn btn-secondary" %>

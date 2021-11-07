@@ -28,6 +28,8 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @types =  ["Admin","Student","Registrar","Consultant"]
+    @currentType = User.find(params[:id]).user_Type
   end
 
   # POST /users or /users.json
@@ -47,6 +49,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
+
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: "User was successfully updated." }
@@ -60,6 +63,17 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
+
+
+    #START deletion of student--------------------------------------------------------------------
+    #perform deletion of groups via the groups scaffold before deletion to server for the programme is called
+    @students = Student.where({user_id: [@user.id]})
+
+    @students.each do |student|
+      student.destroy
+    end
+    #END deletion of students--------------------------------------------------------------------
+    
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: "User was successfully destroyed." }

@@ -19,6 +19,8 @@ class StudentsController < ApplicationController
 
   # GET /students/1/edit
   def edit
+    @programmes =  Programme.all
+    @currentProgramme = Student.find(params[:id]).programme_id
   end
 
   # POST /students or /students.json

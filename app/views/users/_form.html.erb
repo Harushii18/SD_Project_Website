@@ -40,7 +40,25 @@
     <%= form.text_field :user_ContactNo, class:"form-control" ,id:"ContactNo",placeholder:"Contact No" %>
     </br>
 
-    <%= form.select :user_Type, options_for_select( ["Admin","Student","Registrar","Consultant"]),{:prompt=>"Select Type"},{class: "form-control "}%>
+    <%# form.select :user_Type, options_for_select( ["Admin","Student","Registrar","Consultant"]),{:prompt=>"Select Type"},{class: "form-control "}%>
+   
+    <div class="field">
+    <%= form.label :user_Type, value: "User Type: "  %>
+
+    <select name="user[user_Type]" id="user_user_Type" class="form-control">
+    <% if ( @types != nil ) %>
+      <% @types.each do |type| %> 
+        <% if (@currentType == type) %>
+          <option value="<%= type %>" selected> <%= type %> </option>
+        <% else %>
+        <option value="<%= type %>"> <%= type %> </option>
+        <% end %>
+      <%end%>
+    <%end%>
+      
+    </select>
+
+  </div>
 
   </div>
 
