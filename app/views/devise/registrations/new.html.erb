@@ -38,7 +38,7 @@
       <% end %><br />
       <%= f.password_field :password, autocomplete: "new-password", id: "txtPassword" %>
     </div>
-    
+
     <p></p>
 
     <div class="password_field", >
@@ -54,6 +54,6 @@
     </div>
   <% end %>
 
-  <%= link_to "Back", :back, class: "nav-link" %>
+  <%= link_to "back", home_index_path, class: "nav-link" %>
   <%= render "devise/shared/links" %>
 </div>
