@@ -51,11 +51,6 @@ class SiteFacilitatorAllocationsController < ApplicationController
 
   # PATCH/PUT /site_facilitator_allocations/1 or /site_facilitator_allocations/1.json
   def update
-     #  checks if the site facilitator exists in the site facilitator allocation table already
-     @tempUpdate = SiteFacilitatorAllocation.new(site_facilitator_allocation_params)
-    is_record_present =SiteFacilitatorAllocation.exists?(site_facilitator_id: @tempUpdate.site_facilitator_id )
-   
-    if (is_record_present==false)
       respond_to do |format|
         if @site_facilitator_allocation.update(site_facilitator_allocation_params)
           format.html { redirect_to @site_facilitator_allocation, notice: "Site facilitator allocation was successfully updated." }
@@ -65,14 +60,7 @@ class SiteFacilitatorAllocationsController < ApplicationController
           format.json { render json: @site_facilitator_allocation.errors, status: :unprocessable_entity }
         end
       end
-     #if the site facilitator already exists in the table-> cannot add
-    else
-      # Don't quite know if this works as alerts don't want to work
-      respond_to do |format|
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: {message: 'Record already present'}, status: :bad_request }
-      end
-    end
+
   end
 
   # DELETE /site_facilitator_allocations/1 or /site_facilitator_allocations/1.json
