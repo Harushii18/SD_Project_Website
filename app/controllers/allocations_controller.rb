@@ -23,32 +23,15 @@ class AllocationsController < ApplicationController
   # POST /allocations or /allocations.json
   def create
     @allocation = Allocation.new(allocation_params)
-
-    # checks that the specialty && hospital combination isn't currently in the db
-    @check=Allocation.where(specialty_id:  @allocation[:specialty_id], hospital_id:  @allocation[:hospital_id]).any?
-
-    if (@check==false && @allocation[:start_date] < @allocation[:end_date] && @allocation[:available_slots] >= @allocation[:used_slots] && @allocation[:available_slots]>0 && @allocation[:used_slots]>=0) #checks if the allocation dates make sense
-      respond_to do |format|
-        if @allocation.save
-          format.html { redirect_to @allocation, notice: "Allocation was successfully created." }
-          format.json { render :show, status: :created, location: @allocation }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @allocation.errors, status: :unprocessable_entity }
-        end
+    respond_to do |format|
+      if @allocation.save
+        format.html { redirect_to @allocation, notice: "Allocation was successfully created." }
+        format.json { render :show, status: :created, location: @allocation }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @allocation.errors, status: :unprocessable_entity }
+      end
     end
-    else #START Showing alert message for invalid allocation dates---------------------------------------------------------------------------------------------------------------------------------------------------
-      if (@allocation[:start_date] > @allocation[:end_date])
-        flash.now[:alert] = "Allocation Start Date cannot be after the Allocation End Date. Please choose a Allocation Start Date that is earlier than the Allocation End Date"
-      end
-      if (@allocation[:available_slots] < @allocation[:used_slots])
-        flash.now[:alert] = "There cannot be more used slots than available slots. Please enter a valid amount"
-      end
-        respond_to do |format|
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @block.errors, status: :unprocessable_entity }
-      end
-    end#END Showing alert message for invalid allocation dates---------------------------------------------------------------------------------------------------------------------------------------------------
 
   end
 
