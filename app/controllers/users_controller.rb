@@ -24,12 +24,16 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @types =  ["Admin","Student","Registrar","Consultant"]
+   # @currentType = User.find(params[:id]).user_Type
+    @mode = "new"
   end
 
   # GET /users/1/edit
   def edit
     @types =  ["Admin","Student","Registrar","Consultant"]
     @currentType = User.find(params[:id]).user_Type
+    @mode = "edit"
   end
 
   # POST /users or /users.json

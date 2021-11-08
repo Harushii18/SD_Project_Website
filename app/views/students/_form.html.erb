@@ -31,10 +31,10 @@
   <div class="field">
 
     <%= form.label :programme_id, value: "Programme Code: "  %>
-    <select name="user[user_Type]" id="user_user_Type" class="form-control">
+    <select name="student[programme_id]" id="student_programme_id" class="form-control">
     <% if (@programmes != nil) %>
     <% @programmes.each do |programme| %> 
-      <% if (programme.id == @currentProgramme) %>
+      <% if ((@mode == "edit") && (programme.id == @currentProgramme)) %>
         <option value="<%= programme.id%>" selected><%= programme.programme_code%></option>
       <% else %>
         <option value="<%= programme.id%>"><%= programme.programme_code%></option>
