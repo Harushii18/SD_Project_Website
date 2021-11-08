@@ -15,10 +15,15 @@ class StudentsController < ApplicationController
   # GET /students/new
   def new
     @student = Student.new
+    @programmes =  Programme.all
+    @mode = "new"
   end
 
   # GET /students/1/edit
   def edit
+    @programmes =  Programme.all
+    @currentProgramme = Student.find(params[:id]).programme_id
+    @mode = "edit"
   end
 
   # POST /students or /students.json
